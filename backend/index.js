@@ -3,6 +3,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 dotenv.config()
 import databaseConnection from './db/database.js'
+import CustomErrorMiddle from './utility/customError.urility.js'
+import authRouter from './routes/auth.route.js'
 
 
 const app=express()
@@ -16,10 +18,11 @@ app.use(express.urlencoded({extended:false}))
 
 
 // routes load
+app.use('/api/auth',authRouter)
 
 
 // error handle--
-// app.use(CustomErrorMiddle);
+app.use(CustomErrorMiddle);
 
 app.listen(PORT,()=>{
     console.log(`server running on ${PORT}`)
