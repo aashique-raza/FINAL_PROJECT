@@ -6,6 +6,8 @@
  
   
   import User from "../models/user.model.js";
+  import jwt from 'jsonwebtoken'
+  import bcrypt from 'bcrypt'
 
 
 const createAccount = async (req, res, next) => {
@@ -72,4 +74,51 @@ const createAccount = async (req, res, next) => {
     }
   };
 
-  export {createAccount}
+  const loginAccount = async (req, res, next) => {
+    const { email, password } = req.body;
+    let number
+    try {
+      if (!email || !password) {
+        return next(errorHandler(403, "fill the empty fileds"));
+      }
+  
+      // check if email is actually a number
+      if ( typeof email === 'number') {
+        number = email;
+      }
+      const userExists = await User.findOne({
+        $or: [{ email: email }, { phoneNumber: number }],
+      });
+  
+      if (!userExists) {
+        return next(errorHandler(401, "user not found"));
+      }
+  
+      // password verify
+  
+      const checkPassword = await bcrypt.compare(password, userExists.password);
+      console.log(checkPassword)
+      if (!checkPassword) {
+        return next(errorHandler(401, "username or password invalid"));
+      }
+  
+      // Generate JWT token with user data and expiration time of 1 day
+      const token = jwt.sign(
+        { userId: userExists._id },
+        process.env.JWT_SECRET_KEY
+        
+      );
+  
+      // Set token as a cookie with name 'auth_token'
+      res.cookie("token", token, );
+  
+      const { password: pass, ...user } = userExists._doc;
+  
+      res.status(201).json({ success: true, msg: "login seccessfully", user,token });
+    } catch (error) {
+      console.log(`failed login ${error}`);
+      next(errorHandler(500, "internal server error"));
+    }
+  };
+
+  export {createAccount,loginAccount}
