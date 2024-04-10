@@ -67,7 +67,53 @@ const updateAccount = async (req, res, next) => {
     }
   };
 
+  const changePassword=async(req,res,next)=>{
+      const {userID}=req.params
+      const {newPassword}=req.body
+      try {
+        
+        
+        if(req.user.userId.trim()!==userID.trim()){
+          return next(errorHandler(403,'unauthorized request'))
+        }
+        if(!newPassword){
+          return next(errorHandler(402,'password field empty'))
+        }
+
+         // Validate password
+      const verificationResult = validatePassword(newPassword);
+      if (!verificationResult) {
+        return next(
+          errorHandler(
+            403,
+            "Invalid password! Password must be 8 characters long including one capital letter, special character, and number"
+          )
+        );
+      }
+  
+      // Hash password
+      const hashedPassword = hashPassword(newPassword);
+      if (!hashedPassword) {
+        // return next(errorHandler(500, 'Something went wrong, please try again later'));
+        return res.json({ success: false, msg: "something went wrong" });
+      }
+
+      const updateUserPass = await User.findOneAndUpdate(
+        { _id: userID.trim()},
+        { $set: { password: hashedPassword } },
+        {new:true}
+      );
+
+      res.status(200).json({success:true,msg:"password changed successfully"})
+
+        
+      } catch (error) {
+        console.log(`change password failed ${error.message}`)
+        next(errorHandler(500,'internal server error'))
+      }
+  }
+
  
 
 
-  export {updateAccount,logOut}
+  export {updateAccount,logOut,changePassword}
