@@ -32,6 +32,10 @@ const userSchema=mongoose.Schema({
         default:'https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector-PNG-File.png'
         
     },
+    isEmailVerified: {
+        type: Boolean,
+        default: false
+    },
    
 })
 
