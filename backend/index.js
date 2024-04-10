@@ -7,6 +7,7 @@ import CustomErrorMiddle from './utility/customError.urility.js'
 import authRouter from './routes/auth.route.js'
 import userRouter from './routes/user.route.js'
 import cookieParser from 'cookie-parser'
+import propertyRouter from './routes/property.route.js'
 
 
 const app=express()
@@ -23,6 +24,7 @@ app.use(cookieParser())
 // routes load
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
+app.use('/api/property',propertyRouter)
 
 
 // error handle--
