@@ -8,6 +8,7 @@
   import User from "../models/user.model.js";
   import jwt from 'jsonwebtoken'
   import bcrypt from 'bcrypt'
+  import sendMail from "../utility/mail.utility.js";
 
 
 const createAccount = async (req, res, next) => {
@@ -173,4 +174,97 @@ const createAccount = async (req, res, next) => {
     }
   };
 
-  export {createAccount,loginAccount,logOut,google}
+
+  const forgotPassword=async(req,res,next)=>{
+    const {email}=req.body;
+    try {
+      if(!email){
+        return next(errorHandler(403,'email required'))
+      }
+
+      const findUser=await User.findOne({email:email})
+      if(!findUser){
+       return next(errorHandler(403,'email does not exist'))
+      }
+
+      const token = jwt.sign({ userId: findUser._id }, process.env.SECRET_KEY, {
+        expiresIn: "15m",
+      });
+  
+      const mailResult = await sendMail(findUser, token);
+      console.log(mailResult)
+  
+      if(mailResult.response){
+        return res.status(200).json({ success: true, mailrespons: mailResult.response, msg: 'reset link sent successfully', id:findUser._id ,token:token});
+      }else{
+        return res.status(200).json({ success: false, msg: 'please try again later' });
+      }
+   
+      
+    } catch (error) {
+      console.log(`forgot password failed ${error.message}`)
+      next(errorHandler(500,'internal server error'))
+    }
+  }
+
+  const resetPassword = async (req, res,next) => {
+    try {
+      // console.log(req.query)
+      const { id, reset } = req.query;
+      // console.log(id,reset)
+  
+      const tokenVerify = jwt.verify(reset, process.env.SECRET_KEY);
+  
+      if (!tokenVerify) return next(errorHandler(404,'link expired'))
+  
+      // console.log(`token id ${tokenVerify}`)
+  
+      const { password } = req.body;
+  
+      if (!password) return next(errorHandler(403,'password field empty'))
+  
+      // Validate password
+      const verificationResult = validatePassword(password);
+      if (!verificationResult) {
+        return next(
+          errorHandler(
+            403,
+            "Invalid password! Password must be 8 characters long including one capital letter, special character, and number"
+          )
+        );
+      }
+  
+      // Hash password
+      const hashedPassword = hashPassword(password);
+      if (!hashedPassword) {
+        // return next(errorHandler(500, 'Something went wrong, please try again later'));
+        return res.json({ success: false, msg: "something went wrong" });
+      }
+  
+      const updateUserPass = await User.findOneAndUpdate(
+        { _id: id },
+        { $set: { password: hashedPassword } },
+        {new:true}
+      );
+      // console.log(`update user ${updateUserPass}`);
+  
+      res.status(200).json({success:true, msg:'password change successfully' });
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        // Token has expired
+        return next(errorHandler(500,'link has expired'))
+        
+      } else if (error instanceof jwt.JsonWebTokenError) {
+        // Invalid token
+        return next(errorHandler(500,'inavlid token'))
+        
+      } else {
+        // Other error occurred
+        console.error("Token verification failed:", error);
+        return next(errorHandler(500,'internal server error'))
+        
+      }
+    }
+  };
+
+  export {createAccount,loginAccount,logOut,google,forgotPassword,resetPassword}
