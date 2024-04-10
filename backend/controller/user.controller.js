@@ -3,6 +3,19 @@ import { validateEmail,validatePassword,hashPassword } from "../utility/user.uti
 import errorHandler from "../utility/errorHandler.utility.js";
 import User from "../models/user.model.js";
 
+
+const logOut=async(req,res)=>{
+  try {
+      // Clear the token cookie
+      res.clearCookie("token");
+  
+      res.status(200).json({ success: true, msg: "Logged out successfully" });
+    } catch (error) {
+      console.log(`Failed logout ${error}`);
+      next(errorHandler(500, "Internal server error"));
+    }
+}
+
 const updateAccount = async (req, res, next) => {
     const { firstName,lastName, email,phoneNumber, profilePicture,} = req.body;
     console.log(firstName,lastName,email,phoneNumber,profilePicture)
@@ -57,4 +70,4 @@ const updateAccount = async (req, res, next) => {
  
 
 
-  export {updateAccount}
+  export {updateAccount,logOut}

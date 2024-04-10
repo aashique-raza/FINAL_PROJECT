@@ -122,17 +122,7 @@ const createAccount = async (req, res, next) => {
     }
   };
 
-  const logOut=async(req,res)=>{
-    try {
-        // Clear the token cookie
-        res.clearCookie("token");
-    
-        res.status(200).json({ success: true, msg: "Logged out successfully" });
-      } catch (error) {
-        console.log(`Failed logout ${error}`);
-        next(errorHandler(500, "Internal server error"));
-      }
-  }
+ 
 
   const google = async (req, res, next) => {
     const { email, firstName, profileImage } = req.body;
@@ -267,4 +257,4 @@ const createAccount = async (req, res, next) => {
     }
   };
 
-  export {createAccount,loginAccount,logOut,google,forgotPassword,resetPassword}
+  export {createAccount,loginAccount,google,forgotPassword,resetPassword}
