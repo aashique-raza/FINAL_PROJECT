@@ -189,7 +189,25 @@ const updateAccount = async (req, res, next) => {
     }
 
   }
+
+  const deleteAccount=async(req,res,next)=>{
+    const {userID}=req.params
+    try {
+      if(req.user.userId.trim()!==userID.trim()){
+       return next(errorHandler(403,'unauthorized request'))
+      }
+
+      // Find the user by ID and delete it
+      const deletedUser = await User.findByIdAndDelete(userID);
+
+      res.status(200).json({success:true,msg:'acccount deleted!'})
+      
+    } catch (error) {
+      console.log(`delete account failed ${error.message}`)
+      next(errorHandler(500,'internal server error'))
+    }
+  }
  
 
 
-  export {updateAccount,logOut,changePassword,sendVerifivationMail,verifyMail}
+  export {updateAccount,logOut,changePassword,sendVerifivationMail,verifyMail,deleteAccount}
