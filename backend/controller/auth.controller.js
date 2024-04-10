@@ -1,6 +1,6 @@
 
 
-  import { hashPassword ,validateEmail,validatePassword} from "../utility/user.utility.js";
+  import { hashPassword ,validateEmail,validatePassword,generateRandomPassword} from "../utility/user.utility.js";
   
   import errorHandler from '../utility/errorHandler.utility.js'
  
@@ -121,4 +121,56 @@ const createAccount = async (req, res, next) => {
     }
   };
 
-  export {createAccount,loginAccount}
+  const logOut=async(req,res)=>{
+    try {
+        // Clear the token cookie
+        res.clearCookie("token");
+    
+        res.status(200).json({ success: true, msg: "Logged out successfully" });
+      } catch (error) {
+        console.log(`Failed logout ${error}`);
+        next(errorHandler(500, "Internal server error"));
+      }
+  }
+
+  const google = async (req, res, next) => {
+    const { email, firstName, profileImage } = req.body;
+    try {
+      const userexists = await User.findOne({ email });
+      if (userexists) {
+        const token = jwt.sign(
+          { userId: userexists._id },
+          process.env.JWT_SECRET_KEY
+        );
+        const { password, ...user } = userexists._doc;
+        // Set cookie with HTTPOnly flag
+        res.cookie("token", token, { httpOnly: true });
+        res.json({ success: true, msg: "login successfull", user });
+      } else {
+        const generatedPassword = generateRandomPassword();
+  
+        const hashedPassword = hashPassword(generatedPassword);
+        const newUser = new User({
+            firstName:
+            firstName,
+          email,
+          password: hashedPassword,
+          profilePicture: profileImage,
+        });
+        const savedUser = await newUser.save();
+        const token = jwt.sign(
+          { userId: savedUser._id },
+          process.env.JWT_SECRET_KEY
+        );
+        // Set cookie with HTTPOnly flag
+        res.cookie("token", token, { httpOnly: true });
+        const { password, ...user } = savedUser._doc;
+        res.json({ success: true, msg: "login successfull", user });
+      }
+    } catch (error) {
+      console.log(`google auth failed ${error}`);
+      next(errorHandler(500, "internal server error"));
+    }
+  };
+
+  export {createAccount,loginAccount,logOut,google}
