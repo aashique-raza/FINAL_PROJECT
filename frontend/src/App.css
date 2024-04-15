@@ -1,0 +1,21 @@
+
+/* CSS variables for font families */
+/* :root {
+  --font-open-sans: 'Open Sans', sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
+  --font-roboto-slab: 'Roboto Slab', serif;
+  --font-roboto: 'Roboto', sans-serif;
+} */
+
+/* Example usage in CSS */
+/* body {
+  font-family: var(--font-roboto); Default font
+} */
+
+/* h1, h2, h3 {
+  font-family: var(--font-raleway); Heading font
+} */
+
+/* p {
+  font-family: var(--font-roboto); Paragraph font
+} */
