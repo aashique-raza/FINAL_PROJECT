@@ -1,0 +1,190 @@
+.signup{
+    width: 80%;
+   height: 600px;
+   background-color: #F0F2F5;
+}
+.imageContainer{
+    height: 600px;
+    width: 35%;
+}
+.formContainer{
+height: 600px;
+width: 55%;
+/* border: 2px solid green; */
+}
+.img{
+    filter: brightness(80%) contrast(80%);
+}
+
+.formBox{
+  width: 90%;
+
+}
+.text-container {
+    position: absolute;
+    width: 85%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgb(84, 84, 84,0.6); /* Semi-transparent white background */
+    padding: 20px;
+    border-radius: 10px;
+    filter: brightness(70%) contrast(70%);
+  }
+  
+  .text {
+    color: white; /* White text color */
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow for better readability */
+  }
+
+  .icon{
+    display: flex;
+    width: auto;
+    justify-content: center;
+    gap: 4px;
+    padding: 3px 7px;
+    border: 1px solid rgb(145, 250, 145);
+    background-color: white;
+    border-radius: 4px;
+    align-items: center;
+  }
+
+  .icon img{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+
+  .icon p{
+  text-transform: capitalize;
+  font-size: 16px;
+  color: black;
+  font-weight: 600;
+  }
+
+ /* LinkComponent.css */
+.link-container {
+  width: 100%;
+  height: 3px;
+  background-color: gray;
+  position: relative;
+  margin: 10px 0px;
+}
+
+
+.continue-text {
+ position: absolute;
+ padding: 0px 6px ;
+ /* background: transparent; */
+color: white;
+font-size: 13px;
+background-color: gray;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -50%);
+ z-index: 2;
+}
+
+.form{
+  /* width: 30%; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* border: 2px solid red; */
+  width: 100%;
+
+}
+
+.form input{
+  width: 48%;
+  display: block;
+  padding: 12px 14px;
+  outline: none;
+  font-size: 14px;
+  color: gray;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-radius: 4px;
+  border: none;
+  transition: all 0.3s ease-in;
+}
+.form input:focus {
+  border: 0px solid;
+  border-color: #20DC49; /* Change border color when input is focused */
+  outline: none; /* Remove default focus outline */
+  
+}
+.form button{
+  cursor: pointer;
+  outline: none;
+  border: none;
+  font-size: 17px;
+  text-transform: capitalize;
+  font-family: 800;
+  background-color: #20DC49;
+  color: #000000;
+  padding: 7px 15px;
+  display: inline-block;
+  margin: 10px auto;
+  border-radius: 3px;
+  width: 200px;
+  letter-spacing: 2px;
+  transition: all 0.2s ease-in-out;
+}
+
+.form button:hover{
+  background-color:#147d2b ;
+}
+
+::placeholder{
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+}
+
+.password-input-container{
+  width: 48%;
+  position: relative;
+  border: none;
+}
+
+.password-input-container input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: gray;
+}
+
+
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.asterisk {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: red; /* Red color for the asterisk */
+}
