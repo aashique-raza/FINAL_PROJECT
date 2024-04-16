@@ -1,0 +1,160 @@
+body{
+    background-color: gray;
+}
+
+.login-container{
+    width: 80%;
+    margin: 0px auto;
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: space-between;
+    height: 600px;
+    overflow: hidden;
+   
+}
+.login-account{
+    width: 63%;
+    background-color: rgb(243, 248, 243);
+    height: 600px;
+}
+.logo-contain{
+    /* border: 2px solid green; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 30px;
+    margin-top: 14px;
+}
+.logo-contain img{
+    width: 60px;
+    border-radius: 50%;
+    object-fit: fill;
+    
+}
+.logo-contain p{
+    font-size: 14px;
+    font-weight: 300;
+    text-transform: capitalize;
+}
+.form-container{
+    /* border: 2px solid red; */
+    
+}
+.welcome-back{
+    /* border:2px solid gray; */
+    width: 40%;
+    margin: 20px auto;
+}
+.welcome-back h2{
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: capitalize;
+}
+.welcome-back p{
+    text-align: center;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: capitalize;
+    margin-top: -10px;
+}
+.social-button{
+    display: flex;
+ justify-content: center;
+ gap: 17px;
+    align-items: center;
+    margin-top: 30px;
+}
+.link-container{
+    width: 80%;
+    margin: 40px auto;
+    border: none;
+}
+.loginform{
+    /* border: 2px solid yellow; */
+    width: 40%;
+    margin: 0px auto ;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.login-account .link{
+    /* border: 2px solid blue; */
+    margin-top: -15px;
+    text-align: end;
+    color: red;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+
+}
+
+.loginform input{
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    min-width: 300px;
+
+}
+.password-input-container{
+    min-width: 300px;
+    width: 100%;
+}
+.loginform button{
+    cursor: pointer;
+    outline: none;
+    border: 2px solid gray;
+    font-size: 17px;
+    text-transform: capitalize;
+    font-family: 800;
+    background-color: transparent;
+    color: #000000;
+    padding: 7px 15px;
+    display: inline-block;
+    margin: 17px auto;
+    border-radius: 3px;
+    width: 100%;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-in-out;
+    border-radius: 8px;
+  }
+  
+  .loginform button:hover{
+    transform: scale(0.9);
+  }
+.image-wrapper{
+    width: 37%;
+    border: 2px solid blue;
+    filter: brightness(90%) contrast(90%);
+   
+}
+.image-wrapper img{
+height: 100%;
+width: 100%;
+object-fit: fill;
+/* filter: blur(1px);  */
+clip-path: polygon(0 0, 10% 0, 10% 70%, 0 70%), polygon(60% 0, 60% 0, 700% 100%, 70% 60%);
+}
+.text-wrap{
+    position: absolute;
+    bottom: 6%;
+   width: 90%;
+   left: 5%;
+    background-color: rgba(15, 14, 14, 0.821);
+    padding: 8px 12px;
+    filter: blur(10px);
+    /* filter: brightness(90%) contrast(90%); */
+    border-radius: 6px;
+    filter: opacity(0.8);
+    backdrop-filter: blur(10px);
+}
+.text-wrap h4{
+    font-size: 15px;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    line-height: 16px;
+   
+    color:white;
+   
+}

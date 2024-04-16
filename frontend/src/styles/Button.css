@@ -1,0 +1,29 @@
+
+.btn{
+    display: flex;
+    align-items: center;
+    border: 2px solid rgb(181, 248, 181);
+  width: 120px;
+  justify-content: center;
+  gap: 5px;
+  background-color: white;
+  border-radius: 6px;
+  transition: all 0.5s ease-in-out;
+}
+.btn img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.btn p{
+    color: black;
+    font-size: 16px;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-top: 3px;
+}
+
+.btn:hover{
+    transform: scale(1.1);
+}
