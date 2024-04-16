@@ -24,8 +24,8 @@ function SignupPage() {
   };
 
   return (
-    <main className="signup flex  justify-between   mx-auto ">
-      <aside className="imageContainer relative">
+    <main className="signup ">
+      <aside className="imageContainer relative ">
         <img src={img} alt="img" className="img h-full w-full object-fill" />
         <img
           src={logo}
@@ -38,7 +38,7 @@ function SignupPage() {
           </h2>
         </div>
       </aside>
-      <div className="formContainer  flex flex-col gap-5 items-center">
+      <div className="formContainer ">
         <p className=" mr-5 mt-5  self-end text-sm  font-sans">
           {" "}
           have an account?{" "}
@@ -47,30 +47,30 @@ function SignupPage() {
           </Link>{" "}
         </p>
         <div className="formBox">
-          <div className="">
+          <div className="slogan">
             <h2 className=" text-center text-2xl m-0 font-sans font-bold capitalize text-gray-800">
               Your Dream Space Awaits
             </h2>
-            <p className="text-center font-raleway lowercase text-xxl -mt-1">
+            <p className="text-center font-slab lowercase text-xxl font-normal -mt-1">
               getting started is easy
             </p>
-            <div className="social-icons flex justify-center gap-2 my-5 mb-10 ">
-              <div className="google icon">
+            <div className="social-icons font-raleway flex justify-center gap-2 my-5 mb-10 ">
+              <button className="google icon">
                 <img src={google} alt="github" />
                 <p>google</p>
-              </div>
-              <div className="facebook icon">
+              </button>
+              <button className="facebook icon">
                 <img src={github} alt="github" />
-                <p>facebook</p>
-              </div>
+                <p>github</p>
+              </button>
             </div>
           </div>
-          <div className="link-container my-">
+          <div className="link-container ">
             <hr className="line" />
             <p className="continue-text">Continue with</p>
           </div>
-          <div className="formcontrol  mt-10  flex justify-center items-center ">
-            <form action="" className="form  font-serif ">
+          <div className="formcontrol   ">
+            <form action="" className="form  font-serif  ">
              <input type="text " placeholder="first name" required />
               <input type="text" placeholder="last Name" required />
               <input type="email" placeholder="email" required />

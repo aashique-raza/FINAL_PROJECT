@@ -1,7 +1,14 @@
+body{
+  background-color: #F0F2F5;
+}
+
 .signup{
     width: 80%;
    height: 600px;
-   background-color: #F0F2F5;
+   background-color:#adfbba;
+   display: flex;
+   justify-content: space-between;
+   margin: 0px auto;
 }
 .imageContainer{
     height: 600px;
@@ -9,7 +16,13 @@
 }
 .formContainer{
 height: 600px;
-width: 55%;
+width: 65%;
+display: flex;
+flex-direction: column;
+justify-content: start;
+align-items: center;
+gap: 27px;
+/* background-color: #F0F2F5; */
 /* border: 2px solid green; */
 }
 .img{
@@ -18,7 +31,14 @@ width: 55%;
 
 .formBox{
   width: 90%;
+  /* border: 2px solid red; */
 
+}
+.formcontrol{
+  /* margin: 22px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .text-container {
     position: absolute;
@@ -43,9 +63,9 @@ width: 55%;
   .icon{
     display: flex;
     width: auto;
-    justify-content: center;
-    gap: 4px;
-    padding: 3px 7px;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 3px 5px;
     border: 1px solid rgb(145, 250, 145);
     background-color: white;
     border-radius: 4px;
@@ -62,7 +82,7 @@ width: 55%;
   text-transform: capitalize;
   font-size: 16px;
   color: black;
-  font-weight: 600;
+  font-weight: 400;
   }
 
  /* LinkComponent.css */
@@ -71,7 +91,7 @@ width: 55%;
   height: 3px;
   background-color: gray;
   position: relative;
-  margin: 10px 0px;
+  margin-bottom: 35px;
 }
 
 
@@ -128,7 +148,7 @@ background-color: gray;
   color: #000000;
   padding: 7px 15px;
   display: inline-block;
-  margin: 10px auto;
+  margin: 17px auto;
   border-radius: 3px;
   width: 200px;
   letter-spacing: 2px;
@@ -181,10 +201,65 @@ background-color: gray;
   transition: border-color 0.3s ease;
 }
 
-.asterisk {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  color: red; /* Red color for the asterisk */
+
+@media only screen and (max-width:480px){
+  .formcontrol{
+    /* border: 2px solid green; */
+    min-width: 100%;
+    /* height: 100px; */
+  }
+}
+
+@media only screen and (max-width:620px){
+  .signup{
+    width: 100%;
+    height: auto;
+  }
+  .formContainer{
+  min-height: 100vh;
+    height: auto;
+  }
+  .form input{
+    width: 100%;
+  }
+  .password-input-container{
+    width: 100%;
+  }
+  .formcontrol{
+    width: 70%;
+    margin: 0px auto;
+  }
+  .slogan h2{
+    font-size: 18px;
+  }
+  
+}
+
+@media only screen and (max-width:999px){
+  .signup{
+    width: 100%;
+  }
+  .imageContainer{
+    display: none;
+  }
+  .formContainer{
+    width: 100%;
+  }
+}
+
+
+/* above 105x and below 1175px   ----------------------- */
+@media only screen and (min-width: 999px) and (max-width:1175px){
+.signup{
+  width: 100%;
+}
+.formContainer{
+ min-height: 100vh;
+  height: 100vh;
+}
+/* .imageContainer{
+min-height: 100vh;
+  height: 100vh;
+} */
+ 
 }
