@@ -25,11 +25,7 @@ header {
     object-fit: fill;
 }
 
-.navbar {
-    /* background-color: #333; */
-    /* width: 40%; */
-    /* border: 2px solid yellow; */
-}
+
 
 .itemlist {
     display: flex;

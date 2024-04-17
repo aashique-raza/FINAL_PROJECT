@@ -1,19 +1,32 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/Signup.css";
 import img from "../assets/signup.jpeg";
 import logo from "../assets/logo.png";
 import github from "../assets/github.png";
 import google from "../assets/google.png";
-import { FaEye, FaEyeSlash,FaStar } from "react-icons/fa";
-import { NavLink, Link } from "react-router-dom";
+import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Alert,Spinner  } from "flowbite-react";
+import API_BASE_URL from "../configue";
 
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
+
+  const [formData, setFormData] = useState({
+    firstName:'',
+    lastName:'',
+    password:'',
+    confirmPassword:'',
+    email:'',
+    phoneNumber:''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const firstNameRef = useRef(null); // Ref for the first name input field
-
-
 
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
@@ -21,6 +34,58 @@ function SignupPage() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle state to show/hide password
+  };
+
+  const handleChange = (e) => {
+    const{name,value}=e.target
+    setFormData({
+      ...formData,
+      [name]:value
+    })
+  };
+
+  // console.log(formData)
+
+
+  useEffect(() => {
+    setPasswordMatch(
+      formData.password === formData.confirmPassword ||
+        formData.confirmPassword === ""
+    );
+  });
+
+  const handleSubmit =async (e) => {
+    e.preventDefault()
+    try {
+      setError(null)
+      setLoading(true)
+
+      const response=await fetch(`${API_BASE_URL}/auth/create-account`,{
+        method:"POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json" // Set content type to JSON
+        },
+        
+      })
+      console.log(response)
+
+      
+
+      if(!response.ok){
+        const result=await response.json()
+      setError(result.message)
+      setLoading(false)
+      return
+
+      }
+      setError(null)
+      setLoading(false)
+      navigate('/login')
+      
+    } catch (error) {
+      console.log(`signup failed ${error}`)
+    }
   };
 
   return (
@@ -42,7 +107,10 @@ function SignupPage() {
         <p className=" mr-5 mt-5  self-end text-sm  font-sans">
           {" "}
           have an account?{" "}
-          <Link to={'/login'} className=" text-green-400 font-raleway font-bold">
+          <Link
+            to={"/login"}
+            className=" text-green-400 font-raleway font-bold"
+          >
             login
           </Link>{" "}
         </p>
@@ -70,16 +138,48 @@ function SignupPage() {
             <p className="continue-text">Continue with</p>
           </div>
           <div className="formcontrol   ">
-            <form action="" className="form  font-serif  ">
-             <input type="text " placeholder="first name" required />
-              <input type="text" placeholder="last Name" required />
-              <input type="email" placeholder="email" required />
-              <input type="tel" placeholder="mobile" required />
+            <form className="form  font-serif  " onSubmit={handleSubmit}>
+              <input
+                type="text "
+                name="firstName"
+                placeholder="first name"
+                required
+                onChange={handleChange}
+                value={formData.firstName}
+              />
+              <input
+                type="text"
+                name="lastName"
+                placeholder="last Name"
+                required
+                onChange={handleChange}
+                value={formData.lastName}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="email"
+                required
+                onChange={handleChange}
+                value={formData.email}
+              />
+              <input
+                type="number"
+               
+                name="phoneNumber"
+                placeholder="mobile"
+                required
+                onChange={handleChange}
+                value={formData.phoneNumber}
+              />
               <div className="password-input-container border-2 ">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   className="password-input w-full"
+                  onChange={handleChange}
+                  value={formData.password}
+                  name="password"
                 />
                 {/* Toggle button to show/hide password */}
                 {showPassword ? (
@@ -99,6 +199,9 @@ function SignupPage() {
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="confirm password"
                   className="password-input w-full"
+                  onChange={handleChange}
+                  value={formData.confirmPassword}
+                  name="confirmPassword"
                 />
                 {/* Toggle button to show/hide password */}
                 {showConfirmPassword ? (
@@ -113,10 +216,23 @@ function SignupPage() {
                   />
                 )}
               </div>
+            
 
-              <button type="submit">create account</button>
+              <button type="submit">
+               {
+                loading ? (  <Spinner color="success" aria-label="Failure spinner example" />) : "create account"
+               } </button>
             </form>
+          
           </div>
+            {!passwordMatch && (
+                <p style={{ color: "red",marginTop:'-14px',marginBottom:'-12px',textAlign:'center' }}>Passwords are not matched!</p>
+              )}
+            {error && (
+              <Alert color="failure" onDismiss={() => setError(null)}>
+                {error}
+              </Alert>
+            )}
         </div>
       </div>
     </main>
