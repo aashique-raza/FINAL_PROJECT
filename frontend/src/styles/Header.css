@@ -1,0 +1,189 @@
+
+
+
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 100px;
+    background-color: white;
+    height: 60px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+
+
+.header-logo {
+    width: 100px;
+
+    overflow: hidden;
+    /* border: 2px solid green; */
+}
+
+.header-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.navbar {
+    /* background-color: #333; */
+    /* width: 40%; */
+    /* border: 2px solid yellow; */
+}
+
+.itemlist {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 40px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.itemlist li {
+    list-style: none;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.menubar {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.menubar .create-listing {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 30px;
+
+    background-color: rgb(247, 78, 78);
+    color: white;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menubar .loginlink {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    gap: 3px;
+    font-weight: 400;
+    color: rgb(247, 78, 78);
+    font-size: 14px;
+}
+
+.menubar .create-listing:hover {
+    background-color: rgb(204, 38, 38);
+}
+
+.menubar button {
+    display: flex;
+}
+
+.menubar .bar {
+    font-size: 24px;
+    color: gray;
+    display: none;
+}
+
+
+
+
+
+@media only screen and (max-width:467px){
+.menubar .loginlink{
+    display: none;
+}
+.menubar .create-listing{
+    font-size: 12px;
+    background-color: green;
+    padding: 0;
+}
+
+}
+
+
+ @media only screen and (max-width:767px){
+    header{
+        position: relative;
+        
+       
+    }
+ 
+    .menubar .bar{
+        display: block;
+
+    }
+   
+    .navbar {
+        position: absolute;
+        right: 0%;
+        top: -102%;
+        width: 100%;
+        min-height: 0;
+        background-color:white;
+        visibility: hidden;
+        padding: 30px 0px;
+        z-index: 999;
+        border-radius: 10px;
+        transition: all 0.4s ease-in;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1), /* Box shadow at bottom */
+                0px -5px 10px rgba(0, 0, 0, 0.1); /* Box shadow at top */
+    }
+    
+    .navbar .itemlist{
+        flex-direction: column;
+    }
+    .itemlist li{
+        font-size: 18px;
+        transition: all 0.3s ease-in-out;
+    }
+    .itemlist li:hover{
+        color: rgb(225, 96, 96);
+    }
+    .navbartoggle{
+        
+        top: 102%;
+        visibility: visible;
+        min-height: 100%;
+    }
+
+    
+  } 
+
+
+
+
+
+@media only screen and (max-width:925px) {
+    header{
+        padding: 0px 17px;
+    }
+    .itemlist {
+        gap: 22px;
+    }
+
+    .menubar {
+        gap: 20px;
+    }
+
+    .menubar .create-listing {
+        font-size: 12px;
+        padding: 5px 8px;
+        letter-spacing: 0;
+    }
+}
+
+
+@media only screen and (min-width:926px) and (max-width:1125px) {
+    header {
+        padding: 0px 20px;
+    }
+}

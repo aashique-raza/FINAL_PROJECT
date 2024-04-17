@@ -3,7 +3,8 @@ import {Button} from 'flowbite-react'
 
 function HomePage() {
   return (
-    <Button color="failure" className=''>Success</Button>
+   <>
+   home</>
   )
 }
 

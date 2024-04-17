@@ -6,11 +6,13 @@ import Header from './components/Header';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 
+
 function App() {
  
   return (
    <Router>
     <Header/>
+  
     <Routes>
       <Route path='/' element={<HomePage/>} />
       <Route path='/about' element={<AboutPage/>} />
