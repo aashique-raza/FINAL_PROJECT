@@ -99,10 +99,29 @@ body{
    
 
 }
-.password-input-container{
-   
+.password-input-cont{
+    
+    position: relative;
+    border: none;
     width: 100%;
 }
+
+  
+  .password-input-cont input {
+    width: 100%;
+    border: none;
+    outline: none;
+  }
+  
+  
+  .eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+  }
 .loginform button{
     cursor: pointer;
     outline: none;
@@ -192,7 +211,7 @@ clip-path: polygon(0 0, 10% 0, 10% 70%, 0 70%), polygon(60% 0, 60% 0, 700% 100%,
     }
 }
 
-@media only screen and (min-width:800px) and (max-width:1024px){
+@media only screen and (min-width:800px) and (max-width:1175px){
     .login-container{
         width: 100%;
     }

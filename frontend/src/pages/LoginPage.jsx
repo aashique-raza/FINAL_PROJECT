@@ -19,7 +19,7 @@ function LoginPage() {
         <div className="logo-contain">
           <img src={logo} alt="logo" />
           <p>
-            don't have an account? <Link className=" text-green-400 font-extrabold font-sans">signup</Link>{" "}
+            don't have an account? <Link to={'/signup'} className=" text-green-400 font-extrabold font-sans">signup</Link>{" "}
           </p>
         </div>
         <div className="form-container">
@@ -37,7 +37,7 @@ function LoginPage() {
           </div>
           <form action="" className="loginform">
             <input type="text" placeholder="email or mobile" />
-            <div className="password-input-container border-2 ">
+            <div className="password-input-cont border-2 ">
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"

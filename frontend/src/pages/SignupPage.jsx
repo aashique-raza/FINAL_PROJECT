@@ -42,7 +42,7 @@ function SignupPage() {
         <p className=" mr-5 mt-5  self-end text-sm  font-sans">
           {" "}
           have an account?{" "}
-          <Link className=" text-green-400 font-raleway font-bold">
+          <Link to={'/login'} className=" text-green-400 font-raleway font-bold">
             login
           </Link>{" "}
         </p>
