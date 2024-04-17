@@ -6,11 +6,71 @@ import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
 import GoogleOAuthButton from "../components/GoogleOAuthButton";
 import GithubButton from "../components/GithubButton";
+import { Alert,Spinner  } from "flowbite-react";
+import {useDispatch,useSelector} from 'react-redux'
+import { loginSuccess,loginFailed,loginStart, clearError, setToken } from "../features/user.slice";
+import API_BASE_URL from "../configue";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const{errorr,loading}=useSelector((state)=>state.user)
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle state to show/hide password
+  };
+
+  const [formData, setFormData] = useState({
+    password:'',
+    email:'',
+  });
+  const handleChange = (e) => {
+    const{name,value}=e.target
+    setFormData({
+      ...formData,
+      [name]:value
+    })
+  };
+
+  console.log(formData)
+
+
+
+  const handleSubmit =async (e) => {
+    e.preventDefault()
+    try {
+      dispatch(clearError())
+      dispatch(loginStart())
+
+      const response=await fetch(`${API_BASE_URL}/auth/login-account`,{
+        method:"POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json" // Set content type to JSON
+        },
+        
+      })
+      console.log(response)
+      const result=await response.json()
+      
+
+      if(!response.ok){
+        console.log(result)
+        dispatch(loginFailed(result.message))
+        return
+
+      }
+      dispatch(clearError())
+      dispatch(loginSuccess(result.user))
+      dispatch(setToken(result.token))
+      navigate('/')
+
+      
+    } catch (error) {
+      dispatch(loginFailed(error.message))
+      console.log(`signup failed ${error}`)
+    }
   };
 
   return (
@@ -35,10 +95,13 @@ function LoginPage() {
             <hr className="line" />
             <p className="continue-text">or Continue with</p>
           </div>
-          <form action="" className="loginform">
-            <input type="text" placeholder="email or mobile" />
+          <form action="" className="loginform" onSubmit={handleSubmit}>
+            <input type="text" placeholder="email or mobile" name="email" onChange={handleChange} value={formData.email} />
             <div className="password-input-cont border-2 ">
               <input
+              onChange={handleChange}
+              value={formData.password}
+              name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 className="password-input w-full"
@@ -57,9 +120,18 @@ function LoginPage() {
               )}
             </div>
             <div className="link"><NavLink to={"/forgot-password"}>recover password</NavLink></div>
-            <button type="submit">Log in</button>
+            <button type="submit">
+            {
+                loading ? (  <Spinner color="success" aria-label="Failure spinner example" />) : "Log in"
+               }
+              </button>
           </form>
         </div>
+        {errorr && (
+              <Alert color="failure" onDismiss={() => dispatch(clearError())}>
+                {errorr}
+              </Alert>
+            )}
       </div>
       <aside className="image-wrapper relative">
         <img src={login} alt="logo" />

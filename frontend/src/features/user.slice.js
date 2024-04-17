@@ -4,25 +4,33 @@ const initialState = {
   errorr: null,
   loading: false,
   user: null,
+  token:null
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signupStart: (state) => {
+    loginStart: (state) => {
       state.loading = true;
       state.errorr = null;
     },
-    signupSuccess: (state, action) => {
+    loginSuccess: (state, action) => {
       state.user = action.payload;
       state.loading = false;
       state.errorr = null;
     },
-    signupFailed: (state, action) => {
+    loginFailed: (state, action) => {
       state.errorr = action.payload;
       state.loading = false;
     },
+    clearError:(state)=>{
+      state.loading=false,
+      state.errorr=null
+    },
+    setToken:(state,action)=>{
+      state.token=action.payload
+    }
     
     
   },
@@ -30,9 +38,11 @@ export const userSlice = createSlice({
 
 export const {
   
-  signupFailed,
-  signupStart,
-  signupSuccess,
+  loginStart,
+  loginFailed,
+  loginSuccess,
+  clearError,
+  setToken
   
 } = userSlice.actions;
 
