@@ -53,12 +53,12 @@ header {
 .menubar .create-listing {
     display: flex;
     align-items: center;
-    padding: 10px 14px;
+    padding: 8px 14px;
     border-radius: 30px;
 
     background-color: rgb(247, 78, 78);
     color: white;
-    font-size: 14px;
+    font-size: 12px;
     text-transform: capitalize;
     font-weight: 400;
     letter-spacing: 2px;
@@ -89,19 +89,56 @@ header {
     display: none;
 }
 
+/* profile button design--------- */
+.profile-button{
+    display: flex;
+    padding: 6px 6px;
+    border: 1px solid rgb(253, 143, 143);
+    justify-content: center;
+    gap: 6px;
+    align-items: center;
+    border-radius: 4px;
+}
+.profile-button img{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: fill;
+}
+.profile-button span{
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+    color: (253, 143, 143);
+}
+
 
 
 
 
 @media only screen and (max-width:467px){
-.menubar .loginlink{
-    display: none;
-}
+    header{
+        padding: 0px !important;
+    }
+    .itemlist li{
+        font-size: 14px !important;
+       
+    }
+    .header-logo{
+        width: 60px;
+    }
+
 .menubar .create-listing{
-    font-size: 12px;
-    background-color: green;
-    padding: 0;
+   display: none;
 }
+.menubar{
+    /* border: 2px solid green; */
+    gap: 5px !important;
+}
+
+.profile-button span{
+    font-size: 12px
+};
 
 }
 
@@ -111,6 +148,10 @@ header {
         position: relative;
         
        
+    }
+    .menubar{
+        /* border: 2px solid green; */
+        gap: 3px;
     }
  
     .menubar .bar{

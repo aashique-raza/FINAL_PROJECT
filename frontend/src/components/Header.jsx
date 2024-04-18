@@ -1,18 +1,20 @@
-import React,{useState,useEffect,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import logo from "../assets/logo.png";
 import { FaUser, FaBars, FaPlus } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { Button } from "flowbite-react";
 
 function Header() {
-  const[showMenu,setShowMenu]=useState(false)
+  const [showMenu, setShowMenu] = useState(false);
+  const { user } = useSelector((state) => state.user);
+  console.log(user);
 
-  const handleMenubar=()=>{
+  const handleMenubar = () => {
     // alert(showMenu)
-        setShowMenu(!showMenu)
-  }
-
-
+    setShowMenu(!showMenu);
+  };
 
   return (
     <header>
@@ -21,8 +23,8 @@ function Header() {
           <img src={logo} alt="logo" />
         </Link>
       </div>
-      
-      <nav className={`navbar ${showMenu? 'navbartoggle' : ""}`}>
+
+      <nav className={`navbar ${showMenu ? "navbartoggle" : ""}`}>
         <ul className="itemlist font-raleway">
           <li>
             <Link to="/">Home</Link>
@@ -30,8 +32,13 @@ function Header() {
           <li>
             <Link to="/about">About</Link>
           </li>
-          <li > <Link to={'/rentals'}>Rentals</Link> </li>
-          <li  ><Link to={'/category'}>Categories</Link> </li>
+          <li>
+            {" "}
+            <Link to={"/rentals"}>Rentals</Link>{" "}
+          </li>
+          <li>
+            <Link to={"/category"}>Categories</Link>{" "}
+          </li>
           <li>
             <Link to="/blog">Blog</Link>
           </li>
@@ -42,10 +49,18 @@ function Header() {
       </nav>
 
       <div className="menubar">
-        <NavLink className={'loginlink'} to={'/login'}>
-          <FaUser/> log in
-        </NavLink>
-        <NavLink to={'/create-listing'} className={'create-listing'}>
+        {user ? (
+          <button color="gray" className="profile-button">
+            <img src={user.profileImage} alt="profileImage"  />
+           <span className=" font-raleway "  > hi,{user.firstName}</span>
+          </button>
+        ) : (
+          <NavLink className={"loginlink"} to={"/login"}>
+            <FaUser /> log in
+          </NavLink>
+        )}
+
+        <NavLink to={"/create-listing"} className={"create-listing"}>
           <FaPlus></FaPlus> create listing
         </NavLink>
         <button className={`bar `} onClick={handleMenubar}>
