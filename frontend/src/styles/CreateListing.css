@@ -1,0 +1,373 @@
+
+.create-listing-container{
+    min-height: 100vh;
+    min-width: 100%;
+    /* border: 2px solid green; */
+    padding: 30px 0px;
+}
+/* property type details csss */
+.property-type-details{
+    /* border: 2px solid green; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+.slogan{
+    text-align: center;
+}
+.slogan h2{
+    font-size: 2vw;
+    font-weight: bold;
+   
+}
+.slogan h2 span{
+    color: rgb(246, 28, 28);
+}
+.slogan p{
+    font-size: 1.4vw;
+    font-weight: 600;
+    color: gray;
+}
+
+
+
+/* listing csss start here */
+
+.listing{
+    /* border: 2px solid red; */
+    height: 400px;
+    /* height: 200px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.all-options{
+    /* width: 50%; */
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 22px 30px;
+}
+
+/* .res-comm{
+    border: 1px solid gray;
+} */
+.res-comm h3{
+    text-align: center;
+    /* color: gray; */
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    font-size: 1.2vw;
+    margin-bottom: 16px;
+}
+/* .residential-commercial{
+    border: 1px solid gray;
+    padding: 10px 60px;
+} */
+ .property-type{
+    display: inline-block;
+    padding: 8px 25px;
+   
+    border: 1px solid gray;
+    
+    outline: none;
+    cursor: pointer;
+    font-size: 1.4vw;
+    text-transform: capitalize;
+    font-weight: 600;
+    background-color: rgb(245, 243, 243);
+    position: relative;
+    border: 1px solid gray;
+    outline: none;
+
+}
+
+
+
+.selected{
+    background-color: white;
+    /* border: 1px solid gray; */
+}
+
+ .selected::before{
+    width: 100%;
+    height: 5px;
+    position: absolute;
+    content: "";
+    background-color: rgba(245, 47, 17, 0.955);
+    border-radius: 5px;
+    left: 0;
+    top: 90%;
+}
+
+/* second property option */
+
+.second-property-option{
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px 50px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.second-property-option h3{
+    text-align: center;
+    /* margin: 20px; */
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    font-size: 1.4vw;
+}
+.option_items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    
+}
+.option_items .item{
+    outline: none;
+    text-align: center;
+    /* background-color: rgb(232, 223, 223); */
+    text-transform: capitalize;
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: 600px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+}
+.item:focus{
+    outline: none;
+}
+
+.itemActive{
+    background-color: green;
+    color: white;
+}
+
+.property-select-link{
+    border: 2px solid green;
+    display: inline-block;
+    padding: 8px 45px;
+    background-color: rgb(248, 16, 16);
+    color: rgb(254, 252, 252);
+    font-size: 17px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    font-weight: 400;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    margin-top: 1.9vw;
+}
+
+
+/* features----- */
+.features{
+    width: 90%;
+    margin: 17px auto;
+    /* border: 2px solid green; */
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex: auto;
+}
+.feature-items{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    
+    /* flex-shrink: 3; */
+
+}
+.feature-items h1{
+    font-size: 40px;
+    color: gray;
+    margin-bottom: 13px;
+    text-align: center;
+}
+.feature-items h3{
+    font-size: 20px;
+    text-transform: capitalize;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-align: center;
+    
+
+}
+.feature-items p{
+    font-size: 14px;
+    color: gray;
+    letter-spacing: 2px;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+/* how it works--- */
+.how-it-works{
+    width: 90%;
+    background-color: rgb(245, 245, 245);
+    margin: 12px auto;
+    padding:  15px;
+}
+.how-it-works .h3{
+    text-align: center;
+    font-size: 17px;
+    text-transform: capitalize;
+    font-weight: 700;
+    /* margin: 28px 0px; */
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    font-family: sans-serif;
+}
+.section-item{
+    display: flex;
+    justify-content:center;
+    gap: 20px;
+    align-items: center;
+    width: 70%;
+    margin: 12px auto;
+    /* border: 2px solid green; */
+}
+.text-item{
+    padding: 8px 24px;
+    /* border: 2px solid red; */
+    width: 90%;
+    font-family: sans-serif;
+
+}
+.text-item h3{
+    text-align: center;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    color: gray;
+    padding: 2px 15px;
+}
+.text-item p{
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 400;
+    line-height: 23px;
+    padding: 2px 15px;
+}
+
+.section-img{
+    width: 80%;
+    /* height: 00px; */
+}
+
+.section-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+
+@media only screen and (max-width:1024px){
+    .how-it-works{
+        width: 100%;
+    }
+    .section-item{
+        
+        width: 100%;
+       
+        flex-wrap: wrap;
+        flex: auto;
+        border: 2px solid gray;
+        padding: 10px 0px;
+        
+    }
+
+    .middle{
+        display: flex;
+        /* flex-direction: column; */
+        flex-direction: row-reverse;
+    }
+   
+  
+    .text-item h3{
+        
+        font-size: 15px;
+        padding: 0;
+        
+    }
+    .text-item p{
+        padding: 0;
+    }
+    
+    
+   
+
+}
+
+@media only screen and (max-width:767px) {
+    .features{
+        width: 100%;
+        flex-wrap: wrap;
+        flex: auto;
+    }
+}
+
+@media only screen and (max-width:600px){
+    .slogan h2{
+        font-size: 15px;
+    }
+    .slogan p{
+        font-size: 13px;
+    }
+    .listing{
+        padding-top: 20px;
+        align-items: start;
+        width: 100%;
+    }
+    .res-comm h3{
+        font-size: 14px;
+    }
+    .all-options{
+        padding: 10px 8px;
+        width: 100%;
+    }
+    .property-type {
+        font-size: 14px;
+    }
+    .second-property-option{
+        padding: 17px 10px;
+        width: 100%;
+    }
+    .second-property-option h3{
+        font-size: 17px;
+    }
+    .option_items{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+    .option_items .item{
+        padding: 6px 8px;
+        font-size: 15px;
+    }
+    .property-select-link{
+       font-size: 14px;
+        padding: 8px 20px;
+        margin-top: 26px;
+        
+    }
+
+}
+
+
