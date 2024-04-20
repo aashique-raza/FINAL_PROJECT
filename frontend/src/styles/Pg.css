@@ -1,11 +1,17 @@
 
 
 .pg-container{
-    border: 2px solid red;
+    /* border: 2px solid red; */
     margin: 20px auto;
     width: 100%;
     padding: 0px 14px;
 }
+/* .pg-container form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid green;
+} */
 
 .pg-section-heading{
     display: flex;
@@ -28,21 +34,24 @@
     text-transform: capitalize;
     letter-spacing: 2px;
 }
-/* .room-basic-details{
-    
-    border: 2px solid green;
-    flex: auto;
-
-} */
-.room-basic-details .room-form{
+ .room-basic-details{
     width: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    /* flex: 1; */
+   
+
+} 
+.room-details-1{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* flex: 1; */
     margin-top: 30px;
     flex-wrap: wrap;
+
 }
+
 .room-items{
     /* border: 2px solid gray; */
     display: flex;
@@ -94,10 +103,103 @@ width: 10%;
     border-radius: 3px;
  }
 
+ /* amount details */
+ .room-details-2{
+    /* border: 2px solid gray; */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 15px;
+    
+    
+ }
+ .amount-details{
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    
+ }
+ .amount-details label{
+    display: inline-block;
+    font-size: 14px;
+    text-transform: capitalize;
+    position: relative;
+    font-family: 700;
+    font-weight: 600;
+    
+ }
+ .amount-details label::before{
+    position: absolute;
+    top: 0%;
+    left: 100%;
+    /* right: 0%; */
+    content: "*";
+    color: red;
+    width: 10%;
+    }
+ .amount-details input{
+    width: 100%;
+    padding: 13px 18px;
+    outline: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: gray;
+    appearance: none;
+ }
+
+
+ /* room details -3 */
+ /* .room-details-3{
+    border: 2px solid green;
+ } */
+ .room-details-3 h3{
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-family: 700;
+    font-weight: 800;
+    text-transform: capitalize;
+    color: red;
+ }
+ .amenities-wrapper{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    /* border: 2px solid gray; */
+    width: 70%;
+margin: 12px auto;
+flex-wrap: wrap;
+ }
+
+ .room-amenities{
+display: inline-block;
+/* border: 2px solid red; */
+
+
+
+ }
+ .room-amenities label{
+    font-size: 16px;
+    text-transform: capitalize;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: gray;
+    cursor: pointer;
+ }
+ .room-amenities input{
+    /* padding: 2px; */
+    margin-left: 4px;
+    cursor: pointer;
+ }
+
 
 
  @media only screen and (max-width:767px){
-    .room-basic-details{
+    .room-details-1{
         flex-direction: column;
      
      }
@@ -106,6 +208,13 @@ width: 10%;
         
         width: 95% !important;
        
+    }
+    .room-details-2{
+        flex-direction: column;
+        align-items: center;
+    }
+    .amount-details{
+        width: 90%;
     }
      
  }
@@ -117,7 +226,7 @@ width: 10%;
         padding: 0px 10px;
     }
     
-    .room-basic-details{
+    .room-details-1{
        /* border: 2px solid green; */
         margin-top: 30px;
         flex-wrap: wrap;
