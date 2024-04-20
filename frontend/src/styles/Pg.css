@@ -3,13 +3,16 @@
 .pg-container{
     border: 2px solid red;
     margin: 20px auto;
-    width: 85%;
+    width: 100%;
+    padding: 0px 14px;
 }
 
 .pg-section-heading{
     display: flex;
-    gap: 10px;
-    align-items: center;
+    gap: 6px;
+    
+    flex-direction: column;
+        align-items: center;
 }
 .pg-section-heading h1{
     font-size: 22px;
@@ -25,16 +28,20 @@
     text-transform: capitalize;
     letter-spacing: 2px;
 }
-.room-basic-details{
+/* .room-basic-details{
+    
+    border: 2px solid green;
+    flex: auto;
+
+} */
+.room-basic-details .room-form{
+    width: 100;
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* flex: 1; */
     margin-top: 30px;
     flex-wrap: wrap;
-    border: 2px solid green;
-    /* flex: auto; */
-
 }
 .room-items{
     /* border: 2px solid gray; */
@@ -49,12 +56,12 @@
     font-family: 700;
     letter-spacing: 2px;
     position: relative;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     display: inline-block;
     padding: 4px 10px;
     border: none;
     outline: none;
-    background-color: white;
+    
     
 }
 .room-items p::before{
@@ -85,5 +92,46 @@ width: 10%;
     width: 30%;
     text-transform: capitalize;
     border-radius: 3px;
+ }
+
+
+
+ @media only screen and (max-width:767px){
+    .room-basic-details{
+        flex-direction: column;
+     
+     }
+     .room-items{
+       
+        
+        width: 95% !important;
+       
+    }
+     
+ }
+
+ @media only screen and (max-width:1024px){
+    .pg-container{
+       
+        width: 100%;
+        padding: 0px 10px;
+    }
+    
+    .room-basic-details{
+       /* border: 2px solid green; */
+        margin-top: 30px;
+        flex-wrap: wrap;
+        
+    
+    }
+    .room-items{
+        /* border: 2px solid gray; */
+        display: flex;
+        gap: 10px;
+        width: 45%;
+        margin: 10px 0px;
+    }
+    
+
  }
 

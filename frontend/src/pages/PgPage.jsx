@@ -1,47 +1,74 @@
-import React from 'react'
-import '../styles/Pg.css'
+import React, { useState } from "react";
+import "../styles/Pg.css";
+import { sharingOptions,kitchenOptions,balconyOptions } from "../utils";
 
 function PgPage() {
+
+  const[formData,setFormData]=useState({})
+
+  const handleChange=(e)=>{
+    const {id,value}=e.target;
+    setFormData({
+      ...formData,
+      [id]:value
+    }
+    )
+  }
+
+  // console.log(formData)
+
+
   return (
-   <main className='pg-container'>
-    <section className='pg-section-1'>
-       <div className='pg-section-heading'>
-       <h1>Living Space Details:  </h1>
-       <p>Delve into Comfort, Your Living Space Unraveled!</p>
-       </div>
-       <div className='room-basic-details'>
-          <div className='room-items'>
+    <main className="pg-container">
+      <section className="pg-section-1">
+        <div className="pg-section-heading">
+          <h1>Living Space Details: </h1>
+          <p>Delve into Comfort, Your Living Space Unraveled!</p>
+        </div>
+        <div className="room-basic-details">
+          <form action="" className="room-form">
+          <div className="room-items">
             <p>sharing:</p>
-            <select name="select-item " id="">
-              <option value="" disabled  selected>choose sharing</option>
-              <option value="single"> single</option>
-              <option value="double"> double</option>
-              <option value="three"> three</option>
-              <option value="four"> four</option>
+
+            <select
+              name="select-item"
+              id="roomSharing"
+              className="sharing-items"
+              value={formData.roomSharing}
+              onChange={handleChange}
+            >
+              {sharingOptions?.map((option,index) => (
+                <option value={option.value} key={index} >{option.label}</option>
+              ))}
             </select>
           </div>
-          <div className='room-items'>
+          <div className="room-items">
             <p>kitchen:</p>
-            <select name="kitchen-details" id="" >
-              <option value="" disabled selected>select</option>
-              <option value="with-kitchen">with kitchen</option>
-              <option value="without-kitchen"> without kitchen</option>
-              
+            <select name="kitchen-details" id="kitchen" onChange={handleChange} value={formData.kitchen}>
+              {
+                kitchenOptions?.map((opt,index)=>(
+                  <option value={opt.value} key={index} >{opt.label}</option>
+                ))
+              }
             </select>
           </div>
-          <div className='room-items'>
+          <div className="room-items">
             <p>balcony:</p>
-            <select name="balcony-details" id="" >
-              <option value="" disabled selected >select</option>
-              <option value="with-balcony"> with balcony</option>
-              <option value="without-balcony"> without balcony</option>
-              
+            <select name="balcony-details" id="balcony" onChange={handleChange} value={formData.balcony}>
+              {
+                balconyOptions?.map((opt,index)=>(
+                  <option value={opt.value} key={index}>{opt.label}</option>
+                ))
+              }
+             
             </select>
           </div>
-       </div>
-    </section>
-   </main>
-  )
+          </form>
+         
+        </div>
+      </section>
+    </main>
+  );
 }
 
-export default PgPage
+export default PgPage;
