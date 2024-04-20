@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/CreateListing.css";
-import { Link } from "react-router-dom";
+import { Link,Outlet } from "react-router-dom";
 import {FaClipboardList,FaEye ,FaComments } from 'react-icons/fa'
 import simpleListing from '../assets/simpleListing.jpg'
 import tenetImg from '../assets/tenetImg.jpg'
@@ -123,8 +123,10 @@ function CreateListingPage() {
             </div>
           </div>
           <div className="property-select-link">
-          <Link to={`/create-listing/pg`}>start listing property for free</Link>
+          <Link to={`/create-listing/${activeItemResdentialType}`}>start listing property for free</Link>
+          
           </div>
+       
         </div>
       </div>
       <div className="features">

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Outlet } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import Header from "./components/Header";
@@ -22,14 +22,13 @@ function App() {
           <Route path="/signup" element={<SignupPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
         </Route>
-        {/* <Route path="/create-listing" element={<ProtectedCreateListing />}>
-          <Route path="rent" element={<RentPage />} />
-          <Route path="pg" element={<PgPage />} />
-        </Route> */}
-        <Route path="/create-listing/" element={<CreateListingPage />}>
-          <Route path="rent" element={<RentPage />}></Route>
-          <Route path="pg" element={<PgPage />}></Route>
+        <Route  element={<ProtectedCreateListing />}>
+          <Route path="/create-listing" element={<CreateListingPage/>} ></Route>
+          <Route path="/create-listing/pg" element={<PgPage/>} ></Route>
+          <Route path="/create-listing/rent" element={<RentPage/>} ></Route>
         </Route>
+        {/* <Route path="/create-listing/"/> */}
+        
       </Routes>
     </Router>
   );
