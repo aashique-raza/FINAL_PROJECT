@@ -7,13 +7,16 @@ import {
   rentAmountOptions,
   roomAmenities,
 } from "../utils";
+import Input from "../components/Input";
+import OptionInput from "../components/OptionInput";
+import CheckBoxInput from "../components/CheckBoxInput";
 
 function PgPage() {
   const [formData, setFormData] = useState({
-    roomAmenities:[]
+    roomAmenities: [],
   });
 
-  const[amenities,setAmenities]=useState([])
+  const [amenities, setAmenities] = useState([]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -36,11 +39,13 @@ function PgPage() {
       // Remove the unchecked amenity from the roomAmenities array
       setFormData((prevData) => ({
         ...prevData,
-        roomAmenities: prevData.roomAmenities.filter((amenityId) => amenityId !== id),
+        roomAmenities: prevData.roomAmenities.filter(
+          (amenityId) => amenityId !== id
+        ),
       }));
     }
   };
-  // console.log(formData)
+  console.log(formData);
   // console.log(amenities)
 
   return (
@@ -80,9 +85,11 @@ function PgPage() {
                   value={formData.kitchen}
                 >
                   {kitchenOptions?.map((opt, index) => (
-                    <option value={opt.value} key={index}>
-                      {opt.label}
-                    </option>
+                    <OptionInput
+                      value={opt.value}
+                      key={index}
+                      label={opt.label}
+                    />
                   ))}
                 </select>
               </div>
@@ -106,7 +113,13 @@ function PgPage() {
               {rentAmountOptions?.map((amountOpt, index) => (
                 <div key={index} className="amount-details">
                   <label htmlFor="">{amountOpt.label}</label>
-                  <input type="number"  id={amountOpt.id} placeholder={amountOpt.placeholder}  onChange={handleChange} />
+                  <Input
+                    type="number"
+                    id={amountOpt.id}
+                    placeholder={amountOpt.placeholder}
+                    setFormData={setFormData}
+                    formData={formData}
+                  />
                 </div>
               ))}
             </div>
@@ -114,15 +127,15 @@ function PgPage() {
               <h3>room amenities:</h3>
               <div className="amenities-wrapper">
                 {roomAmenities.map((ament, index) => (
-                  <div className="room-amenities" key={index}>
-                    <label htmlFor={ament.name}>{ament.name}: </label>
-                    <input
-                      type="checkbox"
-                      id={ament.name}
-                      
-                      onChange={(e) => handleCheckboxChange(e, ament.name)}
-                    />
-                  </div>
+                  <CheckBoxInput
+                    key={index}
+                    label={ament.name}
+                    htmlFor={ament.name}
+                    type="checkbox"
+                    id={ament.name}
+                    setFormData={setFormData}
+                  />
+
                 ))}
               </div>
             </div>
