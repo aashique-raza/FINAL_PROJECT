@@ -1,17 +1,14 @@
 
-
+/* pg main container************************* */
 .pg-container{
     /* border: 2px solid red; */
     margin: 20px auto;
     width: 100%;
     padding: 0px 14px;
 }
-/* .pg-container form{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border: 2px solid green;
-} */
+
+
+/* all section heading style  */
 
 .pg-section-heading{
     display: flex;
@@ -34,6 +31,8 @@
     text-transform: capitalize;
     letter-spacing: 2px;
 }
+
+/* room details css start here************************************* */
  .room-basic-details{
     width: 100;
     display: flex;
@@ -49,115 +48,12 @@
     justify-content: space-between;
     margin-top: 30px;
     flex-wrap: wrap;
-
-}
-
-.room-items{
-    /* border: 2px solid gray; */
-    display: flex;
-    gap: 14px;
-    width: 33%;
-}
-
-.room-items p{
-    font-size: 16px;
-    text-transform: capitalize;
-    font-family: 700;
-    letter-spacing: 2px;
-    position: relative;
     /* border: 2px solid red; */
-    display: inline-block;
-    padding: 4px 10px;
-    border: none;
-    outline: none;
-    
-    
+
 }
-.room-items p::before{
-position: absolute;
-top: 0%;
-/* left: 0%; */
-right: 0%;
-content: "*";
-color: red;
-width: 10%;
-}
- .room-items select {
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    -ms-appearance:none;
-    appearance:none;
-    outline:0;
-    box-shadow:none;
-    /* border:0!important; */
-  
-    background-image: none;
-    flex: 1;
-    padding: 8px 20px;
-    /* color:#fff; */
-    cursor:pointer;
-    font-size: 1em;
-    font-family: 'Open Sans', sans-serif;
-    width: 30%;
-    text-transform: capitalize;
-    border-radius: 3px;
- }
 
- /* amount details */
- .room-details-2{
-    /* border: 2px solid gray; */
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 15px;
-    
-    
- }
- .amount-details{
-    /* border: 2px solid red; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-    
- }
- .amount-details label{
-    display: inline-block;
-    font-size: 14px;
-    text-transform: capitalize;
-    position: relative;
-    font-family: 700;
-    font-weight: 600;
-    
- }
- .amount-details label::before{
-    position: absolute;
-    top: 0%;
-    left: 100%;
-    /* right: 0%; */
-    content: "*";
-    color: red;
-    width: 10%;
-    }
- .amount-details input{
-    width: 100%;
-    padding: 13px 18px;
-    outline: none;
-    font-size: 15px;
-    font-weight: 600;
-    color: gray;
-    appearance: none;
- }
-
-
- /* room details -3 */
- /* .room-details-3{
-    border: 2px solid green;
- } */
- .room-details-3 h3{
+/* room facilities css start here************************** */
+.room-details-3 h3{
     font-size: 18px;
     letter-spacing: 1px;
     font-family: 700;
@@ -198,48 +94,231 @@ display: inline-block;
 
 
 
- @media only screen and (max-width:767px){
-    .room-details-1{
-        flex-direction: column;
-     
-     }
-     .room-items{
-       
-        
-        width: 95% !important;
-       
-    }
-    .room-details-2{
-        flex-direction: column;
-        align-items: center;
-    }
-    .amount-details{
-        width: 90%;
-    }
-     
+
+
+
+ /* amount details css start here**********************************88 */
+ .room-details-2{
+    border: 2px solid gray;
+    width: 100%;
+    display: flex;
+   align-items: center;
+   
+    flex-wrap: wrap;
+    gap: 45px;
+    
+    
  }
 
- @media only screen and (max-width:1024px){
+ /* input container or INput component css start here*******************************8 */
+
+ .input-container{
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    width: 35%;
+    /* flex: 1; */
+    
+ }
+ .input-container label{
+    
+    font-size: 14px;
+    text-transform: capitalize;
+    position: relative;
+    font-family: 700;
+    font-weight: 600;
+    border: 2px solid;
+    /* border: 2px solid red; */
+    border: none;
+
+    
+ }
+
+ 
+ .input-container input{
+    width: 100%;
+    padding: 13px 18px;
+    outline: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: gray;
+    appearance: none;
+ }
+
+
+
+
+
+
+ /* pg-section-2 pg details styles   start here++++++++++++++++++++++ */
+ .pg-section-2{
+    /* border: 2px solid green; */
+    margin-top: 30px;
+    padding: 0px;
+ }
+ .pg-select-category{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 22px;
+    gap: 20px;
+    /* border: 2px solid red; */
+
+    
+ }
+
+ /* select tag and option tag style *************************** */
+ .select_container{
+    width: 31%;
+  margin: 0 10px; /* Yeh margin ko adjust karega */
+  /* border: 2px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  
+ }
+ .select_container p{
+    font-size: 14px;
+    font-weight: 600;
+    color: gray;
+    text-transform: capitalize;
+
+
+ }
+ .select_container select{
+    width: 100%;
+    webkit-appearance:none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    appearance:none;
+    outline:0;
+    box-shadow:none;
+    /* border:0!important; */
+  
+    background-image: none;
+    /* flex: 1; */
+    padding: 8px 20px;
+    /* color:#fff; */
+    cursor:pointer;
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+    /* width: 30%; */
+    text-transform: capitalize;
+    border-radius: 3px;
+ }
+
+ .select_container option{
+    font-size: 15px;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 2px;
+    font-family: serif;
+    width: 20%;
+    /* padding: 50px 12px ; */
+ }
+
+ /* required class************************************* */
+
+.required{
+    position: relative;
+    display: inline-block;
+}
+.required::before{
+    position: absolute;
+    left: 100%;
+    content: "*";
+    color: red;
+    top: -30%;
+    font-family: sans-serif;
+    font-weight: 500;
+   
+    font-size: 25px;
+}
+
+
+
+ /* responsive 550px ----------------------------------------------------- */
+ @media only screen and (max-width:549px){
+   
+     .select_container{
+        width: 100%;
+        margin: 7px 0px;
+      
+     }
+     .pg-section-heading{
+        display: flex;
+        gap: 2px;
+        
+    }
+    .pg-section-heading h1{
+        font-size: 14px;
+        
+    }
+    
+    .pg-section-heading p{
+        font-size: 12px;
+        
+       
+        letter-spacing: 0px;
+    }
+    .amenities-wrapper{
+        gap: 12px;
+        border: 2px solid gray;
+        width: 100%;
+     }
+   
+     .room-amenities label{
+        font-size: 12px;
+        
+     }
+     .room-amenities input{
+        /* padding: 2px; */
+        margin-left: 4px;
+        cursor: pointer;
+     }
+     .room-details-2{
+        
+        gap: 10px;
+        
+        
+     }
+     .input-container{
+        
+        width: 100%;
+       
+        
+     }
+     .input-container label{
+        font-size: 12px;
+        font-weight: 800;
+     }
+     .room-details-3 h3{
+        font-size: 14px;
+        letter-spacing: 0px;
+        font-family: 500;
+        font-weight: 600;
+       
+     }
+
+ }
+
+
+
+/* responsive min width 550px and max width 900px */
+ @media only screen and (min-width:550px) and (max-width:900px){
     .pg-container{
        
         width: 100%;
         padding: 0px 10px;
     }
-    
-    .room-details-1{
-       /* border: 2px solid green; */
-        margin-top: 30px;
-        flex-wrap: wrap;
-        
-    
-    }
-    .room-items{
-        /* border: 2px solid gray; */
-        display: flex;
-        gap: 10px;
+    .select_container{
         width: 45%;
-        margin: 10px 0px;
+        margin: 7px 6px;
     }
+  
+    
     
 
  }

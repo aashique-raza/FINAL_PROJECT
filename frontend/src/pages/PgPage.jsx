@@ -6,10 +6,14 @@ import {
   balconyOptions,
   rentAmountOptions,
   roomAmenities,
+  pgSelectOptions,
+  roomDetailsOptions
 } from "../utils";
 import Input from "../components/Input";
 import OptionInput from "../components/OptionInput";
 import CheckBoxInput from "../components/CheckBoxInput";
+import SelectTag from "../components/SelectTag";
+
 
 function PgPage() {
   const [formData, setFormData] = useState({
@@ -59,72 +63,31 @@ function PgPage() {
 
           <div className="room-basic-details">
             <div className="room-details-1">
-              <div className="room-items">
-                <p>sharing:</p>
-
-                <select
-                  name="select-item"
-                  id="roomSharing"
-                  className="sharing-items"
-                  value={formData.roomSharing}
-                  onChange={handleChange}
-                >
-                  {sharingOptions?.map((option, index) => (
-                    <option value={option.value} key={index}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="room-items">
-                <p>kitchen:</p>
-                <select
-                  name="kitchen-details"
-                  id="kitchen"
-                  onChange={handleChange}
-                  value={formData.kitchen}
-                >
-                  {kitchenOptions?.map((opt, index) => (
-                    <OptionInput
-                      value={opt.value}
-                      key={index}
-                      label={opt.label}
-                    />
-                  ))}
-                </select>
-              </div>
-              <div className="room-items">
-                <p>balcony:</p>
-                <select
-                  name="balcony-details"
-                  id="balcony"
-                  onChange={handleChange}
-                  value={formData.balcony}
-                >
-                  {balconyOptions?.map((opt, index) => (
-                    <option value={opt.value} key={index}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {
+                roomDetailsOptions?.map((data,index)=>(
+                  <SelectTag key={index} id={data.id} name={data.id} optionName={data.optionName} optionValues={data.optionValues}  ></SelectTag>
+                ))
+              }
+            
             </div>
             <div className="room-details-2">
               {rentAmountOptions?.map((amountOpt, index) => (
-                <div key={index} className="amount-details">
-                  <label htmlFor="">{amountOpt.label}</label>
-                  <Input
-                    type="number"
-                    id={amountOpt.id}
-                    placeholder={amountOpt.placeholder}
-                    setFormData={setFormData}
-                    formData={formData}
-                  />
-                </div>
+
+                <Input key={index} label={amountOpt.label} type='number' placeholder={amountOpt.placeholder} id={amountOpt.id} formData={formData} setFormData={setFormData} />
+                // <div key={index} className="amount-details">
+                //   <label htmlFor="">{amountOpt.label}</label>
+                //   <Input
+                //     type="number"
+                //     id={amountOpt.id}
+                //     placeholder={amountOpt.placeholder}
+                //     setFormData={setFormData}
+                //     formData={formData}
+                //   />
+                // </div>
               ))}
             </div>
             <div className="room-details-3">
-              <h3>room amenities:</h3>
+              <h3>room facillities:</h3>
               <div className="amenities-wrapper">
                 {roomAmenities.map((ament, index) => (
                   <CheckBoxInput
@@ -140,6 +103,21 @@ function PgPage() {
               </div>
             </div>
           </div>
+        </section>
+        <section className="pg-section-2">
+        <div className="pg-section-heading">
+            <h1> Showcase Your PG Details!: </h1>
+            <p>Seamless Listing Experience</p>
+          </div>
+             <div className="pg-select-category">
+             {
+                pgSelectOptions?.map((data,index)=>(
+                  <SelectTag key={index} id={data.id} name={data.id} optionName={data.optionName} optionValues={data.optionValues} >
+                   
+                  </SelectTag>
+                ))
+              }
+             </div>
         </section>
       </form>
     </main>
