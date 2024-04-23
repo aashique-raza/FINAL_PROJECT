@@ -37,7 +37,7 @@ export const balconyOptions = [
 
 export const rentAmountOptions = [
   {
-    label: "expected rentAmount on per person",
+    label: "expected rent on per person",
     placeholder: "00.00",
     id: "rentAmount",
   },
@@ -107,13 +107,19 @@ export const pgSelectOptions = [
       { label: "11:pm closing time", value: "11pm" },
     ],
   },
+  {
+    optionName: "food type: ",
+    id: "foodType",
+    optionValues: [
+      { label: "select", value: "" },
+      { label: "veg food/meal", value: "veg-food" },
+      { label: "non-veg food/meal ", value: "non-veg-food" },
+      
+    ],
+  },
 ];
 
-export const pgSelectValues = [
-  { label: "select", value: "" },
-  { label: "select", value: "" },
-  { label: "select", value: "" },
-];
+export const pgRules=['no girls entry','no smoking','no pets','guest allowed']
 
 export const roomDetailsOptions = [
   {

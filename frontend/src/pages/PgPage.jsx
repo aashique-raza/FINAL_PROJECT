@@ -7,12 +7,14 @@ import {
   rentAmountOptions,
   roomAmenities,
   pgSelectOptions,
-  roomDetailsOptions
+  roomDetailsOptions,
+  pgRules
 } from "../utils";
 import Input from "../components/Input";
 import OptionInput from "../components/OptionInput";
 import CheckBoxInput from "../components/CheckBoxInput";
 import SelectTag from "../components/SelectTag";
+import TextArea from "../components/TextArea";
 
 
 function PgPage() {
@@ -63,27 +65,28 @@ function PgPage() {
 
           <div className="room-basic-details">
             <div className="room-details-1">
-              {
-                roomDetailsOptions?.map((data,index)=>(
-                  <SelectTag key={index} id={data.id} name={data.id} optionName={data.optionName} optionValues={data.optionValues}  ></SelectTag>
-                ))
-              }
-            
+              {roomDetailsOptions?.map((data, index) => (
+                <SelectTag
+                  key={index}
+                  id={data.id}
+                  name={data.id}
+                  optionName={data.optionName}
+                  optionValues={data.optionValues}
+                ></SelectTag>
+              ))}
             </div>
             <div className="room-details-2">
               {rentAmountOptions?.map((amountOpt, index) => (
-
-                <Input key={index} label={amountOpt.label} type='number' placeholder={amountOpt.placeholder} id={amountOpt.id} formData={formData} setFormData={setFormData} />
-                // <div key={index} className="amount-details">
-                //   <label htmlFor="">{amountOpt.label}</label>
-                //   <Input
-                //     type="number"
-                //     id={amountOpt.id}
-                //     placeholder={amountOpt.placeholder}
-                //     setFormData={setFormData}
-                //     formData={formData}
-                //   />
-                // </div>
+                <Input
+                  key={index}
+                  label={amountOpt.label}
+                  type="number"
+                  placeholder={amountOpt.placeholder}
+                  id={amountOpt.id}
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+               
               ))}
             </div>
             <div className="room-details-3">
@@ -98,26 +101,71 @@ function PgPage() {
                     id={ament.name}
                     setFormData={setFormData}
                   />
-
                 ))}
               </div>
             </div>
           </div>
         </section>
         <section className="pg-section-2">
-        <div className="pg-section-heading">
+          <div className="pg-section-heading">
             <h1> Showcase Your PG Details!: </h1>
             <p>Seamless Listing Experience</p>
           </div>
-             <div className="pg-select-category">
-             {
-                pgSelectOptions?.map((data,index)=>(
-                  <SelectTag key={index} id={data.id} name={data.id} optionName={data.optionName} optionValues={data.optionValues} >
-                   
-                  </SelectTag>
+          <div className="pg-select-category">
+            {pgSelectOptions.slice(0,4).map((data, index) => (
+              <SelectTag
+                key={index}
+                id={data.id}
+                name={data.id}
+                optionName={data.optionName}
+                optionValues={data.optionValues}
+              ></SelectTag>
+            ))}
+            {
+              pgSelectOptions.slice(4).map((data,index)=>(
+                <SelectTag
+                key={index}
+                id={data.id}
+                name={data.id}
+                optionName={data.optionName}
+                optionValues={data.optionValues}
+              ></SelectTag>
+
+              ))
+            }
+          </div>
+          <div className="other-pg-details">
+            <Input
+              label="pg/hostel name"
+              type="text"
+              name="pg-name"
+              placeholder="ex-royal pg..."
+              setFormData={setFormData}
+              formData={formData}
+            />
+           
+            <div  className="pg-rules">
+              <h3 className="required">pg/hostel rules:</h3>
+              <div className="rules-wrapper">
+              {
+                pgRules.map((data,index)=>(
+                  <CheckBoxInput
+                  key={index}
+                  label={data}
+                  htmlFor={data}
+                  type="checkbox"
+                  id={data}
+                  setFormData={setFormData}
+                />
                 ))
-              }
-             </div>
+            }
+                </div>
+            
+
+            </div>
+            <TextArea label="pg/hostel description" name="description" placeholder="describe your pg..." />
+           
+          </div>
         </section>
       </form>
     </main>
@@ -125,3 +173,7 @@ function PgPage() {
 }
 
 export default PgPage;
+
+{
+  
+}
