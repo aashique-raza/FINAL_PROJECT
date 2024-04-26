@@ -15,6 +15,10 @@ import OptionInput from "../components/OptionInput";
 import CheckBoxInput from "../components/CheckBoxInput";
 import SelectTag from "../components/SelectTag";
 import TextArea from "../components/TextArea";
+import LocalityDetails from "../components/LocalityDetails";
+import PgAmenities from "../components/PgAmenities";
+import UploadPhotos from "../components/UploadPhotos";
+
 
 
 function PgPage() {
@@ -51,7 +55,7 @@ function PgPage() {
       }));
     }
   };
-  console.log(formData);
+  // console.log(formData);
   // console.log(amenities)
 
   return (
@@ -164,6 +168,22 @@ function PgPage() {
 
             </div>
             <TextArea label="pg/hostel description" name="description" placeholder="describe your pg..." />
+           
+          </div>
+        </section>
+        <section className="pg-section-3">
+          <LocalityDetails/>
+        </section>
+        <section className="pg-section-4">
+        <div className="pg-section-heading">
+            <h1>Amenities: </h1>
+            <p>Provide additional details about your place</p>
+          </div>
+              <PgAmenities/>
+        </section>
+        <section className="pg-section-5">
+        <div className="pg-section-heading">
+            <h1>upload your pg pictures: </h1>
            
           </div>
         </section>

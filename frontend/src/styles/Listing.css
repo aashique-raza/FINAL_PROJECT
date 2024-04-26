@@ -1,0 +1,115 @@
+
+.locality-details{
+    border: 2px solid red;
+    padding: 40px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    margin-top: 13px;
+}
+
+.local-add{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pg-amenities_container{
+    /* border: 2px solid green; */
+    margin-top: 13px;
+}
+.pg-amenities-first{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px
+}
+
+.pg-amenities-first h3{
+    font-size: 23px;
+    font-weight: 600;
+    font-family: sans-serif;
+    text-transform: capitalize;
+    color: gray;
+}
+.pg-amenities-first .service-itms{
+    width: 100%;
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}.service-itms .service-name{
+    /* border: 2px solid red; */
+    margin-top: 10px;
+}
+
+.service-itms .service-name p{
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+
+.service-itms .service-option{
+    display: flex;
+    /* border: 2px solid green; */
+    /* display: inline-block; */
+    padding: 0px 4px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+min-width: 30%;
+
+}
+
+
+
+.radio_input_container label{
+font-size: 14px;
+font-weight: 700;
+text-transform: capitalize;
+letter-spacing: 0;
+margin-right: 5px;
+}
+
+/* section2 ++++++++++++++++++++++++++++++ */
+.pg-amenities-second{
+    /* border: 2px solid green; */
+    margin-top: 14px;
+}
+.pg-amenities-second h3{
+    font-size: 17px;
+    font-weight: 700;
+    color: gray;
+    text-transform: capitalize;
+    letter-spacing: 0;
+    font-family: sans-serif;
+    margin-bottom: 14px;
+}
+.available-amenities{
+    display: flex;
+    /* border: 2px solid green; */
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+.available-amenities-item{
+    display: inline-block;
+    
+}
+.available-amenities-item label{
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-left: 4px;
+
+}
+
+@media only screen and (max-width:549px){
+    .service-name{
+        width: 45%;
+    }
+}

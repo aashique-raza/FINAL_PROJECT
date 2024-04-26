@@ -158,22 +158,53 @@ export const roomDetailsOptions = [
   
 ];
 
-{
-  /* <div className="room-items">
-                <p>sharing:</p>
+export const AllStates=[
+  {label:'select',value:''},
+  {label:'kolkata',value:'kolkata'},
+  {label:'mumbai',value:'maharashtra'},
+  {label:'delhi',value:'delhi'},
+  {label:'assam',value:'assam'},
+  {label:'Uttar pradesh',value:'up'},
+  {label:'Goa',value:'goa'},
 
-                <select
-                  name="select-item"
-                  id="roomSharing"
-                  className="sharing-items"
-                  value={formData.roomSharing}
-                  onChange={handleChange}
-                >
-                  {sharingOptions?.map((option, index) => (
-                    <option value={option.value} key={index}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div> */
+  {label:'Gujrat',value:'gujrat'},
+
+]
+
+
+
+
+export const cities=[
+ {
+  cityName:{delhi:[
+    {label:'New Delhi',value:'newDelhi'},
+    {label:'Gurgaon',value:'gurgaon'},
+    {label:'Lajpat Nagar',value:'lajpatNagar'},
+    {label:'Saket',value:'saket'},
+    {label:'Malviya Nagar',value:'malviyaNagar'},
+    
+  ]}
+ },
+{
+  cityName:{
+    gujrat:[
+      {label:"Ahmedabad",value:'ahmedabad'},
+      {label:"Surat",value:'surat'},
+      {label:"Vadodara",value:'vadodara'},
+    ]
+  }
+},{
+  cityName:{
+    maharashtra:[
+      {label:'Pune',value:'pune'},
+      {label:'Nagpur',value:'nagpur'},
+      {label:'Nashik',value:'nashik'},
+    ]
+  }
 }
+ 
+ 
+]
+
+
+

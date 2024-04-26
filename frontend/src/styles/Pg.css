@@ -313,6 +313,20 @@
    /* width: 45%; */
 }
 
+/* pg-section4))))))) */
+.pg-section-4{
+   /* border: 2px solid yellow; */
+   padding: 15px 0px;
+   margin-top: 13px;
+}
+
+/* section-5 */
+.pg-section-5{
+   border: 2px solid green;
+   padding: 13px 0px;
+   margin-top: 13px;
+}
+
 
 
 /* responsive 550px ----------------------------------------------------- */
@@ -390,8 +404,12 @@
       margin-left: 0;
    }
    .textArea {
-      width: 100%;
-      height: 150px;
+
+    
+   min-width: 100%;
+   
+
+
     
    }
    .rules-wrapper{
