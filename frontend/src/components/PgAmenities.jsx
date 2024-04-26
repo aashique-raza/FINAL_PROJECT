@@ -4,8 +4,7 @@ import RadioInput from "./RadioInput";
 import { Tv, Fastfood, PowerSettingsNew, ArrowUpward } from '@mui/icons-material';
 import TvIcon from '@mui/icons-material/Tv';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
-import { Button } from "@mui/material";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 
 
 
@@ -18,10 +17,7 @@ function PgAmenities() {
     { label: "power backup", value: "power", icon: <PowerSettingsNew /> },
     { label: "lift", value: "lift", icon: <ArrowUpward /> },
   ];
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    // Handle the file here
-  };
+ 
 
   return (
     <div className="pg-amenities_container">
@@ -66,19 +62,7 @@ function PgAmenities() {
         </div>
       </section>
       <section className="section-3">
-      <Button
-      component="label"
-      variant="contained"
-      startIcon={<CloudUploadIcon />}
-    >
-      Upload file
-      <input
-        type="file"
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-        accept="image/*" 
-      />
-    </Button>
+     
    
       </section>
     </div>

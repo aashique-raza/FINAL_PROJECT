@@ -184,7 +184,7 @@ function PgPage() {
         <section className="pg-section-5">
         <div className="pg-section-heading">
             <h1>upload your pg pictures: </h1>
-           
+           <UploadPhotos/>
           </div>
         </section>
       </form>
