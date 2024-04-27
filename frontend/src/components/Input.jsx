@@ -7,18 +7,19 @@ function Input({
   id = "",
   setFormData,
   formData,
+  value
 }) {
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({
       ...formData,
-      [id]: value,
+      [id]: id==='rentAmount' || id==='depositAmount' ? parseInt(value) : value ,
     });
   };
   return (
     <div  className=" input-container ">
       <label htmlFor={id} className="required">{label}: </label>
-      <input type={type} placeholder={placeholder} id={id} onChange={handleChange} />
+      <input type={type} value={value} placeholder={placeholder} id={id} onChange={handleChange} />
     </div>
   );
 }

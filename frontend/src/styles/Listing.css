@@ -1,6 +1,6 @@
 
 .locality-details{
-    border: 2px solid red;
+    /* border: 2px solid red; */
     padding: 40px 0px;
     display: flex;
     flex-direction: column;
@@ -110,7 +110,7 @@ margin-right: 5px;
 
 /* upload photos section */
 .upload-photos-container{
-    border: 2px solid red;
+    /* border: 2px solid red; */
     /* background-color:rgb(244, 244, 244); */
    width: 100%;
     

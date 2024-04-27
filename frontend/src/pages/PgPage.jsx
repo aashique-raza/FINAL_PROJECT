@@ -18,13 +18,67 @@ import TextArea from "../components/TextArea";
 import LocalityDetails from "../components/LocalityDetails";
 import PgAmenities from "../components/PgAmenities";
 import UploadPhotos from "../components/UploadPhotos";
+import { Balcony } from "@mui/icons-material";
+import pgFormDataValidation from "../formError";
+import { Alert } from "flowbite-react";
+import { formErrorHandler } from "../formError";
+
 
 
 
 function PgPage() {
   const [formData, setFormData] = useState({
-    roomAmenities: [],
+    roomFacilities: [],
+    rentAmount:0,
+  depositAmount:0,
+    
+    roomSharing:'',
+    kitchen:'',
+    balcony:'',
+    availableFor:'',
+    placeAvaibility:'',
+    foodAvaibility:'',
+    doorClosingTime:'',
+    foodType:'',
+    pgRules:[],
+    pgOrHostelName:"",
+    description:"",
+    state:'',
+    city:'',
+    localAddress:"",
+    laundary:"",
+    roomCleaning:"",
+    warden:"",
+    ameinites:[],
+    images:[]
+    
   });
+
+  const[error,setError]=useState('')
+
+  const [formError,setFormError]=useState({
+    roomFacilities: [],
+    roomSharing:'',
+    kitchen:'',
+    balcony:'',
+    availableFor:'',
+    placeAvaibility:'',
+    foodAvaibility:'',
+    doorClosingTime:'',
+    foodType:'',
+    pgRules:[],
+    pgOrHostelName:"",
+    description:"",
+    state:'',
+    city:'',
+    localAddress:"",
+    laundary:"",
+    roomCleaning:"",
+    warden:"",
+    ameinites:[],
+    images:[]
+    
+  })
 
   const [amenities, setAmenities] = useState([]);
 
@@ -43,24 +97,44 @@ function PgPage() {
       // Add the checked amenity to the roomAmenities array
       setFormData((prevData) => ({
         ...prevData,
-        roomAmenities: [...prevData.roomAmenities, id],
+        roomFacilities: [...prevData.roomFacilities, id],
       }));
     } else {
       // Remove the unchecked amenity from the roomAmenities array
       setFormData((prevData) => ({
         ...prevData,
-        roomAmenities: prevData.roomAmenities.filter(
+        roomFacilities: prevData.roomFacilities.filter(
           (amenityId) => amenityId !== id
         ),
       }));
     }
   };
-  // console.log(formData);
+  console.log(formData);
   // console.log(amenities)
+
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    
+    const result=formErrorHandler(formData)
+    console.log(result)
+    setError('')
+
+    if(!result){
+      setError('fill all required fields(*)')
+      return
+    }
+
+    setError('')
+
+    // console.log(formData)
+    // console.log('sb thik hai')
+   
+
+  }
 
   return (
     <main className="pg-container">
-      <form action="">
+      <form action="" onSubmit={handleSubmit}  >
         <section className="pg-section-1">
           <div className="pg-section-heading">
             <h1>Living Space Details: </h1>
@@ -76,6 +150,8 @@ function PgPage() {
                   name={data.id}
                   optionName={data.optionName}
                   optionValues={data.optionValues}
+                  formData={formData}
+                  setFormData={setFormData}
                 ></SelectTag>
               ))}
             </div>
@@ -123,16 +199,21 @@ function PgPage() {
                 name={data.id}
                 optionName={data.optionName}
                 optionValues={data.optionValues}
+                formData={formData}
+                setFormData={setFormData}
               ></SelectTag>
             ))}
+            
             {
-              pgSelectOptions.slice(4).map((data,index)=>(
+             formData.foodAvaibility==='true' && pgSelectOptions.slice(4).map((data,index)=>(
                 <SelectTag
                 key={index}
                 id={data.id}
                 name={data.id}
                 optionName={data.optionName}
                 optionValues={data.optionValues}
+                formData={formData}
+                setFormData={setFormData}
               ></SelectTag>
 
               ))
@@ -140,16 +221,18 @@ function PgPage() {
           </div>
           <div className="other-pg-details">
             <Input
+            id="pgOrHostelName"
               label="pg/hostel name"
               type="text"
               name="pg-name"
               placeholder="ex-royal pg..."
               setFormData={setFormData}
               formData={formData}
+              value={formData.pgOrHostelName}
             />
            
             <div  className="pg-rules">
-              <h3 className="required">pg/hostel rules:</h3>
+              <h3 >pg/hostel rules:</h3>
               <div className="rules-wrapper">
               {
                 pgRules.map((data,index)=>(
@@ -160,6 +243,7 @@ function PgPage() {
                   type="checkbox"
                   id={data}
                   setFormData={setFormData}
+                  pgRuleSet={true}
                 />
                 ))
             }
@@ -167,26 +251,36 @@ function PgPage() {
             
 
             </div>
-            <TextArea label="pg/hostel description" name="description" placeholder="describe your pg..." />
+            <TextArea value={formData.description} label="pg/hostel description" name="description" placeholder="describe your pg..." formData={formData} setFormData={setFormData} />
            
           </div>
         </section>
         <section className="pg-section-3">
-          <LocalityDetails/>
+          <LocalityDetails formData={formData} setFormData={setFormData}/>
         </section>
         <section className="pg-section-4">
         <div className="pg-section-heading">
             <h1>Amenities: </h1>
             <p>Provide additional details about your place</p>
           </div>
-              <PgAmenities/>
+              <PgAmenities formData={formData} setFormData={setFormData}/>
         </section>
         <section className="pg-section-5">
         <div className="pg-section-heading">
             <h1>upload your pg pictures: </h1>
-           <UploadPhotos/>
+           <UploadPhotos setFormData={setFormData} formData={formData} />
           </div>
         </section>
+        {
+          error && (
+            <Alert color="failure" onDismiss={() => setError('')} className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto">
+             {error}
+          </Alert>
+          )
+        }
+        <div className="submit_button">
+          <button  type="submit">create listing</button>
+        </div>
       </form>
     </main>
   );

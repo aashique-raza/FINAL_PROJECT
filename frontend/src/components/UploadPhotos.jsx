@@ -4,25 +4,41 @@ import { Button } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function UploadPhotos() {
+function UploadPhotos({formData,setFormData}) {
   const [photos, setPhotos] = useState([]);
 
   const handleFileChange = (event) => {
     const files = event.target.files;
+    // setFormData({
+    //   ...formData,
+    //   images:[...files.name]
+    // })
     const urls = [];
     for (let i = 0; i < files.length; i++) {
+      setFormData((prevData)=>({
+        ...formData,
+        images:[...prevData.images,files[i].name]
+      }))
       const file = files[i];
       const url = URL.createObjectURL(file);
       urls.push(url);
     }
     setPhotos(prevPhotos => [...prevPhotos, ...urls]);
+    
   };
 
   
     const handleDeletePhoto = (index) => {
-      const updatedPhotos = [...photos];
-      updatedPhotos.splice(index, 1);
-      setPhotos(updatedPhotos);
+      setFormData((prevData)=>({
+        ...formData,
+        images: prevData.images.filter((_, i) => i !== index)
+      }))
+      // const updatedPhotos = [...photos];
+      // updatedPhotos.splice(index, 1);
+      setPhotos((prevData)=>(
+        prevData.filter((_,i)=>i!==index)
+      ));
+      
     };
   
 

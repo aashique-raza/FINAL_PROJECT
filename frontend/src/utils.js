@@ -92,8 +92,8 @@ export const pgSelectOptions = [
     id: "foodAvaibility",
     optionValues: [
       { label: "select", value: "" },
-      { label: "with food/meal", value: "1" },
-      { label: "without food/meal", value: "0" },
+      { label: "with food/meal", value: true },
+      { label: "without food/meal", value: false },
     ],
   },
   {
@@ -142,8 +142,8 @@ export const roomDetailsOptions = [
         label: "select",
         value: "",
       },
-      { label: "with kitchen", value: "yes kitchen" },
-      { label: "without kitchen", value: "no kitchen" },
+      { label: "with kitchen", value: 'yes' },
+      { label: "without kitchen", value: 'no' },
     ],
   },
   {
@@ -151,8 +151,8 @@ export const roomDetailsOptions = [
     id: "balcony",
     optionValues: [
       { label: "select", value: "" },
-      { label: "yes", value: "yes" },
-      { label: "no", value: "no" },
+      { label: "yes", value: 'yes' },
+      { label: "no", value: 'no' },
     ],
   },
   
