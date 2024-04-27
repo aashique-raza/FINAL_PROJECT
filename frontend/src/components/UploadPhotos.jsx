@@ -1,46 +1,36 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { Button } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function UploadPhotos({formData,setFormData}) {
-  const [photos, setPhotos] = useState([]);
+function UploadPhotos({ photos, setPhotos }) {
+  const [imageUrls, setImagesUrls] = useState([]);
 
   const handleFileChange = (event) => {
+    // const files = Array.from(event.target.files);
     const files = event.target.files;
-    // setFormData({
-    //   ...formData,
-    //   images:[...files.name]
-    // })
+    // console.log(files)
+    const newPhotos = event.target.files;
+    setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]);
+
     const urls = [];
     for (let i = 0; i < files.length; i++) {
-      setFormData((prevData)=>({
-        ...formData,
-        images:[...prevData.images,files[i].name]
-      }))
       const file = files[i];
       const url = URL.createObjectURL(file);
       urls.push(url);
     }
-    setPhotos(prevPhotos => [...prevPhotos, ...urls]);
-    
+    setImagesUrls((prevPhotos) => [...prevPhotos, ...urls]);
   };
 
-  
-    const handleDeletePhoto = (index) => {
-      setFormData((prevData)=>({
-        ...formData,
-        images: prevData.images.filter((_, i) => i !== index)
-      }))
-      // const updatedPhotos = [...photos];
-      // updatedPhotos.splice(index, 1);
-      setPhotos((prevData)=>(
-        prevData.filter((_,i)=>i!==index)
-      ));
-      
-    };
-  
+  const handleDeletePhoto = (index) => {
+    setPhotos((prevPhotos) =>
+      prevPhotos.filter((_, i) => i !== index)
+    );
+    // const updatedPhotos = [...photos];
+    // updatedPhotos.splice(index, 1);
+    setImagesUrls((prevData) => prevData.filter((_, i) => i !== index));
+  };
 
   return (
     <div className="upload-photos-container">
@@ -69,13 +59,13 @@ function UploadPhotos({formData,setFormData}) {
       </section>
       {photos && (
         <section className="photos-section-2">
-          {photos.map((url, index) => (
+          {imageUrls.map((url, index) => (
             <div className="photos-wrapper relative" key={index}>
-              <img
-                src={url}
-                alt={`url ${index}`}
+              <img src={url} alt={`url ${index}`} />
+              <DeleteIcon
+                className="deleteIcon absolute top-3 right-3"
+                onClick={() => handleDeletePhoto(index)}
               />
-              <DeleteIcon className="deleteIcon absolute top-3 right-3" onClick={() => handleDeletePhoto(index)} />
             </div>
           ))}
         </section>

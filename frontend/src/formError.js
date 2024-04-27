@@ -134,7 +134,7 @@ export const formErrorHandler = (formData) => {
     !formData.laundary.trim() ||
     !formData.description.trim() ||
     !formData.doorClosingTime.trim() ||
-    !formData.images.length>0 ||
+    
     !formData.kitchen.trim() ||
     !formData.pgOrHostelName.trim() ||
     !formData.placeAvaibility.trim() ||

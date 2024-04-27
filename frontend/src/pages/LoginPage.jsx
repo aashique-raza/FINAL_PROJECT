@@ -11,6 +11,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import { loginSuccess,loginFailed,loginStart, clearError, setToken } from "../features/user.slice";
 import API_BASE_URL from "../configue";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../configue";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +34,7 @@ function LoginPage() {
     })
   };
 
-  console.log(formData)
+  // console.log(formData)
 
 
 
@@ -43,7 +44,7 @@ function LoginPage() {
       dispatch(clearError())
       dispatch(loginStart())
 
-      const response=await fetch(`${API_BASE_URL}/auth/login-account`,{
+      const response=await fetch(`/api/auth/login-account`,{
         method:"POST",
         body: JSON.stringify(formData),
         headers: {
@@ -51,12 +52,12 @@ function LoginPage() {
         },
         
       })
-      console.log(response)
+      // console.log(response)
       const result=await response.json()
       
 
       if(!response.ok){
-        console.log(result)
+        // console.log(result)
         dispatch(loginFailed(result.message))
         return
 

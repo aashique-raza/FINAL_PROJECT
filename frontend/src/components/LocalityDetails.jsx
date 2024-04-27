@@ -17,7 +17,7 @@ function LocalityDetails({ formData, setFormData }) {
     // If city object is found, return its cities array, otherwise return an empty array
     return cityObject ? Object.values(cityObject.cityName)[0] : [];
   }
-  console.log(formData.state)
+  // console.log(formData.state)
 
   const filteredCities = filterCitiesByCurrentCity(formData.state);
 
