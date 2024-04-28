@@ -14,6 +14,8 @@ import ProtectedCreateListing from "./components/ProtectedCreateListing";
 import CreateListingPage from "./pages/CreateListingPage";
 import RentPage from "./pages/RentPage";
 import PgPage from "./pages/PgPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/signup" element={<SignupPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/forgot-password" element={<ForgotPassword />}></Route>
+        <Route path="/reset-password" element={<ResetPassword />}></Route>
         {/* <Route element={<Protected />}>
           <Route path="/signup" element={<SignupPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
@@ -41,3 +45,5 @@ function App() {
 }
 
 export default App;
+
+// reset-password
