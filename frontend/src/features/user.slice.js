@@ -30,6 +30,12 @@ export const userSlice = createSlice({
     },
     setToken:(state,action)=>{
       state.token=action.payload
+    },
+    logOutSuccess:(state)=>{
+      state.user=null
+      state.errorr=null
+      state.loading=false
+
     }
     
     
@@ -42,7 +48,8 @@ export const {
   loginFailed,
   loginSuccess,
   clearError,
-  setToken
+  setToken,
+  logOutSuccess
   
 } = userSlice.actions;
 

@@ -25,14 +25,13 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/signup" element={<SignupPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
+       
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/reset-password" element={<ResetPassword />}></Route>
-        {/* <Route element={<Protected />}>
+        <Route element={<Protected />}>
           <Route path="/signup" element={<SignupPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
-        </Route> */}
+        </Route>
         <Route element={<ProtectedCreateListing />}>
           <Route path="/create-listing" element={<CreateListingPage />}></Route>
           <Route path="/create-listing/pg" element={<PgPage />}></Route>
