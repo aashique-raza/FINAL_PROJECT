@@ -3,8 +3,8 @@ import {Button} from 'flowbite-react'
 
 function HomePage() {
   return (
-   <>
-   home</>
+   <div className=' m-16'>
+   home</div>
   )
 }
 
