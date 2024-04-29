@@ -1,9 +1,10 @@
 
 .create-listing-container{
-    min-height: 100vh;
+    min-height: calc(100vh - 60px);
     min-width: 100%;
     /* border: 2px solid green; */
     padding: 30px 0px;
+    margin-top: 60px;
 }
 /* property type details csss */
 .property-type-details{

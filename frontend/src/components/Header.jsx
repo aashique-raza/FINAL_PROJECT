@@ -22,7 +22,7 @@ function Header() {
   };
 
   return (
-    <header>
+    <header className=" fixed top-0">
       <div className="header-logo">
         <Link to={"/"}>
           <img src={logo} alt="logo" />

@@ -5,10 +5,11 @@ body{
 .signup{
     width: 80%;
    height: 600px;
-   background-color:#adfbba;
+   /* background-color:#adfbba; */
+   background-color: rgb(243, 248, 243);
    display: flex;
    justify-content: space-between;
-   margin: 0px auto;
+   margin: 60px auto;
 }
 .imageContainer{
     height: 600px;

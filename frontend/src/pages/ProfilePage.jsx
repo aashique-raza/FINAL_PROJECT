@@ -9,13 +9,13 @@ function ProfilePage() {
 
     const location = useLocation();
     const lastPath = location.pathname.split('/').pop();
-    console.log(lastPath)
+    // console.log(lastPath)
 
   return (
     <main className='profilePgaeContainer'>
-        <section className='profile_section_first'>
+        <section className='profile_sidebar_section'>
             <p>manage your account</p>
-            <div className='profilePgaeLInks'>
+            <div className='profileSideBarLInks'>
                <Link to={'myProfile'} className={`${lastPath==='myProfile' ? 'active' :''}`} >basic profile</Link>
                <Link to={'yourPropertyList'} className={`${lastPath==='yourPropertyList' ? 'active' :''}`}>your Property</Link>
             </div>

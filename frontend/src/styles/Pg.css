@@ -1,9 +1,10 @@
 /* pg main container************************* */
 .pg-container {
    /* border: 2px solid red; */
-   margin: 20px auto;
+   /* margin-top: 60px; */
+   margin: 60px auto;
    width: 100%;
-   padding: 0px 14px;
+   padding: 20px 14px;
 }
 
 
