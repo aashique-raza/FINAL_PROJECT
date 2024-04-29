@@ -48,6 +48,62 @@ display: block;
 
 }
 
+/* profile pages css start here ++++++++++++++++++++++++ */
+.profilePgaeContainer{
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 6px;
+}
+
+.profilePgaeContainer .profile_section_first{
+    width: 300px;
+    border: 2px solid gray;
+    background-color: #f4f4f4;
+    padding: 20px;
+
+}.profile_section_first p{
+    font-size: 12px;
+    text-transform:  capitalize;
+    padding-left: 8px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgb(236, 234, 234);
+    margin-bottom: 13px;
+}
+.profilePgaeLInks{
+ display: flex;
+ flex-direction: column;
+ /* gap: 16px; */
+ align-items: flex-start;
+ /* border: 1px solid red; */
+ /* padding-left: 10px; */
+}
+.profilePgaeLInks a{
+    font-size: 12px;
+    text-transform:  capitalize;
+    font-weight: 600;
+    letter-spacing: 2px;
+    transition: all 0.2s ease-in-out;
+    padding: 12px 16px;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 2px solid white;
+}
+
+.profilePgaeLInks a:hover{
+   transform: scale(0.98);
+
+}
+.active {
+    background-color: black;
+    color: white;
+    border: none;
+  }
+/* 464646 */
+
+
 @media only screen and (max-width:767px){
     .allLinksContainer{
         padding: 8px 12px;
@@ -69,5 +125,23 @@ display: block;
         padding: 8px 12px;
         
     }
+
+    /* profile pages css start here ++++++++++++++++++++++++ */
+    /* .profilePgaeContainer{
+            position: relative;
+    }
+    .profilePgaeContainer .profile_section_first{
+        position: absolute;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        width: 300px;
+        border: 2px solid gray;
+        background-color: #f4f4f4;
+        padding: 10px;
+        min-height: 100vh;
+        opacity: 0.5;
+    
+    } */
 
 }

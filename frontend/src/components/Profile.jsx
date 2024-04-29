@@ -11,7 +11,7 @@ function Profile({ toggle = false }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const links = [{ url: "/profile", urlName: "profile" }];
+  const links = [{ url: "profile/myProfile", urlName: "profile" }];
 
   const handleLogOut = async () => {
     try {

@@ -16,6 +16,9 @@ import RentPage from "./pages/RentPage";
 import PgPage from "./pages/PgPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import ProfilePage from "./pages/ProfilePage";
+import BasicProfilePage from "./pages/BasicProfilePage";
+import YourPropertyPage from "./pages/YourPropertyPage";
 
 function App() {
   return (
@@ -25,7 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-       
+
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/reset-password" element={<ResetPassword />}></Route>
         <Route element={<Protected />}>
@@ -36,6 +39,18 @@ function App() {
           <Route path="/create-listing" element={<CreateListingPage />}></Route>
           <Route path="/create-listing/pg" element={<PgPage />}></Route>
           <Route path="/create-listing/rent" element={<RentPage />}></Route>
+          {/* Nested routes for profile */}
+          <Route path="/profile" element={<ProfilePage />}>
+           
+            <Route path="myProfile" element={<BasicProfilePage />} />
+            <Route path="yourPropertyList" element={<YourPropertyPage />} />
+            {/* <Route path="your-properties" element={<YourPropertiesPage />} /> */}
+            {/* <Route
+              path="interested-properties"
+              element={<InterestedPropertiesPage />}
+            /> */}
+            {/* Add more nested routes for other profile sections */}
+          </Route>
         </Route>
         {/* <Route path="/create-listing/"/> */}
       </Routes>
