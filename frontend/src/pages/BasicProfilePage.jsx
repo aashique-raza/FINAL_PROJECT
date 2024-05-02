@@ -8,6 +8,9 @@ import {
 import { app } from "../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { Warning, CheckCircle } from "@mui/icons-material";
+import { Alert, Spinner } from "flowbite-react";
+import { json } from "react-router-dom";
+import { updateSucceFully } from "../features/user.slice";
 
 function BasicProfilePage() {
   const { user } = useSelector((state) => state.user);
@@ -21,6 +24,11 @@ function BasicProfilePage() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const refEl = useRef();
 
+  const [loading, setloading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (imageFile) {
       uploadImage();
@@ -32,7 +40,6 @@ function BasicProfilePage() {
     if (file) {
       setImageFile(file);
       setImageFileUrl(URL.createObjectURL(file));
-      setSaveButton(true);
     }
   };
 
@@ -57,7 +64,7 @@ function BasicProfilePage() {
         setImageFileUploadError(
           "Could not upload image (File must be less than 2MB)"
         );
-        console.log(error)
+        console.log(error);
 
         setImageFileUploadProgress(null);
         setImageFile(null);
@@ -90,11 +97,44 @@ function BasicProfilePage() {
 
   // console.log(formData)
 
+  const handeSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setError(null);
+      setloading(true);
+
+      const resp = await fetch(`/api/user/update-account/${user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await resp.json();
+      // console.log(data);
+
+      if (!resp.ok) {
+        // console.log(result)
+        // console.log(data.message);
+        setError(data.message);
+        setloading(false);
+        return;
+      }
+      setSuccess(data.msg);
+      setError(null);
+      setloading(false);
+      dispatch(updateSucceFully(data.updatedUser));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="basic_profile_container">
       <p>edit profile</p>
       <div className="profile_edit_box">
-        <form action="">
+        <form action="" onSubmit={handeSubmit}>
           <div className="user_profile_image ">
             <div
               className="relative  w-20 h-20 self-center cursor-pointer shadow-md overflow-hidden rounded-full"
@@ -152,7 +192,7 @@ function BasicProfilePage() {
               <label htmlFor="">mobile:</label>
               <input
                 type="number"
-                id="mobile"
+                id="phoneNumber"
                 defaultValue={user.phoneNumber}
                 className="appearance-none   "
                 onChange={handleChangeInput}
@@ -188,9 +228,44 @@ function BasicProfilePage() {
             </div>
           </div>
           <div className="edit_btn">
-            <button type="submit" disabled={imageFileUploading} >save</button>
+            <button type="submit" disabled={imageFileUploading}>
+              {loading ? (
+                <Spinner color="failure" aria-label="Failure spinner example" />
+              ) : (
+                "save"
+              )}
+            </button>
           </div>
         </form>
+        <div>
+          {error && (
+            <Alert
+              color="failure"
+              onDismiss={() => setError(null)}
+              className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
+            >
+              {error}
+            </Alert>
+          )}
+          {success && (
+            <Alert
+              color="success"
+              onDismiss={() => setSuccess(null)}
+              className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
+            >
+              {success}
+            </Alert>
+          )}
+        </div>
+        {error && (
+          <Alert
+            color="failure"
+            onDismiss={() => setError("")}
+            className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
+          >
+            {error}
+          </Alert>
+        )}
       </div>
     </div>
   );

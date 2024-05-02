@@ -36,6 +36,19 @@ export const userSlice = createSlice({
       state.errorr=null
       state.loading=false
 
+    },
+    updateSucceFully: (state, action) => {
+      const { firstName, lastName, email, profileImage, phoneNumber } = action.payload;
+      state.user = {
+        ...state.user,
+        firstName,
+        lastName,
+        email,
+        profileImage,
+        phoneNumber
+      };
+      state.loading = false;
+      state.errorr = null;
     }
     
     
@@ -49,7 +62,8 @@ export const {
   loginSuccess,
   clearError,
   setToken,
-  logOutSuccess
+  logOutSuccess,
+  updateSucceFully
   
 } = userSlice.actions;
 
