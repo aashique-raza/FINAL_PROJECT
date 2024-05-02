@@ -28,6 +28,9 @@ function BasicProfilePage() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const dispatch = useDispatch();
+  // create stae for verification email-----
+
+  const [verificatioLoading, setVerificationLOading] = useState(false);
 
   useEffect(() => {
     if (imageFile) {
@@ -130,6 +133,41 @@ function BasicProfilePage() {
     }
   };
 
+  const handleEmailVerification = async () => {
+    try {
+      setError(null);
+      setVerificationLOading(true);
+
+      const resp = await fetch(
+        `/api/user//send-verification-mail/${user._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+          },
+          body: JSON.stringify({ email: user.email }),
+        }
+      );
+
+      const data = await resp.json();
+      console.log(data);
+
+      if (!resp.ok) {
+        // console.log(result)
+        // console.log(data.message);
+        setError(data.message);
+        setVerificationLOading(false);
+        return;
+      }
+
+      setError(null);
+      setVerificationLOading(false);
+      setSuccess(data.msg);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="basic_profile_container">
       <p>edit profile</p>
@@ -149,7 +187,7 @@ function BasicProfilePage() {
               />
 
               <img
-                src={imageFileUrl || user.profileImage}
+                src={imageFileUrl || (user && user.profileImage)}
                 alt="user"
                 className={`rounded-full w-full h-full object-cover border-4 border-[lightgray] `}
               />
@@ -175,7 +213,7 @@ function BasicProfilePage() {
               <input
                 type="text"
                 id="firstName"
-                defaultValue={user.firstName}
+                defaultValue={user && user.firstName}
                 onChange={handleChangeInput}
               />
             </div>
@@ -184,7 +222,7 @@ function BasicProfilePage() {
               <input
                 type="text"
                 id="lastName"
-                defaultValue={user.lastName}
+                defaultValue={user && user.lastName}
                 onChange={handleChangeInput}
               />
             </div>
@@ -193,7 +231,7 @@ function BasicProfilePage() {
               <input
                 type="number"
                 id="phoneNumber"
-                defaultValue={user.phoneNumber}
+                defaultValue={user && user.phoneNumber}
                 className="appearance-none   "
                 onChange={handleChangeInput}
               />
@@ -207,7 +245,7 @@ function BasicProfilePage() {
               </label>
               <input
                 type="email"
-                defaultValue={user.email}
+                defaultValue={user && user.email}
                 className=" font-raleway"
                 id="email"
                 onChange={handleChangeInput}
@@ -237,6 +275,25 @@ function BasicProfilePage() {
             </button>
           </div>
         </form>
+        {!user.isEmailVerified && (
+          <div className="verification_link">
+            <button
+              onClick={handleEmailVerification}
+              className="email_verification_link font-raleway underline text-xs font-semibold capitalize text-red-500 "
+            >
+              sent link to verify email
+              {verificatioLoading && (
+                <p>
+                  <Spinner
+                    color="failure"
+                    aria-label="Failure spinner example"
+                  />
+                </p>
+              )}
+            </button>
+          </div>
+        )}
+
         <div>
           {error && (
             <Alert
@@ -257,15 +314,6 @@ function BasicProfilePage() {
             </Alert>
           )}
         </div>
-        {error && (
-          <Alert
-            color="failure"
-            onDismiss={() => setError("")}
-            className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
-          >
-            {error}
-          </Alert>
-        )}
       </div>
     </div>
   );

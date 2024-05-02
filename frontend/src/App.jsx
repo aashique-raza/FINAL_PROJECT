@@ -20,8 +20,13 @@ import ProfilePage from "./pages/ProfilePage";
 import BasicProfilePage from "./pages/BasicProfilePage";
 import YourPropertyPage from "./pages/YourPropertyPage";
 import CookieProtected from "./components/CookieProtected";
+import MailVerification from "./components/MailVerification";
+import MailVerificationPage from "./pages/MailVerificationPage";
 
 function App() {
+
+
+
   return (
     <Router>
       <Header />
@@ -34,6 +39,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />}></Route>
         <Route path="/signup" element={<SignupPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/mail-verification" element={<MailVerificationPage />}></Route>
         {/* <Route element={<CookieProtected />}></Route> */}
         <Route element={<Protected />}>
           <Route path="/create-listing" element={<CreateListingPage />}></Route>
@@ -44,6 +50,7 @@ function App() {
             <Route path="myProfile" element={<BasicProfilePage />} />
             <Route path="yourPropertyList" element={<YourPropertyPage />} />
           </Route>
+          {/* <Route path="/mail-verification" element={MailVerification} /> */}
         </Route>
         {/* <Route path="/create-listing/"/> */}
       </Routes>
