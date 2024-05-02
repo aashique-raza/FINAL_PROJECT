@@ -1,0 +1,16 @@
+
+/* main rent container */
+.rent_container{
+    border: 2px solid red;
+    width: 100%;
+    margin-top: 65px;
+    padding: 20px 28px;
+}
+
+
+
+@media only screen and (max-width:767px){
+    .rent_container{
+        padding: 10px;
+    }
+}

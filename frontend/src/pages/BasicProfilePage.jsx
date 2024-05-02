@@ -252,13 +252,13 @@ function BasicProfilePage() {
               />
 
               <div className=" w-3 h-3  email_verified email border-2 border-gray-200 bg-slate-200 flex items-center justify-center px-2 cursor-pointer ">
-                {user.isEmailVerified ? (
+                 { user && user.isEmailVerified ? (
                   <CheckCircle style={{ color: "green" }} />
                 ) : (
                   <Warning style={{ color: "red" }} className="" />
                 )}
                 <p className="show bg-black text-white text-xs capitalize font-mono font-medium px-3 rounded-sm py-2">
-                  {user.isEmailVerified
+                  { user && user.isEmailVerified
                     ? "email verified"
                     : " Email not verified"}
                 </p>
