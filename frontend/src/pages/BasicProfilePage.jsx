@@ -7,11 +7,15 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { useSelector, useDispatch } from "react-redux";
+import { Warning, CheckCircle } from "@mui/icons-material";
 
 function BasicProfilePage() {
   const { user } = useSelector((state) => state.user);
-  const [imageFile, setImageFile] = useState(null);
+  const [formData, setFormData] = useState({});
   const [imageFileUrl, setImageFileUrl] = useState(null);
+
+  const [imageFile, setImageFile] = useState(null);
+
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
@@ -53,6 +57,7 @@ function BasicProfilePage() {
         setImageFileUploadError(
           "Could not upload image (File must be less than 2MB)"
         );
+        console.log(error)
 
         setImageFileUploadProgress(null);
         setImageFile(null);
@@ -63,12 +68,27 @@ function BasicProfilePage() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           // console.log(downloadURL)
           setImageFileUrl(downloadURL);
-          setUpdateFormData({ ...updateFormData, profilePicture: downloadURL });
+          // console.log(downloadURL);
+          setFormData({
+            ...formData,
+            profileImage: downloadURL,
+          });
           setImageFileUploading(false);
         });
       }
     );
   };
+
+  const handleChangeInput = (e) => {
+    const { id, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [id]: id === "mobile" ? parseInt(value) : value,
+    });
+  };
+
+  // console.log(formData)
 
   return (
     <div className="basic_profile_container">
@@ -108,10 +128,67 @@ function BasicProfilePage() {
               </div>
             )}
             {imageFileUploadError && <p>{imageFileUploadError}</p>}
-            
           </div>
-          <div className="">
+          <div className="  md:flex md:flex-wrap md:gap-6 user_profile_edit_inputs">
+            <div className="edit_input_wrapper  ">
+              <label htmlFor="">first Name:</label>
+              <input
+                type="text"
+                id="firstName"
+                defaultValue={user.firstName}
+                onChange={handleChangeInput}
+              />
+            </div>
+            <div className="edit_input_wrapper">
+              <label htmlFor="">last Name:</label>
+              <input
+                type="text"
+                id="lastName"
+                defaultValue={user.lastName}
+                onChange={handleChangeInput}
+              />
+            </div>
+            <div className="edit_input_wrapper">
+              <label htmlFor="">mobile:</label>
+              <input
+                type="number"
+                id="mobile"
+                defaultValue={user.phoneNumber}
+                className="appearance-none   "
+                onChange={handleChangeInput}
+              />
+            </div>
+            <div className=" email_input_wrapper ">
+              <label
+                htmlFor=""
+                className=" font-raleway text-xs capitalize font-semibold"
+              >
+                email:
+              </label>
+              <input
+                type="email"
+                defaultValue={user.email}
+                className=" font-raleway"
+                id="email"
+                onChange={handleChangeInput}
+              />
 
+              <div className=" w-3 h-3  email_verified email border-2 border-gray-200 bg-slate-200 flex items-center justify-center px-2 cursor-pointer ">
+                {user.isEmailVerified ? (
+                  <CheckCircle style={{ color: "green" }} />
+                ) : (
+                  <Warning style={{ color: "red" }} className="" />
+                )}
+                <p className="show bg-black text-white text-xs capitalize font-mono font-medium px-3 rounded-sm py-2">
+                  {user.isEmailVerified
+                    ? "email verified"
+                    : " Email not verified"}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="edit_btn">
+            <button type="submit" disabled={imageFileUploading} >save</button>
           </div>
         </form>
       </div>

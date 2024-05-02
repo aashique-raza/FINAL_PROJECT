@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { logOutSuccess } from "../features/user.slice";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Spinner } from "flowbite-react";
+import { removeTokenFromLocalStorage } from "../token";
 
 function Profile({ toggle = false }) {
   const [error, setError] = useState(null);
@@ -26,6 +27,7 @@ function Profile({ toggle = false }) {
       });
       // console.log(response)
       const result = await response.json();
+      // console.log(result)
 
       if (!response.ok) {
         // console.log(result)
@@ -33,6 +35,7 @@ function Profile({ toggle = false }) {
         return;
       }
       setLoading(false);
+      removeTokenFromLocalStorage()
       dispatch(logOutSuccess());
     } catch (error) {
       console.log("logout failed", error);

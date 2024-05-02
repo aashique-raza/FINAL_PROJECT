@@ -4,7 +4,7 @@ const initialState = {
   errorr: null,
   loading: false,
   user: null,
-  token:null
+ 
 };
 
 export const userSlice = createSlice({

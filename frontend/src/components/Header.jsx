@@ -6,8 +6,10 @@ import { FaUser, FaBars, FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button } from "flowbite-react";
 import Profile from "./Profile";
+import { getTokenFromLocalStorage } from "../token";
 
 function Header() {
+  const token=getTokenFromLocalStorage()
   const [showMenu, setShowMenu] = useState(false);
   const [profile, SetShowProfile] = useState(false);
   const { user } = useSelector((state) => state.user);
@@ -54,7 +56,7 @@ function Header() {
       </nav>
 
       <div className="menubar">
-        {user ? (
+        {token ? (
           <button
             color="gray"
             className="profile-button  relative"

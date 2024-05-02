@@ -1,12 +1,12 @@
-
 /* profile link cssss----------------------- */
-.profileLink{
-   border-bottom: 1px solid gray;
+.profileLink {
+    border-bottom: 1px solid gray;
     display: flex;
     width: 100%;
-    
+
 }
-.profileLink .link{
+
+.profileLink .link {
     text-align: start;
     font-size: 15px;
     text-transform: uppercase;
@@ -16,7 +16,7 @@
 }
 
 /* alll links container profile cssss here-------- */
-.allLinksContainer{
+.allLinksContainer {
     padding: 10px 20px;
     border: 1px solid gray;
     position: absolute;
@@ -32,7 +32,8 @@
     border-radius: 6px;
     display: none;
 }
-.allLinksContainer button{
+
+.allLinksContainer button {
     font-size: 15px;
     text-transform: uppercase;
     display: inline-block;
@@ -43,28 +44,31 @@
     width: 100%;
     text-align: start;
 }
-.profileToggle{
-display: block;
+
+.profileToggle {
+    display: block;
 
 }
 
 /* profile pages css start here ++++++++++++++++++++++++ */
-.profilePgaeContainer{
+.profilePgaeContainer {
     display: flex;
     width: 100%;
     min-height: calc(100vh - 60px);
     margin-top: 60px;
 }
 
-.profilePgaeContainer .profile_sidebar_section{
+.profilePgaeContainer .profile_sidebar_section {
     width: 300px;
     /* border: 2px solid gray; */
     background-color: #f4f4f4;
     padding: 20px;
 
-}.profile_sidebar_section p{
+}
+
+.profile_sidebar_section p {
     font-size: 12px;
-    text-transform:  capitalize;
+    text-transform: capitalize;
     padding-left: 8px;
     font-weight: 600;
     letter-spacing: 2px;
@@ -72,17 +76,19 @@ display: block;
     border-bottom: 2px solid rgb(236, 234, 234);
     margin-bottom: 13px;
 }
-.profileSideBarLInks{
- display: flex;
- flex-direction: column;
- /* gap: 16px; */
- align-items: flex-start;
- /* border: 1px solid red; */
- /* padding-left: 10px; */
+
+.profileSideBarLInks {
+    display: flex;
+    flex-direction: column;
+    /* gap: 16px; */
+    align-items: flex-start;
+    /* border: 1px solid red; */
+    /* padding-left: 10px; */
 }
-.profileSideBarLInks a{
+
+.profileSideBarLInks a {
     font-size: 12px;
-    text-transform:  capitalize;
+    text-transform: capitalize;
     font-weight: 600;
     letter-spacing: 2px;
     transition: all 0.2s ease-in-out;
@@ -92,28 +98,30 @@ display: block;
     border-bottom: 2px solid white;
 }
 
-.profileSideBarLInks a:hover{
-   transform: scale(0.98);
+.profileSideBarLInks a:hover {
+    transform: scale(0.98);
 
 }
+
 .active {
     background-color: black;
     color: white;
     border: none;
-  }
+}
+
 /* 464646 */
 
 
 /* basic profile css start here-------------------- */
 
-.basic_profile_container{
-    border: 2px solid red;
+.basic_profile_container {
+    /* border: 2px solid red; */
     min-height: 100%;
     width: 100%;
     padding: 10px 22px;
 }
 
-.basic_profile_container p{
+.basic_profile_container p {
     font-size: 14px;
     font-weight: 500;
     text-transform: capitalize;
@@ -122,43 +130,156 @@ display: block;
     border-bottom: 2px solid rgb(228, 227, 227);
 }
 
-.user_profile_image{
-    border: 2px solid red;
+.user_profile_image {
+    /* border: 2px solid red; */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    margin: 12px 0px;
+    margin-bottom: 30px;
 }
-.user_profile_uploading_progress{
-            max-width: 200px;
+
+.user_profile_uploading_progress {
+    max-width: 200px;
+}
+
+.user_profile_edit_inputs {
+    
+}
+
+.edit_input_wrapper {
+    width: 45%;
+    display: flex;
+    /* min-width: 250px; */
+    align-items: center;
+    gap: 8px;
+}
+
+.email_input_wrapper{
+    width: 100%;
+    /* border: 2px solid green; */
+    display: flex;
+    align-items: center;
+}
+.email_input_wrapper input{
+    width: 50%;
+    margin-left: 8px;
+}
+
+.user_profile_edit_inputs label {
+    font-size: 14px;
+    letter-spacing: 0px;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-family: sans-serif;
+    display: inline-block;
+
+}
+
+.edit_input_wrapper input {
+    width: 70%;
+    padding: 9px 13px;
+    outline: none;
+
+}
+
+.email_verified:hover .show {
+    display: block;
+}
+
+.show {
+    display: none;
+}
+
+.edit_btn{
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0px 150px;
+    margin: 30px 0px;
+}
+.edit_btn button{
+    padding: 8px 30px;
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    cursor: pointer;
 }
 
 
-@media only screen and (max-width:767px){
-    .allLinksContainer{
+
+
+
+@media only screen and (max-width:767px) {
+    .allLinksContainer {
         padding: 8px 12px;
-        
+
         top: 150%;
         right: -50%;
         width: 220px;
-        
+
     }
-    .profileLink .link{
+
+    .profileLink .link {
         text-align: start;
-       font-size: 11px;
-        padding: 8px 13px;
-        
-    }
-    .allLinksContainer button{
         font-size: 11px;
-        
+        padding: 8px 13px;
+
+    }
+
+    .allLinksContainer button {
+        font-size: 11px;
+
         padding: 8px 12px;
-        
+
     }
 
     /* profile pages css start here ++++++++++++++++++++++++ */
-    .profile_sidebar_section{
+    .profile_sidebar_section {
         display: none;
     }
 
+    /* basic profile inpus--- */
+    .basic_profile_container {
+       
+        padding: 10px 8px;
+    }
+    .edit_input_wrapper {
+        width: 100%;
+        /* border: 2px solid green; */
+        margin: 10px 0px;
+    }
+  
+    .email_input_wrapper input{
+        width: 80%;
+        
+    }
+    .edit_btn{
+       
+        padding: 0px 10px;
+       
+    }
+
+}
+
+@media only screen and (min-width:768px) and (max-width:1070px) {
+    .user_profile_edit_inputs {}
+
+    .edit_input_wrapper {
+        width: 70%;
+        /* border: 2px solid green; */
+    }
+
+    .edit_input_wrapper input {
+        width: 70%;
+
+    }
 }
