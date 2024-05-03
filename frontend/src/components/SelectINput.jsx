@@ -11,9 +11,13 @@ function SelectINput({
   className = "",
   uppercase,
   capitalize,
+  menuItemProps
 }) {
   const labelStyle = {
-    textTransform: uppercase ? "uppercase" : capitalize ? "capitalize" : "none",
+    textTransform: menuItemProps?.uppercase ? 'uppercase' : menuItemProps?.capitalize ? 'capitalize' : 'none',
+    fontSize: menuItemProps?.fontSize || '16px',
+    color: menuItemProps?.color || 'inherit',
+    padding:menuItemProps?.paadingY || '6px'
   };
 
   return (
@@ -21,10 +25,10 @@ function SelectINput({
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <FormControl fullWidth sx={{ pt: 1, pb: 1 }}>
           <InputLabel style={labelStyle}>Select </InputLabel>
-          <Select defaultValue="">
+          <Select defaultValue="" MenuProps={{ sx: { maxHeight: '300px' } }}>
             {optionItems &&
               optionItems.map((item,index) => (
-                <MenuItem key={index} value={item.value}>{item.label}</MenuItem>
+                <MenuItem key={index} value={item.value}  style={labelStyle} >{item.label}</MenuItem>
               ))}
           </Select>
         </FormControl>

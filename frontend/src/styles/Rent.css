@@ -7,10 +7,22 @@
     padding: 20px 28px;
 }
 
+.prefered_tenats{
+    width: 70%;
+    /* border: 2px solid green; */
+}
 
+
+
+@media only screen and (max-width:1024px){
+    .prefered_tenats{
+        width: 100%;
+    }
+}
 
 @media only screen and (max-width:767px){
     .rent_container{
         padding: 10px;
     }
+   
 }

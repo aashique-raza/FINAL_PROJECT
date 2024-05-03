@@ -62,3 +62,17 @@ export const totalFloor=[
 
 ]
 
+
+export const preferedTenats=[
+    {label:'Anyone',value:"anyone"},
+    {label:'faimly',value:"faimly"},
+    {label:'bachelor female',value:"bachelorFemale"},
+    {label:'bachelor male',value:"bachelorMale"},
+    {label:'compony',value:"compony"},
+]
+
+export const propertyAvailableFor=[
+    {label:'only rent',value:"rent"},
+    {label:'only lease',value:"lease"},
+]
+
