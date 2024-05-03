@@ -13,12 +13,18 @@ import {
   totalFloor,
   propertyAvailableFor,
   preferedTenats,
+  monthlyMaintenance,
+  furnishing,
+  parking,
 } from "../rentUtils";
 import TextInput from "../components/TextInput";
 import CustomRadio from "../components/CustomRadio";
 import RadioInput from "../components/RadioInput";
 import CustomCheckbox from "../components/CustomCheckbox";
 import NumberInput from "../components/NumberInput";
+import CalenderInput from "../components/CalenderInput";
+import CustomTextArea from "../components/CustomTextArea";
+import { Textarea } from "flowbite-react";
 // import { IndianRupeeIcon } from "@mui/icons-material";
 
 function RentPage() {
@@ -129,32 +135,51 @@ function RentPage() {
           </div>
         </div>
         <div>
-          <p>expected rent (permonth) </p>
-          <div>
-          <NumberInput
-        icon={<AttachMoney />}
-        iconColor="black"
-        padding="10px"
-        textTransform="uppercase"
-        fontSize="1.5rem"
-      />
+          <div className=" flex flex-col gap-4 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
+            <NumberInput
+              label="expected rent"
+              placeholder={"enter amount"}
+              permonth={true}
+            />
+            <NumberInput
+              label=" expected deposit "
+              placeholder={"enter amount"}
+              permonth={false}
+            />
           </div>
+          <div className=" flex sm:flex-row flex-col gap-4 sm:gap-3 md:gap-6 sm:items-center  my-4 py-2">
+            <div className=" sm:w-1/2 w-full md:w-1/3 ">
+              <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+                monthly maintenance
+              </p>
+              <SelectINput optionItems={monthlyMaintenance} />
+            </div>
+            <NumberInput
+              label={"maintenace amount"}
+              placeholder={"enter amount"}
+            />
+          </div>
+
+          <div className=" flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
+            <div className=" calender_box sm:w-2/5">
+              <CalenderInput />
+            </div>
+            <div className="  calender_box ">
+              <SelectINput optionItems={furnishing}/>
+            </div>
+            <div className=" calender_box ">
+              <SelectINput optionItems={parking}/>
+            </div>
+          </div>
+          
         </div>
+
+     
+            <Textarea label='description ' placeholder={'write a few lines about your property which is special and makes property standout'}/>
+          
       </section>
     </div>
   );
 }
 
 export default RentPage;
-
-{
-  /* <FormControl sx={{ minWidth: 300, marginBottom: 2 }}>
-        <InputLabel>Select 1</InputLabel>
-        <Select defaultValue="">
-          <MenuItem value="">None</MenuItem>
-          <MenuItem value="option1">Option 1</MenuItem>
-          <MenuItem value="option2">Option 2</MenuItem>
-          <MenuItem value="option3">Option 3</MenuItem>
-        </Select>
-      </FormControl> */
-}

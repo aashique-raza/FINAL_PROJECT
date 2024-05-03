@@ -3,8 +3,8 @@ import { Grid, TextField } from '@mui/material';
 
 function CustomTextArea({ inputProps }) {
   return (
-    <Grid container spacing={2}>
-    <Grid item xs={12}>
+   
+  
       <TextField
         variant="outlined"
         multiline
@@ -20,8 +20,8 @@ function CustomTextArea({ inputProps }) {
         }}
         {...inputProps}
       />
-    </Grid>
-  </Grid>
+  
+ 
   )
 }
 

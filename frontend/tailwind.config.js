@@ -19,5 +19,10 @@ export default {
   plugins: [
     flowbite.plugin(),
   ],
+  variants: {
+    extend: {
+      borderWidth: ['focus'], // Adding focus state variant for borderWidth
+    },
+  },
 }
 

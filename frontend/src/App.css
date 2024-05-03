@@ -26,3 +26,7 @@
   box-sizing: border-box;
   /* background-color: #F0F2F5; */
 }
+*:focus{
+  border: none !important;
+  outline: none !important;
+}

@@ -1,28 +1,99 @@
-
 /* main rent container */
-.rent_container{
-    border: 2px solid red;
+.rent_container {
+  border: 2px solid red;
+  width: 100%;
+  margin-top: 65px;
+  padding: 20px 28px;
+}
+
+.prefered_tenats {
+  width: 70%;
+  /* border: 2px solid green; */
+}
+
+/* number input css here ------------------------- */
+.custom-number-input {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 6px;
+  /* border: 2px solid red; */
+  width: 40%;
+}
+
+
+.custom-number-input .label{
+  font-size: 14px;
+}
+
+.custom_number_input_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 7px 16px;
+  border: 2px solid gray;
+  width: 100%;
+}
+
+
+
+.custom_number_input_wrapper input {
+  /* border: 1px solid #ccc; */
+  /* border-radius: 5px; */
+  padding: 7px 16px;
+  font-size: inherit;
+  color: inherit;
+  text-transform: uppercase;
+
+  box-sizing: border-box;
+
+  outline: none !important;
+  border: none !important;
+  font-size: 14px ;
+  font-weight: 600;
+  color: gray;
+  letter-spacing: 0;
+  width: 80%;
+}
+
+/* calender div or box */
+.calender_div .calender_box{
+  min-width: 300px;
+  width: 32%;
+  /* border: 2px solid red; */
+}
+
+
+
+@media only screen and (max-width:640px){
+  .custom-number-input{
     width: 100%;
-    margin-top: 65px;
-    padding: 20px 28px;
+  }
+  .calender_div .calender_box{
+    width: 100%;
+    margin: 8px 0px;
+  }
 }
 
-.prefered_tenats{
-    width: 70%;
-    /* border: 2px solid green; */
+
+@media screen and (max-width: 600px) {
+  .custom-number-input input {
+    font-size: 14px;
+  }
 }
 
 
 
-@media only screen and (max-width:1024px){
-    .prefered_tenats{
-        width: 100%;
-    }
+
+@media only screen and (max-width:1024px) {
+  .prefered_tenats {
+    width: 100%;
+  }
 }
 
-@media only screen and (max-width:767px){
-    .rent_container{
-        padding: 10px;
-    }
-   
+@media only screen and (max-width:767px) {
+  .rent_container {
+    padding: 10px;
+  }
+
 }

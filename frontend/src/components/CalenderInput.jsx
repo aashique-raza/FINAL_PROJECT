@@ -5,20 +5,19 @@ import { CalendarToday } from '@mui/icons-material';
 
 function CalenderInput({ icon, inputProps }) {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} >
       <Grid item xs={12}>
         <TextField
+        className=' cursor-pointer'
+        type='date'
           variant="outlined"
           fullWidth
           InputProps={{
-            endAdornment: (
-              <IconButton>
-                {icon || <CalendarToday />}
-              </IconButton>
-            ),
+           
             style: {
               fontSize: inputProps?.fontSize || '16px',
               color: inputProps?.color || 'inherit',
+              cursor:'pointer'
             }
           }}
           {...inputProps}

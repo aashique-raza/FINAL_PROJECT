@@ -76,3 +76,22 @@ export const propertyAvailableFor=[
     {label:'only lease',value:"lease"},
 ]
 
+export const monthlyMaintenance=[
+    {label:'maintenance extra',value:'extraMaintenance'},
+    {label:'maintenance included',value:'includedMaintenance'},
+]
+
+export const parking=[
+    {label:'car parking',value:'car'},
+    {label:'bike parking',value:'bike'},
+    {label:'both parking',value:'both'},
+    {label:'none',value:'none'},
+]
+
+export const furnishing=[
+    {label:'furnished',value:'full furnished'},
+    {label:'unfurnished',value:'furnishedNone'},
+    {label:' semi furnished',value:'semifurnished'},
+    
+]
+
