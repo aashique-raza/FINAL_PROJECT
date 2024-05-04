@@ -11,8 +11,10 @@ function SelectINput({
   className = "",
   uppercase,
   capitalize,
-  menuItemProps
+  menuItemProps,
+  setState
 }) {
+
   const labelStyle = {
     textTransform: menuItemProps?.uppercase ? 'uppercase' : menuItemProps?.capitalize ? 'capitalize' : 'none',
     fontSize: menuItemProps?.fontSize || '16px',
@@ -20,12 +22,17 @@ function SelectINput({
     padding:menuItemProps?.paadingY || '6px'
   };
 
+
+  const handleChange=(e)=>{
+    setState(e.target.value)
+  }
+
   return (
     
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <FormControl fullWidth sx={{ pt: 1, pb: 1 }}>
           <InputLabel style={labelStyle}>Select </InputLabel>
-          <Select defaultValue="" MenuProps={{ sx: { maxHeight: '300px' } }}>
+          <Select defaultValue="" MenuProps={{ sx: { maxHeight: '300px' } }} onChange={handleChange} >
             {optionItems &&
               optionItems.map((item,index) => (
                 <MenuItem key={index} value={item.value}  style={labelStyle} >{item.label}</MenuItem>

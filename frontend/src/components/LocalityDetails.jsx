@@ -4,7 +4,7 @@ import { AllStates, cities } from "../utils";
 import SelectTag from "./SelectTag";
 import Input from "../components/Input";
 
-function LocalityDetails({ formData, setFormData }) {
+function LocalityDetails({ formData, setFormData}) {
   // const [state, setState] = useState("");
 
   // Function to filter cities based on the current city

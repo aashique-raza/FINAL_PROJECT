@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Rent.css";
 import SelectINput from "../components/SelectINput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AttachMoney } from "@mui/icons-material";
+import LocalityDetails from "../components/LocalityDetails";
 
 import {
   apartMentType,
@@ -26,8 +27,26 @@ import CalenderInput from "../components/CalenderInput";
 import CustomTextArea from "../components/CustomTextArea";
 import { Textarea } from "flowbite-react";
 // import { IndianRupeeIcon } from "@mui/icons-material";
+import DescriptionInput from "../components/DescriptionInput";
+import { AllStates, cities } from "../utils";
 
 function RentPage() {
+  const [state, setState] = useState("delhi");
+
+  // Function to filter cities based on the current city
+  function filterCitiesByCurrentCity(currentCity) {
+    // Find the city object corresponding to the current city
+    const cityObject = cities.find(
+      (city) => Object.keys(city.cityName)[0] === currentCity.toLowerCase()
+    );
+
+    // If city object is found, return its cities array, otherwise return an empty array
+    return cityObject ? Object.values(cityObject.cityName)[0] : [];
+  }
+  // console.log(formData.state)
+
+  const filteredCities = filterCitiesByCurrentCity(state);
+
   return (
     <div className=" rent_container lg:px-28">
       <section className="rent_section_1">
@@ -159,24 +178,69 @@ function RentPage() {
               placeholder={"enter amount"}
             />
           </div>
-
-          <div className=" flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
-            <div className=" calender_box sm:w-2/5">
-              <CalenderInput />
-            </div>
-            <div className="  calender_box ">
-              <SelectINput optionItems={furnishing}/>
-            </div>
-            <div className=" calender_box ">
-              <SelectINput optionItems={parking}/>
-            </div>
-          </div>
-          
         </div>
 
-     
-            <Textarea label='description ' placeholder={'write a few lines about your property which is special and makes property standout'}/>
-          
+        <div className=" flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
+          <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
+            <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+              available from
+            </p>
+            <CalenderInput />
+          </div>
+          <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
+            <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+              furnishing
+            </p>
+            <SelectINput optionItems={furnishing} />
+          </div>
+          <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
+            <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+              parking
+            </p>
+            <SelectINput optionItems={parking} />
+          </div>
+        </div>
+
+        <div>
+          <DescriptionInput
+            label={"description"}
+            placeholder={"write few lines about your property"}
+          />
+        </div>
+      </section>
+      <section className="rent_section_3 my-5">
+      <div className="mb-5">
+          <h2 className="text-xs md:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            locality Details
+          </h2>
+        </div>
+        <div className=" flex flex-col md:flex-wrap  gap-2 md:flex-row md:gap-6 items-center ">
+          <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
+            <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+              state
+            </p>
+            <SelectINput
+              className=" w-full"
+              optionItems={AllStates}
+              setState={setState}
+            />
+          </div>
+          <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
+            <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+              city
+            </p>
+            <SelectINput optionItems={filteredCities} />
+          </div>
+        </div>
+        <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72 my-2">
+              <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+                loact/street address
+              </p>
+              <TextInput
+                capitalize={true}
+                label="hauz kahs gao...."
+              />
+            </div>
       </section>
     </div>
   );
