@@ -63,7 +63,7 @@ function UploadPhotos({ photos, setPhotos }) {
             <div className="photos-wrapper relative" key={index}>
               <img src={url} alt={`url ${index}`} />
               <DeleteIcon
-                className="deleteIcon absolute top-3 right-3"
+                className="deleteIcon absolute top-3 right-3 text-red-600"
                 onClick={() => handleDeletePhoto(index)}
               />
             </div>

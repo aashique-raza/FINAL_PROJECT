@@ -1,6 +1,6 @@
 import React from "react";
 
-function SelectTag({id='', name='',optionName='',optionValues=[],setFormData,formData,setState}) {
+function SelectTag({id='', name='',optionName='',optionValues=[],setFormData,formData,setState,width,state=false}) {
     // console.log(optionValues)
 
     const handleChange=(e)=>{
@@ -10,11 +10,15 @@ function SelectTag({id='', name='',optionName='',optionValues=[],setFormData,for
         ...formData,
         [id]:value
       })
+      if(state){
+        setState(value)
+      }
+     
     }
 
 
   return (
-    <div className="select_container">
+    <div className={`select_container ${width ? ' w-full' : '' }`}>
       <p className="required">{optionName}</p>
       <select id={id} name={name} onChange={handleChange}   >
         {

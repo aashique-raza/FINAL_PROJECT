@@ -12,7 +12,9 @@ function SelectINput({
   uppercase,
   capitalize,
   menuItemProps,
-  setState
+  setState,
+  formData,
+  setFormData
 }) {
 
   const labelStyle = {
@@ -23,19 +25,25 @@ function SelectINput({
   };
 
 
-  const handleChange=(e)=>{
-    setState(e.target.value)
-  }
+  const handleChange = (e) => {
+    const { value, id } = e.target;
+    const selectedItem = optionItems.find(item => item.value === value);
+    console.log(selectedItem)
+    setFormData({
+      ...formData,
+      [selectedItem.id]: value
+    });
+  };
 
   return (
     
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <FormControl fullWidth sx={{ pt: 1, pb: 1 }}>
           <InputLabel style={labelStyle}>Select </InputLabel>
-          <Select defaultValue="" MenuProps={{ sx: { maxHeight: '300px' } }} onChange={handleChange} >
+          <Select id='apartment' defaultValue="" MenuProps={{ sx: { maxHeight: '300px' } }} onChange={handleChange} >
             {optionItems &&
               optionItems.map((item,index) => (
-                <MenuItem key={index} value={item.value}  style={labelStyle} >{item.label}</MenuItem>
+                <MenuItem key={index} id={item.label} value={item.value}  style={labelStyle} >{item.label}</MenuItem>
               ))}
           </Select>
         </FormControl>

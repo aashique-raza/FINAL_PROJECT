@@ -11,9 +11,10 @@ function Input({
 }) {
   const handleChange = (e) => {
     const { id, value } = e.target;
+    // console.log('change')
     setFormData({
       ...formData,
-      [id]: id==='rentAmount' || id==='depositAmount' ? parseInt(value) : value ,
+      [id]: id==='rentAmount' ||id==='maintenanceAmount' || id==='depositAmount' || id==='built_up_area' ? parseInt(value) : value ,
     });
   };
   return (
