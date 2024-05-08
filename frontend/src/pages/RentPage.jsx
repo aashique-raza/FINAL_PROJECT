@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import "../styles/Rent.css";
 import SelectINput from "../components/SelectINput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +10,7 @@ import UploadPhotos from "../components/UploadPhotos";
 import SelectTag from "../components/SelectTag";
 import Input from "../components/Input";
 import { roomAmenitiesList } from "../rentUtils";
-import { Alert,Spinner } from "flowbite-react";
+import { Alert, Spinner } from "flowbite-react";
 
 import {
   propertyAvailableFor,
@@ -33,13 +33,16 @@ import { Textarea } from "flowbite-react";
 // import { IndianRupeeIcon } from "@mui/icons-material";
 import DescriptionInput from "../components/DescriptionInput";
 import { AllStates, cities } from "../utils";
+import { parse } from "@fortawesome/fontawesome-svg-core";
 
 function RentPage() {
   const [state, setState] = useState("");
   const [photos, setPhotos] = useState([]);
-  const [error,setError]=useState(null)
-  const[loading,setLoading]=useState(false)
-  const[success,setSuccess]=useState(null)
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const formRef = useRef(null);
+  // const formRef = useRef(null);
   // console.log(photos)
   // console.log(photos)
 
@@ -114,6 +117,13 @@ function RentPage() {
   // form submittion----
   const handleSubmitForm = async (e) => {
     e.preventDefault();
+    if (
+      renatlDetails.monthlyMaintenance &&
+      renatlDetails.monthlyMaintenance.trim().toLocaleLowerCase() ===
+        "includedMaintenance".trim().toLocaleLowerCase()
+    ) {
+      renatlDetails.maintenanceAmount = 0;
+    }
     const rentFormData = new FormData();
 
     // property details data---------
@@ -128,7 +138,7 @@ function RentPage() {
 
     // rentals details data======
     rentFormData.append("availableFrom", renatlDetails.available_from);
-    rentFormData.append("depositAmount",renatlDetails.depositAmount);
+    rentFormData.append("depositAmount", renatlDetails.depositAmount);
     rentFormData.append("description", renatlDetails.description);
     rentFormData.append("furnishing", renatlDetails.furnishing);
     rentFormData.append("maintenanceAmount", renatlDetails.maintenanceAmount);
@@ -139,7 +149,10 @@ function RentPage() {
       renatlDetails.propertyAvailableFor
     );
     rentFormData.append("rentAmount", renatlDetails.rentAmount);
-    rentFormData.append("preferedTenats", renatlDetails.tenats);
+    renatlDetails.tenats?.forEach((tenant) => {
+      rentFormData.append("preferedTenats", tenant);
+    });
+    // rentFormData.append("preferedTenats", renatlDetails.tenats);
 
     // localality details data--
     rentFormData.append("city", localDetails.city);
@@ -147,13 +160,16 @@ function RentPage() {
     rentFormData.append("state", localDetails.state);
 
     // other details--------
+    // console.log(typeof bedroom,typeof balcony,typeof guest)
     rentFormData.append("bedroom", bedroom);
     rentFormData.append("balcony", balcony);
     rentFormData.append("guest", guest);
-    rentFormData.append("availableAmenities", additionalDetails.availableAmenities);
+
+    additionalDetails.availableAmenities?.forEach((amenity) => {
+      rentFormData.append("availableAmenities", amenity);
+    });
     rentFormData.append("electricity", additionalDetails.electricity);
     rentFormData.append("waterSupply", additionalDetails.waterSupply);
-    
 
     /* Append each selected photos to the FormData object */
     photos.forEach((photo) => {
@@ -162,46 +178,45 @@ function RentPage() {
 
     try {
       setError(null);
-      setLoading(true)
+      setSuccess(null);
+      setLoading(true);
 
       const resp = await fetch("/api/rent/create", {
         method: "POST",
         // headers: {
         //   "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
         // },
-        body: rentFormData
+        body: rentFormData,
       });
-      console.log(resp)
+      // console.log(resp);
       const data = await resp.json();
-      console.log(data)
-      
+      // console.log(data);
 
-      if(!resp.ok){
+      if (!resp.ok) {
         // console.log(result)
-        console.log(data.message)
-        setLoading(false)
-        setError(data.message)
-        return
-
+        // console.log(data.message);
+        setLoading(false);
+        setError(data.message);
+        return;
       }
 
-      setLoading(false)
-      setError(null)
+      setLoading(false);
+      setError(null);
+      setSuccess(data.msg);
+         // Reset form
+    formRef.current.reset();
+    setPhotos([])
       
-      // console.log(resp);
+      
      
-      // console.log(data);
     } catch (error) {
       console.log(error.message);
     }
-
-
-
   };
 
   return (
     <div className=" rent_container lg:px-28">
-      <form onSubmit={handleSubmitForm} className=" w-full">
+      <form ref={formRef} onSubmit={handleSubmitForm} className=" w-full">
         <section className="rent_section_1">
           <div className="mb-5">
             <h2 className="text-xs md:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
@@ -641,10 +656,11 @@ function RentPage() {
             type="submit"
             className=" capitalize  px-10 py-3  font-roboto font-semibold md:text-sm text-xs border-none outline-none focus:border-none focus:outline-none focus:ring-0 rounded-md bg-red-500 text-white hover:bg-red-600 transition-all duration-1000 ease-in-out"
           >
-            {
-              loading ? (  <Spinner color="success" aria-label="Failure spinner example" />) : 'create property'
-            }
-            
+            {loading ? (
+              <Spinner color="success" aria-label="Failure spinner example" />
+            ) : (
+              "create property"
+            )}
           </button>
         </div>
       </form>
