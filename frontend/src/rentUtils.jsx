@@ -18,8 +18,15 @@ import LocalParkingOutlinedIcon from "@mui/icons-material/LocalParkingOutlined";
 // import {  GiHomeGarage, GiParkingGarage, GiPlayground, GiSafetyPin } from 'react-icons/gi';
 // import { BiWater } from 'react-icons/bi';
 
-import { FaUsers, FaUserFriends, FaMale, FaFemale, FaBuilding, FaSuitcase } from 'react-icons/fa';
-import { MdPeople } from 'react-icons/md'; // Material UI se koi suitable icon nahi mila
+import {
+  FaUsers,
+  FaUserFriends,
+  FaMale,
+  FaFemale,
+  FaBuilding,
+  FaSuitcase,
+} from "react-icons/fa";
+import { MdPeople } from "react-icons/md"; // Material UI se koi suitable icon nahi mila
 
 export const roomDetailsOptions = [
   {
@@ -67,10 +74,10 @@ export const roomDetailsOptions = [
     optionValues: [
       { label: "select", value: "" },
       { label: "west", value: "west" },
-  { label: "east", value: "east" },
-  { label: "north", value: "north" },
-  { label: "south", value: "south" },
-  { label: "don't know ", value: "none" },
+      { label: "east", value: "east" },
+      { label: "north", value: "north" },
+      { label: "south", value: "south" },
+      { label: "don't know ", value: "none" },
     ],
   },
   {
@@ -78,18 +85,18 @@ export const roomDetailsOptions = [
     id: "floor",
     optionValues: [
       { label: "select", value: "" },
-      { label: "ground", value: "groundFloor" },
-      { label: 1, value: "floor1" },
-      { label: 2, value: "floor2" },
-      { label: 3, value: "floor3" },
-      { label: 4, value: "floor4" },
-      { label: 5, value: "floor5" },
-      { label: 6, value: "floor6" },
-      { label: 7, value: "floor7" },
-      { label: 8, value: "floor8" },
-      { label: 9, value: "floor9" },
-      { label: 10, value: "floor10" },
-      { label: 11, value: "floor11" },
+      { label: "ground", value: 0 },
+      { label: 1, value: 1 },
+      { label: 2, value: 2 },
+      { label: 3, value: 3 },
+      { label: 4, value: 4 },
+      { label: 5, value: 5 },
+      { label: 6, value: 6 },
+      { label: 7, value: 7 },
+      { label: 8, value: 8 },
+      { label: 9, value: 9 },
+      { label: 10, value: 10 },
+      { label: 11, value: 11 },
     ],
   },
   {
@@ -97,37 +104,31 @@ export const roomDetailsOptions = [
     id: "totalFloor",
     optionValues: [
       { label: "select", value: "" },
-      { label: "only ground", value: "groundFloor" },
-      { label: 1, value: "floor1" },
-      { label: 2, value: "floor2" },
-      { label: 3, value: "floor3" },
-      { label: 4, value: "floor4" },
-      { label: 5, value: "floor5" },
-      { label: 6, value: "floor6" },
-      { label: 7, value: "floor7" },
-      { label: 8, value: "floor8" },
-      { label: 9, value: "floor9" },
-      { label: 10, value: "floor10" },
-      { label: 11, value: "floor11" },
+      { label: "only ground", value: 0 },
+      { label: 1, value: 1 },
+      { label: 2, value: 2 },
+      { label: 3, value: 3 },
+      { label: 4, value: 4 },
+      { label: 5, value: 5 },
+      { label: 6, value: 6 },
+      { label: 7, value: 7 },
+      { label: 8, value: 8 },
+      { label: 9, value: 9 },
+      { label: 10, value: 10 },
+      { label: 11, value: 11 },
     ],
   },
-  
 ];
 
-
-
-
-
-
 export const preferedTenats = [
-    { label: 'Family', value: 'family', icon: <FaUsers/> },
-    { label: 'Anyone', value: 'anyone', icon: <MdPeople/> },
-    { label: 'Bachelor (Male)', value: 'bachelor male', icon: <FaMale/> },
-    { label: 'Bachelor (Female)', value: 'bachelor female', icon: <FaFemale/> },
-    { label: 'Company', value: 'company', icon: <FaBuilding/> },
-    { label: 'Office', value: 'office', icon: <FaSuitcase/> },
-    // { label: 'Couple', value: 'couple', icon: FaUserCouple }
-  ];
+  { label: "Family", value: "family", icon: <FaUsers /> },
+  { label: "Anyone", value: "anyone", icon: <MdPeople /> },
+  { label: "Bachelor (Male)", value: "bachelor male", icon: <FaMale /> },
+  { label: "Bachelor (Female)", value: "bachelor female", icon: <FaFemale /> },
+  { label: "Company", value: "company", icon: <FaBuilding /> },
+  { label: "Office", value: "office", icon: <FaSuitcase /> },
+  // { label: 'Couple', value: 'couple', icon: FaUserCouple }
+];
 
 export const propertyAvailableFor = [
   { label: "only rent", value: "rent" },
@@ -135,7 +136,7 @@ export const propertyAvailableFor = [
 ];
 
 export const monthlyMaintenance = [
-    { label: "select", value: "" },
+  { label: "select", value: "" },
   { label: "maintenance extra", value: "extraMaintenance" },
   { label: "maintenance included", value: "includedMaintenance" },
 ];

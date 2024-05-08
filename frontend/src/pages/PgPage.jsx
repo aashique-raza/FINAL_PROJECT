@@ -135,13 +135,14 @@ function PgPage() {
     pgFormData.append("state", formData.state);
     pgFormData.append("warden", formData.warden);
       // listingForm.append("ameinites", formData.);
+      // console.log(pgFormData)
 
       /* Append each selected photos to the FormData object */
       photos.forEach((photo) => {
         pgFormData.append("listingPhotos", photo);
       });
 
-
+    
     const result = formErrorHandler(formData);
     console.log(result);
     setError("");
