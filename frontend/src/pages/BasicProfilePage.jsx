@@ -9,10 +9,15 @@ import { app } from "../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { Warning, CheckCircle } from "@mui/icons-material";
 import { Alert, Spinner } from "flowbite-react";
-import { json } from "react-router-dom";
-import { updateSucceFully } from "../features/user.slice";
+import { validateEmail,validateMobileNumber } from "../formError";
 
-function BasicProfilePage() {
+import { updateSucceFully } from "../features/user.slice";
+import { API_URL } from "../configue";
+import { getTokenFromLocalStorage } from "../token";
+
+function BasicProfilePage({showSuccessMessage}) {
+  // token extarct--
+  const token=getTokenFromLocalStorage()
   const { user } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -26,7 +31,7 @@ function BasicProfilePage() {
 
   const [loading, setloading] = useState(false);
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+
   const dispatch = useDispatch();
   // create stae for verification email-----
 
@@ -102,15 +107,27 @@ function BasicProfilePage() {
 
   const handeSubmit = async (e) => {
     e.preventDefault();
+    setError(null)
+
+    if(formData.email && validateEmail(formData.email))
+
+      if (formData?.email && !validateEmail(formData.email)) {
+        return setError('Invalid email ');
+      }
+      
+      if (formData?.mobile && !validateMobileNumber(formData.mobile)) {
+        return setError('Invalid mobile number ');
+      }
 
     try {
       setError(null);
       setloading(true);
 
-      const resp = await fetch(`/api/user/update-account/${user._id}`, {
+      const resp = await fetch(`${API_URL}/user/update-account/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+          "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify(formData),
       });
@@ -124,12 +141,14 @@ function BasicProfilePage() {
         setloading(false);
         return;
       }
-      setSuccess(data.msg);
+    
       setError(null);
       setloading(false);
       dispatch(updateSucceFully(data.updatedUser));
+      showSuccessMessage('updated successfully!')
     } catch (error) {
       console.log(error.message);
+      setError(error.message)
     }
   };
 
@@ -268,7 +287,13 @@ function BasicProfilePage() {
           <div className="edit_btn">
             <button type="submit" disabled={imageFileUploading}>
               {loading ? (
-                <Spinner color="failure" aria-label="Failure spinner example" />
+                 <>
+                 <Spinner
+                   color="success"
+                   aria-label="Failure spinner example"
+                 />{" "}
+                 saving...
+               </>
               ) : (
                 "save"
               )}
@@ -304,15 +329,7 @@ function BasicProfilePage() {
               {error}
             </Alert>
           )}
-          {success && (
-            <Alert
-              color="success"
-              onDismiss={() => setSuccess(null)}
-              className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
-            >
-              {success}
-            </Alert>
-          )}
+          
         </div>
       </div>
     </div>

@@ -149,5 +149,18 @@ export const formErrorHandler = (formData) => {
 
  
 };
+// Email validation function
+ export const validateEmail = (email) => {
+  // Regular expression for validating email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// Mobile number validation function
+export const validateMobileNumber = (mobileNumber) => {
+  // Regular expression for validating mobile number format (exactly 10 digits)
+  const mobileRegex = /^\d{10}$/;
+  return mobileRegex.test(mobileNumber);
+};
 
 export default pgFormDataValidation;
