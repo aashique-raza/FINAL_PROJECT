@@ -6,14 +6,14 @@ import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
 
 import { Alert, Spinner } from "flowbite-react";
-import { useParams, useNavigate,  } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { API_URL } from "../configue";
 
-function ResetPassword() {
+function ResetPassword({ showSuccessMessage }) {
   const [id, setId] = useState("");
   const [reset, setResetToken] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [successMsg, setSuccessMsg] = useState(null);
 
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -30,9 +30,6 @@ function ResetPassword() {
     setResetToken(resetToken);
     setId(userId);
   }, []);
-
-
-
 
   const navigate = useNavigate();
 
@@ -62,14 +59,22 @@ function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setError(null);
+    if (
+      formData.password.trim().toLocaleLowerCase() !==
+      formData.confirmPassword.trim().toLocaleLowerCase()
+    ) {
+      return setError("password and confirm password does not match");
+    }
+
     try {
       setError(null);
       setLoading(true);
 
       const response = await fetch(
-        `/api/auth/reset-password?id=${id}&&reset=${reset}`,
+        `${API_URL}/auth/reset-password?id=${id}&&reset=${reset}`,
         {
-          method: "PATCH",
+          method: "PUT",
           body: JSON.stringify(formData),
           headers: {
             "Content-Type": "application/json", // Set content type to JSON
@@ -78,7 +83,7 @@ function ResetPassword() {
       );
       // console.log(response)
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
 
       if (!response.ok) {
         setError(result.message);
@@ -87,16 +92,15 @@ function ResetPassword() {
       }
 
       setLoading(false);
-      setSuccessMsg("password successfully recovered.");
-      setTimeout(() => {
-        navigate('/login');
-    }, 1000)
+      setError(null);
+      showSuccessMessage("password recoverd successfully!");
+
+      navigate("/login");
     } catch (error) {
       console.log("reset password request failed", error);
+      setError(error.message);
     }
   };
-
-
 
   return (
     <main className="login-container">
@@ -167,7 +171,13 @@ function ResetPassword() {
 
             <button type="submit">
               {loading ? (
-                <Spinner color="success" aria-label="Failure spinner example" />
+                <>
+                  <Spinner
+                    color="failure"
+                    aria-label="Failure spinner example"
+                  />{" "}
+                  loading..
+                </>
               ) : (
                 "reset paassword"
               )}
@@ -189,14 +199,15 @@ function ResetPassword() {
             </div>
           </form>
           {error && (
-            <Alert color="failure" onDismiss={() => setError(null)}>
-              {error}
-            </Alert>
-          )}
-          {successMsg && (
-            <Alert color="success" onDismiss={() => setSuccessMsg(null)}>
-              {successMsg}
-            </Alert>
+            <div className=" w-full flex justify-center items-center">
+              <Alert
+                className=" w-full sm:w-1/2 md:w-1/3 text-xl"
+                color="failure"
+                onDismiss={() => setError(null)}
+              >
+                {error}
+              </Alert>
+            </div>
           )}
         </div>
       </div>

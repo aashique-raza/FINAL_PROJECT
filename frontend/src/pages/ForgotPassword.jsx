@@ -8,14 +8,15 @@ import { NavLink, Link } from "react-router-dom";
 import { Alert, Spinner } from "flowbite-react";
 
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../configue";
 
-function ForgotPassword() {
+function ForgotPassword({showSuccessMessage}) {
   const [formData, setFormData] = useState({
     email: "",
   });
   const [loading, setLoading] = useState(false);
   const [errorr, setError] = useState(null);
-  const [successMsg, setSuccesMag] = useState(null);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +33,7 @@ function ForgotPassword() {
       setError(null);
       setLoading(true);
 
-      const response = await fetch(`/api/auth/forgot-paasword`, {
+      const response = await fetch(`${API_URL}/auth/forgot-paasword`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -41,7 +42,7 @@ function ForgotPassword() {
       });
       // console.log(response)
       const result = await response.json();
-      console.log(result)
+      // console.log(result)
 
       if (!response.ok) {
         setError(result.message);
@@ -50,9 +51,11 @@ function ForgotPassword() {
       }
 
       setLoading(false);
-      setSuccesMag('reset link sent your email successfully.')
+      setError(null)
+      showSuccessMessage('password resent link sent your mail.')
     } catch (error) {
       console.log("forgot password request failed", error.message);
+      setError(error.message)
     }
   };
 
@@ -90,7 +93,13 @@ function ForgotPassword() {
 
             <button type="submit">
               {loading ? (
-                <Spinner color="success" aria-label="Failure spinner example" />
+                <>
+                <Spinner
+                  color="failure"
+                  aria-label="Failure spinner example"
+                />{" "}
+                sending link...
+              </>
               ) : (
                 "continue"
               )}
@@ -98,16 +107,18 @@ function ForgotPassword() {
           </form>
         </div>
         {errorr && (
-          <Alert color="failure" onDismiss={() => dispatch(clearError())}>
+          <div className=" w-full flex justify-center items-center">
+          <Alert
+            className=" w-full sm:w-1/2 md:w-1/3 text-xl"
+            color="failure"
+            onDismiss={() => setError(null)}
+          >
             {errorr}
           </Alert>
+        </div>
         )}
 
-        {successMsg && (
-          <Alert color="success" onDismiss={() => setSuccesMag(null)}>
-            {successMsg}
-          </Alert>
-        )}
+        
       </div>
       <aside className="image-wrapper relative">
         <img src={login} alt="logo" />
