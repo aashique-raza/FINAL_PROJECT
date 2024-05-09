@@ -6,10 +6,13 @@ import { FaUser, FaBars, FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button } from "flowbite-react";
 import Profile from "./Profile";
-import { getTokenFromLocalStorage } from "../token";
+
+import { isLoggedIn } from "../token";
 
 function Header() {
-  const token=getTokenFromLocalStorage()
+ 
+  const loggedInStatus=isLoggedIn()
+ 
   const [showMenu, setShowMenu] = useState(false);
   const [profile, SetShowProfile] = useState(false);
   const { user } = useSelector((state) => state.user);
@@ -56,14 +59,14 @@ function Header() {
       </nav>
 
       <div className="menubar">
-        {token ? (
+        {loggedInStatus ? (
           <button
             color="gray"
             className="profile-button  relative"
             onClick={ handleToggleProfile }
           >
-            <img src={user.profileImage} alt="profileImage" />
-            <span className=" font-raleway "> hi,{user.firstName}</span>
+            <img src={user?.profileImage} alt="profileImage" />
+            <span className=" font-raleway "> hi,{user?.firstName}</span>
             {SetShowProfile && <Profile toggle={profile} />}
           </button>
         ) : (

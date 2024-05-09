@@ -1,17 +1,17 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Outlet,Navigate } from 'react-router-dom'
-import { getTokenFromLocalStorage } from '../token'
+import React, { useEffect, useState } from "react";
+
+import { Outlet, Navigate } from "react-router-dom";
+
+import { logOutSuccess } from "../features/user.slice";
+import { useDispatch } from "react-redux";
+import { isLoggedIn } from "../token";
 function Protected() {
-   
-    const token=getTokenFromLocalStorage()
-    // console.log('protected token',token)
+  const dispatch = useDispatch();
+  if (!isLoggedIn()) {
+    dispatch(logOutSuccess());
+  }
 
-    
-
-return token ? <Outlet/> : <Navigate to={'/login'}/>
+  return isLoggedIn ? <Outlet /> : <Navigate to={"/login"} />;
 }
 
-export default Protected
-
-
+export default Protected;

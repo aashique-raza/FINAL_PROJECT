@@ -2,10 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "../styles/Login.css";
 import login from "../assets/login.jpeg";
 import logo from "../assets/logo.png";
-import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
-
-
 import { Alert, Spinner } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -53,6 +51,7 @@ function LoginPage({showSuccessMessage}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(clearError());
 
     if(!formData.email?.includes('@')){
    
@@ -75,7 +74,7 @@ function LoginPage({showSuccessMessage}) {
         },
         credentials:'include'
       });
-      console.log(response)
+      // console.log(response)
       const result = await response.json();
 
       if (!response.ok) {
