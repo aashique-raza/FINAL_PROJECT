@@ -4,7 +4,7 @@ import google from "../assets/google.png";
 
 function GoogleOAuthButton({className=''}) {
   return (
-    <button className={`${className}`}>
+    <button className={`${className} `}>
     <img src={google} alt="google"   />
     <p>continue with google</p>
 </button>

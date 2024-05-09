@@ -1,8 +1,8 @@
 // Function to set JWT token in local storage
-const setTokenInLocalStorage = (token, cookieExpiry) => {
+const setTokenInLocalStorage = (token) => {
   // Store token and its expiry in localStorage
-  const tokenWithExpiry = JSON.stringify({ token, cookieExpiry });
-  localStorage.setItem('jwtToken', tokenWithExpiry);
+  // const tokenWithExpiry = JSON.stringify({ token, cookieExpiry });
+  localStorage.setItem('jwtToken', token);
 };
   
   // Function to get JWT token from local storage

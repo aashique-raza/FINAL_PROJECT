@@ -4,8 +4,8 @@ import login from "../assets/login.jpeg";
 import logo from "../assets/logo.png";
 import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
 import { NavLink, Link } from "react-router-dom";
-import GoogleOAuthButton from "../components/GoogleOAuthButton";
-import GithubButton from "../components/GithubButton";
+
+
 import { Alert, Spinner } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,23 +13,26 @@ import {
   loginFailed,
   loginStart,
   clearError,
-  setToken,
+  
 } from "../features/user.slice";
 import API_BASE_URL from "../configue";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../configue";
 import { setTokenInLocalStorage } from "../token";
+import GoogleOAuthButton from "../components/GoogleOAuthButton";
 
-function LoginPage() {
+function LoginPage({showSuccessMessage}) {
   useEffect(() => {
     // Scroll to the top of the page when the component mounts
     window.scrollTo(0, 0);
+    dispatch(clearError())
   }, []);
   const [showPassword, setShowPassword] = useState(false);
   const { errorr, loading } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle state to show/hide password
   };
@@ -50,18 +53,29 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!formData.email?.includes('@')){
+   
+      if (!(formData.email?.length === 10)) {
+        return dispatch(loginFailed('Mobile number must be 10 digits'))
+      }
+
+      
+    }
+    
     try {
       dispatch(clearError());
       dispatch(loginStart());
 
-      const response = await fetch(`/api/auth/login-account`, {
+      const response = await fetch(`${API_URL}/auth/login-account`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json", // Set content type to JSON
         },
+        credentials:'include'
       });
-      // console.log(response)
+      console.log(response)
       const result = await response.json();
 
       if (!response.ok) {
@@ -71,9 +85,9 @@ function LoginPage() {
       }
       dispatch(clearError());
       dispatch(loginSuccess(result.user));
-      setTokenInLocalStorage(result.token,result.tokenExpiry);
+      setTokenInLocalStorage(result.token);
+      showSuccessMessage('logged in successfull!')
 
-     
       // setTokenInLocalStorage(token, cookieExpiry);
 
       navigate("/");
@@ -92,7 +106,7 @@ function LoginPage() {
             don't have an account?{" "}
             <Link
               to={"/signup"}
-              className=" text-green-400 font-extrabold font-sans"
+              className=" text-red-500 font-extrabold "
             >
               signup
             </Link>{" "}
@@ -103,8 +117,7 @@ function LoginPage() {
             <h2>welcome back</h2>
             <p>login into your account</p>
             <div className="social-button">
-              <GoogleOAuthButton />
-              <GithubButton />
+              <GoogleOAuthButton className="google icon" />
             </div>
           </div>
           <div className="link-container ">
@@ -118,6 +131,8 @@ function LoginPage() {
               name="email"
               onChange={handleChange}
               value={formData.email}
+              required
+              className=" focus:ring-0 focus:outline-none focus:border-none"
             />
             <div className="password-input-cont border-2 ">
               <input
@@ -126,7 +141,8 @@ function LoginPage() {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className="password-input w-full"
+                className="password-input w-full focus:ring-0 focus:outline-none focus:border-none"
+                required
               />
               {/* Toggle button to show/hide password */}
               {showPassword ? (
@@ -146,7 +162,13 @@ function LoginPage() {
             </div>
             <button type="submit">
               {loading ? (
-                <Spinner color="success" aria-label="Failure spinner example" />
+                <>
+                <Spinner
+                  color="success"
+                  aria-label="Failure spinner example"
+                />{" "}
+                loging...
+              </>
               ) : (
                 "Log in"
               )}
@@ -154,9 +176,15 @@ function LoginPage() {
           </form>
         </div>
         {errorr && (
-          <Alert color="failure" onDismiss={() => dispatch(clearError())}>
+          <div className=" w-full flex justify-center items-center">
+          <Alert
+            className=" w-full sm:w-1/2  text-xl"
+            color="failure"
+            onDismiss={() => dispatch(clearError(null))}
+          >
             {errorr}
           </Alert>
+        </div>
         )}
       </div>
       <aside className="image-wrapper relative">

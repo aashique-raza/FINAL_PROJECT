@@ -1,67 +1,72 @@
 
+/* main container----- */
 .login-container{
     width: 80%;
-    margin: 60px auto;
+    margin: 75px auto;
     /* border: 2px solid red; */
     display: flex;
     justify-content: space-between;
-    height: 600px;
+    height: 60rem;
     overflow: hidden;
    
 }
 .login-account{
     width: 63%;
     background-color: rgb(243, 248, 243);
-    height: 600px;
+    height: 60rem;
 }
 .logo-contain{
     /* border: 2px solid green; */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 30px;
+    padding: 0px 3rem;
     margin-top: 14px;
 }
 .logo-contain img{
-    width: 60px;
+    width: 6rem;
     border-radius: 50%;
     object-fit: fill;
     
 }
 .logo-contain p{
-    font-size: 14px;
+    font-size: 1.2rem;
     font-weight: 300;
     text-transform: capitalize;
+    font-family: var(--paragraph-font);
 }
 
 .welcome-back{
     /* border:2px solid gray; */
     /* width: 40%; */
-    margin: 20px auto;
+    margin: 1rem auto;
 }
 .welcome-back h2{
-    font-size: 26px;
+    font-size: 2.5rem;
     font-weight: 700;
     text-align: center;
     text-transform: capitalize;
+    font-family: var(--heading-font);
+    font-weight: normal;
 }
 .welcome-back p{
     text-align: center;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 1.2rem;
     text-transform: capitalize;
     margin-top: -10px;
+    font-family: var(--paragraph-font);
 }
 .social-button{
     display: flex;
  justify-content: center;
- gap: 17px;
+ 
     align-items: center;
-    margin-top: 30px;
+   margin-top: 3rem;
 }
 .link-container{
     width: 80%;
-    margin: 40px auto;
+    margin: 2.6rem auto;
     border: none;
 }
 .loginform{
@@ -90,7 +95,11 @@
     border: none;
     border-radius: 6px;
     width: 100%;
-   
+   font-size: 1.4rem;
+   text-transform: capitalize;
+   letter-spacing: 1px;
+   font-weight: normal;
+   font-family: var(--paragraph-font);
 
 }
 .password-input-cont{
@@ -105,6 +114,12 @@
     width: 100%;
     border: none;
     outline: none;
+    font-size: 1.4rem;
+   text-transform: capitalize;
+   letter-spacing: 1px;
+   font-weight: normal;
+   font-family: var(--paragraph-font);
+
   }
   
   
@@ -119,12 +134,12 @@
 .loginform button{
     cursor: pointer;
     outline: none;
-    border: 2px solid gray;
+    border: none;
     font-size: 17px;
     text-transform: capitalize;
     font-family: 800;
-    background-color: transparent;
-    color: #000000;
+    background-color: #c60202;
+    color:white;
     padding: 7px 15px;
     display: inline-block;
     margin: 17px auto;
@@ -136,7 +151,7 @@
   }
   
   .loginform button:hover{
-    transform: scale(0.9);
+    transform: scale(0.98);
   }
 .image-wrapper{
     width: 37%;

@@ -2,15 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import "../styles/Signup.css";
 import img from "../assets/signup.jpeg";
 import logo from "../assets/logo.png";
-import github from "../assets/github.png";
-import google from "../assets/google.png";
-import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash, } from "react-icons/fa";
+import {  Link, useNavigate } from "react-router-dom";
 import { Alert, Spinner } from "flowbite-react";
 import API_BASE_URL from "../configue";
 import { API_URL } from "../configue";
-import { ToastContainer, toast } from "react-toastify"; // ToastContainer aur toast ko yahan import karenge
-import "react-toastify/dist/ReactToastify.css"; // CSS ko import karenge
 import GoogleOAuthButton from "../components/GoogleOAuthButton";
 
 function SignupPage({showSuccessMessage}) {
@@ -18,6 +14,7 @@ function SignupPage({showSuccessMessage}) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
 
+  // store form data-----
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -26,12 +23,13 @@ function SignupPage({showSuccessMessage}) {
     email: "",
     phoneNumber: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const firstNameRef = useRef(null); // Ref for the first name input field
 
+// password vivibility function-------
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
@@ -40,6 +38,7 @@ function SignupPage({showSuccessMessage}) {
     setShowPassword(!showPassword); // Toggle state to show/hide password
   };
 
+  // handle change---
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -57,9 +56,12 @@ function SignupPage({showSuccessMessage}) {
     );
   });
 
+  // submit form here --------
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // validation here number and password and confirm password
     if (!(formData.phoneNumber?.length === 10)) {
       return setError("Mobile number must be 10 digits");
     }
@@ -92,7 +94,7 @@ function SignupPage({showSuccessMessage}) {
       }
       setError(null);
       setLoading(false);
-      showSuccessMessage("account created seccessfully!");
+      showSuccessMessage("signup successfully!");
       navigate("/login");
     } catch (error) {
       setError(error.message);
@@ -264,7 +266,7 @@ function SignupPage({showSuccessMessage}) {
           )}
         </div>
       </div>
-      {/* <ToastContainer position="top-right" /> */}
+      
     </main>
   );
 }
