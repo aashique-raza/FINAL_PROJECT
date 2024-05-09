@@ -6,12 +6,13 @@ import { logOutSuccess } from "../features/user.slice";
 import { useDispatch } from "react-redux";
 import { isLoggedIn } from "../token";
 function Protected() {
+  const loggedInStatus=isLoggedIn()
   const dispatch = useDispatch();
-  if (!isLoggedIn()) {
+  if (!loggedInStatus) {
     dispatch(logOutSuccess());
   }
 
-  return isLoggedIn ? <Outlet /> : <Navigate to={"/login"} />;
+  return loggedInStatus ? <Outlet /> : <Navigate to={"/login"} />;
 }
 
 export default Protected;

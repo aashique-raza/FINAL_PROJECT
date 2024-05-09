@@ -9,7 +9,7 @@ import Profile from "./Profile";
 
 import { isLoggedIn } from "../token";
 
-function Header() {
+function Header({showSuccessMessage}) {
  
   const loggedInStatus=isLoggedIn()
  
@@ -67,7 +67,7 @@ function Header() {
           >
             <img src={user?.profileImage} alt="profileImage" />
             <span className=" font-raleway "> hi,{user?.firstName}</span>
-            {SetShowProfile && <Profile toggle={profile} />}
+            {SetShowProfile && <Profile toggle={profile} showSuccessMessage={showSuccessMessage} />}
           </button>
         ) : (
           <NavLink className={"loginlink"} to={"/login"}>

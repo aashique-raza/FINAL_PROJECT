@@ -62,7 +62,7 @@ function App() {
 
   return (
     <Router>
-      <Header />
+      <Header showSuccessMessage={showSuccessMessage} />
       <ToastContainer />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -76,12 +76,12 @@ function App() {
         {/* <Route element={<CookieProtected />}></Route> */}
         <Route element={<Protected />}>
           <Route path="/create-listing" element={<CreateListingPage />}></Route>
-          <Route path="/create-listing/pg" element={<PgPage />}></Route>
-          <Route path="/create-listing/rent" element={<RentPage />}></Route>
+          <Route path="/create-listing/pg" element={<PgPage showSuccessMessage={showSuccessMessage} />}></Route>
+          <Route path="/create-listing/rent" element={<RentPage showSuccessMessage={showSuccessMessage} />}></Route>
           {/* Nested routes for profile */}
-          <Route path="/profile" element={<ProfilePage />}>
-            <Route path="myProfile" element={<BasicProfilePage />} />
-            <Route path="yourPropertyList" element={<YourPropertyPage />} />
+          <Route path="/profile" element={<ProfilePage showSuccessMessage={showSuccessMessage} />}>
+            <Route path="myProfile" element={<BasicProfilePage showSuccessMessage={showSuccessMessage} />} />
+            <Route path="yourPropertyList" element={<YourPropertyPage showSuccessMessage={showSuccessMessage} />} />
           </Route>
           {/* <Route path="/mail-verification" element={MailVerification} /> */}
         </Route>
