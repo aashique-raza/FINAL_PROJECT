@@ -24,8 +24,8 @@ export default function InputFileUpload() {
       tabIndex={-1}
       startIcon={<CloudUploadIcon />}
     >
-      Upload file
-      <VisuallyHiddenInput type="file" />
+      choose images
+      <VisuallyHiddenInput type="file" accept="image/*"  />
     </Button>
   );
 }

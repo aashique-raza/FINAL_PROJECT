@@ -22,23 +22,56 @@ import YourPropertyPage from "./pages/YourPropertyPage";
 import CookieProtected from "./components/CookieProtected";
 import MailVerification from "./components/MailVerification";
 import MailVerificationPage from "./pages/MailVerificationPage";
+// Importing toastify module
+import { toast,ToastContainer } from "react-toastify";
+ 
+// Import toastify css file
+import "react-toastify/dist/ReactToastify.css";
+ 
+// toast-configuration method,
+
+
+// import utility csss-----
+import './styles/Utility.css'
+
+// toastify
+const showSuccessMessage = (msg) => {
+  // console.log(msg);
+  toast.success(msg, {
+    position: "top-right", // Top-right mein position set kiya gaya hai
+    autoClose: 3000, // 3 seconds ke baad automatically close hoga
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    style: {
+      width: "200px", // Toast ki width 200px set ki gayi hai
+      marginTop: '10px', // Margin top 10px set kiya gaya hai
+      textTransform:"capitalize",
+      fontFamily:'sans-serif',
+      fontSize:"13px"
+    }
+  });
+};
 
 function App() {
+  // toast.success("Action completed!")
 
 
 
   return (
     <Router>
       <Header />
-
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
 
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/reset-password" element={<ResetPassword />}></Route>
-        <Route path="/signup" element={<SignupPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/signup" element={<SignupPage showSuccessMessage={showSuccessMessage} />}></Route>
+        <Route path="/login" element={<LoginPage showSuccessMessage={showSuccessMessage} />}></Route>
         <Route path="/mail-verification" element={<MailVerificationPage />}></Route>
         {/* <Route element={<CookieProtected />}></Route> */}
         <Route element={<Protected />}>

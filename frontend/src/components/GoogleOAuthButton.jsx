@@ -2,11 +2,11 @@ import React from 'react'
 import {Button} from 'flowbite-react'
 import google from "../assets/google.png";
 
-function GoogleOAuthButton() {
+function GoogleOAuthButton({className=''}) {
   return (
-    <button className="btn">
-    <img src={google} alt="google"  />
-    <p>google</p>
+    <button className={`${className}`}>
+    <img src={google} alt="google"   />
+    <p>continue with google</p>
 </button>
 
 

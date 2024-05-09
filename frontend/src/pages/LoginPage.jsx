@@ -21,6 +21,10 @@ import { API_URL } from "../configue";
 import { setTokenInLocalStorage } from "../token";
 
 function LoginPage() {
+  useEffect(() => {
+    // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
   const [showPassword, setShowPassword] = useState(false);
   const { errorr, loading } = useSelector((state) => state.user);
 

@@ -6,21 +6,25 @@ import github from "../assets/github.png";
 import google from "../assets/google.png";
 import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { Alert,Spinner  } from "flowbite-react";
+import { Alert, Spinner } from "flowbite-react";
 import API_BASE_URL from "../configue";
+import { API_URL } from "../configue";
+import { ToastContainer, toast } from "react-toastify"; // ToastContainer aur toast ko yahan import karenge
+import "react-toastify/dist/ReactToastify.css"; // CSS ko import karenge
+import GoogleOAuthButton from "../components/GoogleOAuthButton";
 
-function SignupPage() {
+function SignupPage({showSuccessMessage}) {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
 
   const [formData, setFormData] = useState({
-    firstName:'',
-    lastName:'',
-    password:'',
-    confirmPassword:'',
-    email:'',
-    phoneNumber:''
+    firstName: "",
+    lastName: "",
+    password: "",
+    confirmPassword: "",
+    email: "",
+    phoneNumber: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -37,15 +41,14 @@ function SignupPage() {
   };
 
   const handleChange = (e) => {
-    const{name,value}=e.target
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]:value
-    })
+      [name]: value,
+    });
   };
 
   // console.log(formData)
-
 
   useEffect(() => {
     setPasswordMatch(
@@ -54,37 +57,47 @@ function SignupPage() {
     );
   });
 
-  const handleSubmit =async (e) => {
-    e.preventDefault()
-    try {
-      setError(null)
-      setLoading(true)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      const response=await fetch(`${API_BASE_URL}/auth/create-account`,{
-        method:"POST",
+    if (!(formData.phoneNumber?.length === 10)) {
+      return setError("Mobile number must be 10 digits");
+    }
+
+    if (
+      formData.password.trim().toLocaleLowerCase() !==
+      formData.confirmPassword.trim().toLocaleLowerCase()
+    ) {
+      return setError("password does not match with confirm password");
+    }
+    try {
+      setError(null);
+      setLoading(true);
+
+      const response = await fetch(`${API_URL}/auth/create-account`, {
+        method: "POST",
         body: JSON.stringify(formData),
         headers: {
-          "Content-Type": "application/json" // Set content type to JSON
+          "Content-Type": "application/json", // Set content type to JSON
         },
-        
-      })
-      console.log(response)
+        credentials: "include",
+      });
+      // console.log(response);
 
-      
-
-      if(!response.ok){
-        const result=await response.json()
-      setError(result.message)
-      setLoading(false)
-      return
-
+      if (!response.ok) {
+        const result = await response.json();
+        setError(result.message);
+        setLoading(false);
+        return;
       }
-      setError(null)
-      setLoading(false)
-      navigate('/login')
-      
+      setError(null);
+      setLoading(false);
+      showSuccessMessage("account created seccessfully!");
+      navigate("/login");
     } catch (error) {
-      console.log(`signup failed ${error}`)
+      setError(error.message);
+      setLoading(false);
+      console.log(`signup failed ${error}`);
     }
   };
 
@@ -98,39 +111,27 @@ function SignupPage() {
           alt=""
         />
         <div className="text-container">
-          <h2 className="text font-serif">
-            Join our community and unlock the door to your new beginning.
-          </h2>
+          <h2 className="text ">create your account and list your porperty</h2>
         </div>
       </aside>
       <div className="formContainer ">
-        <p className=" mr-5 mt-5  self-end text-sm  font-sans">
+        <p className=" mr-5 mt-5  self-end text-xl   font-sans">
           {" "}
           have an account?{" "}
           <Link
             to={"/login"}
-            className=" text-green-400 font-raleway font-bold"
+            className=" text-red-500 font-raleway text-xl font-bold"
           >
             login
           </Link>{" "}
         </p>
         <div className="formBox">
           <div className="slogan">
-            <h2 className=" text-center text-2xl m-0 font-sans font-bold capitalize text-gray-800">
-              Your Dream Space Awaits
-            </h2>
-            <p className="text-center font-slab lowercase text-xxl font-normal -mt-1">
-              getting started is easy
-            </p>
-            <div className="social-icons font-raleway flex justify-center gap-2 my-5 mb-10 ">
-              <button className="google icon">
-                <img src={google} alt="github" />
-                <p>google</p>
-              </button>
-              <button className="facebook icon">
-                <img src={github} alt="github" />
-                <p>github</p>
-              </button>
+            <h2 className=" ">Your Dream Space Awaits</h2>
+            <p className="">getting started is easy</p>
+            <div className="social-icons  flex justify-center gap-2 my-5 mb-10 ">
+              <GoogleOAuthButton className='google icon'/>
+
             </div>
           </div>
           <div className="link-container ">
@@ -146,6 +147,7 @@ function SignupPage() {
                 required
                 onChange={handleChange}
                 value={formData.firstName}
+                className=" focus:ring-0 focus:border-none focus:outline-none"
               />
               <input
                 type="text"
@@ -154,6 +156,7 @@ function SignupPage() {
                 required
                 onChange={handleChange}
                 value={formData.lastName}
+                className=" focus:ring-0 focus:border-none focus:outline-none"
               />
               <input
                 type="email"
@@ -162,24 +165,27 @@ function SignupPage() {
                 required
                 onChange={handleChange}
                 value={formData.email}
+                className=" focus:ring-0 focus:border-none focus:outline-none"
               />
               <input
                 type="number"
-               
                 name="phoneNumber"
                 placeholder="mobile"
                 required
                 onChange={handleChange}
                 value={formData.phoneNumber}
+                min={0}
+                className=" focus:ring-0 focus:border-none focus:outline-none"
               />
               <div className="password-input-container border-2 ">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="password-input w-full"
+                  className="password-input w-full focus:ring-0 focus:border-none focus:outline-none"
                   onChange={handleChange}
                   value={formData.password}
                   name="password"
+                  required
                 />
                 {/* Toggle button to show/hide password */}
                 {showPassword ? (
@@ -198,10 +204,11 @@ function SignupPage() {
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="confirm password"
-                  className="password-input w-full"
+                  className="password-input w-full focus:ring-0 focus:border-none focus:outline-none"
                   onChange={handleChange}
                   value={formData.confirmPassword}
                   name="confirmPassword"
+                  required
                 />
                 {/* Toggle button to show/hide password */}
                 {showConfirmPassword ? (
@@ -216,25 +223,48 @@ function SignupPage() {
                   />
                 )}
               </div>
-            
 
               <button type="submit">
-               {
-                loading ? (  <Spinner color="success" aria-label="Failure spinner example" />) : "create account"
-               } </button>
+                {loading ? (
+                  <>
+                    <Spinner
+                      color="success"
+                      aria-label="Failure spinner example"
+                    />{" "}
+                    creating...
+                  </>
+                ) : (
+                  "create account"
+                )}{" "}
+              </button>
             </form>
-          
           </div>
-            {!passwordMatch && (
-                <p style={{ color: "red",marginTop:'-14px',marginBottom:'-12px',textAlign:'center' }}>Passwords are not matched!</p>
-              )}
-            {error && (
-              <Alert color="failure" onDismiss={() => setError(null)}>
+          {!passwordMatch && (
+            <p
+              style={{
+                color: "red",
+                marginTop: "-14px",
+                marginBottom: "-12px",
+                textAlign: "center",
+              }}
+            >
+              Passwords are not matched!
+            </p>
+          )}
+          {error && (
+            <div className=" w-full flex justify-center items-center">
+              <Alert
+                className=" w-full sm:w-1/2 md:w-1/3 text-xl"
+                color="failure"
+                onDismiss={() => setError(null)}
+              >
                 {error}
               </Alert>
-            )}
+            </div>
+          )}
         </div>
       </div>
+      {/* <ToastContainer position="top-right" /> */}
     </main>
   );
 }

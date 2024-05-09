@@ -1,0 +1,64 @@
+
+/* HTML font size */
+html {
+    font-size: 10px; /* Default font size set kiya gaya hai, aap ise apne requirements ke hisab se badal sakte hain */
+  }
+  
+  
+  
+
+/* Colors */
+:root {
+    --gray-light: #e1e4ea;
+    --dark-purple: #291f23;
+    --green-500: #34D399;
+    --red-500: #EF4444;
+  }
+  
+ /* Fonts */
+:root {
+    --paragraph-font : 'Open Sans', sans-serif;
+    --button-font: 'Raleway', sans-serif;
+    --heading-font : 'Roboto Slab', serif;
+    --roboto-font: 'Roboto', sans-serif;
+  }
+  
+  /* Font sizes for mobile screens */
+  @media screen and (max-width: 768px) {
+    h1 {
+      font-size: 2rem; /* Font size for h1 on mobile screens */
+    }
+    h2 {
+      font-size: 1.8rem; /* Font size for h2 on mobile screens */
+    }
+    h3 {
+      font-size: 1.6rem; /* Font size for h3 on mobile screens */
+    }
+    h4 {
+      font-size: 1.5rem; /* Font size for h4 on mobile screens */
+    }
+    h5 {
+      font-size: 1.4rem; /* Font size for h5 on mobile screens */
+    }
+    h6 {
+      font-size: 1.2rem; /* Font size for h6 on mobile screens */
+    }
+    p {
+      font-size: 1.3rem; /* Font size for paragraph on mobile screens */
+    }
+    button {
+      font-size: 1.4rem; /* Font size for button on mobile screens */
+    }
+    input{
+        font-size: 5rem;
+    }
+    input::placeholder{
+        font-size: 1.2rem;
+    }
+    input[type='submit']{
+        font-size: 1.4rem;
+    }
+    label{
+        font-size: 1.2rem;
+    }
+  }
