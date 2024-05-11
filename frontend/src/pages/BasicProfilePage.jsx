@@ -332,7 +332,7 @@ function BasicProfilePage({ showSuccessMessage }) {
               </div>
             </div>
           </div>
-          {!user.isEmailVerified && (
+          {!user?.isEmailVerified && (
             <div className=" sm:px-20 mt-4">
               <div
                 onClick={handleEmailVerification}

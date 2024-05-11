@@ -13,6 +13,7 @@ function Profile({ toggle = false,showSuccessMessage }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const token=getTokenFromLocalStorage()
+  const navigate=useNavigate()
 
   const links = [{ url: "profile/myProfile", urlName: "profile" }];
 
@@ -44,6 +45,7 @@ function Profile({ toggle = false,showSuccessMessage }) {
       removeTokenFromLocalStorage()
       dispatch(logOutSuccess());
       showSuccessMessage('logged out successfull!')
+      navigate('/login')
     } catch (error) {
       console.log("logout failed", error);
     }
