@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "../styles/Pg.css";
 import {
-  sharingOptions,
-  kitchenOptions,
-  balconyOptions,
+ 
   rentAmountOptions,
   roomAmenities,
   pgSelectOptions,
@@ -11,19 +9,23 @@ import {
   pgRules,
 } from "../utils";
 import Input from "../components/Input";
-import OptionInput from "../components/OptionInput";
+import { API_URL } from "../configue";
 import CheckBoxInput from "../components/CheckBoxInput";
 import SelectTag from "../components/SelectTag";
 import TextArea from "../components/TextArea";
 import LocalityDetails from "../components/LocalityDetails";
 import PgAmenities from "../components/PgAmenities";
 import UploadPhotos from "../components/UploadPhotos";
-import { Balcony } from "@mui/icons-material";
-import pgFormDataValidation from "../formError";
-import { Alert } from "flowbite-react";
-import { formErrorHandler } from "../formError";
+import { pgListingClearError,pgListingFailed,pgListingStart,pgListingSuccess } from "../features/pg.slice";
+import { useDispatch,useSelector } from "react-redux";
 
-function PgPage() {
+import { Alert,Spinner } from "flowbite-react";
+import { formErrorHandler } from "../formError";
+import { getTokenFromLocalStorage } from "../token";
+
+function PgPage({showSuccessMessage}) {
+
+
   const [formData, setFormData] = useState({
     roomFacilities: [],
     rentAmount: 0,
@@ -49,11 +51,20 @@ function PgPage() {
     ameinites: [],
    
   });
+  const token=getTokenFromLocalStorage()
+  // useSelector((state)=>console.log(state))
+  const {loading,error}=useSelector((state)=>state.pgLIsting)
+  const dispatch=useDispatch()
 
   const[photos,setPhotos]=useState([])
   // console.log(photos)
 
-  const [error, setError] = useState("");
+  useEffect(()=>{
+    dispatch(pgListingClearError())
+    
+  },[])
+
+ 
 
   const [formError, setFormError] = useState({
     roomFacilities: [],
@@ -109,11 +120,17 @@ function PgPage() {
   };
   // console.log(formData);
   // console.log(amenities)
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(pgListingClearError())
+    if(formData.foodAvaibility && !formData.foodType){
+      return dispatch(pgListingFailed('food type is required field'))
+    }
+    
     const pgFormData= new FormData();
-    pgFormData.append("ameinites", formData.ameinites);
+   
     pgFormData.append("availableFor", formData.availableFor);
     pgFormData.append("balcony", formData.balcony);
     pgFormData.append("city", formData.city);
@@ -126,62 +143,65 @@ function PgPage() {
     pgFormData.append("laundary", formData.laundary);
     pgFormData.append("localAddress", formData.localAddress);
     pgFormData.append("pgOrHostelName", formData.pgOrHostelName);
-    pgFormData.append("pgRules", formData.pgRules);
+ 
     pgFormData.append("placeAvaibility", formData.placeAvaibility);
     pgFormData.append("rentAmount", formData.rentAmount);
     pgFormData.append("roomCleaning", formData.roomCleaning);
-    pgFormData.append("roomFacilities", formData.roomFacilities);
+   
     pgFormData.append("roomSharing", formData.roomSharing);
     pgFormData.append("state", formData.state);
     pgFormData.append("warden", formData.warden);
-      // listingForm.append("ameinites", formData.);
-      // console.log(pgFormData)
+   
+    formData.ameinites?.forEach((amenity) => {
+      pgFormData.append("ameinites", amenity);
+    });
+    formData.roomFacilities?.forEach((facility)=>{
+      pgFormData.append('roomFacilities',facility)
+    })
+    formData.pgRules?.forEach((rule)=>{
+      pgFormData.append('pgRules',rule)
+    })
 
       /* Append each selected photos to the FormData object */
       photos.forEach((photo) => {
         pgFormData.append("listingPhotos", photo);
       });
 
-    
-    const result = formErrorHandler(formData);
-    console.log(result);
-    setError("");
-
-    if (!result) {
-      setError("fill all required fields(*)");
-      return;
-    }
 
     try {
-      setError("");
+      dispatch(pgListingStart())
 
-      const resp = await fetch("/api/pg/create-listing", {
+      const resp = await fetch(`${API_URL}/pg/create-listing`, {
         method: "POST",
-        // headers: {
-        //   "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
-        // },
+        headers: {
+          // "Content-Type": "multipart/form-data"
+          "Authorization": `Bearer ${token}`
+        },
+        credentials: "include",
         body: pgFormData
       });
       const data = await resp.json();
+      // console.log(data)
+      
       
 
-      if(!response.ok){
-        // console.log(result)
-        console.log(data.message)
+      if(!resp.ok){
+        dispatch(pgListingFailed(data.message))
+        
         return
 
       }
+      showSuccessMessage('listing successfull')
       
-      // console.log(resp);
-     
-      // console.log(data);
+      dispatch(pgListingClearError())
+      dispatch(pgListingSuccess(data.lsiting))      
     } catch (error) {
       console.log(error.message);
+      dispatch(pgListingFailed(error.message))
     }
   };
 
-  // console.log(formData)
-  // console.log('sb thik hai')
+
 
   return (
     <main className="pg-container">
@@ -219,6 +239,10 @@ function PgPage() {
                 />
               ))}
             </div>
+            <p className=" -mt-20 font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
+              {formData?.depositAmount < formData?.rentAmount &&
+                "deosit amount can not be less than rent amount" }
+            </p>
             <div className="room-details-3">
               <h3>room facillities:</h3>
               <div className="amenities-wrapper">
@@ -236,6 +260,7 @@ function PgPage() {
             </div>
           </div>
         </section>
+        
         <section className="pg-section-2">
           <div className="pg-section-heading">
             <h1> Showcase Your PG Details!: </h1>
@@ -324,16 +349,28 @@ function PgPage() {
           </div>
         </section>
         {error && (
+          <div className=" w-full flex justify-center items-center">
           <Alert
+            className=" w-full sm:w-1/2 md:w-1/3 text-xl"
             color="failure"
-            onDismiss={() => setError("")}
-            className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
+            onDismiss={() => dispatch(pgListingClearError())}
           >
             {error}
           </Alert>
+        </div>
         )}
         <div className="submit_button">
-          <button type="submit">create listing</button>
+          <button type="submit">
+          {
+            loading ? (<>
+              <Spinner
+                color="failure"
+                aria-label="Failure spinner example"
+              />{" "}
+              listing...
+            </>) : 'create listing'
+          }
+            </button>
         </div>
       </form>
     </main>
