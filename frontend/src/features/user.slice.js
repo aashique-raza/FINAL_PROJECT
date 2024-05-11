@@ -49,6 +49,24 @@ export const userSlice = createSlice({
       };
       state.loading = false;
       state.errorr = null;
+    },
+    emailVeriFicationStart:(state)=>{
+
+      state.loading=true
+      state.errorr=null
+    },
+
+    emailVeriFicatioFailed:(state,action)=>{
+      state.errorr=action.payload
+      state.loading=false
+    },
+
+    emailVerificationSuccess:(state,action)=>{
+      
+      
+      state.user=action.payload
+      state.loading=false
+      state.errorr=null
     }
     
     
@@ -63,7 +81,10 @@ export const {
   clearError,
   setToken,
   logOutSuccess,
-  updateSucceFully
+  updateSucceFully,
+  emailVeriFicatioFailed,
+  emailVeriFicationStart,
+  emailVerificationSuccess
   
 } = userSlice.actions;
 

@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../configue";
 import { setTokenInLocalStorage } from "../token";
 import GoogleOAuthButton from "../components/GoogleOAuthButton";
+import { validateEmail,validateMobileNumber } from "../formError";
 
 function LoginPage({showSuccessMessage}) {
   useEffect(() => {
@@ -56,7 +57,10 @@ function LoginPage({showSuccessMessage}) {
     if(!formData.email?.includes('@')){
    
       if (!(formData.email?.length === 10)) {
-        return dispatch(loginFailed('Mobile number must be 10 digits'))
+        
+        return dispatch(loginFailed('invalid mobile number'))
+      }else{
+        formData.email=parseInt(formData.email)
       }
 
       

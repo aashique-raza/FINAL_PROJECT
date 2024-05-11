@@ -115,7 +115,7 @@
 /* basic profile css start here-------------------- */
 
 .basic_profile_container {
-    /* border: 2px solid red; */
+    border: 2px solid red;
     min-height: 100%;
     width: 100%;
     padding: 10px 22px;
@@ -144,53 +144,17 @@
     max-width: 200px;
 }
 
-.user_profile_edit_inputs {
-    
+ .show_status{
+    display: none;
 }
 
-.edit_input_wrapper {
-    width: 45%;
-    display: flex;
-    /* min-width: 250px; */
-    align-items: center;
-    gap: 8px;
-}
-
-.email_input_wrapper{
-    width: 100%;
-    /* border: 2px solid green; */
-    display: flex;
-    align-items: center;
-}
-.email_input_wrapper input{
-    width: 50%;
-    margin-left: 8px;
-}
-
-.user_profile_edit_inputs label {
-    font-size: 14px;
-    letter-spacing: 0px;
-    font-weight: 700;
-    text-transform: capitalize;
-    font-family: sans-serif;
-    display: inline-block;
-
-}
-
-.edit_input_wrapper input {
-    width: 70%;
-    padding: 9px 13px;
-    outline: none;
-
-}
-
-.email_verified:hover .show {
+.email_verify_icon:hover, .show_status{
     display: block;
 }
 
-.show {
-    display: none;
-}
+
+
+
 
 .edit_btn{
     /* border: 2px solid red; */
