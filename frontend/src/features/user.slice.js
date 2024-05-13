@@ -64,9 +64,10 @@ export const userSlice = createSlice({
     emailVerificationSuccess:(state,action)=>{
       
       
-      state.user=action.payload
+      state.user.isEmailVerified=true
       state.loading=false
       state.errorr=null
+      
     }
     
     

@@ -72,7 +72,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword showSuccessMessage={showSuccessMessage} />}></Route>
         <Route path="/signup" element={<SignupPage showSuccessMessage={showSuccessMessage} />}></Route>
         <Route path="/login" element={<LoginPage showSuccessMessage={showSuccessMessage} />}></Route>
-        <Route path="/mail-verification" element={<MailVerificationPage />}></Route>
+        <Route path="/mail-verification" element={<MailVerificationPage showSuccessMessage={showSuccessMessage}  />}></Route>
         {/* <Route element={<CookieProtected />}></Route> */}
         <Route element={<Protected />}>
           <Route path="/create-listing" element={<CreateListingPage />}></Route>

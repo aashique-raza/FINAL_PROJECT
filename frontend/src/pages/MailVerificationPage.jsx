@@ -49,7 +49,7 @@ function MailVerificationPage({ showSuccessMessage }) {
       );
 
       const data = await resp.json();
-      // console.log(data);
+      console.log(data);
 
       if (!resp.ok) {
         dispatch(emailVeriFicatioFailed(data.message));
@@ -58,11 +58,14 @@ function MailVerificationPage({ showSuccessMessage }) {
       }
 
       dispatch(clearError());
-      dispatch(emailVerificationSuccess(data.verifiedUser));
+      dispatch(emailVerificationSuccess());
       showSuccessMessage("email verified successfully");
 
       navigate("/profile/myProfile");
-    } catch (error) {}
+    } catch (error) {
+      dispatch(emailVeriFicatioFailed(error.message))
+      console.log(error)
+    }
   };
 
   return (

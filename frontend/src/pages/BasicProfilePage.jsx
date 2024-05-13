@@ -61,7 +61,7 @@ function BasicProfilePage({ showSuccessMessage }) {
   const uploadImage = async () => {
     setImageFileUploading(true);
     setImageFileUploadError(null);
-    setButtonDisabled(true);
+  
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
@@ -86,7 +86,7 @@ function BasicProfilePage({ showSuccessMessage }) {
         setImageFile(null);
         setImageFileUrl(null);
         setImageFileUploading(false);
-        setButtonDisabled(false);
+       
         setImageFile(null);
       },
       () => {
@@ -99,7 +99,7 @@ function BasicProfilePage({ showSuccessMessage }) {
             profileImage: downloadURL,
           });
           setImageFileUploading(false);
-          setButtonDisabled(false);
+         
           setImageFile(null);
         });
       }
