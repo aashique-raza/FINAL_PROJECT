@@ -64,13 +64,24 @@ min-width: 30%;
 }
 
 
+.radio_input_container{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.8rem;
+}
 
-.radio_input_container label{
+.radio_input_container label, input[type='radio']{
 font-size: 14px;
 font-weight: 700;
 text-transform: capitalize;
 letter-spacing: 0;
 margin-right: 5px;
+color: gray;
+}
+
+.radio_input_container input[type='radio']:checked{
+    color: green;
 }
 
 /* section2 ++++++++++++++++++++++++++++++ */

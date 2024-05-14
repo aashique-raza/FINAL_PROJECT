@@ -4,8 +4,12 @@ import { Button } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function UploadPhotos({ photos, setPhotos }) {
+function UploadPhotos({ photos, setPhotos,propertyCreated=false }) {
+ 
   const [imageUrls, setImagesUrls] = useState([]);
+  if(propertyCreated){
+    setImagesUrls([])
+  }
 
   const handleFileChange = (event) => {
     // const files = Array.from(event.target.files);

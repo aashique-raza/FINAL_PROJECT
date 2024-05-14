@@ -25,7 +25,7 @@ import { getTokenFromLocalStorage } from "../token";
 
 function PgPage({showSuccessMessage}) {
 
-
+  const [isPgCreated,setIsPgCreated]=useState(false)
   const [formData, setFormData] = useState({
     roomFacilities: [],
     rentAmount: 0,
@@ -52,7 +52,7 @@ function PgPage({showSuccessMessage}) {
    
   });
   const token=getTokenFromLocalStorage()
-  // useSelector((state)=>console.log(state))
+
   const {loading,error}=useSelector((state)=>state.pgLIsting)
   const dispatch=useDispatch()
 
@@ -66,38 +66,7 @@ function PgPage({showSuccessMessage}) {
 
  
 
-  const [formError, setFormError] = useState({
-    roomFacilities: [],
-    roomSharing: "",
-    kitchen: "",
-    balcony: "",
-    availableFor: "",
-    placeAvaibility: "",
-    foodAvaibility: "",
-    doorClosingTime: "",
-    foodType: "",
-    pgRules: [],
-    pgOrHostelName: "",
-    description: "",
-    state: "",
-    city: "",
-    localAddress: "",
-    laundary: "",
-    roomCleaning: "",
-    warden: "",
-    ameinites: [],
-    images: [],
-  });
 
-  const [amenities, setAmenities] = useState([]);
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
-    });
-  };
 
   const handleCheckboxChange = (event, id) => {
     const { checked } = event.target;
@@ -128,6 +97,7 @@ function PgPage({showSuccessMessage}) {
     if(formData.foodAvaibility && !formData.foodType){
       return dispatch(pgListingFailed('food type is required field'))
     }
+    
     
     const pgFormData= new FormData();
    
@@ -345,7 +315,7 @@ function PgPage({showSuccessMessage}) {
         <section className="pg-section-5">
           <div className="pg-section-heading">
             <h1>upload your pg pictures: </h1>
-            <UploadPhotos setPhotos={setPhotos} photos={photos} />
+            <UploadPhotos setPhotos={setPhotos} photos={photos} propertyCreated={isPgCreated} />
           </div>
         </section>
         {error && (

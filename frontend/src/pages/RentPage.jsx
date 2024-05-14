@@ -1,8 +1,5 @@
-import React, { useState,useRef } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import "../styles/Rent.css";
-import SelectINput from "../components/SelectINput";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AttachMoney } from "@mui/icons-material";
 import LocalityDetails from "../components/LocalityDetails";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import AmenitiesFeatures from "../components/AmenitiesFeatures";
@@ -10,10 +7,10 @@ import UploadPhotos from "../components/UploadPhotos";
 import SelectTag from "../components/SelectTag";
 import Input from "../components/Input";
 import { roomAmenitiesList } from "../rentUtils";
-import { Alert, Spinner } from "flowbite-react";
-
+import { getTokenFromLocalStorage } from "../token";
+import { API_URL } from "../configue";
 import {
-  propertyAvailableFor,
+ 
   preferedTenats,
   monthlyMaintenance,
   furnishing,
@@ -22,29 +19,26 @@ import {
   electricity,
   roomDetailsOptions,
 } from "../rentUtils";
-import TextInput from "../components/TextInput";
-import CustomRadio from "../components/CustomRadio";
 import RadioInput from "../components/RadioInput";
-import CustomCheckbox from "../components/CustomCheckbox";
-import NumberInput from "../components/NumberInput";
+
+
 import CalenderInput from "../components/CalenderInput";
-import CustomTextArea from "../components/CustomTextArea";
-import { Textarea } from "flowbite-react";
+import { Alert,Spinner } from "flowbite-react";
 // import { IndianRupeeIcon } from "@mui/icons-material";
 import DescriptionInput from "../components/DescriptionInput";
 import { AllStates, cities } from "../utils";
-import { parse } from "@fortawesome/fontawesome-svg-core";
 
-function RentPage() {
+function RentPage({showSuccessMessage}) {
+  const token=getTokenFromLocalStorage()
   const [state, setState] = useState("");
   const [photos, setPhotos] = useState([]);
+  const [isPropertyCreated,setIspropertyCreated]=useState(false)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(null);
+ 
   const formRef = useRef(null);
-  // const formRef = useRef(null);
-  // console.log(photos)
-  // console.log(photos)
+
+console.log(photos)
 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentCity(currentCity) {
@@ -178,14 +172,16 @@ function RentPage() {
 
     try {
       setError(null);
-      setSuccess(null);
+      
       setLoading(true);
 
-      const resp = await fetch("/api/rent/create", {
+      const resp = await fetch(`${API_URL}/rent/create`, {
         method: "POST",
-        // headers: {
-        //   "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
-        // },
+        headers: {
+          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+          "Authorization": `Bearer ${token}`
+        },
+        credentials:'include',
         body: rentFormData,
       });
       // console.log(resp);
@@ -193,8 +189,7 @@ function RentPage() {
       // console.log(data);
 
       if (!resp.ok) {
-        // console.log(result)
-        // console.log(data.message);
+        
         setLoading(false);
         setError(data.message);
         return;
@@ -202,20 +197,26 @@ function RentPage() {
 
       setLoading(false);
       setError(null);
-      setSuccess(data.msg);
+      showSuccessMessage('rent property created')
          // Reset form
     formRef.current.reset();
-    setPhotos([])
+    
       
-      
+      setPhotos([])
+      setBedroom(0)
+      setbalcony(0)
+      setGuest(0)
+      setIspropertyCreated(true)
      
     } catch (error) {
+    setError(error.message)
+    setLoading(false)
       console.log(error.message);
     }
   };
 
   return (
-    <div className=" rent_container lg:px-28">
+    <div className=" rent_container lg:px-28  border-none">
       <form ref={formRef} onSubmit={handleSubmitForm} className=" w-full">
         <section className="rent_section_1">
           <div className="mb-5">
@@ -261,14 +262,14 @@ function RentPage() {
         </section>
         <section className="rent_section_2 mt-5 ">
           <div className="mb-5">
-            <h2 className="text-xs md:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
               Provide rental details about your property
             </h2>
           </div>
 
           <div className=" flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
             <div className=" flex  flex-col gap-1  items-   lg:w-1/4">
-              <p className=" font-raleway font-bold text-xs capitalize text-gray-950">
+              <p className=" font-roboto sm:text-xl text-sm font-semibold capitalize text-gray-950">
                 property available for
               </p>
               <div className=" flex gap-3">
@@ -291,7 +292,7 @@ function RentPage() {
               </div>
             </div>
             <div className=" flex  flex-col gap-1    prefered_tenats">
-              <p className=" font-raleway font-bold text-xs capitalize text-gray-950">
+              <p className=" font-raleway font-bold text-sm sm:my-0 mt-2 sm:text-xl capitalize text-gray-950">
                 prefered tenats
               </p>
               <div className=" flex items-center justify-start gap-3  flex-wrap">
@@ -309,10 +310,10 @@ function RentPage() {
                     />
                     <label
                       htmlFor={tenetOption.value}
-                      className=" flex items-center gap-1  text-xs md:text-sm font-raleway font-bold text-gray-500"
+                      className=" flex items-center gap-1  text-sm sm:text-xl font-raleway font-bold text-gray-500"
                     >
                       {" "}
-                      <span>{tenetOption.icon}</span> {tenetOption.label}
+                      <span >{tenetOption.icon}</span> {tenetOption.label}
                     </label>
                   </div>
                 ))}
@@ -322,7 +323,7 @@ function RentPage() {
             </div>
           </div>
           <div>
-            <div className=" flex flex-col gap-4 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
+            <div className="  mt-3 flex flex-col gap-2 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
               <Input
                 label={"expected rent"}
                 type="number"
@@ -426,13 +427,13 @@ function RentPage() {
         </section>
         <section className="rent_section_3 my-5">
           <div className="mb-5">
-            <h2 className="text-xs md:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
               locality Details
             </h2>
           </div>
 
           <div className=" flex justify-start gap-7 items-center flex-wrap">
-            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-1/3 ">
+            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-full sm:w-1/3 ">
               <SelectTag
                 id={"state"}
                 name={"state"}
@@ -445,7 +446,7 @@ function RentPage() {
                 state={true}
               ></SelectTag>
             </div>
-            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-1/3 ">
+            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-full sm:w-1/3 ">
               <SelectTag
                 id={"city"}
                 name={"city"}
@@ -470,7 +471,7 @@ function RentPage() {
         </section>
         <section className="rent_section_4">
           <div className="mb-5">
-            <h2 className="text-xs md:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
               provide additional details about your property to get maximum
               visibility
             </h2>
@@ -598,7 +599,7 @@ function RentPage() {
             <p className=" py-4 border-t-2 font-roboto capitalize text-xs font-bold space-x-0 text-gray-700">
               select the available amenities
             </p>
-            <div className=" flex items-center justify-start gap-3  flex-wrap">
+            <div className=" flex items-center justify-start gap-5  flex-wrap">
               {roomAmenitiesList?.map((tenetOption, index) => (
                 <div
                   key={index}
@@ -613,7 +614,7 @@ function RentPage() {
                   />
                   <label
                     htmlFor={tenetOption.label}
-                    className=" flex items-center gap-1  text-xs md:text-sm font-raleway font-bold text-gray-500"
+                    className=" flex items-center gap-1  text-sm sm:text-xl font-raleway font-bold text-gray-500"
                   >
                     {" "}
                     <span>{tenetOption.icon}</span> {tenetOption.label}
@@ -625,40 +626,38 @@ function RentPage() {
         </section>
         <section className=" rent_section_5">
           <div className="mb-5">
-            <h2 className="text-xs md:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
               upload your porperty photos to get maximum result
             </h2>
           </div>
           <div>
-            <UploadPhotos photos={photos} setPhotos={setPhotos} />
+            <UploadPhotos photos={photos} setPhotos={setPhotos} propertyCreated={isPropertyCreated} />
           </div>
         </section>
         {error && (
+          <div className=" w-full flex justify-center items-center">
           <Alert
+            className=" w-full sm:w-1/2 md:w-1/3 text-xl"
             color="failure"
             onDismiss={() => setError(null)}
-            className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
           >
             {error}
           </Alert>
+        </div>
         )}
-        {success && (
-          <Alert
-            color="success"
-            onDismiss={() => setSuccess(null)}
-            className=" sm:px-4 sm:text-1xl font-raleway  sm:w-1/2 sm:my-3 sm:mx-auto"
-          >
-            {success}
-          </Alert>
-        )}
+        
         <div className=" flex justify-end items-center my-10 ">
           <button
             type="submit"
-            className=" capitalize  px-10 py-3  font-roboto font-semibold md:text-sm text-xs border-none outline-none focus:border-none focus:outline-none focus:ring-0 rounded-md bg-red-500 text-white hover:bg-red-600 transition-all duration-1000 ease-in-out"
+            className=" capitalize  px-10 py-3  font-roboto font-semibold sm:text-xl text-sm border-none outline-none focus:border-none focus:outline-none focus:ring-0 rounded-md bg-red-500 text-white hover:bg-red-600 transition-all duration-1000 ease-in-out"
           >
-            {loading ? (
-              <Spinner color="success" aria-label="Failure spinner example" />
-            ) : (
+            {loading ?  (<>
+              <Spinner
+                color="failure"
+                aria-label="Failure spinner example"
+              />{" "}
+              creating property..
+            </>) : (
               "create property"
             )}
           </button>
