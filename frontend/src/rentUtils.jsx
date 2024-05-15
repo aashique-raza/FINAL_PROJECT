@@ -183,3 +183,13 @@ export const roomAmenitiesList = [
   { label: "Power Backup", icon: <PowerIcon /> },
   { label: "Visitor Parking", icon: <LocalParkingOutlinedIcon /> },
 ];
+
+export const bhkTypes = [
+  {label:'select BHK type',value:""},
+  { label: "1 RK", value: "1rk" },
+  { label: "1 BHK", value: "1bhk" },
+  { label: "2 BHK", value: "2bhk" },
+  { label: "3 BHK", value: "3bhkk" },
+  { label: "4 BHK", value: "4bhk" },
+  { label: "4+ BHK", value: "4bhk+" },
+];

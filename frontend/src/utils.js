@@ -114,12 +114,16 @@ export const pgSelectOptions = [
       { label: "select", value: "" },
       { label: "veg food/meal", value: "veg-food" },
       { label: "non-veg food/meal ", value: "non-veg-food" },
-      
     ],
   },
 ];
 
-export const pgRules=['no girls entry','no smoking','no pets','guest allowed']
+export const pgRules = [
+  "no girls entry",
+  "no smoking",
+  "no pets",
+  "guest allowed",
+];
 
 export const roomDetailsOptions = [
   {
@@ -142,8 +146,8 @@ export const roomDetailsOptions = [
         label: "select",
         value: "",
       },
-      { label: "with kitchen", value: 'yes' },
-      { label: "without kitchen", value: 'no' },
+      { label: "with kitchen", value: "yes" },
+      { label: "without kitchen", value: "no" },
     ],
   },
   {
@@ -151,60 +155,74 @@ export const roomDetailsOptions = [
     id: "balcony",
     optionValues: [
       { label: "select", value: "" },
-      { label: "yes", value: 'yes' },
-      { label: "no", value: 'no' },
+      { label: "yes", value: "yes" },
+      { label: "no", value: "no" },
     ],
   },
-  
 ];
 
-export const AllStates=[
-  {label:'select',value:''},
-  {label:'kolkata',value:'kolkata'},
-  {label:'mumbai',value:'maharashtra'},
-  {label:'delhi',value:'delhi'},
-  {label:'assam',value:'assam'},
-  {label:'Uttar pradesh',value:'up'},
-  {label:'Goa',value:'goa'},
+export const AllStates = [
+  { label: "select", value: "" },
+  { label: "kolkata", value: "kolkata" },
+  { label: "mumbai", value: "maharashtra" },
+  { label: "delhi", value: "delhi" },
+  { label: "assam", value: "assam" },
+  { label: "Uttar pradesh", value: "up" },
+  { label: "Goa", value: "goa" },
 
-  {label:'Gujrat',value:'gujrat'},
+  { label: "Gujrat", value: "gujrat" },
+];
 
-]
+export const cities = [
+  {
+    cityName: {
+      delhi: [
+        { label: "New Delhi", value: "newDelhi" },
+        { label: "Gurgaon", value: "gurgaon" },
+        { label: "Lajpat Nagar", value: "lajpatNagar" },
+        { label: "Saket", value: "saket" },
+        { label: "Malviya Nagar", value: "malviyaNagar" },
+      ],
+    },
+  },
+  {
+    cityName: {
+      gujrat: [
+        { label: "Ahmedabad", value: "ahmedabad" },
+        { label: "Surat", value: "surat" },
+        { label: "Vadodara", value: "vadodara" },
+      ],
+    },
+  },
+  {
+    cityName: {
+      maharashtra: [
+        { label: "Pune", value: "pune" },
+        { label: "Nagpur", value: "nagpur" },
+        { label: "Nashik", value: "nashik" },
+      ],
+    },
+  },
+];
 
+export const allCities = [
+  { label: "New Delhi", value: "newDelhi" },
+  { label: "Gurgaon", value: "gurgaon" },
+  { label: "Lajpat Nagar", value: "lajpatNagar" },
+  { label: "Saket", value: "saket" },
+  { label: "Malviya Nagar", value: "malviyaNagar" },
+  { label: "Ahmedabad", value: "ahmedabad" },
+  { label: "Surat", value: "surat" },
+  { label: "Vadodara", value: "vadodara" },
+  { label: "Pune", value: "pune" },
+  { label: "Nagpur", value: "nagpur" },
+  { label: "Nashik", value: "nashik" },
+];
 
-
-
-export const cities=[
- {
-  cityName:{delhi:[
-    {label:'New Delhi',value:'newDelhi'},
-    {label:'Gurgaon',value:'gurgaon'},
-    {label:'Lajpat Nagar',value:'lajpatNagar'},
-    {label:'Saket',value:'saket'},
-    {label:'Malviya Nagar',value:'malviyaNagar'},
-    
-  ]}
- },
-{
-  cityName:{
-    gujrat:[
-      {label:"Ahmedabad",value:'ahmedabad'},
-      {label:"Surat",value:'surat'},
-      {label:"Vadodara",value:'vadodara'},
-    ]
-  }
-},{
-  cityName:{
-    maharashtra:[
-      {label:'Pune',value:'pune'},
-      {label:'Nagpur',value:'nagpur'},
-      {label:'Nashik',value:'nashik'},
-    ]
-  }
-}
- 
- 
-]
-
-
-
+export const pgRoomSharing = [
+  {label:'select sharing',value:""},
+  { label: "single", value: "single" },
+  { label: "double", value: "double" },
+  { label: "three", value: "three" },
+  { label: "four", value: "four" },
+];

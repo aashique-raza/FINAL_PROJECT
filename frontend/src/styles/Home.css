@@ -106,7 +106,7 @@
 
 }
 .search_input_container form select option{
-    height: 20px;
+    height: 0px;
     overflow-y: auto;
 }
 
@@ -237,7 +237,8 @@
 @media only screen and (min-width:1025px){
     .search_center_box{
         width: 50%;
-        /* border: 2px solid red; */
+        border: 2px solid red;
+        
     }
     .search_input_container form{
         display: flex;
@@ -246,6 +247,7 @@
         width: 100%;
         align-items: center;
         margin-top: 2rem;
+        border: 2px solid white;
     }
     
     .search_input_container form div{

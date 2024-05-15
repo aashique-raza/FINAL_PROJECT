@@ -5,26 +5,30 @@ import SearchItemButton from "../components/SearchItemButton";
 import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { allCities, pgRoomSharing } from "../utils";
+import { bhkTypes } from "../rentUtils";
 
 function HomePage() {
-
-  const [selectedOption, setSelectedOption] = useState('rental'); // State to keep track of selected option
+  const [selectedOption, setSelectedOption] = useState("rental"); // State to keep track of selected option
+  const [searchBHK, setSearchBHK] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
+  const[searchSharing,setSearchSharing]=useState('')
 
   // Function to handle change in radio input selection
   const handleRadioChange = (value) => {
     setSelectedOption(value); // Update selected option state
   };
-  const navigate=useNavigate()
-  
-  const handleSubmit=(e)=>{
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    navigate(`/search/${selectedOption}`)
-  }
+    navigate(`/search/${selectedOption}?q=${searchBHK || searchSharing}&&l=${searchLocation}`);
+  };
 
   return (
-    <main className="home_container">
-      <section className="search_section flex lg:justify-center lg:items-center  justify-center items-start lg:pt-0 pt-5 ">
+    <main className="home_container ">
+      <section className="search_section flex  justify-center items-start pt-12">
         <div className=" search_center_box  ">
           <div className=" flex flex-col gap-3 sm:gap-5 md:gap-7 items-center search_heading">
             <h1 className=" text-4xl md:text-6xl font-semibold font-roboto capitalize   ">
@@ -51,24 +55,64 @@ function HomePage() {
               />
             </div>
             <form className="  px-2" onSubmit={handleSubmit}>
-              <div id="searchInputTextBox" className=" ">
+              {/* <div id="searchInputTextBox" className=" ">
                 <FaSearch className="icons" />
                 <input
                   type="text"
                   placeholder="search flat,house or pg.."
                   id="searchInput"
                   className=" focus:ring-0"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQUery(e.target.value);
+                  }}
                 />
-              </div>
+              </div> */}
+              {selectedOption?.trim().toLocaleLowerCase() ===
+                "rental".trim() && (
+                <div>
+                  <select
+                    name=""
+                    value={searchBHK}
+                    id=""
+                    className="focus:ring-0 custom-select h-100 border p-2 overflow-auto"
+                    onChange={((e)=>{setSearchBHK(e.target.value)})}
+                  >
+                    {bhkTypes?.map((bhk) => (
+                      <option value={bhk.value}>{bhk.label}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {selectedOption?.trim().toLocaleLowerCase() === "pg".trim()&&(<div>
+                  <select
+                    name=""
+                    value={searchSharing}
+                    id=""
+                    className="focus:ring-0 custom-select h-100 border p-2 overflow-auto"
+                    onChange={((e)=>{setSearchSharing(e.target.value)})}
+                  >
+                    {pgRoomSharing?.map((sharing) => (
+                      <option value={sharing.value}>{sharing.label}</option>
+                    ))}
+                  </select>
+                </div>)}
+
               <div id="locationOtionBox" className=" ">
                 <MdLocationPin className="icons" />
-                <select name="" id="" className="focus:ring-0 custom-select h-100 border p-2 overflow-auto">
-                  <option value="mumbai" >
-                    mumbai
-                  </option>
-                  <option value="delhi" className=" py-6">delhi</option>
-                  <option value="pune">pune</option>
-                  <option value="nagpur">nagpur</option>
+                <select
+                  value={searchLocation}
+                  name=""
+                  id=""
+                  className="focus:ring-0 custom-select h-100 border p-2 overflow-auto"
+                  onChange={(e) => {
+                    setSearchLocation(e.target.value);
+                  }}
+                >
+                  {allCities?.map((city) => (
+                    <option value={city.value}>{city.label}</option>
+                  ))}
                 </select>
               </div>
               <div id="searchButton">
