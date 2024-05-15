@@ -1,0 +1,286 @@
+
+/* search item compennet css--- */
+.radio-group input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-group label {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    background-color: azure;
+    border-radius: 2.5rem;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+  
+  .radio-group input[type="radio"]:checked + label {
+    background-color: rgb(247, 37, 37);
+    color: #ffffff;
+    
+  }
+ 
+  /* home container------ */
+
+.home_container{
+    margin-top: 6.5rem;
+    /* border: 2px solid green; */
+}
+
+.search_section{
+    background-image: url('../assets/homeBg.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+   width: 100%;
+   height: 90vh;
+}
+
+.search_center_box{
+    width: 50%;
+    /* border: 2px solid red; */
+
+}
+.search_input_container{
+    /* border:2px solid yellow; */
+}
+.search_input_container form{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 10px;
+    width: 100%;
+}
+
+.search_input_container form div{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    /* width: 29rem; */
+    padding: 0.9rem 1.5rem;
+    border-radius: 3rem;
+}
+.search_input_container form #searchButton{
+    background-color: rgb(238, 34, 34);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search_input_container form #searchButton button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    gap: 10px;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+}
+
+.search_input_container form input{
+    border: none;
+    outline: none;
+    width: 100%;
+    
+}
+.search_input_container form input::placeholder{
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    font-weight: normal;
+    color: gray;
+}
+.search_input_container form select{
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    font-weight: normal;
+    color: gray;
+  
+    background-color: white;
+    border: none;
+    outline: none;
+
+}
+.search_input_container form select option{
+    height: 20px;
+    overflow-y: auto;
+}
+
+  
+  /* To style the dropdown arrow */
+  .custom-select:after {
+    border-color: white transparent transparent transparent;
+  }
+  
+  /* To remove the default dropdown arrow */
+  .custom-select::-ms-expand {
+    display: none;
+  }
+
+.search_input_container form .icons{
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: rgb(166, 163, 163);
+
+}
+
+
+@media only screen and (max-width:467px){
+    .radio-group label {
+        
+        font-size: 1.1rem;
+        
+      }
+    
+      .search_input_container form{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        margin-top: 2rem;
+    }
+    
+    .search_input_container form div{
+        background-color: white;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+        min-width: 100%;
+        padding: 0.9rem 1.5rem;
+        border-radius: 3rem;
+    }
+    .search_heading{
+        margin-bottom: 2rem;
+    }
+    .search_heading h1{
+        text-align: center;
+    }
+    .search_heading p{
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+}
+
+@media only screen and (max-width:768px){
+  
+    .search_center_box{
+        width: 100%;
+        /* border: 2px solid red; */
+    }
+    .search_input_container form{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        align-items: center;
+        margin-top: 2rem;
+    }
+    
+    .search_input_container form div{
+        background-color: white;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        /* width: 29rem; */
+        width: 60%;
+        padding: 0.9rem 1.5rem;
+        border-radius: 3rem;
+    }
+    .search_heading{
+        margin-bottom: 2rem;
+    }
+    
+}
+
+@media only screen and (min-width:769px){
+    .search_center_box{
+        width: 60%;
+        /* border: 2px solid red; */
+    }
+    .search_input_container form{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        align-items: center;
+        margin-top: 2rem;
+    }
+    
+    .search_input_container form div{
+        background-color: white;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        /* width: 29rem; */
+        width: 60%;
+        padding: 0.9rem 1.5rem;
+        border-radius: 3rem;
+    }
+    .search_heading{
+        margin-bottom: 2rem;
+    }
+    .search_heading h1{
+        text-align: center;
+    }
+    .search_headingp p{
+        text-align: center;
+    }
+
+}
+
+@media only screen and (min-width:1025px){
+    .search_center_box{
+        width: 50%;
+        /* border: 2px solid red; */
+    }
+    .search_input_container form{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+        margin-top: 2rem;
+    }
+    
+    .search_input_container form div{
+        background-color: white;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        /* width: 29rem; */
+        width: 60%;
+        padding: 0.9rem 1.5rem;
+        border-radius: 3rem;
+    }
+
+    .search_input_container form #searchButton{
+        min-width: 0 !important;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        /* padding: 0; */
+    }
+    .search_input_container form #searchButton button{
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        font-size: 1.4rem;
+    }
+    .search_input_container form #searchButton button span{
+        display: none;
+    }
+
+}
+
+
+
+
+
+
+

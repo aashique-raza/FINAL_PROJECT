@@ -22,6 +22,7 @@ import YourPropertyPage from "./pages/YourPropertyPage";
 import CookieProtected from "./components/CookieProtected";
 import MailVerification from "./components/MailVerification";
 import MailVerificationPage from "./pages/MailVerificationPage";
+import SearchPage from "./pages/SearchPage";
 // Importing toastify module
 import { toast,ToastContainer } from "react-toastify";
  
@@ -67,6 +68,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/search/:category" element={<SearchPage />} />
 
         <Route path="/forgot-password" element={<ForgotPassword showSuccessMessage={showSuccessMessage}  />}></Route>
         <Route path="/reset-password" element={<ResetPassword showSuccessMessage={showSuccessMessage} />}></Route>
