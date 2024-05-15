@@ -226,3 +226,24 @@ export const pgRoomSharing = [
   { label: "three", value: "three" },
   { label: "four", value: "four" },
 ];
+
+export const availableFor=[
+  
+  { label: "girls", value: "girls" },
+  { label: "boys", value: "boys" },
+  { label: "anyone", value: "anyone" },
+]
+
+export const avaibility=[
+  
+  { label: "immidiate", value: "immidiate" },
+  { label: "within one week", value: "oneWeek" },
+  { label: "within 15 days", value: "halfMonth" },
+  { label: "within 30 days", value: "oneMonth" },
+]
+
+export const foodTypes=[
+  
+  { label: "veg food/meal", value: "veg-food" },
+  { label: "non-veg food/meal ", value: "non-veg-food" },
+]
