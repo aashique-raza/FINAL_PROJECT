@@ -20,7 +20,7 @@ function PgFilterComp({ filterComVisible, setFilterCompVisible }) {
   const [foodType, setFoodType] = useState("");
   const [price, setPrice] = useState([1000, 100000]);
 
-  console.log(qParam, available_For, pgAvaibility, isfood, foodType, price);
+  
 
   useEffect(() => {
     // search params ----
@@ -33,9 +33,7 @@ function PgFilterComp({ filterComVisible, setFilterCompVisible }) {
     setLParam(l || "");
   }, [location.search]);
 
-  // console.log(qParam,lParam)
-
-  // roomSharing.map((item)=>console.log(item))
+ 
 
   return (
     <div className="pg_filter_sidebar">

@@ -8,12 +8,19 @@ function RentFilterComp({}) {
   // const[checked,setChecked]=useState(searchQuery)
   const [qParam, setQParam] = useState('');
   const [lParam, setLParam] = useState('');
+  const [price, setPrice] = useState([1000, 100000]);
+ 
+  const[prefered_tenets,setPreferedTenats]=useState('')
+  const[isFurnishing,setFurnishing]=useState('')
+  const[isParking,setParking]=useState('')
+  console.log(price,prefered_tenets,isFurnishing,isParking,qParam)
 
   useEffect(()=>{
      // search params ----
      const searchParams = new URLSearchParams(location.search);
      const q = searchParams.get('q');
      const l = searchParams.get('l');
+
      
      // Query parameters ko state mein set karo
      setQParam(q || '');
@@ -41,7 +48,7 @@ function RentFilterComp({}) {
             name="bhk_group"
             value={item.value}
             isChecked={item.value.trim().toLocaleLowerCase()===qParam.trim().toLocaleLowerCase()}
-            setQParam={setQParam}
+            setValue={setQParam}
           />
         ))}
       </div>
@@ -56,6 +63,8 @@ function RentFilterComp({}) {
             type={"radio"}
             name="tenats_group"
             value={item.value}
+            isChecked={item.value.trim().toLocaleLowerCase()===prefered_tenets.trim().toLocaleLowerCase()}
+            setValue={setPreferedTenats}
           />
         ))}
       </div>
@@ -70,13 +79,15 @@ function RentFilterComp({}) {
             type={"radio"}
             name="furnishing_group"
             value={item.value}
+            isChecked={item.value.trim().toLocaleLowerCase()===isFurnishing.trim().toLocaleLowerCase()}
+            setValue={setFurnishing}
             
           />
         ))}
       </div>
     </div>
     <div className=" w-full sm:w-1/2 md:w-full">
-      <PriceSliderComp />
+      <PriceSliderComp setPrice={setPrice} price={price} />
     </div>
     <div>
       <p>parking</p>
@@ -88,6 +99,8 @@ function RentFilterComp({}) {
             type={"radio"}
             name="parking_group"
             value={item.value}
+            isChecked={item.value.trim().toLocaleLowerCase()===isParking.trim().toLocaleLowerCase()}
+            setValue={setParking}
           />
         ))}
       </div>
