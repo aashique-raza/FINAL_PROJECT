@@ -80,6 +80,7 @@ body{
     justify-content: start;
     width: 80%;
     margin: 7rem auto;
+    gap: 2rem;
     /* background-color: rgb(201, 200, 200); */
 }
 

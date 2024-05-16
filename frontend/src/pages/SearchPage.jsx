@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import "../styles/SearchPage.css";
 import PgFilterComp from "../components/PgFilterComp";
 import RentFilterComp from "../components/RentFilterComp";
+import CardComp from "../components/CardComp";
 
 function SearchPage() {
   const location = useLocation();
@@ -52,7 +53,10 @@ function SearchPage() {
           />
         )}
       </aside>
-      <aside></aside>
+      <div className=" flex-1 flex flex-col gap-7 ">
+        <CardComp/>
+        <CardComp/>
+      </div>
     </main>
   );
 }
