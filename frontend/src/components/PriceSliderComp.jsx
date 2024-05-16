@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 
-function PriceSliderComp() {
-    const [price, setPrice] = useState([1000, 100000]); // Initial price range
+function PriceSliderComp({setPrice,price}) {
+    
   
     const handleChange = (event, newValue) => {
       setPrice(newValue);

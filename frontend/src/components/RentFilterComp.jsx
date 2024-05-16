@@ -24,6 +24,11 @@ function RentFilterComp({}) {
 
   return (
     <div className="rent_filter_sidebar">
+      <div className=" w-full ">
+        <p className="text-xl sm:text-3xl text-slate-800 px-3  capitalize py-3  border-b-2 border-slate-800 font-roboto  font-normal ">
+          choose filter
+        </p>
+      </div>
      
     <div>
       <p>BHK type</p>

@@ -247,3 +247,8 @@ export const foodTypes=[
   { label: "veg food/meal", value: "veg-food" },
   { label: "non-veg food/meal ", value: "non-veg-food" },
 ]
+export const isFoodAvailable=[
+ 
+  { label: "with food/meal", value: true },
+  { label: "without food/meal", value: false },
+]

@@ -5,7 +5,7 @@ function FilterCheckBoxItem({
   type,
   name = "radioGroup",
   isChecked = "",
-  setQParam,
+  setValue,
   value,
 }) {
   return (
@@ -16,7 +16,7 @@ function FilterCheckBoxItem({
         value={value}
         name={name ? name : "radio-group"}
         checked={isChecked}
-        onChange={(e) => setQParam(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
       />
       <label htmlFor={option}>{option}</label>
     </div>
