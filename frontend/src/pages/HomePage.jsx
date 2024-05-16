@@ -23,7 +23,14 @@ function HomePage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    navigate(`/search/${selectedOption}?q=${searchBHK || searchSharing}&&l=${searchLocation}`);
+    if(selectedOption==='rental'){
+      
+      navigate(`/search/${selectedOption}?q=${searchBHK }&&l=${searchLocation}`);
+
+    }else{
+      navigate(`/search/${selectedOption}?q=${searchSharing }&&l=${searchLocation}`);
+    }
+    
   };
 
   return (
@@ -55,19 +62,7 @@ function HomePage() {
               />
             </div>
             <form className="  px-2" onSubmit={handleSubmit}>
-              {/* <div id="searchInputTextBox" className=" ">
-                <FaSearch className="icons" />
-                <input
-                  type="text"
-                  placeholder="search flat,house or pg.."
-                  id="searchInput"
-                  className=" focus:ring-0"
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQUery(e.target.value);
-                  }}
-                />
-              </div> */}
+              
               {selectedOption?.trim().toLocaleLowerCase() ===
                 "rental".trim() && (
                 <div>
@@ -78,8 +73,8 @@ function HomePage() {
                     className="focus:ring-0 custom-select h-100 border p-2 overflow-auto"
                     onChange={((e)=>{setSearchBHK(e.target.value)})}
                   >
-                    {bhkTypes?.map((bhk) => (
-                      <option value={bhk.value}>{bhk.label}</option>
+                    {bhkTypes?.map((bhk,index) => (
+                      <option value={bhk.value} key={index}>{bhk.label}</option>
                     ))}
                   </select>
                 </div>
@@ -93,8 +88,8 @@ function HomePage() {
                     className="focus:ring-0 custom-select h-100 border p-2 overflow-auto"
                     onChange={((e)=>{setSearchSharing(e.target.value)})}
                   >
-                    {pgRoomSharing?.map((sharing) => (
-                      <option value={sharing.value}>{sharing.label}</option>
+                    {pgRoomSharing?.map((sharing,index) => (
+                      <option key={index} value={sharing.value}>{sharing.label}</option>
                     ))}
                   </select>
                 </div>)}
@@ -110,8 +105,8 @@ function HomePage() {
                     setSearchLocation(e.target.value);
                   }}
                 >
-                  {allCities?.map((city) => (
-                    <option value={city.value}>{city.label}</option>
+                  {allCities?.map((city,index) => (
+                    <option key={index} value={city.value}>{city.label}</option>
                   ))}
                 </select>
               </div>

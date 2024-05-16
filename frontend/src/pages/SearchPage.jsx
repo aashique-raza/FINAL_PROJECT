@@ -10,13 +10,19 @@ function SearchPage() {
   const location = useLocation();
   const [category, setCategory] = useState(null);
   const [filterComVisible, setFilterCompVisible] = useState(false);
+  
 
   useEffect(() => {
     const path = location.pathname; // Yaha se pura path mil jayega, jaise "/search/:category"
     const category = path.split("/")[2]; // Yaha se category ke value ko extract kiya jata hai
     // console.log(category)
     setCategory(category);
+
+   
   }, [location.pathname]);
+
+  
+ 
 
   const handleFilterComp = () => {
     setFilterCompVisible(!filterComVisible);
@@ -42,14 +48,18 @@ function SearchPage() {
       >
         {category?.trim().toLowerCase() === "rental".trim() && (
           <RentFilterComp
+          
             filterComVisible={filterComVisible}
             setFilterCompVisible={setFilterCompVisible}
+            
           />
         )}
         {category?.trim().toLowerCase() === "pg".trim() && (
           <PgFilterComp
+         
             filterComVisible={filterComVisible}
             setFilterCompVisible={setFilterCompVisible}
+            
           />
         )}
       </aside>

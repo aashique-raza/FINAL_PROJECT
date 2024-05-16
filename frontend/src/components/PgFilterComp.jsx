@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import FilterCheckBoxItem from "./FilterCheckBoxItem";
 import { pgRoomSharing, availableFor, avaibility, foodTypes } from "../utils";
 import PriceSliderComp from "./PriceSliderComp";
@@ -6,13 +6,28 @@ import { FaTimes } from 'react-icons/fa';
 import '../styles/SearchPage.css'
 
 function PgFilterComp({filterComVisible,setFilterCompVisible}) {
-  const roomSharing = ["single", "double", "three", "four"];
+  
+  const [qParam, setQParam] = useState('');
+  const [lParam, setLParam] = useState('');
+
+  useEffect(()=>{
+     // search params ----
+     const searchParams = new URLSearchParams(location.search);
+     const q = searchParams.get('q');
+     const l = searchParams.get('l');
+     
+     // Query parameters ko state mein set karo
+     setQParam(q || '');
+     setLParam(l || '');
+  },[location.search])
+
+  // console.log(qParam,lParam)
+ 
 
   // roomSharing.map((item)=>console.log(item))
 
- const handleHideFilterComp=()=>{
-    setFilterCompVisible(false)
- }
+ 
+
 
   return (
     <div className="pg_filter_sidebar">
@@ -20,12 +35,15 @@ function PgFilterComp({filterComVisible,setFilterCompVisible}) {
       <div>
         <p>room sharing</p>
         <div className=" flex justify-start items-start gap-3 flex-wrap px-2">
-          {roomSharing?.map((item, index) => (
+          {pgRoomSharing.slice(1)?.map((item, index) => (
             <FilterCheckBoxItem
               key={index}
-              option={item}
+              option={item.label}
               type={"radio"}
               name="sharing_group"
+              value={item.value}
+              setQParam={setQParam}
+              isChecked={item.value.trim().toLocaleLowerCase()===qParam.trim().toLocaleLowerCase()}
             />
           ))}
         </div>
@@ -39,6 +57,7 @@ function PgFilterComp({filterComVisible,setFilterCompVisible}) {
               option={item.label}
               type={"radio"}
               name="available_group"
+              value={item.value}
             />
           ))}
         </div>
@@ -52,6 +71,7 @@ function PgFilterComp({filterComVisible,setFilterCompVisible}) {
               option={item.label}
               type={"radio"}
               name="avaibility_group"
+              value={item.value}
             />
           ))}
         </div>
@@ -68,6 +88,7 @@ function PgFilterComp({filterComVisible,setFilterCompVisible}) {
               option={item.label}
               type={"radio"}
               name="food_group"
+              value={item.value}
             />
           ))}
         </div>

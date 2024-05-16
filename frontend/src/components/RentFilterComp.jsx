@@ -1,10 +1,27 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { bhkTypes,preferedTenats,furnishing,parking } from '../rentUtils'
 import FilterCheckBoxItem from "./FilterCheckBoxItem";
 import PriceSliderComp from "./PriceSliderComp";
 import '../styles/SearchPage.css'
 
-function RentFilterComp() {
+function RentFilterComp({}) {
+  // const[checked,setChecked]=useState(searchQuery)
+  const [qParam, setQParam] = useState('');
+  const [lParam, setLParam] = useState('');
+
+  useEffect(()=>{
+     // search params ----
+     const searchParams = new URLSearchParams(location.search);
+     const q = searchParams.get('q');
+     const l = searchParams.get('l');
+     
+     // Query parameters ko state mein set karo
+     setQParam(q || '');
+     setLParam(l || '');
+  },[location.search])
+
+  // console.log(qParam,lParam)
+
   return (
     <div className="rent_filter_sidebar">
      
@@ -17,6 +34,9 @@ function RentFilterComp() {
             option={item.label}
             type={"radio"}
             name="bhk_group"
+            value={item.value}
+            isChecked={item.value.trim().toLocaleLowerCase()===qParam.trim().toLocaleLowerCase()}
+            setQParam={setQParam}
           />
         ))}
       </div>
@@ -30,6 +50,7 @@ function RentFilterComp() {
             option={item.label}
             type={"radio"}
             name="tenats_group"
+            value={item.value}
           />
         ))}
       </div>
@@ -43,6 +64,8 @@ function RentFilterComp() {
             option={item.label}
             type={"radio"}
             name="furnishing_group"
+            value={item.value}
+            
           />
         ))}
       </div>
@@ -59,6 +82,7 @@ function RentFilterComp() {
             option={item.label}
             type={"radio"}
             name="parking_group"
+            value={item.value}
           />
         ))}
       </div>
