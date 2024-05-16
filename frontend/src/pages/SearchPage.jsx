@@ -53,7 +53,7 @@ function SearchPage() {
           />
         )}
       </aside>
-      <div className=" flex-1 flex flex-col gap-7 ">
+      <div className=" flex-1 flex flex-col gap-7 px-2 ">
         <CardComp/>
         <CardComp/>
       </div>

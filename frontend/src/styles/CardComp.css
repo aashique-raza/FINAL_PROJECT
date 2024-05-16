@@ -1,19 +1,167 @@
-
 /* card container------ */
-.card_container{
-    box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.1);
+.card_container {
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
     /* padding: 1rem 1.3rem; */
     width: 70%;
-    border-radius: 6px;
+    border-radius: 10px;
 }
-.card_container .card_heading_text{
+
+.card_container .card_heading_text {
     background-color: rgb(249, 249, 249);
     border-bottom: 1px solid rgb(198, 196, 196);
 }
-.card_container .card_details_wrapper{
+
+.card_container .card_details_wrapper {
     background-color: white;
 }
 
-.card_details_wrapper .amount_wrapper{
+.card_details_wrapper .amount_wrapper {
     border-bottom: 1px solid rgb(198, 196, 196);
+}
+
+@media only screen and (max-width:468px) {
+    .card_container {
+
+        width: 100%;
+        border-radius: 20px;
+    }
+
+    .card_container .card_heading_text h2 {
+        font-size: 1.3rem;
+    }
+
+    .card_heading_text p {
+        font-size: 1.1rem;
+    }
+
+    .card_details_wrapper .amount_wrapper {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .card_details_wrapper .amount_wrapper .amount_wrapper_items {
+        width: 45%;
+        border: none;
+        border: 1px solid rgb(230, 228, 228);
+        flex-grow: 1;
+    }
+
+    .amount_wrapper .amount_wrapper_items h3 {
+        font-size: 1.3rem;
+    }
+
+    .amount_wrapper .amount_wrapper_items p {
+        font-size: 1.1rem;
+    }
+
+    .card_details_wrapper .card_image_wrapper {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .card_details_wrapper .card_image_wrapper .image_slider {
+        width: 100%;
+    }
+
+    .facility_box_items h3 {
+        font-size: 1.3rem;
+    }
+
+    .facility_box_items h4 {
+        font-size: 1.3rem;
+    }
+
+    .facility_box_items p {
+        font-size: 1.1rem;
+    }
+
+    .get_owner_wrapper button {
+        font-size: 1.3rem;
+        width: 60%;
+        padding: 9px 12px;
+    }
+
+    .get_owner_wrapper div {
+        font-size: 1.7rem;
+        padding: 9px 12px;
+    }
+
+}
+
+@media only screen and (max-width:767px) {
+    .card_container {
+        width: 100%;
+    }
+
+    .facility_box_items h3 {
+        font-size: 1.3rem;
+    }
+
+    .facility_box_items h4 {
+        font-size: 1.3rem;
+    }
+
+    .facility_box_items p {
+        font-size: 1.1rem;
+    }
+
+    .get_owner_wrapper button {
+        font-size: 1.3rem;
+        width: 60%;
+        padding: 9px 12px;
+    }
+
+    .get_owner_wrapper div {
+        font-size: 1.7rem;
+        padding: 9px 12px;
+    }
+
+    .amount_wrapper .amount_wrapper_items h3 {
+        font-size: 1.3rem;
+    }
+
+    .amount_wrapper .amount_wrapper_items p {
+        font-size: 1.1rem;
+    }
+}
+
+@media only screen and (min-width:769px) and (max-width:1024px) {
+    .card_container {
+        width: 100%;
+    }
+    .facility_box_items h3 {
+        font-size: 1.3rem;
+    }
+
+    .facility_box_items h4 {
+        font-size: 1.3rem;
+    }
+
+    .facility_box_items p {
+        font-size: 1.1rem;
+    }
+
+    .get_owner_wrapper button {
+        font-size: 1.3rem;
+        width: 60%;
+        padding: 9px 12px;
+    }
+
+    .get_owner_wrapper div {
+        font-size: 1.7rem;
+        padding: 9px 12px;
+    }
+
+    .amount_wrapper .amount_wrapper_items h3 {
+        font-size: 1.3rem;
+    }
+
+    .amount_wrapper .amount_wrapper_items p {
+        font-size: 1.1rem;
+    }
+}
+@media only screen and (min-width:1025px) and (max-width:1220px) {
+    .card_container{
+        width: 100%;
+    }
 }
