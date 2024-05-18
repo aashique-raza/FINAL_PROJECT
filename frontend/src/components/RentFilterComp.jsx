@@ -3,6 +3,7 @@ import { bhkTypes,preferedTenats,furnishing,parking } from '../rentUtils'
 import FilterCheckBoxItem from "./FilterCheckBoxItem";
 import PriceSliderComp from "./PriceSliderComp";
 import '../styles/SearchPage.css'
+import {API_URL} from '../configue'
 
 function RentFilterComp({}) {
   // const[checked,setChecked]=useState(searchQuery)
@@ -13,7 +14,7 @@ function RentFilterComp({}) {
   const[prefered_tenets,setPreferedTenats]=useState('')
   const[isFurnishing,setFurnishing]=useState('')
   const[isParking,setParking]=useState('')
-  console.log(price,prefered_tenets,isFurnishing,isParking,qParam)
+  // console.log(price,prefered_tenets,isFurnishing,isParking,qParam)
 
   useEffect(()=>{
      // search params ----
@@ -26,6 +27,14 @@ function RentFilterComp({}) {
      setQParam(q || '');
      setLParam(l || '');
   },[location.search])
+
+  // const fetchRentProperty=async()=>{
+  //   try {
+  //     const res=await fetch(`${API_URL}/getRentalProperty`)
+  //   } catch (error) {
+  //     console.log(error.message)
+  //   }
+  // }
 
   // console.log(qParam,lParam)
 
