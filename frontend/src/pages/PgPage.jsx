@@ -94,7 +94,7 @@ function PgPage({showSuccessMessage}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(pgListingClearError())
-    if(formData.foodAvaibility && !formData.foodType){
+    if(formData.foodAvaibility?.trim().toLocaleLowerCase()==='veg-food'.trim().toLocaleLowerCase() && !formData.foodType){
       return dispatch(pgListingFailed('food type is required field'))
     }
     
