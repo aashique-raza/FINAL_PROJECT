@@ -15,12 +15,12 @@ const pgLIstingPersistConfig = {
 
 
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
-const persistedPgListingReducer = persistReducer(pgLIstingPersistConfig, pgReducer);
+// const persistedPgListingReducer = persistReducer(pgLIstingPersistConfig, pgReducer);
 
 const store = configureStore({
   reducer: {
     user: persistedUserReducer,
-    pgLIsting:persistedPgListingReducer
+    pgLIsting:pgReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

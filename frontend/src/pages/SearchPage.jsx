@@ -5,12 +5,26 @@ import "../styles/SearchPage.css";
 import PgFilterComp from "../components/PgFilterComp";
 import RentFilterComp from "../components/RentFilterComp";
 import CardComp from "../components/CardComp";
+import { avaibility } from "../utils";
+
 
 function SearchPage() {
   const location = useLocation();
   const [category, setCategory] = useState(null);
   const [filterComVisible, setFilterCompVisible] = useState(false);
+  const [filters, setFilters] = useState({
+    qParam: "",
+    lParam: "",
+    available_For: "",
+    pgAvaibility: "",
+    isfood: "",
+    foodType: "",
+    price: [1000, 100000],
+  });
   
+
+ 
+ 
 
   useEffect(() => {
     const path = location.pathname; // Yaha se pura path mil jayega, jaise "/search/:category"
@@ -20,8 +34,24 @@ function SearchPage() {
 
    
   }, [location.pathname]);
+  
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+ 
+ 
+
+
+  const fecthData = async () => {
+    const url = `${API_URL}/pg/getPgProperty?room_sharing=${qParam}&location=${lParam}`;
+
+    try {
+    } catch (error) {}
+  };
 
   
+  // console.log(filters)
  
 
   const handleFilterComp = () => {
@@ -52,6 +82,7 @@ function SearchPage() {
             filterComVisible={filterComVisible}
             setFilterCompVisible={setFilterCompVisible}
             
+            
           />
         )}
         {category?.trim().toLowerCase() === "pg".trim() && (
@@ -59,6 +90,8 @@ function SearchPage() {
          
             filterComVisible={filterComVisible}
             setFilterCompVisible={setFilterCompVisible}
+            onFilterChange={handleFilterChange}
+            
             
           />
         )}

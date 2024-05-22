@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useCallback } from 'react';
+
+import { debounce } from 'lodash';
 import FilterCheckBoxItem from "./FilterCheckBoxItem";
 import {
   pgRoomSharing,
@@ -11,7 +14,14 @@ import PriceSliderComp from "./PriceSliderComp";
 import { FaTimes } from "react-icons/fa";
 import "../styles/SearchPage.css";
 
-function PgFilterComp({ filterComVisible, setFilterCompVisible }) {
+
+import { API_URL } from "../configue";
+import { useLocation,useNavigate } from "react-router-dom";
+
+
+function PgFilterComp({ filterComVisible, setFilterCompVisible,onFilterChange }) {
+  const location=useLocation()
+  const navigate=useNavigate()
   const [qParam, setQParam] = useState("");
   const [lParam, setLParam] = useState("");
   const [available_For, setAvailableFor] = useState("");
@@ -19,6 +29,9 @@ function PgFilterComp({ filterComVisible, setFilterCompVisible }) {
   const [isfood, setIsFoodAvailable] = useState("");
   const [foodType, setFoodType] = useState("");
   const [price, setPrice] = useState([1000, 100000]);
+
+  const defaultPrice = [1000, 100000];
+
 
   
 
@@ -33,8 +46,18 @@ function PgFilterComp({ filterComVisible, setFilterCompVisible }) {
     setLParam(l || "");
   }, [location.search]);
 
+
+  // Update parent component whenever state changes
+  useEffect(() => {
+    onFilterChange({ qParam, lParam, available_For, pgAvaibility, isfood, foodType, price });
+  }, [qParam, lParam, available_For, pgAvaibility, isfood, foodType, price]);
+
+
+  
+
  
 
+ 
   return (
     <div className="pg_filter_sidebar">
       <div className=" w-full ">
