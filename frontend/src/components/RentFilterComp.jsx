@@ -3,13 +3,15 @@ import { bhkTypes,preferedTenats,furnishing,parking } from '../rentUtils'
 import FilterCheckBoxItem from "./FilterCheckBoxItem";
 import PriceSliderComp from "./PriceSliderComp";
 import '../styles/SearchPage.css'
+import { allCities } from '../utils';
 import {API_URL} from '../configue'
+import { useSearchParams } from 'react-router-dom';
 
-function RentFilterComp({}) {
-  // const[checked,setChecked]=useState(searchQuery)
+function RentFilterComp({applyFilter}) {
+ const[searchParams,setSearchParams]=useSearchParams()
   const [qParam, setQParam] = useState('');
   const [lParam, setLParam] = useState('');
-  const [price, setPrice] = useState([1000, 100000]);
+  const [price, setPrice] = useState([100, 100000]);
  
   const[prefered_tenets,setPreferedTenats]=useState('')
   const[isFurnishing,setFurnishing]=useState('')
@@ -18,32 +20,71 @@ function RentFilterComp({}) {
 
   useEffect(()=>{
      // search params ----
-     const searchParams = new URLSearchParams(location.search);
      const q = searchParams.get('q');
      const l = searchParams.get('l');
+     setQParam(q );
+     setLParam(l );
+  },[])
+  useEffect(() => {
+    // Update search params when state changes
+    const params = {};
 
-     
-     // Query parameters ko state mein set karo
-     setQParam(q || '');
-     setLParam(l || '');
-  },[location.search])
+    if (qParam) params.q = qParam;
+    if (lParam) params.l = lParam;
+    if (isFurnishing) params.isFurnishing = isFurnishing;
+    if (prefered_tenets) params.prefered_tenets = prefered_tenets;
+    if (isParking) params.isParking = isParking;
+    
+    if (price) params.price = price.join(",");
 
-  // const fetchRentProperty=async()=>{
-  //   try {
-  //     const res=await fetch(`${API_URL}/getRentalProperty`)
-  //   } catch (error) {
-  //     console.log(error.message)
-  //   }
-  // }
+    const currentParams = Object.fromEntries(searchParams.entries());
+    const newParams = Object.entries(params);
 
-  // console.log(qParam,lParam)
+    if (newParams.some(([key, value]) => currentParams[key] !== value)) {
+      setSearchParams(params);
+    }
+
+   
+  }, [
+    qParam,
+    lParam,
+    isFurnishing,
+    isParking,
+    price,
+    prefered_tenets,
+    setSearchParams,
+    searchParams,
+  ]);
+
+
+
+  
 
   return (
     <div className="rent_filter_sidebar">
-      <div className=" w-full ">
-        <p className="text-xl sm:text-3xl text-slate-800 px-3  capitalize py-3  border-b-2 border-slate-800 font-roboto  font-normal ">
+      <div className=" w-full  border-b-2 border-slate-800 py-3 px-2 flex items-center justify-between ">
+        <p className=" text-xl sm:text-3xl text-slate-800   capitalize   font-roboto  font-normal  ">
           choose filter
         </p>
+        <button onClick={applyFilter} className=" bg-slate-700 text-white px-6 rounded-md py-3 font-raleway text-xl sm:text-xl capitalize font-medium  block ">
+          apply filter
+        </button>
+      </div>
+      <div className=" w-full custom_select_city_box">
+        <p>select city</p>
+        <select
+          onChange={(e) => setLParam(e.target.value)}
+          name=""
+          id=""
+          value={lParam}
+          className=" focus:ring-0 px-4 py-3 rounded-sm font-roboto text-sm sm:text-xl md:text-2xl capitalize border-2 border-slate-800"
+        >
+          {allCities?.map((city, index) => (
+            <option value={city.value} id={city.label} key={index}>
+              {city.label}
+            </option>
+          ))}
+        </select>
       </div>
      
     <div>

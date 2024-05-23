@@ -23,9 +23,10 @@ function SearchPage() {
   };
 
   useEffect(() => {
-    const path = location.pathname; // Yaha se pura path mil jayega, jaise "/search/:category"
-    const category = path.split("/")[2]; // Yaha se category ke value ko extract kiya jata hai
-    // console.log(category)
+    const path = location.pathname; // Get the full path, e.g., "/search/rental"
+    // console.log('Path:', path);
+    const category = path.split("/")[2]; // Extract the category, e.g., "rental"
+    // console.log('Category:', category);
     setCategory(category);
   }, [location.pathname]);
 
@@ -33,28 +34,51 @@ function SearchPage() {
     setFilterCompVisible(!filterComVisible);
   };
 
+  // console.log('apply filter se bahr',category)
+
   const applyFilter = async () => {
+    // Common parameters
     const qParam = searchParams.get("q") || "";
     const lParam = searchParams.get("l") || "";
-    const available_For = searchParams.get("available_For") || "";
-    const pgAvaibility = searchParams.get("pgAvaibility") || "";
-    const isfood = searchParams.get("isfood") || "";
-    const foodType = searchParams.get("foodType") || "";
-    const price = searchParams.get("price")
-      ? searchParams.get("price").split(",").map(Number)
-      : [100, 100000];
+
     let url;
+
+    // Parameters specific to rental
+    console.log(category)
     if (category?.trim().toLowerCase() === "rental".trim()) {
-      url = `${API_URL}/rent/getRentalProperty?bhktype=${"1bhk"}&location=${"saket"}&price=${"1000,5000"}&tenet=${"faimly"}&isFurnished=${"furnishing"}`;
-    } else {
+      console.log('ye rental hai url smjhe ')
+      const price = searchParams.get("price")
+        ? searchParams.get("price").split(",").map(Number)
+        : [100, 100000];
+      const isFurnishing = searchParams.get("isFurnishing") || "";
+      const preferedTenets = searchParams.get("prefered_tenets") || "";
+      const isParking = searchParams.get("isParking") || "";
+
+      url = `${API_URL}/rent/getRentalProperty?bhktype=${
+        qParam || "1bhk"
+      }&location=${lParam || "saket"}&price=${price.join(",")}&tenet=${
+        preferedTenets || ""
+      }&isFurnished=${isFurnishing || ""}&isParking=${isParking || ""}`;
+    }
+    // Parameters specific to PG
+    else {
+      const available_For = searchParams.get("available_For") || "";
+      const pgAvaibility = searchParams.get("pgAvaibility") || "";
+      const isfood = searchParams.get("isfood") || "";
+      const foodType = searchParams.get("foodType") || "";
+      const price = searchParams.get("price")
+        ? searchParams.get("price").split(",").map(Number)
+        : [100, 100000];
+
       url = `${API_URL}/pg/getPgProperty?room_sharing=${
         qParam || "1bhk"
       }&available_for=${available_For || ""}&pg_avaibility=${
         pgAvaibility || ""
-      }&pg_rent_amount=${price || ""}&food_avaibility=${
+      }&pg_rent_amount=${price.join(",")}&food_avaibility=${
         isfood || ""
       }&food_type=${foodType || ""}&location=${lParam || "saket"}&page=${1}`;
     }
+
     try {
       setError(null);
       setLoading(true);
@@ -84,9 +108,11 @@ function SearchPage() {
   };
 
   useEffect(() => {
-    // Initial filter application on component mount
+   // Only apply the filter after the category has been set
+   if (category) {
     applyFilter();
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }
+  }, [category]); // Empty dependency array ensures this runs only once on mount
 
   return (
     <main className=" search_page_container ">
@@ -108,6 +134,7 @@ function SearchPage() {
           <RentFilterComp
             filterComVisible={filterComVisible}
             setFilterCompVisible={setFilterCompVisible}
+            applyFilter={applyFilter}
           />
         )}
         {category?.trim().toLowerCase() === "pg".trim() && (
@@ -125,7 +152,7 @@ function SearchPage() {
             visible={true}
             height="80"
             width="80"
-            color="#4fa94d"
+            color="#FF0000"
             radius="9"
             ariaLabel="three-dots-loading"
             wrapperStyle={{}}

@@ -37,6 +37,19 @@ function CardComp({ data }) {
     setCategory(category);
   }, [location.pathname]);
 
+  function extractDate(isoString) {
+    // Create a new Date object from the ISO string
+    const date = new Date(isoString);
+  
+    // Extract the month, date, and year from the Date object
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const year = date.getUTCFullYear();
+  
+    // Format the date as MM/DD/YYYY
+    return `${month}/${day}/${year}`;
+  }
+
   return (
     <div className="card_container">
       <section className="card_heading_text py-6 px-5 ">
@@ -44,23 +57,24 @@ function CardComp({ data }) {
           <h2 className=" flex gap-2 items-center font-roboto  capitalize text-2xl text-gray-500  hover:underline hover:text-red-600">
             {category?.trim().toLowerCase() === "pg".trim()
               ? `PG for ${data.availableFor} in ${data.location.city},${data.location.state} `
-              : "3 BHK flat in delhi for rent "}
+              : `${data.BHKType} flat in ${data.apartmentName} for ${data.propertyAvailableFor},in ${data.location.city}`}
             <HiOutlineExternalLink />
           </h2>
         </Link>
         <p className=" capitalize text-gray-400 font-slab font-normal mt-3 text-xl">
-          {
-            category?.trim().toLowerCase() === "pg".trim() ? (`${data.location.localAddress},${data.location.city}`) : ('Opp AdityaCityCenter Ahinsa Khand 1, Indirapuram, Ghaziabad')
-          }
-          
+          {category?.trim().toLowerCase() === "pg".trim()
+            ? `${data.location.localAddress},${data.location.city}`
+            : `${data.location.localAddress},${data.location.city}`}
         </p>
       </section>
       <section className="card_details_wrapper ">
         <div className="amount_wrapper flex  justify-evenly items-center  py-6 px-5">
           <div className="amount_wrapper_items w-1/4 flex-grow border-r-2 ">
             <h3 className=" justify-center flex items-center gap-2 font-mono font-normal  capitalize text-2xl ">
-              
-              <FaIndianRupeeSign /> {category?.trim().toLowerCase() === "pg".trim()?(`${data.rentAmount}`):('60,000')}
+              <FaIndianRupeeSign />{" "}
+              {category?.trim().toLowerCase() === "pg".trim()
+                ? `${data.rentAmount}`
+                : `${data.rentAmount}`}
             </h3>
             <p className=" text-center capitalize font-medium font-roboto mt-2 text-xl text-gray-400">
               rent amount
@@ -69,7 +83,10 @@ function CardComp({ data }) {
           <div className="amount_wrapper_items w-1/4 flex-grow border-r-2">
             <h3 className=" justify-center flex items-center gap-2 font-mono font-normal  capitalize text-2xl ">
               {" "}
-              <FaIndianRupeeSign /> {category?.trim().toLowerCase() === "pg".trim()?(`${data.depositAmount}`):('60,000')}
+              <FaIndianRupeeSign />{" "}
+              {category?.trim().toLowerCase() === "pg".trim()
+                ? `${data.depositAmount}`
+                : `${data.depositAmount}`}
             </h3>
             <p className=" text-center capitalize font-medium font-roboto mt-2 text-xl text-gray-400">
               depost amount
@@ -78,8 +95,8 @@ function CardComp({ data }) {
           {category?.trim().toLowerCase() === "rental".trim() && (
             <div className="amount_wrapper_items w-1/4 flex-grow border-r-2">
               <h3 className=" justify-center flex items-center gap-2  font-slab font-normal  capitalize text-2xl ">
-                {" "}
-                1500 sqrft.
+                {data.builtUpArea}
+                sqrft.
               </h3>
               <p className=" text-center capitalize font-medium font-roboto mt-2 text-xl text-gray-400">
                 built up area
@@ -91,7 +108,6 @@ function CardComp({ data }) {
             <div className="amount_wrapper_items w-1/4 flex-grow ">
               <h3 className=" justify-center flex items-center gap-2  font-slab font-normal  capitalize text-2xl ">
                 {data.roomSharing}
-                
               </h3>
               <p className=" text-center capitalize font-medium font-roboto mt-2 text-xl text-gray-400">
                 room type
@@ -101,9 +117,8 @@ function CardComp({ data }) {
         </div>
         <div className="card_image_wrapper py-3 px-5 flex gap-3 items-center justify-start">
           <div className="image_slider w-1/3">
-            {
-              category?.trim().toLowerCase() === "pg".trim() && ( <ImageSLiderComp imagesUrl={data.images} />) 
-            }
+           
+              <ImageSLiderComp imagesUrl={data.images} />
            
           </div>
           <div className="facilities_box flex-1   flex flex-col gap-16 justify-start items-start">
@@ -112,23 +127,23 @@ function CardComp({ data }) {
                 <FacilityItem
                   icon={<FaKey />}
                   type={"avaibility"}
-                  name={"immediate"}
+                  name={extractDate(data.availableFrom)}
                 />
                 <FacilityItem
                   icon={<HomeIcon />}
                   type={"apartment type"}
-                  name={" flat"}
+                  name={data.apartmentType}
                 />
 
                 <FacilityItem
                   icon={<WeekendIcon />}
                   type={"furnishing"}
-                  name={"unfurnished"}
+                  name={data.furnishing}
                 />
                 <FacilityItem
                   icon={<FaFemale />}
                   type={"prefered tentas"}
-                  name={"girl"}
+                  name={data.preferedTenats[0]}
                 />
               </div>
             )}
@@ -149,7 +164,7 @@ function CardComp({ data }) {
                 <FacilityItem
                   icon={<FastfoodIcon />}
                   type={"food facility"}
-                  name={data.foodAvaibility===true?'yes':'no'}
+                  name={data.foodAvaibility === true ? "yes" : "no"}
                 />
                 <FacilityItem
                   icon={<FaFemale />}
