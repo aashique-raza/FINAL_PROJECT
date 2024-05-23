@@ -37,6 +37,10 @@ body{
 
   /* pg filter-sidebar--- */
   
+  /* select city filter component--- */
+  .custom_select_city_box select{
+    width: 90%;
+  }
   
   .pg_filter_sidebar{
     /* border: 2px solid green; */

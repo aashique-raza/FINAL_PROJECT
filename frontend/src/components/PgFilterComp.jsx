@@ -1,7 +1,6 @@
+import React, { useState, useEffect, useCallback } from "react";
 
-import React, { useState, useEffect, useCallback } from 'react';
-
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 import FilterCheckBoxItem from "./FilterCheckBoxItem";
 import {
   pgRoomSharing,
@@ -13,15 +12,19 @@ import {
 import PriceSliderComp from "./PriceSliderComp";
 import { FaTimes } from "react-icons/fa";
 import "../styles/SearchPage.css";
-
+import { allCities } from "../utils";
 
 import { API_URL } from "../configue";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-
-function PgFilterComp({ filterComVisible, setFilterCompVisible,onFilterChange }) {
-  const location=useLocation()
-  const navigate=useNavigate()
+function PgFilterComp({
+  filterComVisible,
+  setFilterCompVisible,
+  onFilterChange,
+}) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [qParam, setQParam] = useState("");
   const [lParam, setLParam] = useState("");
   const [available_For, setAvailableFor] = useState("");
@@ -30,40 +33,72 @@ function PgFilterComp({ filterComVisible, setFilterCompVisible,onFilterChange })
   const [foodType, setFoodType] = useState("");
   const [price, setPrice] = useState([1000, 100000]);
 
-  const defaultPrice = [1000, 100000];
-
-
-  
-
   useEffect(() => {
-    // search params ----
-    const searchParams = new URLSearchParams(location.search);
     const q = searchParams.get("q");
     const l = searchParams.get("l");
-
     // Query parameters ko state mein set karo
-    setQParam(q || "");
-    setLParam(l || "");
-  }, [location.search]);
-
-
-  // Update parent component whenever state changes
+    setQParam(q);
+    setLParam(l);
+  }, []);
   useEffect(() => {
-    onFilterChange({ qParam, lParam, available_For, pgAvaibility, isfood, foodType, price });
-  }, [qParam, lParam, available_For, pgAvaibility, isfood, foodType, price]);
+    // Update search params when state changes
+    const params = {};
 
+    if (qParam) params.q = qParam;
+    if (lParam) params.l = lParam;
+    if (available_For) params.available_For = available_For;
+    if (pgAvaibility) params.pgAvaibility = pgAvaibility;
+    if (isfood) params.isfood = isfood;
+    if (foodType) params.foodType = foodType;
+    if (price) params.price = price.join(",");
 
-  
+    const currentParams = Object.fromEntries(searchParams.entries());
+    const newParams = Object.entries(params);
 
- 
+    if (newParams.some(([key, value]) => currentParams[key] !== value)) {
+      setSearchParams(params);
+    }
 
- 
+    // setSearchParams(params);
+  }, [
+    qParam,
+    lParam,
+    available_For,
+    pgAvaibility,
+    isfood,
+    foodType,
+    price,
+    setSearchParams,
+    searchParams,
+  ]);
+
+  console.log("qparam", qParam, "lparam", lParam);
+
   return (
     <div className="pg_filter_sidebar">
-      <div className=" w-full ">
-        <p className=" text-xl sm:text-3xl text-slate-800 px-3  capitalize py-3  border-b-2 border-slate-800 font-roboto  font-normal ">
+      <div className=" w-full  border-b-2 border-slate-800 py-3 px-2 flex items-center justify-between ">
+        <p className=" text-xl sm:text-3xl text-slate-800   capitalize   font-roboto  font-normal  ">
           choose filter
         </p>
+        <button className=" bg-slate-700 text-white px-6 rounded-md py-3 font-raleway text-xl sm:text-xl capitalize font-medium  block ">
+          apply filter
+        </button>
+      </div>
+      <div className=" w-full custom_select_city_box">
+        <p>select city</p>
+        <select
+          onChange={(e) => setLParam(e.target.value)}
+          name=""
+          id=""
+          value={lParam}
+          className=" focus:ring-0 px-4 py-3 rounded-sm font-roboto text-sm sm:text-xl md:text-2xl capitalize border-2 border-slate-800"
+        >
+          {allCities?.map((city, index) => (
+            <option value={city.value} id={city.label} key={index}>
+              {city.label}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <p>room sharing</p>
@@ -159,11 +194,6 @@ function PgFilterComp({ filterComVisible, setFilterCompVisible,onFilterChange })
             />
           ))}
         </div>
-      </div>
-      <div className="w-full px-2 md:hidden  sm:flex sm:justify-center sm:items-center">
-        <button className=" font-roboto font-semibold  rounded-md w-full sm:w-1/2 px-4 py-3 focus:ring-0 border-none outline-none  bg-sky-800 text-white capitalize text-xl">
-          apply filter
-        </button>
       </div>
     </div>
   );

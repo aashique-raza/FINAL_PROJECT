@@ -68,7 +68,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/search/:category" element={<SearchPage />} />
+        <Route path="/search/:category?" element={<SearchPage />} />
 
         <Route path="/forgot-password" element={<ForgotPassword showSuccessMessage={showSuccessMessage}  />}></Route>
         <Route path="/reset-password" element={<ResetPassword showSuccessMessage={showSuccessMessage} />}></Route>

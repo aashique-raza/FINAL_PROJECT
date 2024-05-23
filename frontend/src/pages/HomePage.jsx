@@ -7,6 +7,7 @@ import { MdLocationPin } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { allCities, pgRoomSharing } from "../utils";
 import { bhkTypes } from "../rentUtils";
+import { useSearchParams } from "react-router-dom";
 
 function HomePage() {
   const [selectedOption, setSelectedOption] = useState("rental"); // State to keep track of selected option
