@@ -19,7 +19,7 @@ function PriceSliderComp({setPrice,price}) {
       onChange={handleChange}
       valueLabelDisplay="auto"
       aria-labelledby="range-slider"
-      min={1000}
+      min={100}
       max={100000}
     />
     <Typography>

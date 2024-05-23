@@ -21,6 +21,7 @@ function PgFilterComp({
   filterComVisible,
   setFilterCompVisible,
   onFilterChange,
+  applyFilter
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function PgFilterComp({
   const [pgAvaibility, setavaibility] = useState("");
   const [isfood, setIsFoodAvailable] = useState("");
   const [foodType, setFoodType] = useState("");
-  const [price, setPrice] = useState([1000, 100000]);
+  const [price, setPrice] = useState([100, 100000]);
 
   useEffect(() => {
     const q = searchParams.get("q");
@@ -72,7 +73,8 @@ function PgFilterComp({
     searchParams,
   ]);
 
-  console.log("qparam", qParam, "lparam", lParam);
+  // console.log("qparam", qParam, "lparam", lParam);
+  
 
   return (
     <div className="pg_filter_sidebar">
@@ -80,7 +82,7 @@ function PgFilterComp({
         <p className=" text-xl sm:text-3xl text-slate-800   capitalize   font-roboto  font-normal  ">
           choose filter
         </p>
-        <button className=" bg-slate-700 text-white px-6 rounded-md py-3 font-raleway text-xl sm:text-xl capitalize font-medium  block ">
+        <button onClick={applyFilter} className=" bg-slate-700 text-white px-6 rounded-md py-3 font-raleway text-xl sm:text-xl capitalize font-medium  block ">
           apply filter
         </button>
       </div>
