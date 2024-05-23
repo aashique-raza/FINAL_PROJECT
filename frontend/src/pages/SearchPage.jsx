@@ -44,9 +44,9 @@ function SearchPage() {
     let url;
 
     // Parameters specific to rental
-    console.log(category)
+
     if (category?.trim().toLowerCase() === "rental".trim()) {
-      console.log('ye rental hai url smjhe ')
+      
       const price = searchParams.get("price")
         ? searchParams.get("price").split(",").map(Number)
         : [100, 100000];
@@ -90,7 +90,7 @@ function SearchPage() {
       });
 
       const result = await resp.json();
-      console.log(result);
+      // console.log(result);
 
       if (!resp.ok) {
         setError(result.message);
