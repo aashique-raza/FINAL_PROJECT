@@ -2,6 +2,8 @@ import React,{useEffect,useState} from 'react'
 import { API_URL } from '../configue';
 import { useParams } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
+import '../styles/SingleProperty.css'
+import PropertyHeadComp from '../components/SinglePropertyComp/PropertyHeadComp';
 
 function PropertyPage() {
 
@@ -70,7 +72,10 @@ if(loading){
 }
 
   return (
-    <div className=' mt-32'>PropertyPage</div>
+    <main className="property-main-container">
+           <PropertyHeadComp/>
+           
+        </main>
   )
 }
 
