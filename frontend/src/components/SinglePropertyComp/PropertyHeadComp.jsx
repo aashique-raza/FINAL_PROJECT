@@ -13,7 +13,7 @@ function PropertyHeadComp() {
         </h2>
         <p>pg</p>
       </div>
-      <div>
+      <div className=" border-b-2 border-gray-300 md:border-none">
         <h3>3 BHK Flat In Unitech Uniworld City For Rent In Sector-30</h3>
         <p>Sector-30, Gurgaon, Haryana, INDIA.</p>
       </div>
