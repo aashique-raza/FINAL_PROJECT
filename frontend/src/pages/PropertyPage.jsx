@@ -3,8 +3,9 @@ import { API_URL } from "../configue";
 import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 // facilites icon
-import {  FaTv, FaFan, FaBath, FaAirConditioner, FaBoxOpen, FaWifi, FaLock, FaTable, FaHeater, FaSnowflake } from "react-icons/fa";
-import { GiGeyser } from "react-icons/gi";
+import {  FaTv, FaFan, FaBath, FaBoxOpen, FaWifi, FaLock, FaTable, FaFire, FaSnowflake,FaRegSnowflake } from "react-icons/fa";
+// import { FaRegSnowflake } from "react-icons/gi";
+import { TbAirConditioning } from "react-icons/tb";
 
 import "../styles/SingleProperty.css";
 import PropertyHeadComp from "../components/SinglePropertyComp/PropertyHeadComp";
@@ -30,6 +31,7 @@ import {
 } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
 import { FaBuilding, FaTools,FaCouch,  FaTree, FaUserFriends, FaBolt } from 'react-icons/fa';
+import PropertyDescription from "../components/SinglePropertyComp/PropertyDescription";
 
 function PropertyPage() {
   const { category, id } = useParams();
@@ -53,13 +55,13 @@ function PropertyPage() {
   // Facilities icon map
 const facilityIconMap = {
   "cupboard": <FaBoxOpen />,
-  "ac": <FaAirConditioner />,
+  "ac": <TbAirConditioning />,
   "attached bathroom": <FaBath />,
   "fan": <FaFan />,
   "TV": <FaTv />,
   "bedding": <FaBed />,
-  "geyser": <GiGeyser />,
-  "room heater": <FaHeater />,
+  "geyser": <FaRegSnowflake />,
+  "room heater": <FaFire />,
   "study table": <FaTable />,
   "WiFi": <FaWifi />,
   "locker": <FaLock />
@@ -183,6 +185,13 @@ const facilityIconMap = {
                     <PropertyOverview icon={<FaBolt      />} name={'electricity charge'} status={'included'} />
                     <PropertyOverview icon={<FaCompass      />} name={'facing'} status={'east'} />
             </div>
+          </div>
+          <div className='property-description-wrapper  w-full bg-white border-2 border-gray-400 py-4 px-3 mt-10
+           '>
+          <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
+              description
+            </h3>
+              <PropertyDescription/>
           </div>
         </aside>
         <aside className="property-right-sidebar simillar-property-sidebar"></aside>
