@@ -6,6 +6,8 @@ import "../styles/SingleProperty.css";
 import PropertyHeadComp from "../components/SinglePropertyComp/PropertyHeadComp";
 import ImageGalleryComp from "../components/SinglePropertyComp/ImageGalleryComp";
 import FacilityItem from "../components/FacilityItem";
+import PropertyOverview from "../components/SinglePropertyComp/PropertyOverview";
+import PropertActivity from "../components/SinglePropertyComp/PropertActivity";
 import {
   FaBed,
   FaBuilding,
@@ -139,6 +141,17 @@ function PropertyPage() {
             </button>
           </div>
         </aside>
+      </div>
+      <div className="property-section property-section3">
+      <div className=" w-3/5 bg-white border border-gray-200 h-auto py-3 sm:py-6 px-2 sm:px-7">
+      <h3 className=" mb-4 sm:text-3xl text-2xl text-slate-800 border-b-2 border-red-600 font-roboto capitalize tracking-wide inline-block px-6 py-2 font-semibold ">
+        overview
+      </h3>
+      <PropertyOverview/>
+    </div>
+              
+
+            <PropertActivity/>
       </div>
     </main>
   );

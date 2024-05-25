@@ -189,6 +189,14 @@
 }
 
 
+/* property section 3 css start here-------- */
+.property-section3{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 2rem;
+}
+
 
 
 
@@ -239,6 +247,15 @@
     .property-left-side-box {
        
         padding: 2rem 0px;
+    }
+
+    /* propeety section 3 css  */
+    .property-section3{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        gap: 3rem;
     }
 
 }
