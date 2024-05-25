@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import { API_URL } from "../configue";
 import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+// facilites icon
+import {  FaTv, FaFan, FaBath, FaAirConditioner, FaBoxOpen, FaWifi, FaLock, FaTable, FaHeater, FaSnowflake } from "react-icons/fa";
+import { GiGeyser } from "react-icons/gi";
+
 import "../styles/SingleProperty.css";
 import PropertyHeadComp from "../components/SinglePropertyComp/PropertyHeadComp";
 import ImageGalleryComp from "../components/SinglePropertyComp/ImageGalleryComp";
 import FacilityItem from "../components/FacilityItem";
 import PropertyOverview from "../components/SinglePropertyComp/PropertyOverview";
 import PropertActivity from "../components/SinglePropertyComp/PropertActivity";
+import { FaCompass } from 'react-icons/fa';
+import { IoMdWater } from "react-icons/io";
+import { MdOutlineCurrencyRupee } from "react-icons/md";
 import {
   FaBed,
-  FaBuilding,
+  
   FaMale,
   FaFemale,
   FaUser,
@@ -19,9 +26,10 @@ import {
   FaCar,
   FaCalendarAlt,
   FaWrench,
-  FaTree,
+
 } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
+import { FaBuilding, FaTools,FaCouch,  FaTree, FaUserFriends, FaBolt } from 'react-icons/fa';
 
 function PropertyPage() {
   const { category, id } = useParams();
@@ -41,6 +49,21 @@ function PropertyPage() {
     { type: "balcony", name: "2", icon: <FaWrench /> },
     { type: "building age", name: "above thre years", icon: <FaTree /> },
   ];
+
+  // Facilities icon map
+const facilityIconMap = {
+  "cupboard": <FaBoxOpen />,
+  "ac": <FaAirConditioner />,
+  "attached bathroom": <FaBath />,
+  "fan": <FaFan />,
+  "TV": <FaTv />,
+  "bedding": <FaBed />,
+  "geyser": <GiGeyser />,
+  "room heater": <FaHeater />,
+  "study table": <FaTable />,
+  "WiFi": <FaWifi />,
+  "locker": <FaLock />
+};
 
   const ImagesUrl = [
     "https://images.pexels.com/photos/2091634/pexels-photo-2091634.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -137,21 +160,32 @@ function PropertyPage() {
             </button>
 
             <button className="bg-green-600  px-12 py-6 text-3xl sm:text-4xl text-white">
-              <AiFillMessage/>
+              <AiFillMessage />
             </button>
           </div>
         </aside>
       </div>
-      <div className="property-section property-section3">
-      <div className=" w-3/5 bg-white border border-gray-200 h-auto py-3 sm:py-6 px-2 sm:px-7">
-      <h3 className=" mb-4 sm:text-3xl text-2xl text-slate-800 border-b-2 border-red-600 font-roboto capitalize tracking-wide inline-block px-6 py-2 font-semibold ">
-        overview
-      </h3>
-      <PropertyOverview/>
-    </div>
-              
-
-            <PropertActivity/>
+      <div className="property-section3 propertysection">
+        <aside className="property-left-sidebar property-detailes-sidebar ">
+          <div className="overview-container w-full bg-white border-2 border-gray-400 py-4 px-3">
+            <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
+              overview
+            </h3>
+            <div className="overview-wrapper w-full flex justify-between items-center  gap-2 flex-grow flex-wrap mt-10 py-3">
+                    <PropertyOverview icon={<FaBed/>} name={'bedroom'} status={2} />
+                    <PropertyOverview icon={<IoMdWater/>} name={'water supply'} status={'corporation'} />
+                    <PropertyOverview icon={<FaBuilding />} name={'floor'} status={'10/17'} />
+                    <PropertyOverview icon={<FaTools  />} name={'maintenance'} status={'included'} />
+                    <PropertyOverview icon={<MdOutlineCurrencyRupee  />} name={'maintenance charge'} status={500} />
+                    <PropertyOverview icon={<FaCouch   />} name={'furnishing'} status={'full'} />
+                    <PropertyOverview icon={<FaTree    />} name={'balcony'} status={'yes'} />
+                    <PropertyOverview icon={<FaUserFriends     />} name={'allowed guest'} status={1} />
+                    <PropertyOverview icon={<FaBolt      />} name={'electricity charge'} status={'included'} />
+                    <PropertyOverview icon={<FaCompass      />} name={'facing'} status={'east'} />
+            </div>
+          </div>
+        </aside>
+        <aside className="property-right-sidebar simillar-property-sidebar"></aside>
       </div>
     </main>
   );

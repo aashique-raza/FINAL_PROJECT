@@ -6,7 +6,7 @@
     flex-direction: column;
     gap: 2rem;
     margin-top: 6.5rem;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     padding: 1rem 4.5rem;
 }
 
@@ -194,7 +194,16 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
-    gap: 2rem;
+    gap: 1rem;
+    /* border: 2px solid green; */
+}
+.property-left-sidebar{
+    width: 60%;
+    /* border: 2px solid yellow; */
+}
+.property-right-sidebar{
+    width: 40%;
+    /* border: 2px solid black; */
 }
 
 
@@ -256,6 +265,14 @@
         justify-content: start;
         align-items: start;
         gap: 3rem;
+    }
+    .property-left-sidebar{
+        width: 100%;
+       
+    }
+    .property-right-sidebar{
+        width: 100%;
+        
     }
 
 }
