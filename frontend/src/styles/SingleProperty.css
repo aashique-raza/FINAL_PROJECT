@@ -65,7 +65,7 @@
 
 /* propety left side box-- */
 .property-left-side-box {
-    width: 33%;
+    width: 40%;
     /* background-color: red; */
     height: auto;
     background-color: white;
@@ -74,6 +74,7 @@
     gap: 1.5rem;
     align-items: center;
     justify-content: start;
+    padding: 2rem 1rem;
 }
 
 /* image gallery cssss */
@@ -82,7 +83,7 @@
     grid-template-columns: 2fr 1fr;
     grid-template-rows: repeat(2, 1fr);
     gap: 10px;
-    width: 70%;
+    width: 60%;
     /* margin: 0 auto; */
 }
 
@@ -235,6 +236,10 @@
         width: 90% !important;
 
     }
+    .property-left-side-box {
+       
+        padding: 2rem 0px;
+    }
 
 }
 
@@ -258,4 +263,20 @@
 
     }
 
+}
+
+@media only screen and (min-width:1024px){
+    .property-section2{
+        height: 55rem;
+    }
+    .property-left-side-box {
+       
+        height: 100%;
+        overflow: scroll;
+        
+    }
+    .image-gallery-wrapper {
+       height: 100%;
+       overflow: hidden;
+    }
 }
