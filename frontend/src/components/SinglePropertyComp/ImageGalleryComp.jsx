@@ -1,57 +1,74 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import ImageGallery from "react-image-gallery";
 import Modal from "react-modal";
 import "../../styles/SingleProperty.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 function ImageGalleryComp({ images }) {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  
-    const openModal = () => {
-      setModalIsOpen(true);
-    };
-  
-    const closeModal = () => {
-      setModalIsOpen(false);
-    };
-  
-    const remainingImages = images.slice(3);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
+  const firstThree = images.slice(0, 3); // Get the first three objects
+  const remainingCount = images.length - firstThree.length; // Calculate the remaining count
   return (
-    <>
+    <div className="image-gallery-wrapper">
+      <div className="image-preview image-preview-large">
+        <div className="image-preview-header">
+          <button className="photos-button " onClick={openModal}>Photos</button>
+          <button className="favorite-button" onClick={toggleFavorite}>
+            <span className={`heart-icon ${isFavorite ? "favorite" : ""}`}>
+              &#x2764;
+            </span>{" "}
+            Add to favorite
+          </button>
+        </div>
+        <img src={firstThree[0].original} alt="" />
+      </div>
       <div className="image-preview">
-        {images.slice(0, 3).map((image, index) => (
-          <img
-            key={index}
-            src={image.original}
-            alt={`Property Image ${index + 1}`}
-            style={{ width: "100%", height: "100%" }}
-            onClick={() => {
-              setSelectedImageIndex(index);
-              openModal();
-            }}
-          />
-        ))}
-        {remainingImages.length > 0 && (
-          <div className="remaining-images" onClick={openModal}>
-            <span>+{remainingImages.length}</span>
+        <img src={firstThree[1].original} alt="" />
+      </div>
+      <div className="image-preview relative">
+        <img src={firstThree[2].original} alt="" />
+        {remainingCount > 0 && (
+          <div className="overlay cursor-pointer" onClick={openModal}>
+            <span className="overlay-text sm:text-2xl text-xl">{`+${remainingCount} more`}</span>
           </div>
         )}
       </div>
-      {modalIsOpen && (
-        <div className="modal" onClick={closeModal}>
-          <div className="modal-content">
-            <img
-              src={images[selectedImageIndex].original}
-              alt={`Property Image ${selectedImageIndex + 1}`}
-              className="modal-image"
-            />
-            {/* Add slider component here */}
-            {/* <ImageGallery items={remainingImages} /> */}
-          </div>
+      {/* Modal for Image Gallery */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        
+      >
+        <button onClick={closeModal}>Close</button>
+        <div
+          style={{ maxWidth: "100%", maxHeight: "100%", overflow: "hidden" }}
+        >
+          <ImageGallery
+            items={images.map((image) => ({
+              original: image.original,
+              originalClass: "modal-image",
+            }))}
+            showPlayButton={false} // Optional: Hide play button
+            showThumbnails={false} // Optional: Hide thumbnail navigation
+          />
         </div>
-      )}
-    </>
+      </Modal>
+    </div>
   );
 }
 

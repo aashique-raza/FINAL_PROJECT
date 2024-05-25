@@ -1,5 +1,5 @@
 /* main property conatiner csss */
-.property-main-container{
+.property-main-container {
     width: 100%;
     height: auto;
     display: flex;
@@ -11,7 +11,7 @@
 }
 
 /* property section 1 or property head comp */
-.proeprty-section1{
+.proeprty-section1 {
     /* border: 1px solid rgb(179, 177, 177); */
     display: flex;
     align-items: center;
@@ -21,7 +21,8 @@
     flex-wrap: wrap;
     gap: 0.6rem;
 }
-.proeprty-section1 div{
+
+.proeprty-section1 div {
     padding: 2rem 1.3rem;
     flex-grow: 1;
     height: 100%;
@@ -30,7 +31,8 @@
     align-items: center;
     justify-content: center;
 }
-.proeprty-section1 div h3{
+
+.proeprty-section1 div h3 {
     font-size: 1.7rem;
     font-weight: 700;
     font-family: var(--heading-font);
@@ -39,7 +41,8 @@
     text-transform: capitalize;
     text-overflow: clip;
 }
-.proeprty-section1 div p{
+
+.proeprty-section1 div p {
     font-size: 1.2rem;
     font-weight: 400;
     font-family: var(--heading-font);
@@ -49,82 +52,210 @@
     text-overflow: clip;
 }
 
-
-/* image gallery cssss */
-.section {
-    background-color: #fff;
-    margin-bottom: 20px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* property section2 csss satrt */
+.property-section2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    height: auto;
+    /* border: 2px solid red; */
+    overflow: hidden;
 }
 
-.section:last-child {
-    margin-bottom: 0;
+/* propety left side box-- */
+.property-left-side-box {
+    width: 33%;
+    /* background-color: red; */
+    height: auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: start;
+}
+
+/* image gallery cssss */
+.image-gallery-wrapper {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    width: 70%;
+    /* margin: 0 auto; */
 }
 
 .image-preview {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 10px;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #000;
+}
+
+.image-preview-large {
+    grid-row: span 2;
+    position: relative;
+}
+
+
+.image-preview-small {
+    object-fit: cover;
 }
 
 .image-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
-.modal {
+.image-preview-header {
+    position: absolute;
+    top: 1rem;
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
+    justify-content: space-between;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.photos-button,
+.favorite-button {
+    background-color: black;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.7;
+    /* Set opacity */
+    filter: blur(0.2px) brightness(0.7);
+    /* Add blur and decrease brightness */
+    color: white;
+    padding: 5px 16px;
+    border-radius: 5px;
+}
+
+.favorite-button .heart-icon {
+    color: white;
+    margin-right: 5px;
+}
+
+.favorite-button .heart-icon.favorite {
+    color: red;
+}
+
+.overlay {
+    position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    max-width: 90%;
-    max-height: 90%;
-    overflow: auto;
-    border-radius: 8px;
+.overlay-text {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
 }
 
+/* Additional styling for the modal if needed */
 .modal-image {
-    width: 300px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
+    width: auto !important;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
+  
+.ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.ReactModal__Content {
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-right: -50% !important;
+    transform: translate(-50%, -50%) !important;
+    padding: 10px !important;
+    max-width: 70% !important;
+    width: 60% !important;
+    max-height: 70% !important;
+    /* Adjust the height as needed */
 }
 
 
-@media only screen and (max-width:467px){
-    .property-main-container{
+
+
+
+
+@media only screen and (max-width:467px) {
+    .property-main-container {
         width: 100%;
         padding: 1rem 0px;
     }
-    .proeprty-section1 div:first-child{
-       display: none;
+
+    .proeprty-section1 div:first-child {
+        display: none;
     }
-    .proeprty-section1 div h3{
+
+    .proeprty-section1 div h3 {
         font-size: 1.3rem;
         text-align: center;
     }
-    .proeprty-section1 div p{
+
+    .proeprty-section1 div p {
         font-size: 1rem;
-        
+
+    }
+
+    .image-preview-header {
+
+        top: 5px;
+
+        padding: 2px;
+
+    }
+
+    .photos-button,
+    .favorite-button {
+
+        font-size: 11px;
+
+        padding: 5px 8px;
+
+    }
+
+    .ReactModal__Content {
+
+        max-width: 100% !important;
+        width: 90% !important;
+
     }
 
 }
 
+@media only screen and (max-width:1023px) {
+    .property-left-side-box {
+        width: 100%;
 
+    }
 
+    .property-section2 {
+
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+
+    }
+
+    .image-gallery-wrapper {
+
+        width: 100%;
+
+    }
+
+}

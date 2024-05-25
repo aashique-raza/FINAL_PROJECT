@@ -5,6 +5,8 @@ import { ThreeDots } from "react-loader-spinner";
 import "../styles/SingleProperty.css";
 import PropertyHeadComp from "../components/SinglePropertyComp/PropertyHeadComp";
 import ImageGalleryComp from "../components/SinglePropertyComp/ImageGalleryComp";
+import FacilityItem from "../components/FacilityItem";
+import { FaBed, FaBuilding, FaMale, FaFemale, FaUser, FaKey, FaBicycle, FaCar, FaCalendarAlt, FaWrench, FaTree } from 'react-icons/fa';
 
 function PropertyPage() {
   const { category, id } = useParams();
@@ -101,8 +103,58 @@ function PropertyPage() {
   return (
     <main className="property-main-container">
       <PropertyHeadComp />
-      <div className="section section3">
-        {/* <ImageGalleryComp images={ImagesUrl} /> */}
+      <div className="property-section property-section2  ">
+       <ImageGalleryComp images={ImagesUrl} />
+       <aside className="property-left-side-box">
+        <div className="facilities_items px-3 flex flex-wrap  gap-5 py-3 border-2 w-full " >
+        <FacilityItem
+                icon={<FaKey />}
+                type={"avaibility"}
+                name='immidiate'
+                />
+                 <FacilityItem
+                icon={<FaBed />}
+                type={"bedroom"}
+                name='2 bedroom'
+                />
+                 <FacilityItem
+                icon={<FaBed />}
+                type={"bedroom"}
+                name='2 bedroom'
+                />
+                 <FacilityItem
+                icon={<FaBed />}
+                type={"bedroom"}
+                name='2 bedroom'
+                />
+                 <FacilityItem
+                icon={<FaBed />}
+                type={"bedroom"}
+                name='2 bedroom'
+                />
+                 <FacilityItem
+                icon={<FaBed />}
+                type={"bedroom"}
+                name='2 bedroom'
+                />
+                 <FacilityItem
+                icon={<FaBed />}
+                type={"bedroom"}
+                name='2 bedroom'
+                />
+                 <FacilityItem
+                icon={<FaBed />}
+                type={"bedroom"}
+                name='2 bedroom'
+                />
+
+        </div>
+        <div>
+
+        </div>
+               
+       </aside>
+       
       </div>
     </main>
   );
