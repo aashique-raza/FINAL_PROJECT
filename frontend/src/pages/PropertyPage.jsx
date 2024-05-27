@@ -298,7 +298,7 @@ function PropertyPage() {
             <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
               simillar properties
             </h3>
-            <div className="flex flex-col justify-center items-start gap-5 w-full">
+            <div className="flex flex-col justify-center items-start gap-8 w-full mt-7">
               <PropertySimillarComp />
               <PropertySimillarComp />
               <PropertySimillarComp />
