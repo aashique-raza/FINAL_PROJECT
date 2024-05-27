@@ -25,6 +25,7 @@ import ImageGalleryComp from "../components/SinglePropertyComp/ImageGalleryComp"
 import FacilityItem from "../components/FacilityItem";
 import PropertyOverview from "../components/SinglePropertyComp/PropertyOverview";
 import PropertActivity from "../components/SinglePropertyComp/PropertActivity";
+import PropertySimillarComp from "../components/SinglePropertyComp/PropertySimillarComp";
 import { FaCompass } from "react-icons/fa";
 import { IoMdWater } from "react-icons/io";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
@@ -292,7 +293,18 @@ function PropertyPage() {
             </div>
           </div>
         </aside>
-        <aside className="property-right-sidebar simillar-property-sidebar"></aside>
+        <aside className="property-right-sidebar simillar-property-sidebar bg-white ">
+          <div className=" flex flex-col justify-center items-start gap-5 border-2  px-4 py-10 property-simillar-container">
+            <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
+              simillar properties
+            </h3>
+            <div className="flex flex-col justify-center items-start gap-5 w-full">
+              <PropertySimillarComp />
+              <PropertySimillarComp />
+              <PropertySimillarComp />
+            </div>
+          </div>
+        </aside>
       </div>
     </main>
   );
