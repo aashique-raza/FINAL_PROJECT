@@ -3,9 +3,21 @@ import { API_URL } from "../configue";
 import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 // facilites icon
-import {  FaTv, FaFan, FaBath, FaBoxOpen, FaWifi, FaLock, FaTable, FaFire, FaSnowflake,FaRegSnowflake } from "react-icons/fa";
+import {
+  FaTv,
+  FaFan,
+  FaBath,
+  FaBoxOpen,
+  FaWifi,
+  FaLock,
+  FaTable,
+  FaFire,
+  FaSnowflake,
+  FaRegSnowflake,
+} from "react-icons/fa";
 // import { FaRegSnowflake } from "react-icons/gi";
 import { TbAirConditioning } from "react-icons/tb";
+import { roomAmenitiesitems } from "../rentUtils";
 
 import "../styles/SingleProperty.css";
 import PropertyHeadComp from "../components/SinglePropertyComp/PropertyHeadComp";
@@ -13,12 +25,11 @@ import ImageGalleryComp from "../components/SinglePropertyComp/ImageGalleryComp"
 import FacilityItem from "../components/FacilityItem";
 import PropertyOverview from "../components/SinglePropertyComp/PropertyOverview";
 import PropertActivity from "../components/SinglePropertyComp/PropertActivity";
-import { FaCompass } from 'react-icons/fa';
+import { FaCompass } from "react-icons/fa";
 import { IoMdWater } from "react-icons/io";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
 import {
   FaBed,
-  
   FaMale,
   FaFemale,
   FaUser,
@@ -27,17 +38,36 @@ import {
   FaCar,
   FaCalendarAlt,
   FaWrench,
-
 } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
-import { FaBuilding, FaTools,FaCouch,  FaTree, FaUserFriends, FaBolt } from 'react-icons/fa';
+import {
+  FaBuilding,
+  FaTools,
+  FaCouch,
+  FaTree,
+  FaUserFriends,
+  FaBolt,
+} from "react-icons/fa";
 import PropertyDescription from "../components/SinglePropertyComp/PropertyDescription";
+import PropertyAmenitiesItem from "../components/SinglePropertyComp/PropertyAmenitiesItem";
 
 function PropertyPage() {
   const { category, id } = useParams();
   const [propertyData, setPropertyData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // amenities item
+  const [showAllAmenities, setShowAllAmenities] = useState(false);
+
+  // Function to toggle amenities visibility
+  const toggleAmenities = () => {
+    setShowAllAmenities(!showAllAmenities);
+  };
+
+  const amenitiesToShow = showAllAmenities
+    ? roomAmenitiesitems
+    : roomAmenitiesitems.slice(0, 5);
 
   const iconsArray = [
     { type: "no of bedroom", name: "2 Bedroom", icon: <FaBed /> },
@@ -53,19 +83,19 @@ function PropertyPage() {
   ];
 
   // Facilities icon map
-const facilityIconMap = {
-  "cupboard": <FaBoxOpen />,
-  "ac": <TbAirConditioning />,
-  "attached bathroom": <FaBath />,
-  "fan": <FaFan />,
-  "TV": <FaTv />,
-  "bedding": <FaBed />,
-  "geyser": <FaRegSnowflake />,
-  "room heater": <FaFire />,
-  "study table": <FaTable />,
-  "WiFi": <FaWifi />,
-  "locker": <FaLock />
-};
+  const facilityIconMap = {
+    cupboard: <FaBoxOpen />,
+    ac: <TbAirConditioning />,
+    "attached bathroom": <FaBath />,
+    fan: <FaFan />,
+    TV: <FaTv />,
+    bedding: <FaBed />,
+    geyser: <FaRegSnowflake />,
+    "room heater": <FaFire />,
+    "study table": <FaTable />,
+    WiFi: <FaWifi />,
+    locker: <FaLock />,
+  };
 
   const ImagesUrl = [
     "https://images.pexels.com/photos/2091634/pexels-photo-2091634.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -173,25 +203,93 @@ const facilityIconMap = {
             <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
               overview
             </h3>
-            <div className="overview-wrapper w-full flex justify-between items-center  gap-2 flex-grow flex-wrap mt-10 py-3">
-                    <PropertyOverview icon={<FaBed/>} name={'bedroom'} status={2} />
-                    <PropertyOverview icon={<IoMdWater/>} name={'water supply'} status={'corporation'} />
-                    <PropertyOverview icon={<FaBuilding />} name={'floor'} status={'10/17'} />
-                    <PropertyOverview icon={<FaTools  />} name={'maintenance'} status={'included'} />
-                    <PropertyOverview icon={<MdOutlineCurrencyRupee  />} name={'maintenance charge'} status={500} />
-                    <PropertyOverview icon={<FaCouch   />} name={'furnishing'} status={'full'} />
-                    <PropertyOverview icon={<FaTree    />} name={'balcony'} status={'yes'} />
-                    <PropertyOverview icon={<FaUserFriends     />} name={'allowed guest'} status={1} />
-                    <PropertyOverview icon={<FaBolt      />} name={'electricity charge'} status={'included'} />
-                    <PropertyOverview icon={<FaCompass      />} name={'facing'} status={'east'} />
+            <div className="overview-wrapper w-full flex justify-start items-center  gap-10  flex-wrap mt-10 py-3  flex-wrap">
+              <PropertyOverview icon={<FaBed />} name={"bedroom"} status={2} />
+              <PropertyOverview
+                icon={<IoMdWater />}
+                name={"water supply"}
+                status={"corporation"}
+              />
+              <PropertyOverview
+                icon={<FaBuilding />}
+                name={"floor"}
+                status={"10/17"}
+              />
+              <PropertyOverview
+                icon={<FaTools />}
+                name={"maintenance"}
+                status={"included"}
+              />
+              <PropertyOverview
+                icon={<MdOutlineCurrencyRupee />}
+                name={"maintenance charge"}
+                status={500}
+              />
+              <PropertyOverview
+                icon={<FaCouch />}
+                name={"furnishing"}
+                status={"full"}
+              />
+              <PropertyOverview
+                icon={<FaTree />}
+                name={"balcony"}
+                status={"yes"}
+              />
+              <PropertyOverview
+                icon={<FaUserFriends />}
+                name={"allowed guest"}
+                status={1}
+              />
+              <PropertyOverview
+                icon={<FaBolt />}
+                name={"electricity charge"}
+                status={"included"}
+              />
+              <PropertyOverview
+                icon={<FaCompass />}
+                name={"facing"}
+                status={"east"}
+              />
             </div>
           </div>
-          <div className='property-description-wrapper  w-full bg-white border-2 border-gray-400 py-4 px-3 mt-10
-           '>
-          <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
+          <div
+            className="property-description-wrapper  w-full bg-white border-2 border-gray-400 py-4 px-3 mt-10
+           "
+          >
+            <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
               description
             </h3>
-              <PropertyDescription/>
+            <PropertyDescription />
+          </div>
+          <div className="property-amenities-container w-full bg-white border-2 border-gray-400 py-4 px-3 mt-10">
+            <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
+              amenities
+            </h3>
+            <div className="w-full flex flex-wrap gap-8 mt-14">
+              {amenitiesToShow?.map((amenity, index) => (
+                <PropertyAmenitiesItem
+                  key={index}
+                  icon={amenity.icon}
+                  name={amenity.label}
+                />
+              ))}
+              {roomAmenitiesitems.length > 5 && !showAllAmenities && (
+                <div
+                  className="shadow-lg  flex justify-center items-center rounded-full  w-24 h-24 text-white bg-teal-700 capitalize font-roboto text-sm sm:text-2xl cursor-pointer"
+                  onClick={toggleAmenities}
+                >
+                  +{roomAmenitiesitems.length - 5}
+                </div>
+              )}
+              {showAllAmenities && (
+                <div
+                  className="shadow-lg  flex justify-center items-center rounded-full w-24 h-24  bg-teal-700 text-white capitalize font-roboto text-sm sm:text-xl text-center cursor-pointer"
+                  onClick={toggleAmenities}
+                >
+                  Show Less
+                </div>
+              )}
+            </div>
           </div>
         </aside>
         <aside className="property-right-sidebar simillar-property-sidebar"></aside>

@@ -193,3 +193,22 @@ export const bhkTypes = [
   { label: "4 BHK", value: "4bhk" },
   { label: "4+ BHK", value: "4bhk+" },
 ];
+
+
+export const roomAmenitiesitems = [
+  { label: "Lift", icon: <ElevatorIcon  /> },
+  { label: "Wifi", icon: <WifiIcon /> },
+  { label: "Swimming Pool", icon: <PoolIcon /> },
+  { label: "AC", icon: <AcUnitIcon /> },
+  { label: "Club House", icon: <HouseIcon /> },
+  { label: "Children Play Area", icon: <ChildFriendlyIcon /> },
+  { label: "Fire Safety", icon: <FireExtinguisherIcon /> },
+  { label: "Parking", icon: <LocalParkingIcon /> },
+  { label: "Gym", icon: <FitnessCenterIcon /> },
+  { label: "Sports Area", icon: <SportsBaseballIcon /> },
+  { label: "Gas Pipeline", icon: <LocalGasStationIcon /> },
+  { label: "Park", icon: <ParkIcon /> },
+  { label: "Rain Water Harvesting", icon: <WavesIcon /> },
+  { label: "Power Backup", icon: <PowerIcon /> },
+  { label: "Visitor Parking", icon: <LocalParkingOutlinedIcon /> },
+];
