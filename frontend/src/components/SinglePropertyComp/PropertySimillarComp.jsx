@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { LuIndianRupee } from "react-icons/lu";
+import '../../styles/SingleProperty.css'
 
 function PropertySimillarComp() {
   return (

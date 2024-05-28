@@ -1,3 +1,9 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 /* main property conatiner csss */
 .property-main-container {
     width: 100%;
@@ -196,13 +202,14 @@
     align-items: start;
     gap: 1rem;
     /* border: 2px solid green; */
+    width: 100%;
 }
 .property-left-sidebar{
     width: 60%;
     /* border: 2px solid yellow; */
 }
 .property-right-sidebar{
-    width: 40%;
+    width: 38%;
     /* border: 2px solid black; */
 }
 
@@ -224,6 +231,7 @@
   }
   .property-simillar-box div:last-child{
     height: 100%;
+    width: 100%;
   }
 
 
@@ -292,10 +300,34 @@
         width: 100%;
         
     }
+    .overview-wrapper .propert-overview-container{
+        width: 100%;
+    }
+
+    /* property section 2 */
+    .property-left-side-box {
+        width: 100%;
+
+    }
+
+    .property-section2 {
+
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+
+    }
+
+    .image-gallery-wrapper {
+
+        width: 100%;
+
+    }
+    
 
 }
 
-@media only screen and (max-width:1023px) {
+@media only screen and (min-width:468px) and (max-width:1023px) {
     .property-left-side-box {
         width: 100%;
 
@@ -315,6 +347,28 @@
 
     }
 
+     /* property section-3 */
+     /* propeety section 3 css  */
+     .property-section3{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        gap: 3rem;
+    }
+    .property-left-sidebar{
+        width: 100%;
+        /* border: 2px solid yellow; */
+    }
+    .property-right-sidebar{
+        width: 100%;
+        /* border: 2px solid black; */
+    }
+    .overview-wrapper .propert-overview-container{
+        width: 45%;
+    }
+   
+
 }
 
 @media only screen and (min-width:1024px){
@@ -331,6 +385,8 @@
        height: 100%;
        overflow: hidden;
     }
+
+   
 }
 
 

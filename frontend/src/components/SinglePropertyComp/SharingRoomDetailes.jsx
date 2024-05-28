@@ -2,6 +2,7 @@ import React from "react";
 import { LuIndianRupee } from "react-icons/lu";
 import PropertyAmenitiesItem from "./PropertyAmenitiesItem";
 import { FaBed } from "react-icons/fa";
+import '../../styles/SingleProperty.css'
 
 function SharingRoomDetailes() {
   return (
@@ -9,7 +10,7 @@ function SharingRoomDetailes() {
       <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
         single room sharing details
       </h3>
-      <div className=" w-full flex items-center gap-52 py-8 border-b-2">
+      <div className=" occupancy w-full flex sm:items-center sm:flex-row sm:gap-40 md:52 sm:justify-start flex-col gap-3 py-8 border-b-2">
         <p className=" flex items-center justify-start gap-9 capitalize text-xl sm:text-2xl font-roboto font-light">
           Rent for single Occupancy{" "}
           <span className=" font-semibold font-roboto capitalize text-sm sm:text-xl text-gray-700">

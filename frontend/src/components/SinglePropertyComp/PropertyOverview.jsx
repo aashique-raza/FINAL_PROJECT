@@ -4,7 +4,7 @@ import { IoMdWater } from "react-icons/io";
 function PropertyOverview({icon,status,name}) {
   return (
     
-      <div className="px-3 py-6 border-dashed border-b-2 flex gap-4 justify-start items-center w-full md:w-2/5  ">
+      <div className=" propert-overview-container px-3 py-6 border-dashed border-b-2 flex gap-4 justify-start items-center w-full md:w-2/5  ">
         <h3 className=" text-2xl sm:text-4xl text-slate-800">
           {icon}
         </h3>
