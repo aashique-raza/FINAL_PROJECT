@@ -26,6 +26,7 @@ import FacilityItem from "../components/FacilityItem";
 import PropertyOverview from "../components/SinglePropertyComp/PropertyOverview";
 import PropertActivity from "../components/SinglePropertyComp/PropertActivity";
 import PropertySimillarComp from "../components/SinglePropertyComp/PropertySimillarComp";
+import SharingRoomDetailes from "../components/SinglePropertyComp/SharingRoomDetailes";
 import { FaCompass } from "react-icons/fa";
 import { IoMdWater } from "react-icons/io";
 import { MdOutlineCurrencyRupee } from "react-icons/md";
@@ -200,11 +201,12 @@ function PropertyPage() {
       </div>
       <div className="property-section3 propertysection">
         <aside className="property-left-sidebar property-detailes-sidebar ">
+            <SharingRoomDetailes/>
           <div className="overview-container w-full bg-white border-2 border-gray-400 py-4 px-3">
             <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
               overview
             </h3>
-            <div className="overview-wrapper w-full flex justify-start items-center  gap-10  flex-wrap mt-10 py-3  flex-wrap">
+            <div className="overview-wrapper w-full flex justify-start items-center  gap-10 mt-10 py-3  flex-wrap">
               <PropertyOverview icon={<FaBed />} name={"bedroom"} status={2} />
               <PropertyOverview
                 icon={<IoMdWater />}
