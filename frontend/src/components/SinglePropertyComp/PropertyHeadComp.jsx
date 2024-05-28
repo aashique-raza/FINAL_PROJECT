@@ -2,39 +2,61 @@ import React from "react";
 import "../../styles/SingleProperty.css";
 import { IoHomeOutline } from "react-icons/io5";
 import { FaIndianRupeeSign } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
-function PropertyHeadComp() {
+function PropertyHeadComp({
+  rent = 500,
+  deposit = 300,
+  sqrfit = 230,
+  name = "",
+  location = "",
+  bhktype=1,
+  propertyAvailableFor='rent',
+  apartment_name='royal'
+}) {
+  const { category, id } = useParams();
+
+  // console.log("header-cmop", category);
   return (
     <div className="property-section proeprty-section1">
-      <div className=" border-2  border-gray-200" >
+      <div className=" border-2  border-gray-200">
         <h2 className=" text-5xl text-gray-500 ">
-         
-          <IoHomeOutline  />
+          <IoHomeOutline />
         </h2>
-        <p>pg</p>
+        <p>{category}</p>
       </div>
       <div className=" border-2  border-gray-200">
-        <h3>3 BHK Flat In Unitech Uniworld City For Rent In Sector-30</h3>
-        <p>Sector-30, Gurgaon, Haryana, INDIA.</p>
+        {category.trim().toLocaleLowerCase() ===
+        "rental".trim().toLocaleLowerCase() ? (
+          <h3>{bhktype.charAt(0)} BHK Flat In {apartment_name} For {propertyAvailableFor} In {location.localAddress}</h3>
+        ) : (
+          <h3>3 BHK Flat In Unitech Uniworld City For Rent In Sector-30</h3>
+        )}
+
+        <p>{location.localAddress},{location.city}</p>
       </div>
       <div className=" border-2  border-gray-200">
         <h3 className=" flex items-center">
-          <FaIndianRupeeSign /> <span>80,000/m</span>
+          <FaIndianRupeeSign /> <span>{rent}/m</span>
         </h3>
         <p>rent</p>
       </div>
-      <div className=" border-2  border-gray-200">
-        <h3>230</h3>
-        <p>sqrft.</p>
-      </div>
+      {category.trim().toLocaleLowerCase() ===
+        "rental".trim().toLocaleLowerCase() && (
+        <div className=" border-2  border-gray-200">
+          <h3>{sqrfit}</h3>
+          <p>sqrft.</p>
+        </div>
+      )}
+
       <div className=" border-2  border-gray-200">
         <h3 className=" flex items-center">
           {" "}
-          <FaIndianRupeeSign /> <span> 80,000</span>
+          <FaIndianRupeeSign /> <span> {deposit}</span>
         </h3>
         <p>deposit</p>
       </div>
-      
     </div>
   );
 }
