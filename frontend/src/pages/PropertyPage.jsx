@@ -103,7 +103,7 @@ function PropertyPage() {
       case "family":
         return <FaUsers />;
       case "anyone":
-        return <MdPeople />;
+        return <FaUser  />;
       case "bachelor male":
         return <FaMale />;
       case "bachelor female":

@@ -27,6 +27,7 @@ import { Alert,Spinner } from "flowbite-react";
 // import { IndianRupeeIcon } from "@mui/icons-material";
 import DescriptionInput from "../components/DescriptionInput";
 import { AllStates, cities } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 function RentPage({showSuccessMessage}) {
   const token=getTokenFromLocalStorage()
@@ -35,10 +36,11 @@ function RentPage({showSuccessMessage}) {
   const [isPropertyCreated,setIspropertyCreated]=useState(false)
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate=useNavigate()
  
   const formRef = useRef(null);
 
-console.log(photos)
+// console.log(photos)
 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentCity(currentCity) {
@@ -186,7 +188,7 @@ console.log(photos)
       });
       // console.log(resp);
       const data = await resp.json();
-      // console.log(data);
+      console.log(data);
 
       if (!resp.ok) {
         
@@ -198,15 +200,8 @@ console.log(photos)
       setLoading(false);
       setError(null);
       showSuccessMessage('rent property created')
-         // Reset form
-    formRef.current.reset();
+      navigate(`/property/rental/${data.saveProperty._id}`)    
     
-      
-      setPhotos([])
-      setBedroom(0)
-      setbalcony(0)
-      setGuest(0)
-      setIspropertyCreated(true)
      
     } catch (error) {
     setError(error.message)

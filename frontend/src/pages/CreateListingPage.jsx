@@ -17,12 +17,14 @@ import PgRoom from "../components/PgRoom";
 import HouseRoom from "../components/HouseRoom";
 import FlatRoom from "../components/FlatRoom";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CreateListingPage() {
   const [residentialsActive, setResidentailActive] = useState(true);
   const [commercialActive, setCommercialActive] = useState(false);
   const [activeItemResdentialType, setActiveItemResdentialType] = useState("rent");
   const [activeItemCommercialType, setActiveItemCommercialType] = useState("for rent");
+  const navigate=useNavigate()
   
 
   return (

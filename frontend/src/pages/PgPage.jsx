@@ -22,9 +22,11 @@ import { useDispatch,useSelector } from "react-redux";
 import { Alert,Spinner } from "flowbite-react";
 import { formErrorHandler } from "../formError";
 import { getTokenFromLocalStorage } from "../token";
+import { useNavigate } from "react-router-dom";
 
 function PgPage({showSuccessMessage}) {
 
+  const navigate=useNavigate()
   const [isPgCreated,setIsPgCreated]=useState(false)
   const [formData, setFormData] = useState({
     roomFacilities: [],
@@ -164,7 +166,8 @@ function PgPage({showSuccessMessage}) {
       showSuccessMessage('listing successfull')
       
       dispatch(pgListingClearError())
-      dispatch(pgListingSuccess(data.lsiting))      
+      dispatch(pgListingSuccess(data.lsiting))  
+      navigate(`/property/pg/${data.lsiting._id}`)    
     } catch (error) {
       console.log(error.message);
       dispatch(pgListingFailed(error.message))
