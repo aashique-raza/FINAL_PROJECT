@@ -3,14 +3,22 @@ import PropertyAmenitiesItem from './PropertyAmenitiesItem'
 import { FaBed } from 'react-icons/fa'
 import { FaBan, FaSmokingBan, FaDog, FaUserFriends } from 'react-icons/fa';
 
+// Final rules list with icons
+const pgrulesIcon = [
+  { name: "no girls entry", icon: <FaBan /> },
+  { name: "no smoking", icon: <FaSmokingBan /> },
+  { name: "no pets", icon: <FaDog /> },
+  { name: "guest allowed", icon: <FaUserFriends /> },
+];
+
+// Function to filter and return matched rules with icons
+const filterPgRules = (rules) => {
+  return pgrulesIcon.filter(item => rules && rules.includes(item.name));
+};
+
 function PgRules({pgRUles}) {
 
-    const ruleIcons = {
-        "no girls entry": <FaBan />,
-        "no smoking": <FaSmokingBan />,
-        "no pets": <FaDog />,
-        "guest allowed": <FaUserFriends />
-      };
+  const matchedPgRules = filterPgRules(pgRUles);
 
   return (
     <div className="pg-rules-container w-full bg-white border-2 border-gray-400 py-4 px-3 mb-10">
@@ -19,7 +27,12 @@ function PgRules({pgRUles}) {
     </h3>
    
       <div className="w-full flex flex-wrap gap-8 mt-3">
-        <PropertyAmenitiesItem icon={<FaBed size={'20px'} />} name={"single bed"} />
+        {
+          matchedPgRules && matchedPgRules.map((item,index)=>(
+            <PropertyAmenitiesItem icon={item.icon} name={item.name} key={index} />
+          ))
+        }
+       
       </div>
     
   </div>

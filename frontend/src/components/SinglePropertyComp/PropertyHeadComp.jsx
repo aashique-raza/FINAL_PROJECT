@@ -13,7 +13,9 @@ function PropertyHeadComp({
   location = "",
   bhktype=1,
   propertyAvailableFor='rent',
-  apartment_name='royal'
+  apartment_name='royal',
+  sharing='',
+  tenet='boys'
 }) {
   const { category, id } = useParams();
 
@@ -29,9 +31,9 @@ function PropertyHeadComp({
       <div className=" border-2  border-gray-200">
         {category.trim().toLocaleLowerCase() ===
         "rental".trim().toLocaleLowerCase() ? (
-          <h3>{bhktype.charAt(0)} BHK Flat In {apartment_name} For {propertyAvailableFor} In {location.localAddress}</h3>
+          <h3>{bhktype} BHK Flat In {apartment_name} For {propertyAvailableFor} In {location.localAddress}</h3>
         ) : (
-          <h3>3 BHK Flat In Unitech Uniworld City For Rent In Sector-30</h3>
+          <h3> pg for {tenet} in {location.name},in {location.localAddress}  </h3>
         )}
 
         <p>{location.localAddress},{location.city}</p>

@@ -4,24 +4,26 @@ import PropertyAmenitiesItem from "./PropertyAmenitiesItem";
 import { FaBed } from "react-icons/fa";
 import '../../styles/SingleProperty.css'
 
-function SharingRoomDetailes() {
+function SharingRoomDetailes({
+  sharing,rent,deposit,roomAmenity
+}) {
   return (
     <div className="sharing-room-details w-full bg-white border-2 border-gray-400 py-4 px-3 mb-10">
       <h3 className=" py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl ">
-        single room sharing details
+        {sharing} room sharing details
       </h3>
       <div className=" occupancy w-full flex sm:items-center sm:flex-row sm:gap-40 md:52 sm:justify-start flex-col gap-3 py-8 border-b-2">
         <p className=" flex items-center justify-start gap-9 capitalize text-xl sm:text-2xl font-roboto font-light">
-          Rent for single Occupancy{" "}
+          Rent for {sharing} Occupancy{" "}
           <span className=" font-semibold font-roboto capitalize text-sm sm:text-xl text-gray-700">
             {" "}
-            <LuIndianRupee className=" inline-block" /> 50,000/m{" "}
+            <LuIndianRupee className=" inline-block" /> {rent}/m
           </span>{" "}
         </p>
         <p className=" flex items-center justify-start gap-9 capitalize text-xl sm:text-2xl font-roboto font-light">
           Security Deposit{" "}
           <span className=" font-semibold font-roboto capitalize text-sm sm:text-xl text-gray-700">
-            <LuIndianRupee className=" inline-block" /> 50,000
+            <LuIndianRupee className=" inline-block" /> {deposit}
           </span>{" "}
         </p>
       </div>
@@ -31,7 +33,12 @@ function SharingRoomDetailes() {
           room faciliteis
         </p>
         <div className="w-full flex flex-wrap gap-8 mt-3">
-          <PropertyAmenitiesItem icon={<FaBed size={'20px'} />} name={"single bed"} />
+          {
+            roomAmenity?.map((item,index)=>(
+              <PropertyAmenitiesItem icon={item.icon} name={item.label} key={index} />
+            ))
+          }
+         
         </div>
       </div>
     </div>
