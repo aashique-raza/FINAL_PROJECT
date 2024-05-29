@@ -60,25 +60,22 @@ import PropertyAmenitiesItem from "../components/SinglePropertyComp/PropertyAmen
 import { FaBowlFood, FaKitchenSet } from "react-icons/fa6";
 import { iconButtonClasses } from "@mui/material";
 
-
 // pg amenity itemimport TvIcon from '@mui/icons-material/Tv'; // Make sure to import your icons correctly
-import FastfoodIcon from '@mui/icons-material/Fastfood';
-import PowerSettingsNew from '@mui/icons-material/PowerSettingsNew';
-import ArrowUpward from '@mui/icons-material/ArrowUpward';
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import PowerSettingsNew from "@mui/icons-material/PowerSettingsNew";
+import ArrowUpward from "@mui/icons-material/ArrowUpward";
 import { TvRounded } from "@mui/icons-material";
-import RestaurantIcon from '@mui/icons-material/Restaurant'; // For non-veg
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'; // For veg
+import RestaurantIcon from "@mui/icons-material/Restaurant"; // For non-veg
+import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu"; // For veg
 
 // Final PG amenities list with icons
 const pgAvailableAmenities = [
-  {  label: "tv", icon: <TvRounded /> },
-  {  label: "mess", icon: <FastfoodIcon /> },
+  { label: "tv", icon: <TvRounded /> },
+  { label: "mess", icon: <FastfoodIcon /> },
   // { label: "commonfridge", value: "regrigatoor", icon: <Refrigerator /> },
-  {  label: "power", icon: <PowerSettingsNew /> },
+  { label: "power", icon: <PowerSettingsNew /> },
   { label: "lift", icon: <ArrowUpward /> },
 ];
-
-
 
 function PropertyPage() {
   const { category, id } = useParams();
@@ -89,7 +86,7 @@ function PropertyPage() {
   const [roomFacilities, setRoomFacilities] = useState([]);
   const [pgFacilityItems, setPgFacilityItems] = useState([]);
   const [propertyOverviews, setPropertyOverviewItems] = useState([]);
-  const[matchedAmenity,setMatchedAmenity]=useState([])
+  const [matchedAmenity, setMatchedAmenity] = useState([]);
 
   useEffect(() => {
     // You can perform any action with category and id here
@@ -181,18 +178,27 @@ function PropertyPage() {
       setError(null);
       setLoading(false);
       setPropertyData(data.findProperty);
+
       if (category.trim().toLocaleLowerCase() === "rental") {
         const result = rentFacilityItems(data.findProperty);
         setFacilityItems(result);
         const result2 = propertyOverview(data.findProperty);
         setPropertyOverviewItems(result2);
-        const amenityMatched=matchAmenity(propertyData.availableAmenities,roomAmenitiesitems)
-        setMatchedAmenity(amenityMatched)
+        const amenityMatched = matchAmenity(
+          data.findProperty.availableAmenities,
+          roomAmenitiesitems
+        );
+        setMatchedAmenity(amenityMatched);
       } else {
         const reuslt = pgFacilityItem(data.findProperty);
         setPgFacilityItems(reuslt);
-        const matchedAmenities = matchAmenity(propertyData.ameinites,pgAvailableAmenities);
-        setMatchedAmenity(matchedAmenities)
+
+        // console.log("pg amenity", data.findProperty.ameinites);
+        const matchedAmenities = matchAmenity(
+          data.findProperty.ameinites,
+          pgAvailableAmenities
+        );
+        setMatchedAmenity(matchedAmenities);
       }
       if (data.findProperty.roomFacilities) {
         const matchedFacilities = filterFacilities(
@@ -335,23 +341,23 @@ function PropertyPage() {
         name: data.kitchen === true ? "yes" : "no",
         icon: <FaKitchenSet />,
       },
-       {
-        type:'food type',
-        name:data.foodType || 'na',
-        icon:<RestaurantMenuIcon/>
-      }
+      {
+        type: "food type",
+        name: data.foodType || "na",
+        icon: <RestaurantMenuIcon />,
+      },
     ];
   }
 
   // amenity filter based on property amenity
 
- 
-
-  function matchAmenity(dbAmenity,filterAmenities){
-    const matchd=filterAmenities.filter((item)=>dbAmenity && dbAmenity.includes(item.label))
-    return matchd
+  function matchAmenity(dbAmenity, filterAmenities) {
+    // console.log("db amenity", dbAmenity);
+    const matchd = filterAmenities.filter(
+      (item) => dbAmenity && dbAmenity.includes(item.label)
+    );
+    return matchd;
   }
-
 
   // amenities item
   const [showAllAmenities, setShowAllAmenities] = useState(false);
@@ -391,7 +397,7 @@ function PropertyPage() {
     );
   }
 
-  console.log("property data", propertyData);
+  // console.log("property data", propertyData);
 
   return (
     <main className="property-main-container">
@@ -465,7 +471,7 @@ function PropertyPage() {
                     deposit={propertyData.depositAmount}
                     roomAmenity={roomFacilities}
                   />
-                  <PgRules pgRUles={propertyData.pgRules}/>
+                  <PgRules pgRUles={propertyData.pgRules} />
                 </>
               )}
 
@@ -499,13 +505,17 @@ function PropertyPage() {
                   amenities
                 </h3>
                 <div className="w-full flex flex-wrap gap-8 mt-14">
-                  {amenitiesToShow?.map((amenity, index) => (
-                    <PropertyAmenitiesItem
-                      key={index}
-                      icon={amenity.icon}
-                      name={amenity.label}
-                    />
-                  ))}
+                  {amenitiesToShow?.length > 0 ? (
+                    amenitiesToShow.map((amenity, index) => (
+                      <PropertyAmenitiesItem
+                        key={index}
+                        icon={amenity.icon}
+                        name={amenity.label}
+                      />
+                    ))
+                  ) : (
+                    <div className="text-red-500 capitalize font-medium font-roboto tracking-wider">No available amenities</div>
+                  )}
                   {matchedAmenity.length > 5 && !showAllAmenities && (
                     <div
                       className="shadow-lg flex justify-center items-center rounded-full w-24 h-24 text-white bg-teal-700 capitalize font-roboto text-sm sm:text-2xl cursor-pointer"
