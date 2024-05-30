@@ -9,6 +9,7 @@ import { allCities, pgRoomSharing } from "../utils";
 import { bhkTypes } from "../rentUtils";
 import { useSearchParams } from "react-router-dom";
 import SearchCategory from "../components/HomeComp/SearchCategory";
+import CardBox from "../components/HomeComp/CardBox";
 
 const filterOptions = [
   { id: "allItem", name: 'filter-category', label: 'All Property' },
@@ -167,6 +168,10 @@ function HomePage() {
           ))}
           
         
+        </div>
+        <div className=" home-card-wrapper mt-10 ">
+          <CardBox/>
+
         </div>
       </section>
     </main>
