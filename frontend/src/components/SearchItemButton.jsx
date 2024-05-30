@@ -6,12 +6,13 @@ function SearchItemButton({ name, htmlFor, id, isChecked, onCheckedChange }) {
     <div className="radio-group">
       <input
         type="radio"
-        name="radio-group"
+        name={name}
         value={id}
         id={id}
         className="hidden"
         checked={isChecked}
         onChange={() => onCheckedChange(id)}
+        
       />
       <label htmlFor={htmlFor} className="font-roboto">
         {htmlFor}

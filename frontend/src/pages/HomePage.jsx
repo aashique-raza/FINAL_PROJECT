@@ -8,12 +8,21 @@ import { useNavigate } from "react-router-dom";
 import { allCities, pgRoomSharing } from "../utils";
 import { bhkTypes } from "../rentUtils";
 import { useSearchParams } from "react-router-dom";
+import SearchCategory from "../components/HomeComp/SearchCategory";
+
+const filterOptions = [
+  { id: "allItem", name: 'filter-category', label: 'All Property' },
+  { id: "rentalItem", name: 'filter-category', label: 'Rental Property' },
+  { id: "leaseItem", name: 'filter-category', label: 'Lease Property' },
+  { id: "pgItem", name: 'filter-category', label: 'PG Property' },
+];
 
 function HomePage() {
   const [selectedOption, setSelectedOption] = useState("rental"); // State to keep track of selected option
   const [searchBHK, setSearchBHK] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
-  const[searchSharing,setSearchSharing]=useState('')
+  const [searchSharing, setSearchSharing] = useState("");
+  const [selectFilter, setSelectFilter] = useState("allItem");
 
   // Function to handle change in radio input selection
   const handleRadioChange = (value) => {
@@ -24,15 +33,19 @@ function HomePage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(selectedOption==='rental'){
-      
-      navigate(`/search/${selectedOption}?q=${searchBHK }&&l=${searchLocation}`);
-
-    }else{
-      navigate(`/search/${selectedOption}?q=${searchSharing }&&l=${searchLocation}`);
+    if (selectedOption === "rental") {
+      navigate(`/search/${selectedOption}?q=${searchBHK}&&l=${searchLocation}`);
+    } else {
+      navigate(
+        `/search/${selectedOption}?q=${searchSharing}&&l=${searchLocation}`
+      );
     }
-    
   };
+
+  const handleFilterChange = (value) => {
+    setSelectFilter(value);
+  };
+  console.log(selectFilter)
 
   return (
     <main className="home_container ">
@@ -54,16 +67,17 @@ function HomePage() {
                 id={"rental"}
                 isChecked={selectedOption === "rental"}
                 onCheckedChange={handleRadioChange}
+                name={'search-cat'}
               />
               <SearchItemButton
                 htmlFor={"pg"}
                 id={"pg"}
                 isChecked={selectedOption === "pg"}
                 onCheckedChange={handleRadioChange}
+                name={'search-cat'}
               />
             </div>
             <form className="  px-2" onSubmit={handleSubmit}>
-              
               {selectedOption?.trim().toLocaleLowerCase() ===
                 "rental".trim() && (
                 <div>
@@ -72,28 +86,38 @@ function HomePage() {
                     value={searchBHK}
                     id=""
                     className="focus:ring-0 custom-select h-100 border p-2 overflow-auto"
-                    onChange={((e)=>{setSearchBHK(e.target.value)})}
+                    onChange={(e) => {
+                      setSearchBHK(e.target.value);
+                    }}
                   >
-                    {bhkTypes?.map((bhk,index) => (
-                      <option value={bhk.value} key={index}>{bhk.label}</option>
+                    {bhkTypes?.map((bhk, index) => (
+                      <option value={bhk.value} key={index}>
+                        {bhk.label}
+                      </option>
                     ))}
                   </select>
                 </div>
               )}
 
-              {selectedOption?.trim().toLocaleLowerCase() === "pg".trim()&&(<div>
+              {selectedOption?.trim().toLocaleLowerCase() === "pg".trim() && (
+                <div>
                   <select
                     name=""
                     value={searchSharing}
                     id=""
                     className="focus:ring-0 custom-select h-100 border p-2 overflow-auto"
-                    onChange={((e)=>{setSearchSharing(e.target.value)})}
+                    onChange={(e) => {
+                      setSearchSharing(e.target.value);
+                    }}
                   >
-                    {pgRoomSharing?.map((sharing,index) => (
-                      <option key={index} value={sharing.value}>{sharing.label}</option>
+                    {pgRoomSharing?.map((sharing, index) => (
+                      <option key={index} value={sharing.value}>
+                        {sharing.label}
+                      </option>
                     ))}
                   </select>
-                </div>)}
+                </div>
+              )}
 
               <div id="locationOtionBox" className=" ">
                 <MdLocationPin className="icons" />
@@ -106,8 +130,10 @@ function HomePage() {
                     setSearchLocation(e.target.value);
                   }}
                 >
-                  {allCities?.map((city,index) => (
-                    <option key={index} value={city.value}>{city.label}</option>
+                  {allCities?.map((city, index) => (
+                    <option key={index} value={city.value}>
+                      {city.label}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -118,6 +144,29 @@ function HomePage() {
               </div>
             </form>
           </div>
+        </div>
+      </section>
+      <section className="featured-listing-container">
+        <div className=" flex justify-center items-center py-5">
+          <h1 className=" inline-block border-b-4 rounded-lg tracking-wider border-red-600 py-4 capitalize font-bold text-2xl sm:text-2xl md:text-3xl lg:text-5xl">
+            featured listing
+          </h1>
+        </div>
+
+        <div className=" mt-5 flex items-center justify-start gap-2 sm:gap-6 md:gap-10 lg:gap-14 bg-gray-200 py-10 rounded-sm px-2 sm:px-4 flex-wrap">
+          
+           {filterOptions.map((item, index) => (
+            <SearchCategory
+              key={index}
+              id={item.id}
+              name={item.name}
+              label={item.label}
+              isChecked={selectFilter === item.id}
+              handleFilterCHange={handleFilterChange}
+            />
+          ))}
+          
+        
         </div>
       </section>
     </main>
