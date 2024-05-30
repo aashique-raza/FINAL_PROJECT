@@ -67,6 +67,7 @@ import ArrowUpward from "@mui/icons-material/ArrowUpward";
 import { TvRounded } from "@mui/icons-material";
 import RestaurantIcon from "@mui/icons-material/Restaurant"; // For non-veg
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu"; // For veg
+import { FaShower } from "react-icons/fa";
 
 // Final PG amenities list with icons
 const pgAvailableAmenities = [
@@ -169,7 +170,7 @@ function PropertyPage() {
         },
       });
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (!response.ok) {
         setError(data.message);
         setLoading(false);
@@ -254,9 +255,10 @@ function PropertyPage() {
     ];
   }
   function propertyOverview(data) {
-    console.log("property overview", data);
+    // console.log("property overview", data);
     return [
       { icon: <FaBed />, name: "bedroom", status: data.bedroom },
+      {icon:<FaShower/>, name:'bathroom',status:data.bathroom?data.bathroom : 'NA'},
       {
         icon: <IoMdWater />,
         name: "water supply",
