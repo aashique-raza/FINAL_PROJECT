@@ -153,7 +153,7 @@ function HomePage() {
           </h1>
         </div>
 
-        <div className=" mt-5 flex items-center justify-start gap-2 sm:gap-6 md:gap-10 lg:gap-14 bg-gray-200 py-10 rounded-sm px-2 sm:px-4 flex-wrap">
+        <div className=" mt-5 flex items-center justify-start gap-2 sm:gap-6 md:gap-10 lg:gap-14 border-2 border-gray-400 py-10 rounded-sm px-2 sm:px-4 flex-wrap">
           
            {filterOptions.map((item, index) => (
             <SearchCategory
