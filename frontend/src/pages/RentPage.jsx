@@ -71,6 +71,7 @@ function RentPage({showSuccessMessage}) {
   let [bedroom, setBedroom] = useState(0);
   let [balcony, setbalcony] = useState(0);
   let [guest, setGuest] = useState(0);
+  let[bathroom,setBathroom]=useState(0)
 
   const handleTenetCHeckBox = (e) => {
     const { checked, id, value } = e.target;
@@ -160,6 +161,7 @@ function RentPage({showSuccessMessage}) {
     rentFormData.append("bedroom", bedroom);
     rentFormData.append("balcony", balcony);
     rentFormData.append("guest", guest);
+    rentFormData.append('bathroom',bathroom)
 
     additionalDetails.availableAmenities?.forEach((amenity) => {
       rentFormData.append("availableAmenities", amenity);
@@ -502,6 +504,37 @@ function RentPage({showSuccessMessage}) {
                   className=" hover:text-white p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800"
                 />
               </div>
+            </div>
+            <div className="  w-2/5 min-w-36 sm:w-56">
+            <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+                bathroom
+              </p>
+              <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
+                <AiOutlinePlus
+                  onClick={() => {
+                    if (bathroom < 10) {
+                      setBathroom(bathroom+ 1);
+                    } else {
+                      setBathroom(10);
+                    }
+                  }}
+                  className=" p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800 transition-all ease-out duration-75 hover:text-white"
+                />
+                <p className=" font-raleway capitalize font-semibold text-xl">
+                  {bathroom}
+                </p>
+                <AiOutlineMinus
+                  onClick={() => {
+                    if (bathroom > 1) {
+                      setBathroom(bathroom - 1);
+                    } else {
+                      setBathroom(1);
+                    }
+                  }}
+                  className=" hover:text-white p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800"
+                />
+              </div>
+
             </div>
             <div className="w-2/5 min-w-36   sm:w-56">
               <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
