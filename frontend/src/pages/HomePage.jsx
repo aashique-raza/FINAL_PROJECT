@@ -169,7 +169,14 @@ function HomePage() {
           
         
         </div>
-        <div className=" home-card-wrapper mt-10 ">
+        <div className=" home-card-wrapper mt-10   ">
+          <CardBox/>
+          <CardBox/>
+          <CardBox/>
+          <CardBox/>
+          <CardBox/>
+          <CardBox/>
+          <CardBox/>
           <CardBox/>
 
         </div>
