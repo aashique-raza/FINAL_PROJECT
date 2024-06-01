@@ -6,7 +6,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-function YourPropertyCard() {
+function YourPropertyCard({ property }) {
   return (
     <div className="your-property-card">
       <div className="flex justify-end items-center">
@@ -15,16 +15,42 @@ function YourPropertyCard() {
         </button>
       </div>
       <div className=" mt-4">
-        <NavLink className=" font-bold flex-shrink flex justify-start items-center gap-1 text-slate-800 bg-transparent capitalize text-xl  lg:text-2xl xl:text-3xl font-roboto font">
-          {" "}
-          1 BHK flat for rent in malviyanagr{" "}
-          <span>
-            {" "}
-            <LuArrowUpRightSquare className=" inline-block" />{" "}
-          </span>
-        </NavLink>
+        {property.BHKType && (
+          <NavLink
+            to={`/property/rental/${property._id}`}
+            className=" hover:text-red-600 hover:underline transition-all ease-in-out duration-150 font-bold flex-shrink flex justify-start items-center gap-1 text-slate-800 bg-transparent capitalize text-xl  lg:text-2xl xl:text-3xl font-roboto font"
+          >
+            {property.BHKType === "1bhk" && "1 "}
+            {property.BHKType === "2bhk" && "2 "}
+            {property.BHKType === "3bhk" && "3 "}
+            {property.BHKType === "4bhk" && "4 "}
+            {property.BHKType === "4bhk+" && "4+ "}{" "}
+            {property.BHKType === "1rk" ? "1 RK " : " BHK "}{" "}
+            {property.apartmentType === "apartment" ? "flat" : "house"} for rent
+            in
+            {property.location.city}
+            <span>
+              {" "}
+              <LuArrowUpRightSquare className=" inline-block" />{" "}
+            </span>
+          </NavLink>
+        )}
+        {property.roomSharing && (
+          <NavLink
+            to={`/property/pg/${property._id}`}
+            className="hover:text-red-600 hover:underline transition-all ease-in-out duration-150 font-bold flex-shrink flex justify-start items-center gap-1 text-slate-800 bg-transparent capitalize text-xl  lg:text-2xl xl:text-3xl font-roboto font"
+          >
+            {property.roomSharing} room sharing in {property.pgOrHostelName}, in{" "}
+            {property.location.city}
+            <span>
+              {" "}
+              <LuArrowUpRightSquare className=" inline-block" />{" "}
+            </span>
+          </NavLink>
+        )}
+
         <p className=" capitalize my-2 text-sm font-sans  font-bold text-gray-600">
-          independent house <span>local address</span>{" "}
+          {property.location.localAddress} <span>{property.location.city}</span>{" "}
         </p>
       </div>
       <div className=" my-8 flex items-center lg:gap-12 md:gap-9  gap-6">
@@ -33,11 +59,11 @@ function YourPropertyCard() {
           <span className=" font-extrabold">
             {" "}
             <LuIndianRupee className=" inline-block" />
-            1000/m
+            {property.rentAmount}/m
           </span>{" "}
         </p>
         <h4 className=" capitalize tracking-wider font-semibold font-roboto">
-          city
+          {property.location.city}
         </h4>
       </div>
       <div className=" flex justify-between items-center mb-10">

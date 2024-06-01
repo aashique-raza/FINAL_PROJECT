@@ -4,7 +4,8 @@
     border:  2px solid gray;
     width: 100%;
     background-color: white;
-    min-height: 100vh;
+    max-height: 100vh;
+    overflow: scroll;
 }
 
 .radio-input-wrapper input[type="radio"] {
@@ -47,6 +48,11 @@
   }
 
   @media only screen and (max-width:467px){
+    .your-property-container{
+     
+      min-height: 100vh;
+     
+  }
     .radio-input-wrapper label {
        
         font-size: 1.2rem;
