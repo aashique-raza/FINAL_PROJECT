@@ -15,7 +15,11 @@ function Profile({ toggle = false,showSuccessMessage }) {
   const token=getTokenFromLocalStorage()
   const navigate=useNavigate()
 
-  const links = [{ url: "profile/myProfile", urlName: "profile" }];
+  const links = [
+    { url: "profile/myProfile", urlName: "profile" },
+    {url:'profile/yourPropertyList',urlName:'your listing'}
+
+  ];
 
   const handleLogOut = async () => {
     try {

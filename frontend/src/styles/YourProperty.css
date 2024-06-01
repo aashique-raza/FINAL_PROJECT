@@ -1,0 +1,90 @@
+
+/* your property container or main container */
+.your-property-container{
+    border:  2px solid gray;
+    width: 100%;
+    background-color: white;
+    min-height: 100vh;
+}
+
+.radio-input-wrapper input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-input-wrapper label {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    background-color: rgb(233, 233, 233);
+    border-radius: 3px;
+    text-transform: capitalize;
+    letter-spacing: 2px;
+    font-weight: 500;
+    letter-spacing: 4px;
+  }
+  
+  .radio-input-wrapper input[type="radio"]:checked + label {
+    background-color: rgb(247, 37, 37);
+    color: #ffffff;
+    
+  }
+
+  /* your property card coponent css stat here */
+  .your-property-card-wrapper{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .your-property-card{
+    max-width: 370px;
+    width: 30%;
+    border: 1px solid gray;
+    padding: 13px 16px;
+  }
+
+  @media only screen and (max-width:467px){
+    .radio-input-wrapper label {
+       
+        font-size: 1.2rem;
+        
+        letter-spacing: 2px;
+        
+      }
+      .your-property-card-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .your-property-card{
+        padding: 9px 12px;
+        width: 100%;
+       max-width: 100%; 
+       
+        
+      }
+    
+
+  }
+
+  @media only screen and (min-width:468px) and (max-width:1024px){
+
+    .your-property-card-wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+    
+      .your-property-card{
+        padding: 9px 12px;
+        width: 46%;
+       max-width: 46%; 
+       
+        
+      }
+
+  }
