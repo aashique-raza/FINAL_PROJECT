@@ -31,6 +31,8 @@ function HomePage() {
   const [page, setPage] = useState(1); // for pagination
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [totalLength, setTotalLength] = useState(0);
+  const [lengthError, setLengthError] = useState(null);
 
   // Function to handle change in radio input selection
   const handleRadioChange = (value) => {
@@ -133,11 +135,83 @@ function HomePage() {
     }
   };
 
-  const loadMore = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    fetchListings(nextPage);
+const[loadmoreError,setLoadMoreError]=useState(null)
+const[loadmoreLoading,setLOadMoreLoading]=useState(false)
+
+  const fetchMoreListings = async () => {
+    alert('hello')
+    try {
+      setLoadMoreError(null);
+      setLOadMoreLoading(true);
+      const nextPage = page + 1; // Calculate next page number
+      let pgData = [];
+      let rentalData = [];
+      let rentResponse;
+      let pgResponse;
+  
+      if (selectFilter === "allItem" || selectFilter === "pgItem") {
+        pgResponse = await fetch(
+          `${API_URL}/pg/allProperty?page=${nextPage}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (!pgResponse.ok) {
+          setLoadMoreError(pgResponse.message);
+          setLOadMoreLoading(false);
+          return;
+        }
+  
+        pgData = await pgResponse.json();
+      }
+  
+      if (
+        selectFilter === "allItem" ||
+        selectFilter === "rentalItem" ||
+        selectFilter === "leaseItem"
+      ) {
+        const type = selectFilter === "leaseItem" ? "lease" : "";
+        rentResponse = await fetch(
+          `${API_URL}/rent/property?page=${nextPage}&type=${type}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (!rentResponse.ok) {
+          setLoadMoreError(rentResponse.message);
+          setLOadMoreLoading(false);
+          return;
+        }
+  
+        rentalData = await rentResponse.json();
+      }
+  
+      // Combine new data with existing data
+      const updatedListings = [
+        ...listings,  // Existing data
+        ...(pgData.property || []),
+        ...(rentalData.rentListings || []),
+      ];
+  
+      // Set the updated listings
+      setListings(updatedListings);
+      setPage(nextPage); // Update page number
+  
+      setLOadMoreLoading(false);
+    } catch (err) {
+      setLoadMoreError(err.message);
+      setLOadMoreLoading(false);
+      console.error(err);
+    }
   };
+  
+
 
   return (
     <main className="home_container ">
@@ -283,13 +357,21 @@ function HomePage() {
 
           {!loading &&
             !error &&
-           listings && listings.map((listing, index) => (
+            listings &&
+            listings.map((listing, index) => (
               <CardBox key={index} data={listing} />
             ))}
-
         </div>
-        <div className=" w-full justify-center items-center ">
-              <button className=" px-5 py-3 capitalize text-sm sm:text-xl md:text-2xl tracking-wider font-roboto font-medium text-white bg-red-600">load more</button>
+        <div className=" w-full flex justify-center items-center  mt-10 ">
+          {
+            loadmoreError && (<p> {loadmoreError} </p> )
+          }
+          <button
+            onClick={fetchMoreListings}
+            className=" inline-block px-5 py-3 capitalize text-sm sm:text-xl md:text-2xl tracking-wider font-roboto font-medium text-white bg-red-600"
+          >
+           {loadmoreLoading ? "loading" : 'load more'} 
+          </button>
         </div>
       </section>
     </main>
