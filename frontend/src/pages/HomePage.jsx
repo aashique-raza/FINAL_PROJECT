@@ -11,6 +11,8 @@ import { useSearchParams } from "react-router-dom";
 import SearchCategory from "../components/HomeComp/SearchCategory";
 import CardBox from "../components/HomeComp/CardBox";
 
+import  {ThreeDots } from 'react-loader-spinner'
+
 const filterOptions = [
   { id: "allItem", name: 'filter-category', label: 'All Property' },
   { id: "rentalItem", name: 'filter-category', label: 'Rental Property' },
@@ -24,6 +26,10 @@ function HomePage() {
   const [searchLocation, setSearchLocation] = useState("");
   const [searchSharing, setSearchSharing] = useState("");
   const [selectFilter, setSelectFilter] = useState("allItem");
+  const [listings, setListings] = useState([]);
+  const [page, setPage] = useState(1); // for pagination
+  const[error,setError]=useState(null)
+  const[loading,setLoading]=useState(false)
 
   // Function to handle change in radio input selection
   const handleRadioChange = (value) => {
@@ -46,7 +52,80 @@ function HomePage() {
   const handleFilterChange = (value) => {
     setSelectFilter(value);
   };
-  console.log(selectFilter)
+  // console.log(selectFilter)
+
+ 
+
+  useEffect(() => {
+    fetchListings(1);
+  }, [filter]);
+
+  const fetchListings = async (pageNumber) => {
+    try {
+      setError(null);
+      setLoading(true);
+      let pgData = [];
+      let rentalData = [];
+      let rentResponse;
+      let pgResponse;
+
+      if (filter === 'allItem' || filter === 'pgItem') {
+        pgResponse = await fetch(`http://localhost:5000/api/pg?page=${pageNumber}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!pgResponse.ok) {
+          setError(pgResponse.message);
+          setLoading(false)
+          return
+        }
+
+        pgData = await pgResponse.json();
+      }
+
+      if (filter === 'allItem' || filter === 'rentalItem' || filter === 'leaseItem') {
+        const type = filter === 'leaseItem' ? 'lease' : '';
+        rentResponse = await fetch(`http://localhost:5000/api/rent?page=${pageNumber}&type=${type}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!rentResponse.ok) {
+          setError(rentResponse.message);
+          setLoading(false)
+          return
+        }
+
+        rentalData = await rentResponse.json();
+      }
+
+      const combinedListings = [
+        ...(pgData || []),
+        ...(rentalData || [])
+      ];
+
+      if (pageNumber === 1) {
+        setListings(combinedListings); // Reset the listings on new filter
+      } else {
+        setListings(prevListings => [...prevListings, ...combinedListings]);
+      }
+      
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+      console.error(err);
+    }
+  };
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchListings(nextPage);
+  };
 
   return (
     <main className="home_container ">
