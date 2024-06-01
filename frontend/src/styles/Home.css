@@ -130,7 +130,7 @@
 
 /* sectio 2 css start here------------------------------ */
 .featured-listing-container{
-    border: 2px solid red ;
+    /* border: 2px solid red ; */
     width: 80%;
     margin: 2rem auto;
 }
@@ -169,6 +169,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: 10px;
   }
 
   /* home card box css start here----- */

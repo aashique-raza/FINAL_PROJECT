@@ -10,15 +10,15 @@ import { bhkTypes } from "../rentUtils";
 import { useSearchParams } from "react-router-dom";
 import SearchCategory from "../components/HomeComp/SearchCategory";
 import CardBox from "../components/HomeComp/CardBox";
-import {API_URL} from '../configue'
+import { API_URL } from "../configue";
 
-import  {ThreeDots } from 'react-loader-spinner'
+import { ThreeDots } from "react-loader-spinner";
 
 const filterOptions = [
-  { id: "allItem", name: 'filter-category', label: 'All Property' },
-  { id: "rentalItem", name: 'filter-category', label: 'Rental Property' },
-  { id: "leaseItem", name: 'filter-category', label: 'Lease Property' },
-  { id: "pgItem", name: 'filter-category', label: 'PG Property' },
+  { id: "allItem", name: "filter-category", label: "All Property" },
+  { id: "rentalItem", name: "filter-category", label: "Rental Property" },
+  { id: "leaseItem", name: "filter-category", label: "Lease Property" },
+  { id: "pgItem", name: "filter-category", label: "PG Property" },
 ];
 
 function HomePage() {
@@ -29,8 +29,8 @@ function HomePage() {
   const [selectFilter, setSelectFilter] = useState("allItem");
   const [listings, setListings] = useState([]);
   const [page, setPage] = useState(1); // for pagination
-  const[error,setError]=useState(null)
-  const[loading,setLoading]=useState(false)
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Function to handle change in radio input selection
   const handleRadioChange = (value) => {
@@ -55,11 +55,9 @@ function HomePage() {
   };
   // console.log(selectFilter)
 
- 
-
   useEffect(() => {
     fetchListings(1);
-  }, [filter]);
+  }, [selectFilter]);
 
   const fetchListings = async (pageNumber) => {
     try {
@@ -70,53 +68,63 @@ function HomePage() {
       let rentResponse;
       let pgResponse;
 
-      if (filter === 'allItem' || filter === 'pgItem') {
-        pgResponse = await fetch(`${API_URL}/pg/allProperty?page=${pageNumber}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+      if (selectFilter === "allItem" || selectFilter === "pgItem") {
+        pgResponse = await fetch(
+          `${API_URL}/pg/allProperty?page=${pageNumber}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!pgResponse.ok) {
           setError(pgResponse.message);
-          setLoading(false)
-          return
+          setLoading(false);
+          return;
         }
 
         pgData = await pgResponse.json();
 
-        console.log('pg data',pgData)
+        // console.log("pg data", pgData);
       }
 
-      if (filter === 'allItem' || filter === 'rentalItem' || filter === 'leaseItem') {
-        const type = filter === 'leaseItem' ? 'lease' : '';
-        rentResponse = await fetch(`${API_URL}/rent/property?page=${pageNumber}&type=${type}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+      if (
+        selectFilter === "allItem" ||
+        selectFilter === "rentalItem" ||
+        selectFilter === "leaseItem"
+      ) {
+        const type = selectFilter === "leaseItem" ? "lease" : "";
+        rentResponse = await fetch(
+          `${API_URL}/rent/property?page=${pageNumber}&type=${type}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!rentResponse.ok) {
           setError(rentResponse.message);
-          setLoading(false)
-          return
+          setLoading(false);
+          return;
         }
 
         rentalData = await rentResponse.json();
-        console.log('rental data',rentalData)
+        // console.log("rental data", rentalData);
       }
 
       const combinedListings = [
-        ...(pgData || []),
-        ...(rentalData || [])
+        ...(pgData.property || []),
+        ...(rentalData.rentListings || []),
       ];
 
       if (pageNumber === 1) {
         setListings(combinedListings); // Reset the listings on new filter
       } else {
-        setListings(prevListings => [...prevListings, ...combinedListings]);
+        setListings((prevListings) => [...prevListings, ...combinedListings]);
       }
-      
+
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -151,14 +159,14 @@ function HomePage() {
                 id={"rental"}
                 isChecked={selectedOption === "rental"}
                 onCheckedChange={handleRadioChange}
-                name={'search-cat'}
+                name={"search-cat"}
               />
               <SearchItemButton
                 htmlFor={"pg"}
                 id={"pg"}
                 isChecked={selectedOption === "pg"}
                 onCheckedChange={handleRadioChange}
-                name={'search-cat'}
+                name={"search-cat"}
               />
             </div>
             <form className="  px-2" onSubmit={handleSubmit}>
@@ -238,8 +246,7 @@ function HomePage() {
         </div>
 
         <div className=" mt-5 flex items-center justify-start gap-2 sm:gap-6 md:gap-10 lg:gap-14 border-2 border-gray-400 py-10 rounded-sm px-2 sm:px-4 flex-wrap">
-          
-           {filterOptions.map((item, index) => (
+          {filterOptions.map((item, index) => (
             <SearchCategory
               key={index}
               id={item.id}
@@ -249,19 +256,40 @@ function HomePage() {
               handleFilterCHange={handleFilterChange}
             />
           ))}
-          
-        
         </div>
-        <div className=" home-card-wrapper mt-10   ">
-          <CardBox/>
-          <CardBox/>
-          <CardBox/>
-          <CardBox/>
-          <CardBox/>
-          <CardBox/>
-          <CardBox/>
-          <CardBox/>
+        <div className="home-card-wrapper mt-10">
+          {loading && (
+            <div className="flex justify-center items-center bg-white py-4">
+              <ThreeDots
+                visible={true}
+                height="80"
+                width="80"
+                color="red"
+                radius="9"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          )}
 
+          {error && (
+            <div className="flex justify-center items-center bg-white py-4">
+              <h1 className="capitalize font-bold font-roboto text-sm sm:text-xl md:text-2xl tracking-wider text-red-400">
+                {error}
+              </h1>
+            </div>
+          )}
+
+          {!loading &&
+            !error &&
+           listings && listings.map((listing, index) => (
+              <CardBox key={index} data={listing} />
+            ))}
+
+        </div>
+        <div className=" w-full justify-center items-center ">
+              <button className=" px-5 py-3 capitalize text-sm sm:text-xl md:text-2xl tracking-wider font-roboto font-medium text-white bg-red-600">load more</button>
         </div>
       </section>
     </main>
