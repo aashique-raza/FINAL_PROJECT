@@ -10,6 +10,7 @@ import { bhkTypes } from "../rentUtils";
 import { useSearchParams } from "react-router-dom";
 import SearchCategory from "../components/HomeComp/SearchCategory";
 import CardBox from "../components/HomeComp/CardBox";
+import {API_URL} from '../configue'
 
 import  {ThreeDots } from 'react-loader-spinner'
 
@@ -70,7 +71,7 @@ function HomePage() {
       let pgResponse;
 
       if (filter === 'allItem' || filter === 'pgItem') {
-        pgResponse = await fetch(`http://localhost:5000/api/pg?page=${pageNumber}`, {
+        pgResponse = await fetch(`${API_URL}/pg/allProperty?page=${pageNumber}`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -83,11 +84,13 @@ function HomePage() {
         }
 
         pgData = await pgResponse.json();
+
+        console.log('pg data',pgData)
       }
 
       if (filter === 'allItem' || filter === 'rentalItem' || filter === 'leaseItem') {
         const type = filter === 'leaseItem' ? 'lease' : '';
-        rentResponse = await fetch(`http://localhost:5000/api/rent?page=${pageNumber}&type=${type}`, {
+        rentResponse = await fetch(`${API_URL}/rent/property?page=${pageNumber}&type=${type}`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -100,6 +103,7 @@ function HomePage() {
         }
 
         rentalData = await rentResponse.json();
+        console.log('rental data',rentalData)
       }
 
       const combinedListings = [
