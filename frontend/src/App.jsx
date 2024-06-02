@@ -24,6 +24,7 @@ import MailVerification from "./components/MailVerification";
 import MailVerificationPage from "./pages/MailVerificationPage";
 import SearchPage from "./pages/SearchPage";
 import PropertyPage from "./pages/PropertyPage";
+import EditPage from './pages/EditPage'
 // Importing toastify module
 import { toast,ToastContainer } from "react-toastify";
  
@@ -71,6 +72,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/search/:category?" element={<SearchPage />} />
         <Route path="/property/:category/:id?" element={<PropertyPage />} />
+       
 
         <Route path="/forgot-password" element={<ForgotPassword showSuccessMessage={showSuccessMessage}  />}></Route>
         <Route path="/reset-password" element={<ResetPassword showSuccessMessage={showSuccessMessage} />}></Route>
@@ -82,6 +84,7 @@ function App() {
           <Route path="/create-listing" element={<CreateListingPage />}></Route>
           <Route path="/create-listing/pg" element={<PgPage showSuccessMessage={showSuccessMessage} />}></Route>
           <Route path="/create-listing/rent" element={<RentPage showSuccessMessage={showSuccessMessage} />}></Route>
+          <Route path="/edit-property/:category/:id?" element={<EditPage />} />
           {/* Nested routes for profile */}
           <Route path="/profile" element={<ProfilePage showSuccessMessage={showSuccessMessage} />}>
             <Route path="myProfile" element={<BasicProfilePage showSuccessMessage={showSuccessMessage} />} />
