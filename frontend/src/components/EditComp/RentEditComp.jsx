@@ -279,7 +279,7 @@ function RentEditComp({editData}) {
             </h2>
           </div>
           <div className=" bg-white px-2 py-4 lg:py-8 lg:px-6  rounded-t-md  ">
-            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center  ">
+            <div className=" flex flex-wrap gap-4    ">
               {updatedRoomDetailsOptions ?.map((data, index) => (
                 <EditSelectComp
                   key={index}
