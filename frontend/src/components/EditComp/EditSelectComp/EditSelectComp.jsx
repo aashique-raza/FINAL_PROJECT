@@ -22,7 +22,7 @@ function EditSelectComp({
   const handleChange = (e) => {
     const { value, id } = e.target;
     setSelectedValue(value)
-    console.log(value);
+    // console.log(value);
   };
 
   return (

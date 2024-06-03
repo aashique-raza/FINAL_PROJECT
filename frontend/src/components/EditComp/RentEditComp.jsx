@@ -30,6 +30,7 @@ import { MdDelete } from "react-icons/md";
 
 // edit coponent-------------------
 import EditSelectComp from "./EditSelectComp/EditSelectComp";
+import EditInputComp from "./EditInputComp";
 
 
 // edit code utilyty function---
@@ -63,27 +64,7 @@ function RentEditComp({editData}) {
   const [formData, setFormData] = useState(editData); /// set edit data
   // console.log('form or edit data',editData)
 
-  // for editing code--------------------------------------------
-  const extractDefaults = (editData) => ({
-    apartmentType: editData.apartmentType || '',
-    bhkType: editData.BHKType || '',
-    propertyAge: editData.propertyAge || '',
-    facing: editData.facing || '',
-    floor: editData.floor || '',
-    totalFloor: editData.totalFloor || '',
-  });
-
-  const addDefaultValues = (options, defaults) => {
-    // console.log('adding prpose',defaults)
-    return options.map(option => {
-      const defaultValue = defaults[option.id] || '';
-      return {
-        ...option,
-        defaultValue
-      };
-    });
-  };
-
+  
   const defaultValues = extractDefaults(editData);
   // console.log('default values',defaultValues)
   const updatedRoomDetailsOptions = addDefaultValues(roomDetailsOptionsEdit, defaultValues);
@@ -294,17 +275,25 @@ function RentEditComp({editData}) {
               ))}
             </div>
           </div>
-          <div className="px-2  rounded-b-md bg-white flex sm:flex-row flex-col sm:gap-4 gap-1 flex-wrap  py-4">
-            <Input
+          <div className="px-2  rounded-b-md bg-white  flex flex-wrap items-center gap-7 py-7  ">
+            <EditInputComp
               label={"built_up_area"}
               type="number"
-              placeholder={"built up area in sqr feet."}
+              placeholder={" In sqr feet."}
               id={"built_up_area"}
               formData={propertyDetails}
               setFormData={setPropertyDetails}
             />
-            {propertyDetails.apartment_type === "apartment" && (
-              <Input
+            <EditInputComp
+                label={"apartment name"}
+                type="text"
+                placeholder={"ex- royal apartment.."}
+                id={"apartment_name"}
+                formData={propertyDetails}
+                setFormData={setPropertyDetails}
+              />
+            {editData.apartment_type === "apartment" && (
+              <EditInputComp
                 label={"apartment name"}
                 type="text"
                 placeholder={"ex- royal apartment.."}
