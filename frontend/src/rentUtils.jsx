@@ -212,3 +212,97 @@ export const roomAmenitiesitems = [
   { label: "Power Backup", icon: <PowerIcon /> },
   { label: "Visitor Parking", icon: <LocalParkingOutlinedIcon /> },
 ];
+
+
+// for edit page 
+export const roomDetailsOptionsEdit = [
+  {
+    optionName: "apartment Type: ",
+    id: "apartmentType",
+
+    optionValues: [
+      { label: "select", value: "" },
+      { label: "independent house/villa", value: "independentHouse" },
+      { label: "gated community villa", value: "gatedVilla" },
+      { label: "apartment", value: "apartment" },
+    ],
+  },
+  {
+    optionName: "BHK type: ",
+    id: "bhkType",
+    optionValues: [
+      {
+        label: "select",
+        value: "",
+      },
+      { label: "1 RK", value: "1rk" },
+      { label: "1 BHK", value: "1bhk" },
+      { label: "2 BHK", value: "2bhk" },
+      { label: "3 BHK", value: "3bhkk" },
+      { label: "4 BHK", value: "4bhk" },
+      { label: "4+ BHK", value: "4bhk+" },
+    ],
+  },
+  {
+    optionName: "propertyAge: ",
+    id: "propertyAge",
+    optionValues: [
+      { label: "select", value: "" },
+      { label: "less than one year", value: "lessOneYear" },
+      { label: "1 to 3 year", value: "above1Year" },
+      { label: "3 to 5 year", value: "above3Year" },
+      { label: "5 to 10 year", value: "above5Year" },
+      { label: "above 10 year", value: "above10Year" },
+    ],
+  },
+  {
+    optionName: "facing: ",
+    id: "facing",
+    optionValues: [
+      { label: "select", value: "" },
+      { label: "west", value: "west" },
+      { label: "east", value: "east" },
+      { label: "north", value: "north" },
+      { label: "south", value: "south" },
+      { label: "don't know ", value: "none" },
+    ],
+  },
+  {
+    optionName: "floor: ",
+    id: "floor",
+    optionValues: [
+      { label: "select", value: "" },
+      { label: "ground", value: 0 },
+      { label: 1, value: 1 },
+      { label: 2, value: 2 },
+      { label: 3, value: 3 },
+      { label: 4, value: 4 },
+      { label: 5, value: 5 },
+      { label: 6, value: 6 },
+      { label: 7, value: 7 },
+      { label: 8, value: 8 },
+      { label: 9, value: 9 },
+      { label: 10, value: 10 },
+      { label: 11, value: 11 },
+    ],
+  },
+  {
+    optionName: "totalFloor: ",
+    id: "totalFloor",
+    optionValues: [
+      { label: "select", value: "" },
+      { label: "only ground", value: 0 },
+      { label: 1, value: 1 },
+      { label: 2, value: 2 },
+      { label: 3, value: 3 },
+      { label: 4, value: 4 },
+      { label: 5, value: 5 },
+      { label: 6, value: 6 },
+      { label: 7, value: 7 },
+      { label: 8, value: 8 },
+      { label: 9, value: 9 },
+      { label: 10, value: 10 },
+      { label: 11, value: 11 },
+    ],
+  },
+];

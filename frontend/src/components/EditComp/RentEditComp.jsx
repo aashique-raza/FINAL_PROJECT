@@ -15,7 +15,7 @@ import {
   parking,
   waterSupply,
   electricity,
-  roomDetailsOptions,
+  roomDetailsOptionsEdit,
 } from "../../rentUtils";
 import { getTokenFromLocalStorage } from "../../token";
 import { API_URL } from "../../configue";
@@ -28,7 +28,70 @@ import { AllStates, cities } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 
-function RentEditComp({}) {
+// edit coponent-------------------
+import EditSelectComp from "./EditSelectComp/EditSelectComp";
+
+
+// edit code utilyty function---
+const toCamelCase = (str) => {
+  return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+};
+
+const extractDefaults = (editData) => {
+  const defaults = {};
+  for (let key in editData) {
+    const camelCaseKey = toCamelCase(key);
+    defaults[camelCaseKey] = editData[key];
+  }
+  return defaults;
+};
+
+const addDefaultValues = (options, defaults) => {
+  return options.map(option => {
+    const camelCaseId = toCamelCase(option.id);
+    const defaultValue = defaults[camelCaseId] || '';
+    return {
+      ...option,
+      defaultValue
+    };
+  });
+};
+
+
+
+function RentEditComp({editData}) {
+  const [formData, setFormData] = useState(editData); /// set edit data
+  // console.log('form or edit data',editData)
+
+  // for editing code--------------------------------------------
+  const extractDefaults = (editData) => ({
+    apartmentType: editData.apartmentType || '',
+    bhkType: editData.BHKType || '',
+    propertyAge: editData.propertyAge || '',
+    facing: editData.facing || '',
+    floor: editData.floor || '',
+    totalFloor: editData.totalFloor || '',
+  });
+
+  const addDefaultValues = (options, defaults) => {
+    // console.log('adding prpose',defaults)
+    return options.map(option => {
+      const defaultValue = defaults[option.id] || '';
+      return {
+        ...option,
+        defaultValue
+      };
+    });
+  };
+
+  const defaultValues = extractDefaults(editData);
+  // console.log('default values',defaultValues)
+  const updatedRoomDetailsOptions = addDefaultValues(roomDetailsOptionsEdit, defaultValues);
+
+  // console.log('update room options',updatedRoomDetailsOptions)
+
+
+
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
   const [photos, setPhotos] = useState([]);
@@ -217,8 +280,8 @@ function RentEditComp({}) {
           </div>
           <div className=" bg-white px-2 py-4 lg:py-8 lg:px-6  rounded-t-md  ">
             <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center  ">
-              {roomDetailsOptions?.map((data, index) => (
-                <SelectTag
+              {updatedRoomDetailsOptions ?.map((data, index) => (
+                <EditSelectComp
                   key={index}
                   id={data.id}
                   name={data.id}
@@ -226,8 +289,8 @@ function RentEditComp({}) {
                   optionValues={data.optionValues}
                   formData={propertyDetails}
                   setFormData={setPropertyDetails}
-                  defaultValue
-                ></SelectTag>
+                  defaultValue={data.defaultValue}
+                ></EditSelectComp>
               ))}
             </div>
           </div>

@@ -46,7 +46,7 @@ function EditPage() {
         return;
       }
       const data = await resp.json();
-      console.log(data);
+      // console.log(data);
       setLoading(false);
 
       setEditProperty(data.findProperty);
@@ -82,7 +82,7 @@ function EditPage() {
       )}
       {category === "pg"
         ? editProperty && <PgEditComp editData={editProperty} />
-        : editProperty && <RentEditComp />}
+        : editProperty && <RentEditComp editData={editProperty} />}
     </div>
   );
 }
