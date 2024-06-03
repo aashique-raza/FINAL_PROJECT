@@ -11,7 +11,7 @@ function EditPage() {
   const [error, setError] = useState(null);
   const [editProperty, setEditProperty] = useState([]);
 
-  console.log(category);
+  // console.log(category);
 
   useEffect(() => {
     if (id) {
