@@ -311,12 +311,12 @@ function RentEditComp({editData}) {
           </section>
           <section className="rent_section_2 mt-5 ">
             <div className="mb-5">
-              <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
-                Provide rental details about your property
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+               edit: rental details about your property
               </h2>
             </div>
   
-            <div className=" flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
+            <div className=" bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
               <div className=" flex  flex-col gap-1  items-   lg:w-1/4">
                 <p className=" font-roboto sm:text-xl text-sm font-semibold capitalize text-gray-950">
                   property available for
@@ -341,7 +341,7 @@ function RentEditComp({editData}) {
                 </div>
               </div>
               <div className=" flex  flex-col gap-1    prefered_tenats">
-                <p className=" font-raleway font-bold text-sm sm:my-0 mt-2 sm:text-xl capitalize text-gray-950">
+                <p className=" font-raleway font-bold text-sm sm:my-0  sm:text-xl capitalize text-gray-950">
                   prefered tenats
                 </p>
                 <div className=" flex items-center justify-start gap-3  flex-wrap">
@@ -368,11 +368,11 @@ function RentEditComp({editData}) {
                   ))}
                 </div>
   
-                {/* <CustomCheckbox options={preferedTenats} formData={renatlDetails} setFormData={setRentalsDetails} /> */}
+                
               </div>
             </div>
-            <div>
-              <div className="  mt-3 flex flex-col gap-2 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
+            <div className=" bg-white">
+              <div className="   flex flex-col gap-2 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
                 <Input
                   label={"expected rent"}
                   type="number"
@@ -423,7 +423,7 @@ function RentEditComp({editData}) {
               </div>
             </div>
   
-            <div className=" flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
+            <div className=" bg-white flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
               <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
                 <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
                   available from
@@ -435,10 +435,7 @@ function RentEditComp({editData}) {
                 />
               </div>
   
-              {/* <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
-                furnishing
-              </p>
-              <SelectINput optionItems={furnishing} /> */}
+              
               <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
                 <SelectTag
                   id={"furnishing"}
@@ -464,7 +461,7 @@ function RentEditComp({editData}) {
               </div>
             </div>
   
-            <div>
+            <div className=" bg-white">
               <DescriptionInput
                 label={"description"}
                 id="description"

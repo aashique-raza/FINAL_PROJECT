@@ -28,6 +28,7 @@ function EditInputComp({
   
     return (
       <div className="edit-input-wrapper">
+       
         <input
           placeholder={placeholder}
           className="input-field focus:ring-0"
