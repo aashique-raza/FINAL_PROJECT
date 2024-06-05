@@ -10,14 +10,14 @@ function DescriptionInput({ label, placeholder, id, formData, setFormData }) {
 
   return (
     <div className="description-input">
-      <label className=" font-raleway">{label}</label>
+      <label className=" font-raleway font-bold text-xl md:text-2xl xl:text-3xl  capitalize ">{label}</label>
       <textarea
         placeholder={placeholder}
         onChange={handleChange}
         id={id}
-        className="focus:ring-0 focus:outline-none focus:border-2 sm:w-3/4 lg:w-2/4 w-full h-36 font-raleway text-xs capitalize rounded-sm border-2 border-gray-300 px-4 py-3 resize-none text-gray-700 placeholder:text-gray-500 font-medium"
+        className="focus:ring-0 focus:outline-none focus:border-2 sm:w-3/4 lg:w-2/4 w-full h-36  font-roboto font-semibold text-xl md:text-2xl xl:text-3xl tracking-wider"
       ></textarea>
-      <span className=" font-bold text-xs font-raleway ">
+      <span className=" font-bold text-sm font-raleway pb-4 ">
         {formData.description ? "remaining character" : "maximum character"}{" "}
         <strong className=" text-red-500">
           {formData.description

@@ -15,7 +15,7 @@ function CalenderInput({ icon, inputProps,setFormData,formData,date }) {
   }
 
   return (
-    <Grid container spacing={2} >
+    <Grid container spacing={1} >
       <Grid item xs={12}>
         <TextField
         className=' cursor-pointer'
@@ -29,7 +29,8 @@ function CalenderInput({ icon, inputProps,setFormData,formData,date }) {
             style: {
               fontSize: inputProps?.fontSize || '16px',
               color: inputProps?.color || 'inherit',
-              cursor:'pointer'
+              cursor:'pointer',
+              padding:'-7px 0px'
             }
           }}
           {...inputProps}

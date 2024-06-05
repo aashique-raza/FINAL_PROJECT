@@ -77,11 +77,7 @@
 
 .description-input label {
   display: block;
- font-size: 14px;
- color: gray;
- text-transform: capitalize;
- letter-spacing: 0;
-  font-weight: bold;
+ 
 }
 
 

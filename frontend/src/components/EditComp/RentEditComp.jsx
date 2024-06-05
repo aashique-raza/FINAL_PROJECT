@@ -316,7 +316,7 @@ function RentEditComp({ editData }) {
               </h2>
             </div>
 
-            <div className="px-2 py-3 bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
+            <div className="px-2 py-3 rounded-md bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
               <div className=" flex  flex-col gap-1  items-   lg:w-1/4">
                 <p className=" font-roboto md:text-xl xl:text-3xl text-xl font-bold f capitalize text-gray-950">
                   property available for
@@ -369,7 +369,7 @@ function RentEditComp({ editData }) {
                 </div>
               </div>
             </div>
-            <div className=" bg-white mt-3 pb-3">
+            <div className=" bg-white py-8  pb-3 rounded-md">
               <div className="px-2 py-4   flex flex-col gap-4 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
                 <EditInputComp
                   label={"expected rent"}
@@ -388,7 +388,7 @@ function RentEditComp({ editData }) {
                   setFormData={setRentalsDetails}
                 />
               </div>
-              <p className=" font-raleway text-xs text-red-500   capitalize font-bold">
+              <p className=" font-raleway text-xl text-red-500   capitalize font-bold">
                 {renatlDetails.depositAmount < renatlDetails.rentAmount &&
                   "deosit amount can not be less than rent amount"}
               </p>
@@ -404,7 +404,7 @@ function RentEditComp({ editData }) {
                     width={true}
                   ></EditSelectComp>
                 </div>
-                <div className=" mt-4 sm:mt-0">
+                <div className=" mt-4 sm:mt-0  w-2/3">
                 <EditInputComp
                     label={"maintenance amount"}
                     type="number"
@@ -433,9 +433,9 @@ function RentEditComp({ editData }) {
               </div>
             </div>
 
-            <div className=" bg-white flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
+            <div className=" px-2 bg-white flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center pb-5 rounded-md  ">
               <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
-                <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+                <p className=" text-xl md:text-2xl xl:text-3xl  font-raleway font-bold capitalize  inline-block">
                   available from
                 </p>
                 <CalenderInput
@@ -445,7 +445,7 @@ function RentEditComp({ editData }) {
                 />
               </div>
 
-              <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
+              <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  mt-7  sm:mt-0">
                 <EditSelectComp
                   id={"furnishing"}
                   name={"furnished"}
@@ -457,11 +457,11 @@ function RentEditComp({ editData }) {
                 ></EditSelectComp>
               </div>
 
-              <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
+              <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  mt-7 sm:mt-0  ">
                 <EditSelectComp
                   id={"parking"}
                   name={"parking"}
-                  optionName={"furnishing"}
+                  optionName={"prking"}
                   optionValues={parking}
                   formData={renatlDetails}
                   setFormData={setRentalsDetails}
@@ -470,7 +470,7 @@ function RentEditComp({ editData }) {
               </div>
             </div>
 
-            <div className=" bg-white">
+            <div className=" bg-white  py-5 px-2">
               <DescriptionInput
                 label={"description"}
                 id="description"
