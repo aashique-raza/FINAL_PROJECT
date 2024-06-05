@@ -33,7 +33,6 @@ import EditSelectComp from "./EditSelectComp/EditSelectComp";
 import EditInputComp from "./EditInputComp";
 import EditRadioInput from "./EditRadioInput";
 
-
 // edit code utilyty function---
 const toCamelCase = (str) => {
   return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
@@ -49,30 +48,28 @@ const extractDefaults = (editData) => {
 };
 
 const addDefaultValues = (options, defaults) => {
-  return options.map(option => {
+  return options.map((option) => {
     const camelCaseId = toCamelCase(option.id);
-    const defaultValue = defaults[camelCaseId] || '';
+    const defaultValue = defaults[camelCaseId] || "";
     return {
       ...option,
-      defaultValue
+      defaultValue,
     };
   });
 };
 
-
-
-function RentEditComp({editData}) {
+function RentEditComp({ editData }) {
   const [formData, setFormData] = useState(editData); /// set edit data
-  console.log('form or edit data',editData)
+  console.log("form or edit data", editData);
 
-  
   const defaultValues = extractDefaults(editData);
   // console.log('default values',defaultValues)
-  const updatedRoomDetailsOptions = addDefaultValues(roomDetailsOptionsEdit, defaultValues);
+  const updatedRoomDetailsOptions = addDefaultValues(
+    roomDetailsOptionsEdit,
+    defaultValues
+  );
 
   // console.log('update room options',updatedRoomDetailsOptions)
-
-
 
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
@@ -84,12 +81,18 @@ function RentEditComp({editData}) {
 
   const formRef = useRef(null);
 
-  // edited data store here-----
-  const [editFormData, setEditedFormData] = useState({
-    
-  });
+ 
 
-  console.log('edit form data',editFormData)
+  // available property for set data----------
+  const[available_property_data,setAvailablePropertyData]=useState('')
+  // console.log('available property data',available_property_data)
+
+  // console.log("edit form data", editFormData);
+
+  useEffect(()=>{
+  
+    setAvailablePropertyData(editData.propertyAvailableFor)
+  },[editData])
 
 
 
@@ -264,18 +267,17 @@ function RentEditComp({editData}) {
 
   return (
     <div className=" rent_container lg:px-28  border-none">
-      {
-        editData && (
-          <form ref={formRef} onSubmit={handleSubmitForm} className=" w-full">
+      {editData && (
+        <form ref={formRef} onSubmit={handleSubmitForm} className=" w-full">
           <section className="rent_section_1">
             <div className="mb-5">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
-               edit: Property Details
+                edit: Property Details
               </h2>
             </div>
             <div className=" bg-white px-2 py-4 lg:py-8 lg:px-6  rounded-t-md  ">
               <div className=" flex flex-wrap gap-4    ">
-                {updatedRoomDetailsOptions ?.map((data, index) => (
+                {updatedRoomDetailsOptions?.map((data, index) => (
                   <EditSelectComp
                     key={index}
                     id={data.id}
@@ -300,13 +302,13 @@ function RentEditComp({editData}) {
                 defaultValue={editData?.builtUpArea}
               />
               <EditInputComp
-                  label={"apartment name"}
-                  type="text"
-                  placeholder={"ex- royal apartment.."}
-                  id={"apartment_name"}
-                  formData={propertyDetails}
-                  setFormData={setPropertyDetails}
-                />
+                label={"apartment name"}
+                type="text"
+                placeholder={"ex- royal apartment.."}
+                id={"apartment_name"}
+                formData={propertyDetails}
+                setFormData={setPropertyDetails}
+              />
               {editData.apartment_type === "apartment" && (
                 <EditInputComp
                   label={"apartment name"}
@@ -322,10 +324,10 @@ function RentEditComp({editData}) {
           <section className="rent_section_2 mt-5 ">
             <div className="mb-5">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
-               edit: rental details about your property
+                edit: rental details about your property
               </h2>
             </div>
-  
+
             <div className=" bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
               <div className=" flex  flex-col gap-1  items-   lg:w-1/4">
                 <p className=" font-roboto sm:text-xl text-sm font-semibold capitalize text-gray-950">
@@ -334,21 +336,21 @@ function RentEditComp({editData}) {
                 <div className=" flex gap-4 items-center">
                   <EditRadioInput
                     name="propertyAvailableFor"
-                    id="availableFor"
-                    label="rent"
+                    id="availableForRent"
+                    label="Rent"
                     value="rent"
-                    setEditedFormData={setEditedFormData}
-                    editFormData={editFormData}
-                    defaultChecked={editData.propertyAvailableFor}
+                    
+                    isChecked={available_property_data === "rent"}
+                    setAvailablePropertyData={setAvailablePropertyData}
                   />
                   <EditRadioInput
                     name="propertyAvailableFor"
-                    id="availabelFor"
-                    label="lease"
+                    id="availableForLease"
+                    label="Lease"
                     value="lease"
-                    setEditedFormData={setEditedFormData}
-                    editFormData={editFormData}
-                    defaultChecked={editData.propertyAvailableFor}
+                  
+                    isChecked={available_property_data === "lease"}
+                    setAvailablePropertyData={setAvailablePropertyData}
                   />
                 </div>
               </div>
@@ -379,8 +381,6 @@ function RentEditComp({editData}) {
                     </div>
                   ))}
                 </div>
-  
-                
               </div>
             </div>
             <div className=" bg-white">
@@ -418,10 +418,12 @@ function RentEditComp({editData}) {
                     width={true}
                   ></SelectTag>
                 </div>
-  
+
                 {/* <SelectINput optionItems={monthlyMaintenance} /> */}
-  
-                {renatlDetails.monthlyMaintenance?.trim().toLocaleLowerCase() ===
+
+                {renatlDetails.monthlyMaintenance
+                  ?.trim()
+                  .toLocaleLowerCase() ===
                   "extraMaintenance".trim().toLocaleLowerCase() && (
                   <Input
                     label={"maintenance amount"}
@@ -434,7 +436,7 @@ function RentEditComp({editData}) {
                 )}
               </div>
             </div>
-  
+
             <div className=" bg-white flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
               <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
                 <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
@@ -446,8 +448,7 @@ function RentEditComp({editData}) {
                   date="available_from"
                 />
               </div>
-  
-              
+
               <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
                 <EditSelectComp
                   id={"furnishing"}
@@ -459,7 +460,7 @@ function RentEditComp({editData}) {
                   width={true}
                 ></EditSelectComp>
               </div>
-  
+
               <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
                 <EditSelectComp
                   id={"parking"}
@@ -472,7 +473,7 @@ function RentEditComp({editData}) {
                 ></EditSelectComp>
               </div>
             </div>
-  
+
             <div className=" bg-white">
               <DescriptionInput
                 label={"description"}
@@ -489,7 +490,7 @@ function RentEditComp({editData}) {
                 locality Details
               </h2>
             </div>
-  
+
             <div className=" flex justify-start gap-7 items-center flex-wrap">
               <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-full sm:w-1/3 ">
                 <SelectTag
@@ -534,7 +535,7 @@ function RentEditComp({editData}) {
                 visibility
               </h2>
             </div>
-  
+
             <div className=" flex sm:flex-row gap-3 sm:gap-10 flex-wrap items-center">
               <div className=" w-2/5 min-w-36 sm:w-56">
                 <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
@@ -657,7 +658,7 @@ function RentEditComp({editData}) {
                 </div>
               </div>
             </div>
-  
+
             <div className=" flex sm:flex-row flex-col items-start sm:justify-start sm:items-center gap-4 sm:gap-4 md:gap-7 lg:gap-10 mt-7">
               <div className=" sm:w-1/3 w-3/4  ">
                 <SelectTag
@@ -682,7 +683,7 @@ function RentEditComp({editData}) {
                 ></SelectTag>
               </div>
             </div>
-  
+
             <div className=" mt-4 py-3">
               <p className=" py-4 border-t-2 font-roboto capitalize text-xs font-bold space-x-0 text-gray-700">
                 select the available amenities
@@ -730,17 +731,17 @@ function RentEditComp({editData}) {
             <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
               edit: existing photos your property
             </h2>
-  
+
             <div className="existing-photos-wrapper mt-4 md:mt-8 lg:mt-14">
               <div className="w-full sm:w-1/3 min-h-64 rounded-sm relative">
                 <img
                   src="https://images.pexels.com/photos/25184945/pexels-photo-25184945/free-photo-of-fashion-eastern-dresses.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
                   alt=""
                 />
-  
+
                 <MdDelete className=" cursor-pointer p-1 w-12 h-12 top-2 right-3 text-red-500 text-xl sm:text-2xl font-bold  border-2 absolute  bg-white  shadow-2xl rounded-full flex justify-center items-center " />
               </div>
-  
+
               <div className=" w-full sm:w-1/3  min-h-64 rounded-sm">
                 <img
                   src="https://images.pexels.com/photos/24778260/pexels-photo-24778260/free-photo-of-a-view-of-a-valley-with-mountains-in-the-background.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
@@ -769,7 +770,7 @@ function RentEditComp({editData}) {
               </Alert>
             </div>
           )}
-  
+
           <div className=" flex justify-end items-center my-10 ">
             <button
               type="submit"
@@ -777,7 +778,10 @@ function RentEditComp({editData}) {
             >
               {loading ? (
                 <>
-                  <Spinner color="failure" aria-label="Failure spinner example" />{" "}
+                  <Spinner
+                    color="failure"
+                    aria-label="Failure spinner example"
+                  />{" "}
                   creating property..
                 </>
               ) : (
@@ -786,9 +790,7 @@ function RentEditComp({editData}) {
             </button>
           </div>
         </form>
-        )
-      }
-      
+      )}
     </div>
   );
 }

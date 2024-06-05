@@ -6,26 +6,22 @@ import "../../styles/EditPage.css";
 function EditRadioInput({
   name,
   id,
-  label, // Fixed spelling for 'label'
+  label,
   value,
-  setEditedFormData,
-  editFormData,
-  defaultChecked,
+  // setEditedFormData,
+  // editFormData,
+  isChecked,
+  setAvailablePropertyData
 }) {
 
-    const [isChecked, setIsChecked] = useState(defaultChecked);
 
-    useEffect(() => {
-      setIsChecked(defaultChecked);
-    }, [defaultChecked]);
-  
-    const handleChange = (e) => {
-      const { value,id } = e.target;
-      console.log(value);
-      setEditedFormData({ ...editFormData, [id]: value });
-      setIsChecked(true); // Ensuring the current radio button is checked
-    };
- 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    // console.log(value)
+    setAvailablePropertyData(value)
+    // setEditedFormData({ ...editFormData, [name]: value });
+  };
+
   return (
     <div className="edit-radio-button">
       <input
@@ -34,7 +30,7 @@ function EditRadioInput({
         id={id}
         name={name}
         value={value}
-        checked={defaultChecked}
+        checked={isChecked}
         onChange={handleChange}
       />
       <label className="edit-radio-button__label" htmlFor={id}>
