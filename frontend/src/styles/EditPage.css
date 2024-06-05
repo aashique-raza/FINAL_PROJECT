@@ -213,6 +213,29 @@
     .input-field:focus+.input-label {
         font-size: 12px;
     }
+    .edit-radio-button__label {
+        
+        padding-left: 30px;
+        margin-bottom: 10px;
+        position: relative;
+        font-size: 11px;
+        color: #121111;
+        font-weight: 700;
+        cursor: pointer;
+        text-transform: capitalize;
+        transition: all 0.3s ease;
+      }
+      
+      .edit-radio-button__custom {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid #555;
+        transition: all 0.3s ease;
+      }
 }
 
 @media only screen and (min-width:468px) {

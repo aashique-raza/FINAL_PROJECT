@@ -60,7 +60,7 @@ const addDefaultValues = (options, defaults) => {
 
 function RentEditComp({ editData }) {
   const [formData, setFormData] = useState(editData); /// set edit data
-  console.log("form or edit data", editData);
+  // console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
   // console.log('default values',defaultValues)
@@ -81,20 +81,27 @@ function RentEditComp({ editData }) {
 
   const formRef = useRef(null);
 
- 
+  // all edited data collection here ------
 
   // available property for set data----------
-  const[available_property_data,setAvailablePropertyData]=useState('')
-  // console.log('available property data',available_property_data)
+  const [available_property_data, setAvailablePropertyData] = useState("");
 
-  // console.log("edit form data", editFormData);
+  // edited preferred tenets-----
+  const [selectedTenants, setSelectedTenants] = useState([]);
+  // console.log("edite prefred tenets", selectedTenants);
+  const handleTenetCHeckBox = (event) => {
+    const { name, checked } = event.target;
+    if (checked) {
+      setSelectedTenants([...selectedTenants, name]);
+    } else {
+      setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
+    }
+  };
 
-  useEffect(()=>{
-  
-    setAvailablePropertyData(editData.propertyAvailableFor)
-  },[editData])
-
-
+  useEffect(() => {
+    setAvailablePropertyData(editData.propertyAvailableFor);
+    setSelectedTenants(editData.preferedTenats);
+  }, [editData]);
 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentCity(currentCity) {
@@ -126,25 +133,6 @@ function RentEditComp({ editData }) {
   let [balcony, setbalcony] = useState(0);
   let [guest, setGuest] = useState(0);
   let [bathroom, setBathroom] = useState(0);
-
-  const handleTenetCHeckBox = (e) => {
-    const { checked, id, value } = e.target;
-    if (checked) {
-      // Add the checked amenity to the roomAmenities array
-
-      setRentalsDetails({
-        ...renatlDetails,
-        tenats: [...renatlDetails.tenats, id],
-      });
-    } else {
-      // Remove the unchecked amenity from the roomAmenities array
-
-      setRentalsDetails((prevData) => ({
-        ...prevData,
-        tenats: prevData.tenats.filter((amenityId) => amenityId !== id),
-      }));
-    }
-  };
 
   const handleAmenitiesCheckBox = (e) => {
     const { id, checked, value } = e.target;
@@ -328,18 +316,17 @@ function RentEditComp({ editData }) {
               </h2>
             </div>
 
-            <div className=" bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
+            <div className="px-2 py-3 bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
               <div className=" flex  flex-col gap-1  items-   lg:w-1/4">
-                <p className=" font-roboto sm:text-xl text-sm font-semibold capitalize text-gray-950">
+                <p className=" font-roboto md:text-xl xl:text-3xl text-xl font-bold f capitalize text-gray-950">
                   property available for
                 </p>
-                <div className=" flex gap-4 items-center">
+                <div className=" flex gap-4 items-center mt-3 ">
                   <EditRadioInput
                     name="propertyAvailableFor"
                     id="availableForRent"
                     label="Rent"
                     value="rent"
-                    
                     isChecked={available_property_data === "rent"}
                     setAvailablePropertyData={setAvailablePropertyData}
                   />
@@ -348,34 +335,33 @@ function RentEditComp({ editData }) {
                     id="availableForLease"
                     label="Lease"
                     value="lease"
-                  
                     isChecked={available_property_data === "lease"}
                     setAvailablePropertyData={setAvailablePropertyData}
                   />
                 </div>
               </div>
-              <div className=" flex  flex-col gap-1    prefered_tenats">
-                <p className=" font-raleway font-bold text-sm sm:my-0  sm:text-xl capitalize text-gray-950">
+              <div className=" flex  flex-col gap-2    prefered_tenats">
+                <p className=" font-raleway font-bold text-xl  md:text-2xl xl:text-3xl sm:my-0 pb-3  sm:text-xl capitalize text-gray-950">
                   prefered tenats
                 </p>
-                <div className=" flex items-center justify-start gap-3  flex-wrap">
-                  {preferedTenats?.map((tenetOption, index) => (
+                <div className="flex items-center justify-start gap-3 flex-wrap">
+                  {preferedTenats.map((tenetOption, index) => (
                     <div
                       key={index}
-                      className=" flex items-center justify-start gap-2 "
+                      className="flex items-center justify-start gap-4"
                     >
                       <input
-                        className=" focus:border-none focus:outline-none focus:ring-0 checked:text-green-500 "
+                        className="focus:border-none focus:outline-none focus:ring-0 checked:text-green-500"
                         type="checkbox"
                         name={tenetOption.value}
                         id={tenetOption.value}
                         onChange={handleTenetCHeckBox}
+                        checked={selectedTenants?.includes(tenetOption.value)}
                       />
                       <label
                         htmlFor={tenetOption.value}
-                        className=" flex items-center gap-1  text-sm sm:text-xl font-raleway font-bold text-gray-500"
+                        className="flex items-center gap-1 text-xl md:text-2xl xl:text-3xl font-raleway font-bold text-gray-500"
                       >
-                        {" "}
                         <span>{tenetOption.icon}</span> {tenetOption.label}
                       </label>
                     </div>
@@ -383,8 +369,8 @@ function RentEditComp({ editData }) {
                 </div>
               </div>
             </div>
-            <div className=" bg-white">
-              <div className="   flex flex-col gap-2 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
+            <div className=" bg-white mt-3 pb-3">
+              <div className="px-2 py-4   flex flex-col gap-4 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
                 <EditInputComp
                   label={"expected rent"}
                   type="number"
@@ -406,9 +392,9 @@ function RentEditComp({ editData }) {
                 {renatlDetails.depositAmount < renatlDetails.rentAmount &&
                   "deosit amount can not be less than rent amount"}
               </p>
-              <div className=" flex sm:flex-row flex-col justify-start  sm:items-center flex-wrap sm:justify-start sm:gap-3 md:gap-5 lg:gap-10   my-4 py-2">
+              <div className="  px-2 flex sm:flex-row flex-col justify-start  sm:items-center flex-wrap sm:justify-start sm:gap-3 md:gap-5 lg:gap-10   my-4 py-2">
                 <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
-                  <SelectTag
+                  <EditSelectComp
                     id={"monthlyMaintenance"}
                     name={"monthlyMaintenance"}
                     optionName={"monthly maintenance"}
@@ -416,7 +402,17 @@ function RentEditComp({ editData }) {
                     formData={renatlDetails}
                     setFormData={setRentalsDetails}
                     width={true}
-                  ></SelectTag>
+                  ></EditSelectComp>
+                </div>
+                <div className=" mt-4 sm:mt-0">
+                <EditInputComp
+                    label={"maintenance amount"}
+                    type="number"
+                    placeholder={"enter amount"}
+                    id={"maintenanceAmount"}
+                    formData={renatlDetails}
+                    setFormData={setRentalsDetails}
+                  />
                 </div>
 
                 {/* <SelectINput optionItems={monthlyMaintenance} /> */}
@@ -425,7 +421,7 @@ function RentEditComp({ editData }) {
                   ?.trim()
                   .toLocaleLowerCase() ===
                   "extraMaintenance".trim().toLocaleLowerCase() && (
-                  <Input
+                  <EditInputComp
                     label={"maintenance amount"}
                     type="number"
                     placeholder={"enter amount"}
