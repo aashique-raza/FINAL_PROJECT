@@ -31,6 +31,7 @@ import { MdDelete } from "react-icons/md";
 // edit coponent-------------------
 import EditSelectComp from "./EditSelectComp/EditSelectComp";
 import EditInputComp from "./EditInputComp";
+import EditRadioInput from "./EditRadioInput";
 
 
 // edit code utilyty function---
@@ -62,7 +63,7 @@ const addDefaultValues = (options, defaults) => {
 
 function RentEditComp({editData}) {
   const [formData, setFormData] = useState(editData); /// set edit data
-  // console.log('form or edit data',editData)
+  console.log('form or edit data',editData)
 
   
   const defaultValues = extractDefaults(editData);
@@ -82,6 +83,15 @@ function RentEditComp({editData}) {
   const navigate = useNavigate();
 
   const formRef = useRef(null);
+
+  // edited data store here-----
+  const [editFormData, setEditedFormData] = useState({
+    
+  });
+
+  console.log('edit form data',editFormData)
+
+
 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentCity(currentCity) {
@@ -321,22 +331,24 @@ function RentEditComp({editData}) {
                 <p className=" font-roboto sm:text-xl text-sm font-semibold capitalize text-gray-950">
                   property available for
                 </p>
-                <div className=" flex gap-3">
-                  <RadioInput
+                <div className=" flex gap-4 items-center">
+                  <EditRadioInput
                     name="propertyAvailableFor"
-                    id="propertyAvailableFor"
-                    lable="rent"
+                    id="availableFor"
+                    label="rent"
                     value="rent"
-                    setFormData={setRentalsDetails}
-                    formData={renatlDetails}
+                    setEditedFormData={setEditedFormData}
+                    editFormData={editFormData}
+                    defaultChecked={editData.propertyAvailableFor}
                   />
-                  <RadioInput
+                  <EditRadioInput
                     name="propertyAvailableFor"
-                    id="propertyAvailableFor"
-                    lable="lease"
+                    id="availabelFor"
+                    label="lease"
                     value="lease"
-                    setFormData={setRentalsDetails}
-                    formData={renatlDetails}
+                    setEditedFormData={setEditedFormData}
+                    editFormData={editFormData}
+                    defaultChecked={editData.propertyAvailableFor}
                   />
                 </div>
               </div>
@@ -373,7 +385,7 @@ function RentEditComp({editData}) {
             </div>
             <div className=" bg-white">
               <div className="   flex flex-col gap-2 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
-                <Input
+                <EditInputComp
                   label={"expected rent"}
                   type="number"
                   placeholder={"enter amount"}
@@ -381,7 +393,7 @@ function RentEditComp({editData}) {
                   formData={renatlDetails}
                   setFormData={setRentalsDetails}
                 />{" "}
-                <Input
+                <EditInputComp
                   label={"expected deposit"}
                   type="number"
                   placeholder={"enter amount"}
@@ -437,7 +449,7 @@ function RentEditComp({editData}) {
   
               
               <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
-                <SelectTag
+                <EditSelectComp
                   id={"furnishing"}
                   name={"furnished"}
                   optionName={"furnishing"}
@@ -445,11 +457,11 @@ function RentEditComp({editData}) {
                   formData={renatlDetails}
                   setFormData={setRentalsDetails}
                   width={true}
-                ></SelectTag>
+                ></EditSelectComp>
               </div>
   
               <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
-                <SelectTag
+                <EditSelectComp
                   id={"parking"}
                   name={"parking"}
                   optionName={"furnishing"}
@@ -457,7 +469,7 @@ function RentEditComp({editData}) {
                   formData={renatlDetails}
                   setFormData={setRentalsDetails}
                   width={true}
-                ></SelectTag>
+                ></EditSelectComp>
               </div>
             </div>
   
