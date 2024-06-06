@@ -309,16 +309,16 @@ function RentEditComp({ editData }) {
               )}
             </div>
           </section>
-          <section className="rent_section_2 mt-5 ">
+          <section className="rent_section_2  mt-5">
             <div className="mb-5">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
                 edit: rental details about your property
               </h2>
             </div>
 
-            <div className="px-2 py-3 rounded-md bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
+            <div className="py-2  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10 rounded-md bg-white flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
               <div className=" flex  flex-col gap-1  items-   lg:w-1/4">
-                <p className=" font-roboto md:text-xl xl:text-3xl text-xl font-bold f capitalize text-gray-950">
+                <p className=" font-roboto md:text-xl xl:text-2xl text-xl font-bold f capitalize text-gray-950">
                   property available for
                 </p>
                 <div className=" flex gap-4 items-center mt-3 ">
@@ -341,7 +341,7 @@ function RentEditComp({ editData }) {
                 </div>
               </div>
               <div className=" flex  flex-col gap-2    prefered_tenats">
-                <p className=" font-raleway font-bold text-xl  md:text-2xl xl:text-3xl sm:my-0 pb-3  sm:text-xl capitalize text-gray-950">
+                <p className=" font-raleway font-bold text-xl  md:text-2xl  sm:my-0 pb-3  sm:text-xl capitalize text-gray-950">
                   prefered tenats
                 </p>
                 <div className="flex items-center justify-start gap-3 flex-wrap">
@@ -369,73 +369,82 @@ function RentEditComp({ editData }) {
                 </div>
               </div>
             </div>
-            <div className=" bg-white py-8  pb-3 rounded-md">
-              <div className="px-2 py-4   flex flex-col gap-4 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
+
+            <div className="py-2  lg:py-5 xl:py-7 px-3 lg:px-7 xl:px-10 bg-white  parking-furnishing-wrapper flex items-center flex-wrap gap-4 md:gap-7 xl:gap-12">
+              <EditSelectComp
+                id={"furnishing"}
+                name={"furnished"}
+                optionName={"furnishing"}
+                optionValues={furnishing}
+                formData={renatlDetails}
+                setFormData={setRentalsDetails}
+                width={true}
+              ></EditSelectComp>
+              <EditSelectComp
+                id={"parking"}
+                name={"parking"}
+                optionName={"prking"}
+                optionValues={parking}
+                formData={renatlDetails}
+                setFormData={setRentalsDetails}
+                width={true}
+              ></EditSelectComp>
+              <EditSelectComp
+                id={"monthlyMaintenance"}
+                name={"monthlyMaintenance"}
+                optionName={"monthly maintenance"}
+                optionValues={monthlyMaintenance}
+                formData={renatlDetails}
+                setFormData={setRentalsDetails}
+                width={true}
+              ></EditSelectComp>
+            </div>
+
+            <div className="py-2  lg:py-5 xl:py-7 px-3 lg:px-7 xl:px-10 bg-white   rounded-md flex-wrap flex items-center gap-4 md:gap-7 xl:gap-12">
+              <EditInputComp
+                label={"expected rent"}
+                type="number"
+                placeholder={" rent amount"}
+                id={"rentAmount"}
+                formData={renatlDetails}
+                setFormData={setRentalsDetails}
+              />{" "}
+              <EditInputComp
+                label={"expected deposit"}
+                type="number"
+                placeholder={"deposit amount"}
+                id={"depositAmount"}
+                formData={renatlDetails}
+                setFormData={setRentalsDetails}
+              />
+              <EditInputComp
+                label={"maintenance amount"}
+                type="number"
+                placeholder={"maintenance  amount"}
+                id={"maintenanceAmount"}
+                formData={renatlDetails}
+                setFormData={setRentalsDetails}
+              />
+              {renatlDetails.monthlyMaintenance?.trim().toLocaleLowerCase() ===
+                "extraMaintenance".trim().toLocaleLowerCase() && (
                 <EditInputComp
-                  label={"expected rent"}
+                  label={"maintenance amount"}
                   type="number"
                   placeholder={"enter amount"}
-                  id={"rentAmount"}
-                  formData={renatlDetails}
-                  setFormData={setRentalsDetails}
-                />{" "}
-                <EditInputComp
-                  label={"expected deposit"}
-                  type="number"
-                  placeholder={"enter amount"}
-                  id={"depositAmount"}
+                  id={"maintenanceAmount"}
                   formData={renatlDetails}
                   setFormData={setRentalsDetails}
                 />
-              </div>
+              )}
               <p className=" font-raleway text-xl text-red-500   capitalize font-bold">
                 {renatlDetails.depositAmount < renatlDetails.rentAmount &&
                   "deosit amount can not be less than rent amount"}
               </p>
-              <div className="  px-2 flex sm:flex-row flex-col justify-start  sm:items-center flex-wrap sm:justify-start sm:gap-3 md:gap-5 lg:gap-10   my-4 py-2">
-                <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
-                  <EditSelectComp
-                    id={"monthlyMaintenance"}
-                    name={"monthlyMaintenance"}
-                    optionName={"monthly maintenance"}
-                    optionValues={monthlyMaintenance}
-                    formData={renatlDetails}
-                    setFormData={setRentalsDetails}
-                    width={true}
-                  ></EditSelectComp>
-                </div>
-                <div className=" mt-4 sm:mt-0  w-2/3">
-                <EditInputComp
-                    label={"maintenance amount"}
-                    type="number"
-                    placeholder={"enter amount"}
-                    id={"maintenanceAmount"}
-                    formData={renatlDetails}
-                    setFormData={setRentalsDetails}
-                  />
-                </div>
-
-                {/* <SelectINput optionItems={monthlyMaintenance} /> */}
-
-                {renatlDetails.monthlyMaintenance
-                  ?.trim()
-                  .toLocaleLowerCase() ===
-                  "extraMaintenance".trim().toLocaleLowerCase() && (
-                  <EditInputComp
-                    label={"maintenance amount"}
-                    type="number"
-                    placeholder={"enter amount"}
-                    id={"maintenanceAmount"}
-                    formData={renatlDetails}
-                    setFormData={setRentalsDetails}
-                  />
-                )}
-              </div>
             </div>
 
-            <div className=" px-2 bg-white flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center pb-5 rounded-md  ">
-              <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
-                <p className=" text-xl md:text-2xl xl:text-3xl  font-raleway font-bold capitalize  inline-block">
+            <div className="py-2  lg:py-5 xl:py-7 px-3 lg:px-7 xl:px-10  flex flex-wrap items-start gap-4 md:gap-7 xl:gap-12 bg-white   ">
+              <div className="calender-div-wrapper ">
+                <p className=" text-xl md:text-2xl   font-raleway font-bold capitalize  inline-block">
                   available from
                 </p>
                 <CalenderInput
@@ -444,41 +453,17 @@ function RentEditComp({ editData }) {
                   date="available_from"
                 />
               </div>
-
-              <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  mt-7  sm:mt-0">
-                <EditSelectComp
-                  id={"furnishing"}
-                  name={"furnished"}
-                  optionName={"furnishing"}
-                  optionValues={furnishing}
-                  formData={renatlDetails}
-                  setFormData={setRentalsDetails}
-                  width={true}
-                ></EditSelectComp>
-              </div>
-
-              <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  mt-7 sm:mt-0  ">
-                <EditSelectComp
-                  id={"parking"}
-                  name={"parking"}
-                  optionName={"prking"}
-                  optionValues={parking}
-                  formData={renatlDetails}
-                  setFormData={setRentalsDetails}
-                  width={true}
-                ></EditSelectComp>
-              </div>
-            </div>
-
-            <div className=" bg-white  py-5 px-2">
               <DescriptionInput
                 label={"description"}
                 id="description"
                 placeholder={"write few lines about your property"}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
-              />
+              /> 
+              
             </div>
+
+           
           </section>
           <section className="rent_section_3 my-5">
             <div className="mb-5">

@@ -57,9 +57,9 @@
 }
 
 /* calender div or box */
-.calender_div .calender_box{
-  min-width: 300px;
-  width: 32%;
+.calender-div-wrapper{
+  min-width: 240px;
+  width: 23%;
   /* border: 2px solid red; */
 }
 
@@ -68,11 +68,16 @@
 .description-input {
   /* margin-bottom: 20px; */
   /* border: 2px solid red; */
+  width: 30%;
   display: flex ;
   flex-direction: column ;
   align-items: start;
   gap: 6px;
   /* margin: 10px 0px; */
+}
+
+.description-input textarea{
+  height: 200px;
 }
 
 .description-input label {
@@ -177,6 +182,42 @@
 @media only screen and (max-width:767px) {
   .rent_container {
     padding: 10px;
+  }
+
+}
+
+
+/* description input responsive */
+
+@media only screen and (max-width:467px){
+  .calender-div-wrapper{
+   width: 100%;
+  }
+  .description-input {
+    width: 100%;
+    height: 180px;
+   }
+
+
+  }
+
+@media only screen and (min-width:468px){
+  .description-input{
+    min-width: 300px;
+    width: 45%;
+  }
+}
+
+@media only screen and (min-width:1024px){
+  .description-input {
+   min-width: 600px;
+   max-width: 32%;
+  
+  }
+  
+  .description-input label {
+    display: block;
+   
   }
 
 }

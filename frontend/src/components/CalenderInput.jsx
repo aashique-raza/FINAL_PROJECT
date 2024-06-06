@@ -16,7 +16,7 @@ function CalenderInput({ icon, inputProps,setFormData,formData,date }) {
 
   return (
     <Grid container spacing={1} >
-      <Grid item xs={12}>
+      <Grid item xs={12}  >
         <TextField
         className=' cursor-pointer'
         type='date'
