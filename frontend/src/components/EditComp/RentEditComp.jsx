@@ -102,6 +102,11 @@ function RentEditComp({ editData }) {
   // edit available amenity code-----------------------------------------------------------------------------------
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
+
+  let [bedroom, setBedroom] = useState(editData?.bedroom || 0);
+  let [balcony, setbalcony] = useState(editData?.balcony || 0);
+  let [guest, setGuest] = useState(editData?.guest || 0);
+  let [bathroom, setBathroom] = useState(editData?.bathroom || 0);
  
 
   const handleAmenitiesCheckBox = (e) => {
@@ -113,6 +118,10 @@ function RentEditComp({ editData }) {
 
 
   useEffect(() => {
+    setBedroom(editData.bedroom)
+    setbalcony(editData.balcony)
+    setGuest(editData.guest)
+    setBathroom(editData?.bathroom || 0)
     setAvailablePropertyData(editData.propertyAvailableFor);
     setSelectedTenants(editData.preferedTenats);
     setSelectedAmenities(editData.availableAmenities)
@@ -144,10 +153,7 @@ function RentEditComp({ editData }) {
   const [additionalDetails, setAdditionalDetails] = useState({
     availableAmenities: [],
   });
-  let [bedroom, setBedroom] = useState(editData?.bedroom || 0);
-  let [balcony, setbalcony] = useState(editData?.balcony || 0);
-  let [guest, setGuest] = useState(editData?.guest || 0);
-  let [bathroom, setBathroom] = useState(editData?.bathroom || 0);
+  
 
 
   return (
