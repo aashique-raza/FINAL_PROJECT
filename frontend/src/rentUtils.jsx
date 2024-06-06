@@ -171,21 +171,21 @@ export const waterSupply = [
 
 // Array of objects containing labels and corresponding icon components
 export const roomAmenitiesList = [
-  { label: "Lift", icon: <ElevatorIcon /> },
-  { label: "Wifi", icon: <WifiIcon /> },
-  { label: "Swimming Pool", icon: <PoolIcon /> },
-  { label: "AC", icon: <AcUnitIcon /> },
-  { label: "Club House", icon: <HouseIcon /> },
-  { label: "Children Play Area", icon: <ChildFriendlyIcon /> },
-  { label: "Fire Safety", icon: <FireExtinguisherIcon /> },
-  { label: "Parking", icon: <LocalParkingIcon /> },
-  { label: "Gym", icon: <FitnessCenterIcon /> },
-  { label: "Sports Area", icon: <SportsBaseballIcon /> },
-  { label: "Gas Pipeline", icon: <LocalGasStationIcon /> },
-  { label: "Park", icon: <ParkIcon /> },
-  { label: "Rain Water Harvesting", icon: <WavesIcon /> },
-  { label: "Power Backup", icon: <PowerIcon /> },
-  { label: "Visitor Parking", icon: <LocalParkingOutlinedIcon /> },
+  { label: "Lift", icon: <ElevatorIcon fontSize="40px" /> },
+  { label: "Wifi", icon: <WifiIcon fontSize="40px"/> },
+  { label: "Swimming Pool", icon: <PoolIcon fontSize="40px"/> },
+  { label: "AC", icon: <AcUnitIcon fontSize="40px"/> },
+  { label: "Club House", icon: <HouseIcon fontSize="40px"/> },
+  { label: "Children Play Area", icon: <ChildFriendlyIcon fontSize="40px"/> },
+  { label: "Fire Safety", icon: <FireExtinguisherIcon fontSize="40px"/> },
+  { label: "Parking", icon: <LocalParkingIcon fontSize="40px"/> },
+  { label: "Gym", icon: <FitnessCenterIcon fontSize="40px"/> },
+  { label: "Sports Area", icon: <SportsBaseballIcon fontSize="40px"/> },
+  { label: "Gas Pipeline", icon: <LocalGasStationIcon fontSize="40px"/> },
+  { label: "Park", icon: <ParkIcon fontSize="40px"/> },
+  { label: "Rain Water Harvesting", icon: <WavesIcon fontSize="40px"/> },
+  { label: "Power Backup", icon: <PowerIcon fontSize="40px"/> },
+  { label: "Visitor Parking", icon: <LocalParkingOutlinedIcon fontSize="40px" /> },
 ];
 
 export const bhkTypes = [

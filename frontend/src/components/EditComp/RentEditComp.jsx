@@ -98,9 +98,24 @@ function RentEditComp({ editData }) {
     }
   };
 
+
+  // edit available amenity code-----------------------------------------------------------------------------------
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+
+ 
+
+  const handleAmenitiesCheckBox = (e) => {
+    const { id, checked } = e.target;
+    setSelectedAmenities((prev) =>
+      checked ? [...prev, id] : prev.filter((amenity) => amenity !== id)
+    );
+  };
+
+
   useEffect(() => {
     setAvailablePropertyData(editData.propertyAvailableFor);
     setSelectedTenants(editData.preferedTenats);
+    setSelectedAmenities(editData.availableAmenities)
   }, [editData]);
 
   // Function to filter cities based on the current city
@@ -129,134 +144,16 @@ function RentEditComp({ editData }) {
   const [additionalDetails, setAdditionalDetails] = useState({
     availableAmenities: [],
   });
-  let [bedroom, setBedroom] = useState(0);
-  let [balcony, setbalcony] = useState(0);
-  let [guest, setGuest] = useState(0);
-  let [bathroom, setBathroom] = useState(0);
+  let [bedroom, setBedroom] = useState(editData?.bedroom || 0);
+  let [balcony, setbalcony] = useState(editData?.balcony || 0);
+  let [guest, setGuest] = useState(editData?.guest || 0);
+  let [bathroom, setBathroom] = useState(editData?.bathroom || 0);
 
-  const handleAmenitiesCheckBox = (e) => {
-    const { id, checked, value } = e.target;
-    if (checked) {
-      setAdditionalDetails({
-        ...additionalDetails,
-        availableAmenities: [...additionalDetails.availableAmenities, id],
-      });
-    } else {
-      setAdditionalDetails((prevData) => ({
-        ...prevData,
-        availableAmenities: prevData.availableAmenities.filter(
-          (oldAmenity) => oldAmenity !== id
-        ),
-      }));
-    }
-  };
-
-  // console.log(additionalDetails);
-
-  // form submittion----
-  const handleSubmitForm = async (e) => {
-    e.preventDefault();
-    if (
-      renatlDetails.monthlyMaintenance &&
-      renatlDetails.monthlyMaintenance.trim().toLocaleLowerCase() ===
-        "includedMaintenance".trim().toLocaleLowerCase()
-    ) {
-      renatlDetails.maintenanceAmount = 0;
-    }
-    const rentFormData = new FormData();
-
-    // property details data---------
-    rentFormData.append("apartmentName", propertyDetails.apartment_name);
-    rentFormData.append("apartmentType", propertyDetails.apartment_type);
-    rentFormData.append("BHKType", propertyDetails.bhk_type);
-    rentFormData.append("propertyArea", propertyDetails.built_up_area);
-    rentFormData.append("propertyFacing", propertyDetails.facing);
-    rentFormData.append("propertyFloor", propertyDetails.floor);
-    rentFormData.append("propertyAge", propertyDetails.propertyAge);
-    rentFormData.append("totalFloor", propertyDetails.totalFloor);
-
-    // rentals details data======
-    rentFormData.append("availableFrom", renatlDetails.available_from);
-    rentFormData.append("depositAmount", renatlDetails.depositAmount);
-    rentFormData.append("description", renatlDetails.description);
-    rentFormData.append("furnishing", renatlDetails.furnishing);
-    rentFormData.append("maintenanceAmount", renatlDetails.maintenanceAmount);
-    rentFormData.append("monthlyMaintenance", renatlDetails.monthlyMaintenance);
-    rentFormData.append("parking", renatlDetails.parking);
-    rentFormData.append(
-      "propertyAvailableFor",
-      renatlDetails.propertyAvailableFor
-    );
-    rentFormData.append("rentAmount", renatlDetails.rentAmount);
-    renatlDetails.tenats?.forEach((tenant) => {
-      rentFormData.append("preferedTenats", tenant);
-    });
-    // rentFormData.append("preferedTenats", renatlDetails.tenats);
-
-    // localality details data--
-    rentFormData.append("city", localDetails.city);
-    rentFormData.append("localAddress", localDetails.localAddress);
-    rentFormData.append("state", localDetails.state);
-
-    // other details--------
-    // console.log(typeof bedroom,typeof balcony,typeof guest)
-    rentFormData.append("bedroom", bedroom);
-    rentFormData.append("balcony", balcony);
-    rentFormData.append("guest", guest);
-    rentFormData.append("bathroom", bathroom);
-
-    additionalDetails.availableAmenities?.forEach((amenity) => {
-      rentFormData.append("availableAmenities", amenity);
-    });
-    rentFormData.append("electricity", additionalDetails.electricity);
-    rentFormData.append("waterSupply", additionalDetails.waterSupply);
-
-    /* Append each selected photos to the FormData object */
-    photos.forEach((photo) => {
-      rentFormData.append("listingPhotos", photo);
-    });
-
-    try {
-      setError(null);
-
-      setLoading(true);
-
-      const resp = await fetch(`${API_URL}/rent/create`, {
-        method: "POST",
-        headers: {
-          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
-          Authorization: `Bearer ${token}`,
-        },
-        credentials: "include",
-        body: rentFormData,
-      });
-      // console.log(resp);
-      const data = await resp.json();
-      console.log(data);
-
-      if (!resp.ok) {
-        setLoading(false);
-        setError(data.message);
-        return;
-      }
-
-      setLoading(false);
-      setError(null);
-      showSuccessMessage("rent property created");
-      navigate(`/property/rental/${data.saveProperty._id}`);
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-      console.log(error.message);
-    }
-  };
-
-  // console.log('edita data default value',editData.builtUpArea)
 
   return (
     <div className=" rent_container lg:px-28  border-none">
       {editData && (
-        <form ref={formRef} onSubmit={handleSubmitForm} className=" w-full">
+        <form ref={formRef}  className=" w-full">
           <section className="rent_section_1">
             <div className="mb-5">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
@@ -344,14 +241,14 @@ function RentEditComp({ editData }) {
                 <p className=" font-raleway font-bold text-xl  md:text-2xl  sm:my-0 pb-3  sm:text-xl capitalize text-gray-950">
                   prefered tenats
                 </p>
-                <div className="flex items-center justify-start gap-3 flex-wrap">
+                <div className="flex items-center justify-start gap-4 md:gap-7 xl:gap-12 flex-wrap ">
                   {preferedTenats.map((tenetOption, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-start gap-4"
+                      className="flex items-center justify-start gap-1 "
                     >
                       <input
-                        className="focus:border-none focus:outline-none focus:ring-0 checked:text-green-500"
+                        className=" w-5 h-5 focus:border-none focus:outline-none focus:ring-0 checked:text-green-500"
                         type="checkbox"
                         name={tenetOption.value}
                         id={tenetOption.value}
@@ -360,7 +257,7 @@ function RentEditComp({ editData }) {
                       />
                       <label
                         htmlFor={tenetOption.value}
-                        className="flex items-center gap-1 text-xl md:text-2xl xl:text-3xl font-raleway font-bold text-gray-500"
+                        className="flex items-center gap-1 text-xl md:text-2xl  font-raleway font-bold text-gray-500"
                       >
                         <span>{tenetOption.icon}</span> {tenetOption.label}
                       </label>
@@ -466,7 +363,7 @@ function RentEditComp({ editData }) {
               </h2>
             </div>
 
-            <div className=" bg-white p flex justify-start gap-7 items-center flex-wrap py-2  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10">
+            <div className=" bg-white  flex justify-start gap-7 items-center flex-wrap py-2  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10">
               <EditSelectComp
                 id={"state"}
                 name={"state"}
@@ -475,7 +372,6 @@ function RentEditComp({ editData }) {
                 formData={localDetails}
                 setFormData={setLocalDetails}
                 defaultValue={editData?.location?.state}
-                
               ></EditSelectComp>
 
               <EditSelectComp
@@ -486,7 +382,6 @@ function RentEditComp({ editData }) {
                 formData={localDetails}
                 setFormData={setLocalDetails}
                 defaultValue={editData?.location?.city}
-                
               ></EditSelectComp>
 
               <EditInputComp
@@ -502,15 +397,15 @@ function RentEditComp({ editData }) {
           </section>
           <section className="rent_section_4">
             <div className="mb-5">
-              <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+              <h2 className="text-xl  md:text-2xl  font-roboto font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
                 provide additional details about your property to get maximum
                 visibility
               </h2>
             </div>
 
-            <div className=" flex sm:flex-row gap-3 sm:gap-10 flex-wrap items-center">
+            <div className=" flex sm:flex-row gap-3 sm:gap-10 flex-wrap items-center py-2  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10 bg-white">
               <div className=" w-2/5 min-w-36 sm:w-56">
-                <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+                <p className=" text-xl  font-roboto  font-bold capitalize  inline-block mb-1">
                   bedroom
                 </p>
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
@@ -540,7 +435,7 @@ function RentEditComp({ editData }) {
                 </div>
               </div>
               <div className="  w-2/5 min-w-36 sm:w-56">
-                <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+                <p className="text-xl  font-roboto font-bold capitalize  inline-block mb-1">
                   bathroom
                 </p>
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
@@ -570,7 +465,7 @@ function RentEditComp({ editData }) {
                 </div>
               </div>
               <div className="w-2/5 min-w-36   sm:w-56">
-                <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+                <p className="text-xl  font-roboto font-bold capitalize  inline-block mb-1">
                   balcony
                 </p>
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
@@ -600,7 +495,7 @@ function RentEditComp({ editData }) {
                 </div>
               </div>
               <div className="w-2/5  min-w-36 sm:w-56">
-                <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+                <p className=" text-xl  font-roboto font-bold capitalize  inline-block mb-1">
                   guest
                 </p>
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
@@ -631,51 +526,49 @@ function RentEditComp({ editData }) {
               </div>
             </div>
 
-            <div className=" flex sm:flex-row flex-col items-start sm:justify-start sm:items-center gap-4 sm:gap-4 md:gap-7 lg:gap-10 mt-7">
-              <div className=" sm:w-1/3 w-3/4  ">
-                <SelectTag
-                  id={"waterSupply"}
-                  name={"water-supply"}
-                  optionName={"water supply"}
-                  optionValues={waterSupply}
-                  formData={additionalDetails}
-                  setFormData={setAdditionalDetails}
-                  width={true}
-                ></SelectTag>
-              </div>
-              <div className=" sm:w-1/3 w-3/4 ">
-                <SelectTag
-                  id={"electricity"}
-                  name={"electricity"}
-                  optionName={"electricity"}
-                  optionValues={electricity}
-                  formData={additionalDetails}
-                  setFormData={setAdditionalDetails}
-                  width={true}
-                ></SelectTag>
-              </div>
+            <div className="py-2  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10 bg-white flex sm:flex-row flex-col items-start sm:justify-start sm:items-center gap-4 sm:gap-4 md:gap-7 lg:gap-10 ">
+              <EditSelectComp
+                id={"waterSupply"}
+                name={"water-supply"}
+                optionName={"water supply"}
+                optionValues={waterSupply}
+                formData={additionalDetails}
+                setFormData={setAdditionalDetails}
+                defaultValue={editData?.waterSupply}
+              ></EditSelectComp>
+
+              <EditSelectComp
+                id={"electricity"}
+                name={"electricity"}
+                optionName={"electricity"}
+                optionValues={electricity}
+                formData={additionalDetails}
+                setFormData={setAdditionalDetails}
+                defaultValue={editData?.electricity}
+              ></EditSelectComp>
             </div>
 
-            <div className=" mt-4 py-3">
-              <p className=" py-4 border-t-2 font-roboto capitalize text-xs font-bold space-x-0 text-gray-700">
+            <div className="py-4  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10 bg-white ">
+              <p className=" py-8 border-t-2 font-roboto font-bold capitalize text-xl md:text-2xl  ">
                 select the available amenities
               </p>
-              <div className=" flex items-center justify-start gap-5  flex-wrap">
+              <div className=" flex items-center justify-start gap-7 md:gap-7 xl:gap-12  flex-wrap text-xl ">
                 {roomAmenitiesList?.map((tenetOption, index) => (
                   <div
                     key={index}
-                    className=" flex items-center justify-start gap-2 "
+                    className=" flex items-center justify-start gap-1 "
                   >
                     <input
-                      className=" focus:border-none focus:outline-none focus:ring-0 checked:text-green-500 "
+                      className=" focus:border-none w-5 h-5   focus:outline-none focus:ring-0 checked:text-green-500 "
                       type="checkbox"
                       name={tenetOption.label}
                       id={tenetOption.label}
                       onChange={handleAmenitiesCheckBox}
+                      checked={selectedAmenities?.includes(tenetOption.label)}
                     />
                     <label
                       htmlFor={tenetOption.label}
-                      className=" flex items-center gap-1  text-sm sm:text-xl font-raleway font-bold text-gray-500"
+                      className=" flex items-center gap-1  text-xl md:text-2xl  font-bold text-gray-500"
                     >
                       {" "}
                       <span>{tenetOption.icon}</span> {tenetOption.label}
