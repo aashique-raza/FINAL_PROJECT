@@ -142,6 +142,7 @@ export const monthlyMaintenance = [
 ];
 
 export const parking = [
+  { label: "select", value: "" },
   { label: "car parking", value: "car" },
   { label: "bike parking", value: "bike" },
   { label: "both parking", value: "both" },
@@ -149,17 +150,20 @@ export const parking = [
 ];
 
 export const furnishing = [
+  { label: "select", value: "" },
   { label: "furnished", value: "full furnished" },
   { label: "unfurnished", value: "furnishedNone" },
   { label: " semi furnished", value: "semifurnished" },
 ];
 
 export const electricity = [
+  { label: "select", value: "" },
   { label: "electricity included", value: "included" },
   { label: "electricity extra", value: "notIncluded" },
 ];
 
 export const waterSupply = [
+  { label: "select", value: "" },
   { label: "corporation", value: "corporation" },
   { label: "borewell", value: "borewell" },
   { label: "both", value: "both" },

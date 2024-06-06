@@ -60,7 +60,7 @@ const addDefaultValues = (options, defaults) => {
 
 function RentEditComp({ editData }) {
   const [formData, setFormData] = useState(editData); /// set edit data
-  // console.log("form or edit data", editData);
+  console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
   // console.log('default values',defaultValues)
@@ -107,7 +107,7 @@ function RentEditComp({ editData }) {
   function filterCitiesByCurrentCity(currentCity) {
     // Find the city object corresponding to the current city
     const cityObject = cities.find(
-      (city) => Object.keys(city.cityName)[0] === currentCity.toLowerCase()
+      (city) => Object.keys(city.cityName)[0] === currentCity?.toLowerCase()
     );
 
     // If city object is found, return its cities array, otherwise return an empty array
@@ -115,7 +115,7 @@ function RentEditComp({ editData }) {
   }
   // console.log(formData.state)
 
-  const filteredCities = filterCitiesByCurrentCity(state);
+  const filteredCities = filterCitiesByCurrentCity(editData?.location?.state);
 
   // property details data----
   const [propertyDetails, setPropertyDetails] = useState({});
@@ -378,7 +378,7 @@ function RentEditComp({ editData }) {
                 optionValues={furnishing}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
-                width={true}
+                defaultValue={editData.furnishing}
               ></EditSelectComp>
               <EditSelectComp
                 id={"parking"}
@@ -387,7 +387,7 @@ function RentEditComp({ editData }) {
                 optionValues={parking}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
-                width={true}
+                defaultValue={editData.parking}
               ></EditSelectComp>
               <EditSelectComp
                 id={"monthlyMaintenance"}
@@ -396,7 +396,7 @@ function RentEditComp({ editData }) {
                 optionValues={monthlyMaintenance}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
-                width={true}
+                defaultValue={editData.monthlyMaintenance}
               ></EditSelectComp>
             </div>
 
@@ -408,6 +408,7 @@ function RentEditComp({ editData }) {
                 id={"rentAmount"}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
+                defaultValue={editData?.rentAmount}
               />{" "}
               <EditInputComp
                 label={"expected deposit"}
@@ -416,24 +417,18 @@ function RentEditComp({ editData }) {
                 id={"depositAmount"}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
+                defaultValue={editData?.depositAmount}
               />
-              <EditInputComp
-                label={"maintenance amount"}
-                type="number"
-                placeholder={"maintenance  amount"}
-                id={"maintenanceAmount"}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
-              />
-              {renatlDetails.monthlyMaintenance?.trim().toLocaleLowerCase() ===
+              {editData.monthlyMaintenance?.trim().toLocaleLowerCase() ===
                 "extraMaintenance".trim().toLocaleLowerCase() && (
                 <EditInputComp
                   label={"maintenance amount"}
                   type="number"
-                  placeholder={"enter amount"}
+                  placeholder={"maintenance amount"}
                   id={"maintenanceAmount"}
                   formData={renatlDetails}
                   setFormData={setRentalsDetails}
+                  defaultValue={editData?.maintenanceAmount}
                 />
               )}
               <p className=" font-raleway text-xl text-red-500   capitalize font-bold">
@@ -451,6 +446,7 @@ function RentEditComp({ editData }) {
                   formData={renatlDetails}
                   setFormData={setRentalsDetails}
                   date="available_from"
+                  defaultDate={editData?.availableFrom}
                 />
               </div>
               <DescriptionInput
@@ -459,11 +455,9 @@ function RentEditComp({ editData }) {
                 placeholder={"write few lines about your property"}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
-              /> 
-              
+                defaultValue={editData?.description}
+              />
             </div>
-
-           
           </section>
           <section className="rent_section_3 my-5">
             <div className="mb-5">
@@ -472,40 +466,37 @@ function RentEditComp({ editData }) {
               </h2>
             </div>
 
-            <div className=" flex justify-start gap-7 items-center flex-wrap">
-              <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-full sm:w-1/3 ">
-                <SelectTag
-                  id={"state"}
-                  name={"state"}
-                  optionName={"state"}
-                  optionValues={AllStates}
-                  formData={localDetails}
-                  setFormData={setLocalDetails}
-                  width={true}
-                  setState={setState}
-                  state={true}
-                ></SelectTag>
-              </div>
-              <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-full sm:w-1/3 ">
-                <SelectTag
-                  id={"city"}
-                  name={"city"}
-                  optionName={"city"}
-                  optionValues={filteredCities}
-                  formData={localDetails}
-                  setFormData={setLocalDetails}
-                  width={true}
-                ></SelectTag>
-              </div>
-            </div>
-            <div className=" flex sm:flex-row flex-col sm:gap-4 gap-1 flex-wrap  mt-4">
-              <Input
+            <div className=" bg-white p flex justify-start gap-7 items-center flex-wrap py-2  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10">
+              <EditSelectComp
+                id={"state"}
+                name={"state"}
+                optionName={"state"}
+                optionValues={AllStates}
+                formData={localDetails}
+                setFormData={setLocalDetails}
+                defaultValue={editData?.location?.state}
+                
+              ></EditSelectComp>
+
+              <EditSelectComp
+                id={"city"}
+                name={"city"}
+                optionName={"city"}
+                optionValues={filteredCities}
+                formData={localDetails}
+                setFormData={setLocalDetails}
+                defaultValue={editData?.location?.city}
+                
+              ></EditSelectComp>
+
+              <EditInputComp
                 label={"local/street address"}
                 type="text"
                 placeholder={"ex- hauz rani gao..."}
                 id={"localAddress"}
                 formData={localDetails}
                 setFormData={setLocalDetails}
+                defaultValue={editData?.location?.localAddress}
               />
             </div>
           </section>
