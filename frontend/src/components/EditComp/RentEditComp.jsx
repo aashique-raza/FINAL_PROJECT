@@ -109,7 +109,7 @@ function RentEditComp({ editData }) {
     setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-  console.log('photos',photos)
+  // console.log('photos',photos)
 
   // available property for set data----------
   const [available_property_data, setAvailablePropertyData] = useState("");
@@ -150,7 +150,7 @@ function RentEditComp({ editData }) {
     setAvailablePropertyData(editData.propertyAvailableFor);
     setSelectedTenants(editData.preferedTenats);
     setSelectedAmenities(editData.availableAmenities);
-  }, []);
+  }, [editData]);
 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentCity(currentCity) {
@@ -667,10 +667,10 @@ function RentEditComp({ editData }) {
             </div>
           )}
 
-          <div className=" flex justify-end items-center my-10 ">
+          <div className=" flex  justify-center items-center  bg-white py-5 mt-10 rounded-md w-full ">
             <button
               type="submit"
-              className=" capitalize  px-10 py-3  font-roboto font-semibold sm:text-xl text-sm border-none outline-none focus:border-none focus:outline-none focus:ring-0 rounded-md bg-red-500 text-white hover:bg-red-600 transition-all duration-1000 ease-in-out"
+              className=" py-4 capitalize text-xl lg:text-2xl font-raleway font-semibold min-w-52 w-full  max-w-96 border-none outline-none focus:border-none focus:outline-none focus:ring-0 rounded-md bg-red-500 text-white hover:bg-red-600 transition-all duration-1000 ease-in-out"
             >
               {loading ? (
                 <>
@@ -678,10 +678,10 @@ function RentEditComp({ editData }) {
                     color="failure"
                     aria-label="Failure spinner example"
                   />{" "}
-                  creating property..
+                  saving..
                 </>
               ) : (
-                "create property"
+                "save changes"
               )}
             </button>
           </div>
