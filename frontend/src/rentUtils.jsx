@@ -320,16 +320,23 @@ export const  toCamelCase = (str) => {
 export const extractDefaults = (editData) => {
   const defaults = {};
   for (let key in editData) {
-    const camelCaseKey = toCamelCase(key);
-    defaults[camelCaseKey] = editData[key];
+    // Handle specific cases manually
+    if (key === 'BHKType') {
+      defaults['bhkType'] = editData[key];
+    } else {
+      const camelCaseKey = toCamelCase(key);
+      defaults[camelCaseKey] = editData[key];
+    }
   }
+  // console.log('Extracted Defaults:', defaults); // Add this line
   return defaults;
 };
 
- export const addDefaultValues = (options, defaults) => {
+export const addDefaultValues = (options, defaults) => {
   return options.map((option) => {
     const camelCaseId = toCamelCase(option.id);
-    const defaultValue = defaults[camelCaseId] || "";
+    const defaultValue = defaults[camelCaseId] || ""; // Corrected to use camelCaseId
+    // console.log(`Setting default value for ${option.id}:`, defaultValue); // Add this line
     return {
       ...option,
       defaultValue,

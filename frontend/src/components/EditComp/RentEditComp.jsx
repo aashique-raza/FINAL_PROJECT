@@ -43,7 +43,7 @@ import EditUploadPhotos from "./EditUploadPhotos";
 
 function RentEditComp({ editData }) {
   const [editFormData, setEditFormData] = useState({}); /// set edit data
-  console.log("form or edit data", editData);
+  // console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
 
@@ -53,7 +53,7 @@ function RentEditComp({ editData }) {
     defaultValues
   );
 
-  console.log('update room options',updatedRoomDetailsOptions)
+  // console.log('update room options',updatedRoomDetailsOptions)
 
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
@@ -188,7 +188,7 @@ function RentEditComp({ editData }) {
                 ))}
               </div>
             </div>
-            <div className="px-2  rounded-b-md bg-white  flex flex-wrap items-center gap-7 py-7  ">
+            <div className="px-2  lg:px-5 rounded-b-md bg-white  flex flex-wrap items-center gap-7 py-7  ">
               <EditInputComp
                 label={"built_up_area"}
                 type="number"
