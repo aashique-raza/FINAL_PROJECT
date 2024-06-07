@@ -32,6 +32,7 @@ import { MdDelete } from "react-icons/md";
 import EditSelectComp from "./EditSelectComp/EditSelectComp";
 import EditInputComp from "./EditInputComp";
 import EditRadioInput from "./EditRadioInput";
+import EditUploadPhotos from "./EditUploadPhotos";
 
 // edit code utilyty function---
 const toCamelCase = (str) => {
@@ -60,7 +61,7 @@ const addDefaultValues = (options, defaults) => {
 
 function RentEditComp({ editData }) {
   const [formData, setFormData] = useState(editData); /// set edit data
-  console.log("form or edit data", editData);
+  // console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
   // console.log('default values',defaultValues)
@@ -73,7 +74,7 @@ function RentEditComp({ editData }) {
 
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
-  const [photos, setPhotos] = useState([]);
+
   const [isPropertyCreated, setIspropertyCreated] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -82,6 +83,33 @@ function RentEditComp({ editData }) {
   const formRef = useRef(null);
 
   // all edited data collection here ------
+
+  // add new photos and edit existing photos---
+  const [photos, setPhotos] = useState([]);
+  const inputRef = useRef(null);
+
+  // Set initial photos from editData only once
+  useEffect(() => {
+    if (editData && editData.images) {
+      setPhotos(editData.images);
+    }
+  }, [editData]);
+
+  const handleButtonClick = () => {
+    inputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const filesArray = Array.from(event.target.files);
+    const newPhotos = filesArray.map((file) => URL.createObjectURL(file));
+    setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]);
+  };
+
+  const handleDeletePhoto = (index) => {
+    setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+  };
+
+  console.log('photos',photos)
 
   // available property for set data----------
   const [available_property_data, setAvailablePropertyData] = useState("");
@@ -98,16 +126,14 @@ function RentEditComp({ editData }) {
     }
   };
 
-
   // edit available amenity code-----------------------------------------------------------------------------------
   const [selectedAmenities, setSelectedAmenities] = useState([]);
-
 
   let [bedroom, setBedroom] = useState(editData?.bedroom || 0);
   let [balcony, setbalcony] = useState(editData?.balcony || 0);
   let [guest, setGuest] = useState(editData?.guest || 0);
   let [bathroom, setBathroom] = useState(editData?.bathroom || 0);
- 
+  // const[photos,setPhotos]=useState([])
 
   const handleAmenitiesCheckBox = (e) => {
     const { id, checked } = e.target;
@@ -116,16 +142,15 @@ function RentEditComp({ editData }) {
     );
   };
 
-
   useEffect(() => {
-    setBedroom(editData.bedroom)
-    setbalcony(editData.balcony)
-    setGuest(editData.guest)
-    setBathroom(editData?.bathroom || 0)
+    setBedroom(editData.bedroom);
+    setbalcony(editData.balcony);
+    setGuest(editData.guest);
+    setBathroom(editData?.bathroom || 0);
     setAvailablePropertyData(editData.propertyAvailableFor);
     setSelectedTenants(editData.preferedTenats);
-    setSelectedAmenities(editData.availableAmenities)
-  }, [editData]);
+    setSelectedAmenities(editData.availableAmenities);
+  }, []);
 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentCity(currentCity) {
@@ -153,13 +178,11 @@ function RentEditComp({ editData }) {
   const [additionalDetails, setAdditionalDetails] = useState({
     availableAmenities: [],
   });
-  
-
 
   return (
     <div className=" rent_container lg:px-28  border-none">
       {editData && (
-        <form ref={formRef}  className=" w-full">
+        <form ref={formRef} className=" w-full">
           <section className="rent_section_1">
             <div className="mb-5">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
@@ -364,7 +387,7 @@ function RentEditComp({ editData }) {
           </section>
           <section className="rent_section_3 my-5">
             <div className="mb-5">
-              <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+              <h2 className="text-xl md:text-2xl font-roboto xl:text-3xl font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
                 locality Details
               </h2>
             </div>
@@ -403,7 +426,7 @@ function RentEditComp({ editData }) {
           </section>
           <section className="rent_section_4">
             <div className="mb-5">
-              <h2 className="text-xl  md:text-2xl  font-roboto font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+              <h2 className="text-xl  md:text-2xl xl:text-3xl  font-roboto font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
                 provide additional details about your property to get maximum
                 visibility
               </h2>
@@ -586,50 +609,52 @@ function RentEditComp({ editData }) {
           </section>
           <section className=" rent_section_5 mt-4 md:mt-8 lg:mt-14">
             <div className="mb-5">
-              <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
-                upload new photos your property
+              <h2 className="text-xl md:text-2xl xl:text-3xl  font-roboto font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+                edit or upload new photos your property
               </h2>
             </div>
-            <div>
-              <UploadPhotos
-                photos={photos}
-                setPhotos={setPhotos}
-                propertyCreated={isPropertyCreated}
-              />
+            <div className=" bg-white py-7 rounded-md">
+              {photos.length > 0 && (
+                <div className="existing-photos-wrapper mt-4 md:mt-8 lg:mt-14">
+                  {photos.map((url, index) => (
+                    <div
+                      className="w-full sm:w-1/3 min-h-64 rounded-sm relative"
+                      key={index}
+                    >
+                      <img
+                        src={url}
+                        alt={`photo-${index}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <MdDelete
+                        className="cursor-pointer p-1 w-12 h-12 top-2 right-3 text-red-500 text-xl sm:text-2xl font-bold border-2 absolute bg-white shadow-2xl rounded-full flex justify-center items-center"
+                        onClick={() => handleDeletePhoto(index)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="  w-full mt-10 xl:mt-14 flex items-center justify-center">
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  hidden
+                  ref={inputRef}
+                  onChange={handleFileChange}
+                />
+                <button
+                type="button"
+                  className="px-6 py-3 text-xl lg:px-8 lg:py-5 lg:text-2xl  cursor-pointer hover:bg-teal-900 transition-all ease-in-out duration-100 bg-teal-800 capitalize font-raleway outline-none border-none text-white font-semibold"
+                  onClick={handleButtonClick}
+                >
+                  add new photos
+                </button>
+              </div>
             </div>
           </section>
-          <section className="rent_section_6 mt-4 md:mt-8 lg:mt-14">
-            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
-              edit: existing photos your property
-            </h2>
 
-            <div className="existing-photos-wrapper mt-4 md:mt-8 lg:mt-14">
-              <div className="w-full sm:w-1/3 min-h-64 rounded-sm relative">
-                <img
-                  src="https://images.pexels.com/photos/25184945/pexels-photo-25184945/free-photo-of-fashion-eastern-dresses.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                  alt=""
-                />
-
-                <MdDelete className=" cursor-pointer p-1 w-12 h-12 top-2 right-3 text-red-500 text-xl sm:text-2xl font-bold  border-2 absolute  bg-white  shadow-2xl rounded-full flex justify-center items-center " />
-              </div>
-
-              <div className=" w-full sm:w-1/3  min-h-64 rounded-sm">
-                <img
-                  src="https://images.pexels.com/photos/24778260/pexels-photo-24778260/free-photo-of-a-view-of-a-valley-with-mountains-in-the-background.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                  alt=""
-                />
-              </div>
-              <div className=" w-full sm:w-1/3  min-h-64 rounded-sm">
-                <img
-                  src="https://images.pexels.com/photos/18707791/pexels-photo-18707791/free-photo-of-a-road-in-a-village.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                  alt=""
-                />
-              </div>
-              <div className=" w-full sm:w-1/3  min-h-64 rounded-sm">
-                <img src="https://images.pexels.com/photos/24771857/pexels-photo-24771857.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" />
-              </div>
-            </div>
-          </section>
           {error && (
             <div className=" w-full flex justify-center items-center">
               <Alert
