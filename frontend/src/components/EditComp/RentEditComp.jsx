@@ -42,7 +42,11 @@ import EditUploadPhotos from "./EditUploadPhotos";
 
 
 function RentEditComp({ editData }) {
-  const [editFormData, setEditFormData] = useState({}); /// set edit data
+  const [editFormData, setEditFormData] = useState({
+    preferedTenats: [],
+    availableAmenities: [],
+  }); /// set edit data
+  console.log('edit form data',editFormData)
   // console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
@@ -100,14 +104,46 @@ function RentEditComp({ editData }) {
   // edited preferred tenets-----
   const [selectedTenants, setSelectedTenants] = useState([]);
   // console.log("edite prefred tenets", selectedTenants);
-  const handleTenetCHeckBox = (event) => {
-    const { name, checked } = event.target;
-    if (checked) {
-      setSelectedTenants([...selectedTenants, name]);
-    } else {
-      setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
-    }
-  };
+ // Handle change for preferred tenants checkboxes
+const handleTenetCHeckBox = (event) => {
+  const { name, checked } = event.target;
+  let updatedTenants;
+
+  if (checked) {
+    setSelectedTenants([...selectedTenants, name]);
+    updatedTenants = [...editFormData.preferedTenats, name];
+  } else {
+    setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
+    updatedTenants = editFormData.preferedTenats.filter((tenant) => tenant !== name);
+  }
+
+  // Update the edit form data state
+  setEditFormData((prevState) => ({
+    ...prevState,
+    preferedTenats: updatedTenants,
+  }));
+};
+ // Handle change for room amenities checkboxes
+ const handleAmenitiesCheckBox = (event) => {
+  // const { name, checked } = event.target;
+  const { id, checked,name } = event.target;
+  setSelectedAmenities((prev) =>
+    checked ? [...prev, id] : prev.filter((amenity) => amenity !== id)
+  );
+  let updatedAmenities;
+
+  if (checked) {
+    updatedAmenities = [...editFormData.availableAmenities, name];
+  } else {
+    updatedAmenities = editFormData.availableAmenities.filter((amenity) => amenity !== name);
+  }
+
+  setEditFormData((prevState) => ({
+    ...prevState,
+    availableAmenities: updatedAmenities,
+  }));
+};
+
 
   // edit available amenity code-----------------------------------------------------------------------------------
   const [selectedAmenities, setSelectedAmenities] = useState([]);
@@ -118,12 +154,6 @@ function RentEditComp({ editData }) {
   let [bathroom, setBathroom] = useState(editData?.bathroom || 0);
   // const[photos,setPhotos]=useState([])
 
-  const handleAmenitiesCheckBox = (e) => {
-    const { id, checked } = e.target;
-    setSelectedAmenities((prev) =>
-      checked ? [...prev, id] : prev.filter((amenity) => amenity !== id)
-    );
-  };
 
   useEffect(() => {
     setBedroom(editData.bedroom);
@@ -182,8 +212,10 @@ function RentEditComp({ editData }) {
                     optionName={data.optionName}
                     optionValues={data.optionValues}
                     formData={propertyDetails}
-                    setFormData={setPropertyDetails}
+                    // setFormData={setPropertyDetails}
                     defaultValue={data.defaultValue}
+                    editFormData={editFormData}
+                    setEditFormData={setEditFormData}
                   ></EditSelectComp>
                 ))}
               </div>
@@ -197,6 +229,9 @@ function RentEditComp({ editData }) {
                 formData={propertyDetails}
                 setFormData={setPropertyDetails}
                 defaultValue={editData?.builtUpArea}
+                editFormData={editFormData}
+                setEditFormData={setEditFormData}
+
               />
               <EditInputComp
                 label={"apartment name"}
@@ -204,6 +239,8 @@ function RentEditComp({ editData }) {
                 placeholder={"ex- royal apartment.."}
                 id={"apartment_name"}
                 formData={propertyDetails}
+                editFormData={editFormData}
+                setEditFormData={setEditFormData}
                 setFormData={setPropertyDetails}
               />
               {editData.apartment_type === "apartment" && (

@@ -7,7 +7,9 @@ function EditInputComp({
     id = '',
     formData,
     setFormData,
-    defaultValue 
+    defaultValue ,
+    editFormData,
+    setEditFormData,
   }) {
 
     // console.log('defaul value',defaultValue)
@@ -20,9 +22,9 @@ function EditInputComp({
     const handleChange = (e) => {
       const { value, id } = e.target;
       setDefaultSelected(value);
-      setFormData({
-        ...formData,
-        [id]: value
+      setEditFormData({
+        ...editFormData,
+        [id]: id==='built_up_area'?parseInt(value) : value
       });
     };
   
