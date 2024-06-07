@@ -1,6 +1,7 @@
 // import React from 'react'
 // alll import copy from rent page----
 import React, { useState, useRef, useEffect } from "react";
+
 // import "../styles/Rent.css";
 import "../../styles/Rent.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
@@ -16,6 +17,9 @@ import {
   waterSupply,
   electricity,
   roomDetailsOptionsEdit,
+  addDefaultValues,
+  extractDefaults,
+  toCamelCase
 } from "../../rentUtils";
 import { getTokenFromLocalStorage } from "../../token";
 import { API_URL } from "../../configue";
@@ -35,42 +39,21 @@ import EditRadioInput from "./EditRadioInput";
 import EditUploadPhotos from "./EditUploadPhotos";
 
 // edit code utilyty function---
-const toCamelCase = (str) => {
-  return str.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
-};
 
-const extractDefaults = (editData) => {
-  const defaults = {};
-  for (let key in editData) {
-    const camelCaseKey = toCamelCase(key);
-    defaults[camelCaseKey] = editData[key];
-  }
-  return defaults;
-};
-
-const addDefaultValues = (options, defaults) => {
-  return options.map((option) => {
-    const camelCaseId = toCamelCase(option.id);
-    const defaultValue = defaults[camelCaseId] || "";
-    return {
-      ...option,
-      defaultValue,
-    };
-  });
-};
 
 function RentEditComp({ editData }) {
-  const [formData, setFormData] = useState(editData); /// set edit data
-  // console.log("form or edit data", editData);
+  const [editFormData, setEditFormData] = useState({}); /// set edit data
+  console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
+
   // console.log('default values',defaultValues)
   const updatedRoomDetailsOptions = addDefaultValues(
     roomDetailsOptionsEdit,
     defaultValues
   );
 
-  // console.log('update room options',updatedRoomDetailsOptions)
+  console.log('update room options',updatedRoomDetailsOptions)
 
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
@@ -109,7 +92,7 @@ function RentEditComp({ editData }) {
     setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-  // console.log('photos',photos)
+  
 
   // available property for set data----------
   const [available_property_data, setAvailablePropertyData] = useState("");

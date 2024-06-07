@@ -310,3 +310,29 @@ export const roomDetailsOptionsEdit = [
     ],
   },
 ];
+
+
+
+export const  toCamelCase = (str) => {
+  return str && str.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+};
+
+export const extractDefaults = (editData) => {
+  const defaults = {};
+  for (let key in editData) {
+    const camelCaseKey = toCamelCase(key);
+    defaults[camelCaseKey] = editData[key];
+  }
+  return defaults;
+};
+
+ export const addDefaultValues = (options, defaults) => {
+  return options.map((option) => {
+    const camelCaseId = toCamelCase(option.id);
+    const defaultValue = defaults[camelCaseId] || "";
+    return {
+      ...option,
+      defaultValue,
+    };
+  });
+};
