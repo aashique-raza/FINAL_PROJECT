@@ -46,7 +46,7 @@ function RentEditComp({ editData }) {
     availableAmenities: [],
   }); /// set edit data
   // console.log("edit form data", editFormData);
-  console.log("form or edit data", editData);
+  // console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
 
@@ -95,9 +95,6 @@ function RentEditComp({ editData }) {
     setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-  
-
- 
   // Handle change for room amenities checkboxes
   const handleAmenitiesCheckBox = (event) => {
     // const { name, checked } = event.target;
@@ -138,21 +135,8 @@ function RentEditComp({ editData }) {
     setAvailablePropertyData(editData.propertyAvailableFor);
     setSelectedTenants(editData.preferedTenats);
     setSelectedAmenities(editData.availableAmenities);
+    setState(editData?.location?.state);
   }, [editData]);
-
-  // Function to filter cities based on the current city
-  function filterCitiesByCurrentCity(currentCity) {
-    // Find the city object corresponding to the current city
-    const cityObject = cities.find(
-      (city) => Object.keys(city.cityName)[0] === currentCity?.toLowerCase()
-    );
-
-    // If city object is found, return its cities array, otherwise return an empty array
-    return cityObject ? Object.values(cityObject.cityName)[0] : [];
-  }
-  // console.log(formData.state)
-
-  const filteredCities = filterCitiesByCurrentCity(editData?.location?.state);
 
   // property details data  section 1   ----
   const [propertyDetails, setPropertyDetails] = useState({});
@@ -167,39 +151,70 @@ function RentEditComp({ editData }) {
   const [available_property_data, setAvailablePropertyData] = useState("");
   // console.log(available_property_data
 
-   // edited preferred tenets-----
-   const [selectedTenants, setSelectedTenants] = useState([]);
-   // console.log("edite prefred tenets", selectedTenants);
-   // Handle change for preferred tenants checkboxes
-   const handleTenetCHeckBox = (event) => {
-     const { name, checked } = event.target;
-     let updatedTenants;
- 
-     if (checked) {
-       setSelectedTenants([...selectedTenants, name]);
-       updatedTenants = [...editFormData.preferedTenats, name];
-     } else {
-       setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
-       updatedTenants = editFormData.preferedTenats.filter(
-         (tenant) => tenant !== name
-       );
-     }
- 
-     // Update the edit form data state
-     setEditFormData((prevState) => ({
-       ...prevState,
-       preferedTenats: updatedTenants,
-     }));
-   };
+  // edited preferred tenets-----
+  const [selectedTenants, setSelectedTenants] = useState([]);
+  // console.log("edite prefred tenets", selectedTenants);
+  // Handle change for preferred tenants checkboxes
+  const handleTenetCHeckBox = (event) => {
+    const { name, checked } = event.target;
+    let updatedTenants;
+
+    if (checked) {
+      setSelectedTenants([...selectedTenants, name]);
+      updatedTenants = [...editFormData.preferedTenats, name];
+    } else {
+      setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
+      updatedTenants = editFormData.preferedTenats.filter(
+        (tenant) => tenant !== name
+      );
+    }
+
+    // Update the edit form data state
+    setEditFormData((prevState) => ({
+      ...prevState,
+      preferedTenats: updatedTenants,
+    }));
+  };
 
   //  console.log(selectedTenants)
 
-  const [rentalDetails,setRentalDetails]=useState({})
+  const [rentalDetails, setRentalDetails] = useState({});
   // console.log('rental details',rentalDetails)
 
-  // console.log(renatlDetails);
-  const [localDetails, setLocalDetails] = useState({});
-  // console.log(localDetails)
+
+  // section 3 data colecting here------
+  // console.log('state',state)
+  const [localDetails, setLocalDetails] = useState({
+    state: "",
+    city:  "",
+  });
+  const [filteredCities, setFilteredCities] = useState([]);
+  useEffect(() => {
+    if (editData) {
+      setLocalDetails({
+        state: editData?.location?.state || "",
+        city: editData?.location?.city || "",
+      });
+    }
+  }, [editData]);
+
+  useEffect(() => {
+    setFilteredCities(filterCitiesByCurrentState(localDetails.state));
+  }, [localDetails.state]);
+  // console.log("local details", localDetails);
+  // Function to filter cities based on the current city
+  function filterCitiesByCurrentState(currentState) {
+    // console.log('current state',currentState)
+    // Find the city object corresponding to the current city
+    const cityObject = cities.find(
+      (city) => Object.keys(city.cityName)[0] === currentState?.toLowerCase()
+    );
+
+    // If city object is found, return its cities array, otherwise return an empty array
+    // console.log('city object',cityObject)
+    return cityObject ? Object.values(cityObject.cityName)[0] : [];
+  }
+
   const [additionalDetails, setAdditionalDetails] = useState({
     availableAmenities: [],
   });
@@ -226,7 +241,6 @@ function RentEditComp({ editData }) {
                     formData={propertyDetails}
                     setFormData={setPropertyDetails}
                     defaultValue={data.defaultValue}
-                   
                   ></EditSelectComp>
                 ))}
               </div>
@@ -240,7 +254,6 @@ function RentEditComp({ editData }) {
                 formData={propertyDetails}
                 setFormData={setPropertyDetails}
                 defaultValue={editData?.builtUpArea}
-                
               />
               <EditInputComp
                 label={"apartment name"}
@@ -429,7 +442,7 @@ function RentEditComp({ editData }) {
                 optionValues={AllStates}
                 formData={localDetails}
                 setFormData={setLocalDetails}
-                defaultValue={editData?.location?.state}
+                defaultValue={localDetails.state}
               ></EditSelectComp>
 
               <EditSelectComp
