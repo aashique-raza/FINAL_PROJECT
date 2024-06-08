@@ -22,8 +22,8 @@ function EditInputComp({
     const handleChange = (e) => {
       const { value, id } = e.target;
       setDefaultSelected(value);
-      setEditFormData({
-        ...editFormData,
+      setFormData({
+        ...formData,
         [id]: id==='built_up_area'?parseInt(value) : value
       });
     };

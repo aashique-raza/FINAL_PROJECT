@@ -24,8 +24,8 @@ function EditSelectComp({
   const handleChange = (e) => {
     const { value, id } = e.target;
     setSelectedValue(value);
-    setEditFormData({
-      ...editFormData,
+    setFormData({
+      ...formData,
       [id]: id === "floor" || id === "totalFloor" ? parseInt(value) : value,
     });
     // console.log(value);

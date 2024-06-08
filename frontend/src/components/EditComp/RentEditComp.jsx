@@ -19,7 +19,7 @@ import {
   roomDetailsOptionsEdit,
   addDefaultValues,
   extractDefaults,
-  toCamelCase
+  toCamelCase,
 } from "../../rentUtils";
 import { getTokenFromLocalStorage } from "../../token";
 import { API_URL } from "../../configue";
@@ -40,14 +40,13 @@ import EditUploadPhotos from "./EditUploadPhotos";
 
 // edit code utilyty function---
 
-
 function RentEditComp({ editData }) {
   const [editFormData, setEditFormData] = useState({
     preferedTenats: [],
     availableAmenities: [],
   }); /// set edit data
-  console.log('edit form data',editFormData)
-  // console.log("form or edit data", editData);
+  // console.log("edit form data", editFormData);
+  console.log("form or edit data", editData);
 
   const defaultValues = extractDefaults(editData);
 
@@ -96,54 +95,55 @@ function RentEditComp({ editData }) {
     setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-  
-
   // available property for set data----------
   const [available_property_data, setAvailablePropertyData] = useState("");
 
   // edited preferred tenets-----
   const [selectedTenants, setSelectedTenants] = useState([]);
   // console.log("edite prefred tenets", selectedTenants);
- // Handle change for preferred tenants checkboxes
-const handleTenetCHeckBox = (event) => {
-  const { name, checked } = event.target;
-  let updatedTenants;
+  // Handle change for preferred tenants checkboxes
+  const handleTenetCHeckBox = (event) => {
+    const { name, checked } = event.target;
+    let updatedTenants;
 
-  if (checked) {
-    setSelectedTenants([...selectedTenants, name]);
-    updatedTenants = [...editFormData.preferedTenats, name];
-  } else {
-    setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
-    updatedTenants = editFormData.preferedTenats.filter((tenant) => tenant !== name);
-  }
+    if (checked) {
+      setSelectedTenants([...selectedTenants, name]);
+      updatedTenants = [...editFormData.preferedTenats, name];
+    } else {
+      setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
+      updatedTenants = editFormData.preferedTenats.filter(
+        (tenant) => tenant !== name
+      );
+    }
 
-  // Update the edit form data state
-  setEditFormData((prevState) => ({
-    ...prevState,
-    preferedTenats: updatedTenants,
-  }));
-};
- // Handle change for room amenities checkboxes
- const handleAmenitiesCheckBox = (event) => {
-  // const { name, checked } = event.target;
-  const { id, checked,name } = event.target;
-  setSelectedAmenities((prev) =>
-    checked ? [...prev, id] : prev.filter((amenity) => amenity !== id)
-  );
-  let updatedAmenities;
+    // Update the edit form data state
+    setEditFormData((prevState) => ({
+      ...prevState,
+      preferedTenats: updatedTenants,
+    }));
+  };
+  // Handle change for room amenities checkboxes
+  const handleAmenitiesCheckBox = (event) => {
+    // const { name, checked } = event.target;
+    const { id, checked, name } = event.target;
+    setSelectedAmenities((prev) =>
+      checked ? [...prev, id] : prev.filter((amenity) => amenity !== id)
+    );
+    let updatedAmenities;
 
-  if (checked) {
-    updatedAmenities = [...editFormData.availableAmenities, name];
-  } else {
-    updatedAmenities = editFormData.availableAmenities.filter((amenity) => amenity !== name);
-  }
+    if (checked) {
+      updatedAmenities = [...editFormData.availableAmenities, name];
+    } else {
+      updatedAmenities = editFormData.availableAmenities.filter(
+        (amenity) => amenity !== name
+      );
+    }
 
-  setEditFormData((prevState) => ({
-    ...prevState,
-    availableAmenities: updatedAmenities,
-  }));
-};
-
+    setEditFormData((prevState) => ({
+      ...prevState,
+      availableAmenities: updatedAmenities,
+    }));
+  };
 
   // edit available amenity code-----------------------------------------------------------------------------------
   const [selectedAmenities, setSelectedAmenities] = useState([]);
@@ -153,7 +153,6 @@ const handleTenetCHeckBox = (event) => {
   let [guest, setGuest] = useState(editData?.guest || 0);
   let [bathroom, setBathroom] = useState(editData?.bathroom || 0);
   // const[photos,setPhotos]=useState([])
-
 
   useEffect(() => {
     setBedroom(editData.bedroom);
@@ -179,9 +178,9 @@ const handleTenetCHeckBox = (event) => {
 
   const filteredCities = filterCitiesByCurrentCity(editData?.location?.state);
 
-  // property details data----
+  // property details data  section 1   ----
   const [propertyDetails, setPropertyDetails] = useState({});
-  // console.log('propertyDetails',propertyDetails);
+  console.log('propertyDetails',propertyDetails);
   const [renatlDetails, setRentalsDetails] = useState({
     tenats: [],
   });
@@ -212,10 +211,9 @@ const handleTenetCHeckBox = (event) => {
                     optionName={data.optionName}
                     optionValues={data.optionValues}
                     formData={propertyDetails}
-                    // setFormData={setPropertyDetails}
+                    setFormData={setPropertyDetails}
                     defaultValue={data.defaultValue}
-                    editFormData={editFormData}
-                    setEditFormData={setEditFormData}
+                   
                   ></EditSelectComp>
                 ))}
               </div>
@@ -229,9 +227,7 @@ const handleTenetCHeckBox = (event) => {
                 formData={propertyDetails}
                 setFormData={setPropertyDetails}
                 defaultValue={editData?.builtUpArea}
-                editFormData={editFormData}
-                setEditFormData={setEditFormData}
-
+                
               />
               <EditInputComp
                 label={"apartment name"}
@@ -665,7 +661,7 @@ const handleTenetCHeckBox = (event) => {
                   onChange={handleFileChange}
                 />
                 <button
-                type="button"
+                  type="button"
                   className="px-6 py-3 text-xl lg:px-8 lg:py-5 lg:text-2xl  cursor-pointer hover:bg-teal-900 transition-all ease-in-out duration-100 bg-teal-800 capitalize font-raleway outline-none border-none text-white font-semibold"
                   onClick={handleButtonClick}
                 >
