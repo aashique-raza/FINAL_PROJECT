@@ -95,33 +95,9 @@ function RentEditComp({ editData }) {
     setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
   };
 
-  // available property for set data----------
-  const [available_property_data, setAvailablePropertyData] = useState("");
+  
 
-  // edited preferred tenets-----
-  const [selectedTenants, setSelectedTenants] = useState([]);
-  // console.log("edite prefred tenets", selectedTenants);
-  // Handle change for preferred tenants checkboxes
-  const handleTenetCHeckBox = (event) => {
-    const { name, checked } = event.target;
-    let updatedTenants;
-
-    if (checked) {
-      setSelectedTenants([...selectedTenants, name]);
-      updatedTenants = [...editFormData.preferedTenats, name];
-    } else {
-      setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
-      updatedTenants = editFormData.preferedTenats.filter(
-        (tenant) => tenant !== name
-      );
-    }
-
-    // Update the edit form data state
-    setEditFormData((prevState) => ({
-      ...prevState,
-      preferedTenats: updatedTenants,
-    }));
-  };
+ 
   // Handle change for room amenities checkboxes
   const handleAmenitiesCheckBox = (event) => {
     // const { name, checked } = event.target;
@@ -180,10 +156,47 @@ function RentEditComp({ editData }) {
 
   // property details data  section 1   ----
   const [propertyDetails, setPropertyDetails] = useState({});
-  console.log('propertyDetails',propertyDetails);
+  // console.log('propertyDetails',propertyDetails);
   const [renatlDetails, setRentalsDetails] = useState({
     tenats: [],
   });
+
+  // collecting section 2 data -----------------------------------
+
+  // available property for set data----------
+  const [available_property_data, setAvailablePropertyData] = useState("");
+  // console.log(available_property_data
+
+   // edited preferred tenets-----
+   const [selectedTenants, setSelectedTenants] = useState([]);
+   // console.log("edite prefred tenets", selectedTenants);
+   // Handle change for preferred tenants checkboxes
+   const handleTenetCHeckBox = (event) => {
+     const { name, checked } = event.target;
+     let updatedTenants;
+ 
+     if (checked) {
+       setSelectedTenants([...selectedTenants, name]);
+       updatedTenants = [...editFormData.preferedTenats, name];
+     } else {
+       setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
+       updatedTenants = editFormData.preferedTenats.filter(
+         (tenant) => tenant !== name
+       );
+     }
+ 
+     // Update the edit form data state
+     setEditFormData((prevState) => ({
+       ...prevState,
+       preferedTenats: updatedTenants,
+     }));
+   };
+
+  //  console.log(selectedTenants)
+
+  const [rentalDetails,setRentalDetails]=useState({})
+  // console.log('rental details',rentalDetails)
+
   // console.log(renatlDetails);
   const [localDetails, setLocalDetails] = useState({});
   // console.log(localDetails)
@@ -318,8 +331,8 @@ function RentEditComp({ editData }) {
                 name={"furnished"}
                 optionName={"furnishing"}
                 optionValues={furnishing}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
+                formData={rentalDetails}
+                setFormData={setRentalDetails}
                 defaultValue={editData.furnishing}
               ></EditSelectComp>
               <EditSelectComp
@@ -327,8 +340,8 @@ function RentEditComp({ editData }) {
                 name={"parking"}
                 optionName={"prking"}
                 optionValues={parking}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
+                formData={rentalDetails}
+                setFormData={setRentalDetails}
                 defaultValue={editData.parking}
               ></EditSelectComp>
               <EditSelectComp
@@ -336,8 +349,8 @@ function RentEditComp({ editData }) {
                 name={"monthlyMaintenance"}
                 optionName={"monthly maintenance"}
                 optionValues={monthlyMaintenance}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
+                formData={rentalDetails}
+                setFormData={setRentalDetails}
                 defaultValue={editData.monthlyMaintenance}
               ></EditSelectComp>
             </div>
@@ -348,8 +361,8 @@ function RentEditComp({ editData }) {
                 type="number"
                 placeholder={" rent amount"}
                 id={"rentAmount"}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
+                formData={rentalDetails}
+                setFormData={setRentalDetails}
                 defaultValue={editData?.rentAmount}
               />{" "}
               <EditInputComp
@@ -357,8 +370,8 @@ function RentEditComp({ editData }) {
                 type="number"
                 placeholder={"deposit amount"}
                 id={"depositAmount"}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
+                formData={rentalDetails}
+                setFormData={setRentalDetails}
                 defaultValue={editData?.depositAmount}
               />
               {editData.monthlyMaintenance?.trim().toLocaleLowerCase() ===
@@ -368,8 +381,8 @@ function RentEditComp({ editData }) {
                   type="number"
                   placeholder={"maintenance amount"}
                   id={"maintenanceAmount"}
-                  formData={renatlDetails}
-                  setFormData={setRentalsDetails}
+                  formData={rentalDetails}
+                  setFormData={setRentalDetails}
                   defaultValue={editData?.maintenanceAmount}
                 />
               )}
@@ -385,8 +398,8 @@ function RentEditComp({ editData }) {
                   available from
                 </p>
                 <CalenderInput
-                  formData={renatlDetails}
-                  setFormData={setRentalsDetails}
+                  formData={rentalDetails}
+                  setFormData={setRentalDetails}
                   date="available_from"
                   defaultDate={editData?.availableFrom}
                 />
@@ -395,8 +408,8 @@ function RentEditComp({ editData }) {
                 label={"description"}
                 id="description"
                 placeholder={"write few lines about your property"}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
+                formData={rentalDetails}
+                setFormData={setRentalDetails}
                 defaultValue={editData?.description}
               />
             </div>
