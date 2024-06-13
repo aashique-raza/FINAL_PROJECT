@@ -180,25 +180,7 @@ function RentEditComp({ editData }) {
 
 
   // section 3 data colecting here------
-  // console.log('state',state)
-  const [localDetails, setLocalDetails] = useState({
-    state: "",
-    city:  "",
-  });
-  const [filteredCities, setFilteredCities] = useState([]);
-  useEffect(() => {
-    if (editData) {
-      setLocalDetails({
-        state: editData?.location?.state || "",
-        city: editData?.location?.city || "",
-      });
-    }
-  }, [editData]);
-
-  useEffect(() => {
-    setFilteredCities(filterCitiesByCurrentState(localDetails.state));
-  }, [localDetails.state]);
-  // console.log("local details", localDetails);
+ 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentState(currentState) {
     // console.log('current state',currentState)
@@ -211,7 +193,7 @@ function RentEditComp({ editData }) {
     // console.log('city object',cityObject)
     return cityObject ? Object.values(cityObject.cityName)[0] : [];
   }
-
+  const filteredCities= filterCitiesByCurrentState(editFormData?.location?.state);
 
   // section 4 data collectiing--------------------------------------------------------------------------------
   let [bedroom, setBedroom] = useState(  0);
@@ -448,9 +430,11 @@ function RentEditComp({ editData }) {
                 name={"state"}
                 optionName={"state"}
                 optionValues={AllStates}
-                formData={localDetails}
-                setFormData={setLocalDetails}
-                defaultValue={localDetails.state}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.location?.state}
+                locationField={true}
+               
               ></EditSelectComp>
 
               <EditSelectComp
@@ -458,9 +442,11 @@ function RentEditComp({ editData }) {
                 name={"city"}
                 optionName={"city"}
                 optionValues={filteredCities}
-                formData={localDetails}
-                setFormData={setLocalDetails}
-                defaultValue={editData?.location?.city}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.location?.city}
+                locationField={true}
+                
               ></EditSelectComp>
 
               <EditInputComp
@@ -468,9 +454,11 @@ function RentEditComp({ editData }) {
                 type="text"
                 placeholder={"ex- hauz rani gao..."}
                 id={"localAddress"}
-                formData={localDetails}
-                setFormData={setLocalDetails}
-                defaultValue={editData?.location?.localAddress}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.location?.localAddress}
+                locationField={true}
+                
               />
             </div>
           </section>

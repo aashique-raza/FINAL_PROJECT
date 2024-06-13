@@ -12,11 +12,14 @@ function EditSelectComp({
   defaultValue,
   editFormData,
   setEditFormData,
+  locationField=false
 }) {
   const [selectedValue, setSelectedValue] = useState(
     defaultValue || formData[id] || ""
   );
   // console.log('selected value',selectedValue)
+
+  console.log('location field',locationField)
 
   useEffect(() => {
     setSelectedValue(defaultValue || formData[id] || "");
@@ -24,13 +27,22 @@ function EditSelectComp({
 
   const handleChange = (e) => {
     const { value, id } = e.target;
-    
-  
     setSelectedValue(value);
+    
+
+    locationField ? setFormData({
+      ...formData,
+      location:{
+        ...formData.location,
+        [id]:value
+      }
+    })  :
     setFormData({
       ...formData,
-      [id==='bhkType'?'BHKType':id]: id === "floor" || id === "totalFloor" ? parseInt(value) : value,
+      [id==='bhkType'?'BHKType':id ] : id === "floor" || id === "totalFloor" ? parseInt(value) : value,
     });
+
+    
     // console.log(value);
   };
 

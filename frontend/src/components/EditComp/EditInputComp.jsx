@@ -10,6 +10,7 @@ function EditInputComp({
     defaultValue ,
     editFormData,
     setEditFormData,
+    locationField=false
   }) {
 
     // console.log('defaul value',defaultValue)
@@ -22,6 +23,13 @@ function EditInputComp({
     const handleChange = (e) => {
       const { value, id } = e.target;
       setDefaultSelected(value);
+      locationField ? setFormData({
+        ...formData,
+        location:{
+          ...formData.location,
+          [id]:value
+        }
+      }):
       setFormData({
         ...formData,
         [id]: id==='builtUpArea' || id==='depositAmount' || id==='maintenanceAmount' || id==='rentAmount' ?parseInt(value) : value
