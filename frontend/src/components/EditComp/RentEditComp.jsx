@@ -41,6 +41,20 @@ import EditUploadPhotos from "./EditUploadPhotos";
 // edit code utilyty function---
 
 function RentEditComp({ editData }) {
+  
+  const token = getTokenFromLocalStorage();
+  const [state, setState] = useState("");
+
+
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const formRef = useRef(null);
+  const [newPhotos,setNewPhotos]=useState([])
+
+
+  const inputRef = useRef(null);
 
   // set initial state for edit form data-------------------------
   const [editFormData, setEditFormData] = useState({}); 
@@ -48,7 +62,7 @@ function RentEditComp({ editData }) {
     setEditFormData(editData)
   },[editData])
 
-  console.log("edit form data", editFormData);
+  // console.log("edit form data", editFormData);
   
 
   // set initial default value of section 1 ----------------------------------------------------------
@@ -62,28 +76,8 @@ function RentEditComp({ editData }) {
 
   // console.log('update room options',updatedRoomDetailsOptions)
 
-  const token = getTokenFromLocalStorage();
-  const [state, setState] = useState("");
 
-
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const formRef = useRef(null);
-
-  // all edited data collection here ------
-
-  // add new photos and edit existing photos---
-  const [photos, setPhotos] = useState([]);
-  const inputRef = useRef(null);
-
-  // Set initial photos from editData only once
-  useEffect(() => {
-    if (editData && editData.images) {
-      setPhotos(editData.images);
-    }
-  }, [editData]);
+  
 
   const handleButtonClick = () => {
     inputRef.current.click();
@@ -92,13 +86,22 @@ function RentEditComp({ editData }) {
   const handleFileChange = (event) => {
     const filesArray = Array.from(event.target.files);
     const newPhotos = filesArray.map((file) => URL.createObjectURL(file));
-    setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]);
+    setNewPhotos(newPhotos);
   };
 
   const handleDeletePhoto = (index) => {
-    setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    setEditFormData(
+      {
+        ...editFormData,
+        images : editFormData.images?.filter((_, i) => i !== index)
+      }
+      );
   };
+  const handleDeleteNewPhotos=(index)=>{
+    setNewPhotos((prevPhotos)=>prevPhotos.filter((_,i)=>index!==i))
+  }
 
+  // console.log('new photos',newPhotos)
   // Handle change for room amenities checkboxes
   const handleAmenitiesCheckBox = (event) => {
     // const { name, checked } = event.target;
@@ -126,41 +129,22 @@ function RentEditComp({ editData }) {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
   
-  useEffect(() => {
-    
-    setAvailablePropertyData(editData.propertyAvailableFor);
-    setSelectedTenants(editData.preferedTenats);
-    setSelectedAmenities(editData.availableAmenities);
-    setState(editData?.location?.state);
-  }, [editData]);
+ 
 
-  // property details data  section 1   ----
-  const [propertyDetails, setPropertyDetails] = useState({});
-  // console.log('property details',propertyDetails)
-  
-  const [renatlDetails, setRentalsDetails] = useState({
-    tenats: [],
-  });
+ 
 
-  // collecting section 2 data -----------------------------------
 
-  // available property for set data----------
-  const [available_property_data, setAvailablePropertyData] = useState("");
-  // console.log(available_property_data
 
-  // edited preferred tenets-----
-  const [selectedTenants, setSelectedTenants] = useState([]);
-  // console.log("edite prefred tenets", selectedTenants);
-  // Handle change for preferred tenants checkboxes
+
   const handleTenetCHeckBox = (event) => {
     const { name, checked } = event.target;
     let updatedTenants;
 
     if (checked) {
-      setSelectedTenants([...selectedTenants, name]);
+     
       updatedTenants = [...editFormData.preferedTenats, name];
     } else {
-      setSelectedTenants(selectedTenants.filter((tenant) => tenant !== name));
+      
       updatedTenants = editFormData.preferedTenats.filter(
         (tenant) => tenant !== name
       );
@@ -173,15 +157,8 @@ function RentEditComp({ editData }) {
     }));
   };
 
-  //  console.log(selectedTenants)
-
-  const [rentalDetails, setRentalDetails] = useState({});
-  // console.log('rental details',rentalDetails)
 
 
-  // section 3 data colecting here------
- 
-  // Function to filter cities based on the current city
   function filterCitiesByCurrentState(currentState) {
     // console.log('current state',currentState)
     // Find the city object corresponding to the current city
@@ -195,26 +172,12 @@ function RentEditComp({ editData }) {
   }
   const filteredCities= filterCitiesByCurrentState(editFormData?.location?.state);
 
-  // section 4 data collectiing--------------------------------------------------------------------------------
-  let [bedroom, setBedroom] = useState(  0);
-  let [balcony, setbalcony] = useState( 0);
-  let [guest, setGuest] = useState( 0);
-  let [bathroom, setBathroom] = useState( 0);
-  // const[electricity,setElectricity]=useState('')
-  // const[waterSupply,setWaterSupply]=useState('')
-  useEffect(()=>{
-    setBedroom(editData.bedroom);
-    setbalcony(editData.balcony);
-    setGuest(editData.guest);
-    setBathroom(editData?.bathroom || 0);
-    // setWaterSupply(editData)
-  },[editData])
 
 
-  const [additionalDetails, setAdditionalDetails] = useState({
-    availableAmenities: [],
-  });
 
+
+
+ 
   return (
     <div className=" rent_container lg:px-28  border-none">
       {editData && (
@@ -390,7 +353,7 @@ function RentEditComp({ editData }) {
                 />
               )}
               <p className=" font-raleway text-xl text-red-500   capitalize font-bold">
-                {renatlDetails.depositAmount < renatlDetails.rentAmount &&
+                {editFormData.depositAmount < editFormData.rentAmount &&
                   "deosit amount can not be less than rent amount"}
               </p>
             </div>
@@ -535,7 +498,7 @@ function RentEditComp({ editData }) {
                     className=" p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800 transition-all ease-out duration-75 hover:text-white"
                   />
                   <p className=" font-raleway capitalize font-semibold text-xl">
-                    {bathroom}
+                    {editFormData.bathroom}
                   </p>
                   <AiOutlineMinus
                     onClick={() => {
@@ -700,9 +663,9 @@ function RentEditComp({ editData }) {
               </h2>
             </div>
             <div className=" bg-white py-7 rounded-md">
-              {photos.length > 0 && (
+              {editFormData.images?.length > 0 && (
                 <div className="existing-photos-wrapper mt-4 md:mt-8 lg:mt-14">
-                  {photos.map((url, index) => (
+                  {editFormData.images.map((url, index) => (
                     <div
                       className="w-full sm:w-1/3 min-h-64 rounded-sm relative"
                       key={index}
@@ -715,6 +678,26 @@ function RentEditComp({ editData }) {
                       <MdDelete
                         className="cursor-pointer p-1 w-12 h-12 top-2 right-3 text-red-500 text-xl sm:text-2xl font-bold border-2 absolute bg-white shadow-2xl rounded-full flex justify-center items-center"
                         onClick={() => handleDeletePhoto(index)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {newPhotos?.length > 0 && (
+                <div className="existing-photos-wrapper mt-4 md:mt-8 lg:mt-14">
+                  {newPhotos.map((url, index) => (
+                    <div
+                      className="w-full sm:w-1/3 min-h-64 rounded-sm relative"
+                      key={index}
+                    >
+                      <img
+                        src={url}
+                        alt={`photo-${index}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <MdDelete
+                        className="cursor-pointer p-1 w-12 h-12 top-2 right-3 text-red-500 text-xl sm:text-2xl font-bold border-2 absolute bg-white shadow-2xl rounded-full flex justify-center items-center"
+                        onClick={() => handleDeleteNewPhotos(index)}
                       />
                     </div>
                   ))}
