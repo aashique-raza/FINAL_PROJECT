@@ -332,7 +332,7 @@ function RentEditComp({ editData }) {
                         name={tenetOption.value}
                         id={tenetOption.value}
                         onChange={handleTenetCHeckBox}
-                        checked={selectedTenants?.includes(tenetOption.value)}
+                        checked={editFormData.preferedTenats?.includes(tenetOption.value)}
                       />
                       <label
                         htmlFor={tenetOption.value}
@@ -352,27 +352,27 @@ function RentEditComp({ editData }) {
                 name={"furnished"}
                 optionName={"furnishing"}
                 optionValues={furnishing}
-                formData={rentalDetails}
-                setFormData={setRentalDetails}
-                defaultValue={rentalDetails.furnishing || editData.furnishing}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData.furnishing || editData.furnishing}
               ></EditSelectComp>
               <EditSelectComp
                 id={"parking"}
                 name={"parking"}
                 optionName={"prking"}
                 optionValues={parking}
-                formData={rentalDetails}
-                setFormData={setRentalDetails}
-                defaultValue={ rentalDetails.parking || editData.parking}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={ editFormData.parking || editData.parking}
               ></EditSelectComp>
               <EditSelectComp
                 id={"monthlyMaintenance"}
                 name={"monthlyMaintenance"}
                 optionName={"monthly maintenance"}
                 optionValues={monthlyMaintenance}
-                formData={rentalDetails}
-                setFormData={setRentalDetails}
-                defaultValue={rentalDetails.monthlyMaintenance || editData.monthlyMaintenance}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData.monthlyMaintenance || editData.monthlyMaintenance}
               ></EditSelectComp>
             </div>
 
@@ -382,29 +382,29 @@ function RentEditComp({ editData }) {
                 type="number"
                 placeholder={" rent amount"}
                 id={"rentAmount"}
-                formData={rentalDetails}
-                setFormData={setRentalDetails}
-                defaultValue={editData?.rentAmount}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.rentAmount}
               />{" "}
               <EditInputComp
                 label={"expected deposit"}
                 type="number"
                 placeholder={"deposit amount"}
                 id={"depositAmount"}
-                formData={rentalDetails}
-                setFormData={setRentalDetails}
-                defaultValue={editData?.depositAmount}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.depositAmount}
               />
-              {editData.monthlyMaintenance?.trim().toLocaleLowerCase() ===
-                "extraMaintenance".trim().toLocaleLowerCase() && (
+              {editFormData.monthlyMaintenance ===
+                "extraMaintenance" && (
                 <EditInputComp
                   label={"maintenance amount"}
                   type="number"
                   placeholder={"maintenance amount"}
                   id={"maintenanceAmount"}
-                  formData={rentalDetails}
-                  setFormData={setRentalDetails}
-                  defaultValue={editData?.maintenanceAmount}
+                  formData={editFormData}
+                  setFormData={setEditFormData}
+                  defaultValue={editFormData?.maintenanceAmount}
                 />
               )}
               <p className=" font-raleway text-xl text-red-500   capitalize font-bold">
@@ -419,19 +419,19 @@ function RentEditComp({ editData }) {
                   available from
                 </p>
                 <CalenderInput
-                  formData={rentalDetails}
-                  setFormData={setRentalDetails}
+                  formData={editFormData}
+                  setFormData={setEditFormData}
                   date="available_from"
-                  defaultDate={editData?.availableFrom}
+                  defaultDate={editFormData?.availableFrom}
                 />
               </div>
               <DescriptionInput
                 label={"description"}
                 id="description"
                 placeholder={"write few lines about your property"}
-                formData={rentalDetails}
-                setFormData={setRentalDetails}
-                defaultValue={editData?.description}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.description}
               />
             </div>
           </section>
