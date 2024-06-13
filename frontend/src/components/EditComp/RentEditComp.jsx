@@ -264,20 +264,20 @@ function RentEditComp({ editData }) {
                 label={"built_up_area"}
                 type="number"
                 placeholder={" In sqr feet."}
-                id={"built_up_area"}
-                formData={propertyDetails}
-                setFormData={setPropertyDetails}
+                id={"builtUpArea"}
+                formData={editFormData}
+                setFormData={setEditFormData}
                 defaultValue={propertyDetails.built_up_area ||editData?.builtUpArea}
               />
               <EditInputComp
                 label={"apartment name"}
                 type="text"
                 placeholder={"ex- royal apartment.."}
-                id={"apartment_name"}
-                formData={propertyDetails}
-                editFormData={editFormData}
-                setEditFormData={setEditFormData}
-                setFormData={setPropertyDetails}
+                id={"apartmentName"}
+                formData={editFormData}
+                
+                
+                setFormData={setEditFormData}
               />
               {editData.apartment_type === "apartment" && (
                 <EditInputComp

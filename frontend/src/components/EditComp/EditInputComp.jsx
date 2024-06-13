@@ -24,7 +24,7 @@ function EditInputComp({
       setDefaultSelected(value);
       setFormData({
         ...formData,
-        [id]: id==='built_up_area' || id==='depositAmount' || id==='maintenanceAmount' || id==='rentAmount' ?parseInt(value) : value
+        [id]: id==='builtUpArea' || id==='depositAmount' || id==='maintenanceAmount' || id==='rentAmount' ?parseInt(value) : value
       });
     };
   
