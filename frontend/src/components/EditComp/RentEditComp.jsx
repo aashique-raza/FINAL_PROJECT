@@ -267,26 +267,18 @@ function RentEditComp({ editData }) {
                 id={"builtUpArea"}
                 formData={editFormData}
                 setFormData={setEditFormData}
-                defaultValue={propertyDetails.built_up_area ||editData?.builtUpArea}
+                defaultValue={editData?.builtUpArea}
               />
-              <EditInputComp
-                label={"apartment name"}
-                type="text"
-                placeholder={"ex- royal apartment.."}
-                id={"apartmentName"}
-                formData={editFormData}
-                
-                
-                setFormData={setEditFormData}
-              />
-              {editData.apartment_type === "apartment" && (
+              
+              {editFormData.apartmentType === "apartment" && (
                 <EditInputComp
                   label={"apartment name"}
                   type="text"
                   placeholder={"ex- royal apartment.."}
-                  id={"apartment_name"}
-                  formData={propertyDetails}
-                  setFormData={setPropertyDetails}
+                  id={"apartmentName"}
+                  formData={editFormData}
+                  setFormData={setEditFormData}
+                  defaultValue={editData?.apartmentName}
                 />
               )}
             </div>
@@ -306,19 +298,21 @@ function RentEditComp({ editData }) {
                 <div className=" flex gap-4 items-center mt-3 ">
                   <EditRadioInput
                     name="propertyAvailableFor"
-                    id="availableForRent"
+                    id="propertyAvailableForRent"
                     label="Rent"
                     value="rent"
-                    isChecked={available_property_data === "rent"}
-                    setAvailablePropertyData={setAvailablePropertyData}
+                    isChecked={editFormData.propertyAvailableFor === "rent"}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
                   />
                   <EditRadioInput
-                    name="propertyAvailableFor"
-                    id="availableForLease"
+                    name="propertyAvailableForrr"
+                    id="propertyAvailableForLease"
                     label="Lease"
                     value="lease"
-                    isChecked={available_property_data === "lease"}
-                    setAvailablePropertyData={setAvailablePropertyData}
+                    isChecked={editFormData.propertyAvailableFor === "lease"}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
                   />
                 </div>
               </div>

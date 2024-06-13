@@ -8,18 +8,21 @@ function EditRadioInput({
   id,
   label,
   value,
-  // setEditedFormData,
-  // editFormData,
+  setFormData,
+  formData,
   isChecked,
   setAvailablePropertyData
 }) {
 
 
   const handleChange = (e) => {
-    const { value } = e.target;
-    // console.log(value)
-    setAvailablePropertyData(value)
-    // setEditedFormData({ ...editFormData, [name]: value });
+    // alert('hii')
+    const { value,id } = e.target;
+    console.log(value)
+    setFormData({
+      ...formData,
+      [id==='propertyAvailableForRent' || id==='propertyAvailableForLease'?'propertyAvailableFor':id]:value
+    })
   };
 
   return (
