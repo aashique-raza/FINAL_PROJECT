@@ -84,7 +84,7 @@ function App() {
           <Route path="/create-listing" element={<CreateListingPage />}></Route>
           <Route path="/create-listing/pg" element={<PgPage showSuccessMessage={showSuccessMessage} />}></Route>
           <Route path="/create-listing/rent" element={<RentPage showSuccessMessage={showSuccessMessage} />}></Route>
-          <Route path="/edit-property/:category/:id?" element={<EditPage />} />
+          <Route path="/edit-property/:category/:id?" element={<EditPage showSuccessMessage={showSuccessMessage} />} />
           {/* Nested routes for profile */}
           <Route path="/profile" element={<ProfilePage showSuccessMessage={showSuccessMessage} />}>
             <Route path="myProfile" element={<BasicProfilePage showSuccessMessage={showSuccessMessage} />} />

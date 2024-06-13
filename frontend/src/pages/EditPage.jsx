@@ -5,7 +5,7 @@ import PgEditComp from "../components/EditComp/PgEditComp";
 import { API_URL } from "../configue";
 import { ThreeDots } from "react-loader-spinner";
 
-function EditPage() {
+function EditPage({showSuccessMessage}) {
   const { category, id } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -82,7 +82,7 @@ function EditPage() {
       )}
       {category === "pg"
         ? editProperty && <PgEditComp editData={editProperty} />
-        : editProperty && <RentEditComp editData={editProperty} />}
+        : editProperty && <RentEditComp editData={editProperty} showSuccessMessage={showSuccessMessage} />}
     </div>
   );
 }

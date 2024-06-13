@@ -5,9 +5,7 @@ import React, { useState, useRef, useEffect } from "react";
 // import "../styles/Rent.css";
 import "../../styles/Rent.css";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import UploadPhotos from "../UploadPhotos";
-import SelectTag from "../SelectTag";
-import Input from "../Input";
+
 import {
   roomAmenitiesList,
   preferedTenats,
@@ -23,7 +21,7 @@ import {
 } from "../../rentUtils";
 import { getTokenFromLocalStorage } from "../../token";
 import { API_URL } from "../../configue";
-import RadioInput from "../RadioInput";
+
 import CalenderInput from "../CalenderInput";
 import { Alert, Spinner } from "flowbite-react";
 // import { IndianRupeeIcon } from "@mui/icons-material";
@@ -36,15 +34,15 @@ import { MdDelete } from "react-icons/md";
 import EditSelectComp from "./EditSelectComp/EditSelectComp";
 import EditInputComp from "./EditInputComp";
 import EditRadioInput from "./EditRadioInput";
-import EditUploadPhotos from "./EditUploadPhotos";
 
-// edit code utilyty function---
+import {useSelector,} from'react-redux'
+import { useParams } from "react-router-dom";
 
-function RentEditComp({ editData }) {
-  
+function RentEditComp({ editData,showSuccessMessage }) {
+  const { category, id } = useParams();
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
-
+  const { user } = useSelector((state) => state.user);
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -52,6 +50,7 @@ function RentEditComp({ editData }) {
 
   const formRef = useRef(null);
   const [newPhotos,setNewPhotos]=useState([])
+  const[newImages,setNewImages]=useState([])
 
 
   const inputRef = useRef(null);
@@ -62,7 +61,7 @@ function RentEditComp({ editData }) {
     setEditFormData(editData)
   },[editData])
 
-  // console.log("edit form data", editFormData);
+  console.log("edit form data", editFormData);
   
 
   // set initial default value of section 1 ----------------------------------------------------------
@@ -85,6 +84,7 @@ function RentEditComp({ editData }) {
 
   const handleFileChange = (event) => {
     const filesArray = Array.from(event.target.files);
+    setNewImages(filesArray)
     const newPhotos = filesArray.map((file) => URL.createObjectURL(file));
     setNewPhotos(newPhotos);
   };
@@ -128,13 +128,6 @@ function RentEditComp({ editData }) {
   // edit available amenity code-----------------------------------------------------------------------------------
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
-  
- 
-
- 
-
-
-
 
   const handleTenetCHeckBox = (event) => {
     const { name, checked } = event.target;
@@ -175,13 +168,113 @@ function RentEditComp({ editData }) {
 
 
 
+  const handleSubmit=async(e)=>{
+    e.preventDefault()
+
+    const formData = new FormData();
+
+    if(editFormData.rentAmount>editFormData.depositAmount){
+      return setError('deposit amount can not be less than rent amount')
+    }
+    if(editFormData.floor>editFormData.totalFloor){
+      return setError('floor can no be more than total floor')
+    }
+
+const formDataEntries = {
+  apartmentName: editFormData.apartmentName,
+  apartmentType: editFormData.apartmentType,
+  BHKType: editFormData.BHKType,
+  propertyArea: editFormData.builtUpArea,
+  propertyFacing: editFormData.facing,
+  propertyFloor: editFormData.floor,
+  propertyAge: editFormData.propertyAge,
+  totalFloor: editFormData.totalFloor,
+  availableFrom: editFormData.availableFrom,
+  depositAmount: editFormData.depositAmount,
+  description: editFormData.description,
+  furnishing: editFormData.furnishing,
+  maintenanceAmount: editFormData.maintenanceAmount,
+  monthlyMaintenance: editFormData.monthlyMaintenance,
+  parking: editFormData.parking,
+  propertyAvailableFor: editFormData.propertyAvailableFor,
+  rentAmount: editFormData.rentAmount,
+  city: editFormData.location.city,
+  localAddress: editFormData.location.localAddress,
+  state: editFormData.location.state,
+  bedroom: editFormData.bedroom,
+  balcony: editFormData.balcony,
+  guest: editFormData.guest,
+  bathroom: editFormData.bathroom,
+  electricity: editFormData.electricity,
+  waterSupply: editFormData.waterSupply,
+};
+
+// Append simple key-value pairs
+Object.entries(formDataEntries).forEach(([key, value]) => {
+  formData.append(key, value);
+});
+
+// Append arrays
+(editFormData.preferedTenats || []).forEach(tenant => {
+  formData.append("preferedTenats", tenant);
+});
+
+(editFormData.availableAmenities || []).forEach(amenity => {
+  formData.append("availableAmenities", amenity);
+});
+
+// Append photos
+newImages.forEach(photo => {
+  formData.append("editPhotos", photo);
+});
+
+
+    try {
+      setError(null)
+      setLoading(true)
+
+      const resp=await fetch(`${API_URL}/rent/propertyUpdate/${id}/${user._id}`,{
+        method:'PUT',
+        headers: {
+          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+          "Authorization": `Bearer ${token}`
+        },
+        credentials:'include',
+        body:formData
+      })
+
+      console.log(resp)
+
+      const data=await resp.json()
+      
+      console.log('data',data)
+
+      if(!resp.ok){
+        setError(data.message)
+        setLoading(false)
+        return
+      }
+      
+      setError(null)
+      setLoading(false)
+      showSuccessMessage('saved')
+      return
+      
+      
+    } catch (error) {
+      console.log('updating failed',error)
+      setError(error.message)
+      setLoading(false)
+    }
+  }
+
 
 
  
   return (
     <div className=" rent_container lg:px-28  border-none">
       {editData && (
-        <form ref={formRef} className=" w-full">
+        <form ref={formRef} onSubmit={handleSubmit} className=" w-full">
           <section className="rent_section_1">
             <div className="mb-5">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
