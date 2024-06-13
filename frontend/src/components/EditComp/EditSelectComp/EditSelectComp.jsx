@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/EditPage.css";
+import { toCamelCase,toPascalCase } from "../../../rentUtils";
 
 function EditSelectComp({
   id,
@@ -23,10 +24,12 @@ function EditSelectComp({
 
   const handleChange = (e) => {
     const { value, id } = e.target;
+    
+  
     setSelectedValue(value);
     setFormData({
       ...formData,
-      [id]: id === "floor" || id === "totalFloor" ? parseInt(value) : value,
+      [id==='bhkType'?'BHKType':id]: id === "floor" || id === "totalFloor" ? parseInt(value) : value,
     });
     // console.log(value);
   };

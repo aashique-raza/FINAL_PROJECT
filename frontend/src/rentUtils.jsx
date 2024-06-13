@@ -343,3 +343,8 @@ export const addDefaultValues = (options, defaults) => {
     };
   });
 };
+export const toPascalCase = (str) => {
+  return str.replace(/(\w)(\w*)/g, function(_, g1, g2) {
+    return g1.toUpperCase() + g2.toLowerCase();
+  });
+};

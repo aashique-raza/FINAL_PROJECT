@@ -41,13 +41,17 @@ import EditUploadPhotos from "./EditUploadPhotos";
 // edit code utilyty function---
 
 function RentEditComp({ editData }) {
-  const [editFormData, setEditFormData] = useState({
-    preferedTenats: [],
-    availableAmenities: [],
-  }); /// set edit data
-  // console.log("edit form data", editFormData);
-  // console.log("form or edit data", editData);
 
+  // set initial state for edit form data-------------------------
+  const [editFormData, setEditFormData] = useState({}); 
+  useEffect(()=>{
+    setEditFormData(editData)
+  },[editData])
+
+  console.log("edit form data", editFormData);
+  
+
+  // set initial default value of section 1 ----------------------------------------------------------
   const defaultValues = extractDefaults(editData);
 
   // console.log('default values',defaultValues)
@@ -61,7 +65,7 @@ function RentEditComp({ editData }) {
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
 
-  const [isPropertyCreated, setIspropertyCreated] = useState(false);
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -121,17 +125,9 @@ function RentEditComp({ editData }) {
   // edit available amenity code-----------------------------------------------------------------------------------
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
-  let [bedroom, setBedroom] = useState(editData?.bedroom || 0);
-  let [balcony, setbalcony] = useState(editData?.balcony || 0);
-  let [guest, setGuest] = useState(editData?.guest || 0);
-  let [bathroom, setBathroom] = useState(editData?.bathroom || 0);
-  // const[photos,setPhotos]=useState([])
-
+  
   useEffect(() => {
-    setBedroom(editData.bedroom);
-    setbalcony(editData.balcony);
-    setGuest(editData.guest);
-    setBathroom(editData?.bathroom || 0);
+    
     setAvailablePropertyData(editData.propertyAvailableFor);
     setSelectedTenants(editData.preferedTenats);
     setSelectedAmenities(editData.availableAmenities);
@@ -140,7 +136,8 @@ function RentEditComp({ editData }) {
 
   // property details data  section 1   ----
   const [propertyDetails, setPropertyDetails] = useState({});
-  // console.log('propertyDetails',propertyDetails);
+  // console.log('property details',propertyDetails)
+  
   const [renatlDetails, setRentalsDetails] = useState({
     tenats: [],
   });
@@ -215,6 +212,23 @@ function RentEditComp({ editData }) {
     return cityObject ? Object.values(cityObject.cityName)[0] : [];
   }
 
+
+  // section 4 data collectiing--------------------------------------------------------------------------------
+  let [bedroom, setBedroom] = useState(  0);
+  let [balcony, setbalcony] = useState( 0);
+  let [guest, setGuest] = useState( 0);
+  let [bathroom, setBathroom] = useState( 0);
+  // const[electricity,setElectricity]=useState('')
+  // const[waterSupply,setWaterSupply]=useState('')
+  useEffect(()=>{
+    setBedroom(editData.bedroom);
+    setbalcony(editData.balcony);
+    setGuest(editData.guest);
+    setBathroom(editData?.bathroom || 0);
+    // setWaterSupply(editData)
+  },[editData])
+
+
   const [additionalDetails, setAdditionalDetails] = useState({
     availableAmenities: [],
   });
@@ -238,9 +252,9 @@ function RentEditComp({ editData }) {
                     name={data.id}
                     optionName={data.optionName}
                     optionValues={data.optionValues}
-                    formData={propertyDetails}
-                    setFormData={setPropertyDetails}
-                    defaultValue={data.defaultValue}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                    defaultValue= {editFormData[data.id] || data.defaultValue }
                   ></EditSelectComp>
                 ))}
               </div>
@@ -253,7 +267,7 @@ function RentEditComp({ editData }) {
                 id={"built_up_area"}
                 formData={propertyDetails}
                 setFormData={setPropertyDetails}
-                defaultValue={editData?.builtUpArea}
+                defaultValue={propertyDetails.built_up_area ||editData?.builtUpArea}
               />
               <EditInputComp
                 label={"apartment name"}
@@ -346,7 +360,7 @@ function RentEditComp({ editData }) {
                 optionValues={furnishing}
                 formData={rentalDetails}
                 setFormData={setRentalDetails}
-                defaultValue={editData.furnishing}
+                defaultValue={rentalDetails.furnishing || editData.furnishing}
               ></EditSelectComp>
               <EditSelectComp
                 id={"parking"}
@@ -355,7 +369,7 @@ function RentEditComp({ editData }) {
                 optionValues={parking}
                 formData={rentalDetails}
                 setFormData={setRentalDetails}
-                defaultValue={editData.parking}
+                defaultValue={ rentalDetails.parking || editData.parking}
               ></EditSelectComp>
               <EditSelectComp
                 id={"monthlyMaintenance"}
@@ -364,7 +378,7 @@ function RentEditComp({ editData }) {
                 optionValues={monthlyMaintenance}
                 formData={rentalDetails}
                 setFormData={setRentalDetails}
-                defaultValue={editData.monthlyMaintenance}
+                defaultValue={rentalDetails.monthlyMaintenance || editData.monthlyMaintenance}
               ></EditSelectComp>
             </div>
 
