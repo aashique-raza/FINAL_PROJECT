@@ -40,6 +40,7 @@ import { useParams } from "react-router-dom";
 
 function RentEditComp({ editData,showSuccessMessage }) {
   const { category, id } = useParams();
+  // const navigate=useNavigate()
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
   const { user } = useSelector((state) => state.user);
@@ -61,7 +62,7 @@ function RentEditComp({ editData,showSuccessMessage }) {
     setEditFormData(editData)
   },[editData])
 
-  console.log("edit form data", editFormData);
+  // console.log("edit form data", editFormData);
   
 
   // set initial default value of section 1 ----------------------------------------------------------
@@ -228,6 +229,11 @@ newImages.forEach(photo => {
   formData.append("editPhotos", photo);
 });
 
+// apend images
+editFormData.images.forEach(img=>{
+  formData.append('images',img)
+})
+
 
     try {
       setError(null)
@@ -243,11 +249,11 @@ newImages.forEach(photo => {
         body:formData
       })
 
-      console.log(resp)
+      // console.log(resp)
 
       const data=await resp.json()
       
-      console.log('data',data)
+      // console.log('data',data)
 
       if(!resp.ok){
         setError(data.message)
@@ -257,8 +263,9 @@ newImages.forEach(photo => {
       
       setError(null)
       setLoading(false)
-      showSuccessMessage('saved')
-      return
+      showSuccessMessage('changes saved')
+      navigate(`/property/${category}/${data.property._id}`)
+      
       
       
     } catch (error) {

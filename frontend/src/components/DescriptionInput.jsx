@@ -1,6 +1,12 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 
-function DescriptionInput({ label, placeholder, id, formData, setFormData }) {
+function DescriptionInput({ label, placeholder, id, formData, setFormData,defaultValue }) {
+  const[selectedValue,setSelectedValue]=useState(defaultValue)
+
+  useEffect(()=>{
+setSelectedValue(defaultValue)
+  },[defaultValue])
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -12,6 +18,7 @@ function DescriptionInput({ label, placeholder, id, formData, setFormData }) {
     <div className="description-input">
       <label className="  font-roboto font-bold text-xl md:text-2xl   capitalize ">{label}</label>
       <textarea
+      defaultValue={selectedValue}
         placeholder={placeholder}
         onChange={handleChange}
         id={id}

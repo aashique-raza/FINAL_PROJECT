@@ -19,7 +19,7 @@ function EditSelectComp({
   );
   // console.log('selected value',selectedValue)
 
-  console.log('location field',locationField)
+  // console.log('location field',locationField)
 
   useEffect(() => {
     setSelectedValue(defaultValue || formData[id] || "");
