@@ -478,23 +478,35 @@ function RentEditComp({ editData }) {
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
                   <AiOutlinePlus
                     onClick={() => {
-                      if (bedroom < 10) {
-                        setBedroom(bedroom + 1);
+                      if (editFormData.bedroom < 10) {
+                        setEditFormData({
+                          ...editFormData,
+                          bedroom: editFormData.bedroom + 1
+                        });
                       } else {
-                        setBedroom(10);
+                        setEditFormData({
+                          ...editFormData,
+                          bedroom: 10
+                        });
                       }
                     }}
                     className=" p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800 transition-all ease-out duration-75 hover:text-white"
                   />
                   <p className=" font-raleway capitalize font-semibold text-xl">
-                    {bedroom}
+                    { editFormData.bedroom}
                   </p>
                   <AiOutlineMinus
                     onClick={() => {
-                      if (bedroom > 1) {
-                        setBedroom(bedroom - 1);
+                      if (editFormData.bedroom > 1) {
+                        setEditFormData({
+                          ...editFormData,
+                          bedroom:editFormData.bedroom - 1
+                        });
                       } else {
-                        setBedroom(1);
+                        setEditFormData({
+                          ...editFormData,
+                          bedroom:0
+                        });
                       }
                     }}
                     className=" hover:text-white p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800"
@@ -508,10 +520,16 @@ function RentEditComp({ editData }) {
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
                   <AiOutlinePlus
                     onClick={() => {
-                      if (bathroom < 10) {
-                        setBathroom(bathroom + 1);
+                      if (editFormData.bathroom < 10) {
+                        setEditFormData({
+                          ...editFormData,
+                          bathroom: editFormData.bathroom + 1
+                        });
                       } else {
-                        setBathroom(10);
+                        setEditFormData({
+                          ...editFormData,
+                          bathroom:10
+                        });
                       }
                     }}
                     className=" p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800 transition-all ease-out duration-75 hover:text-white"
@@ -521,10 +539,16 @@ function RentEditComp({ editData }) {
                   </p>
                   <AiOutlineMinus
                     onClick={() => {
-                      if (bathroom > 1) {
-                        setBathroom(bathroom - 1);
+                      if (editFormData.bathroom > 1) {
+                        setEditFormData({
+                          ...editFormData,
+                          bathroom: editFormData.bathroom + 1
+                        });
                       } else {
-                        setBathroom(1);
+                        setEditFormData({
+                          ...editFormData,
+                          bathroom:0
+                        });
                       }
                     }}
                     className=" hover:text-white p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800"
@@ -538,23 +562,35 @@ function RentEditComp({ editData }) {
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
                   <AiOutlinePlus
                     onClick={() => {
-                      if (balcony < 10) {
-                        setbalcony(balcony + 1);
+                      if (editFormData.balcony < 10) {
+                        setEditFormData({
+                          ...editFormData,
+                          balcony:editFormData.balcony + 1
+                        });
                       } else {
-                        setbalcony(10);
+                        setEditFormData({
+                          ...editFormData,
+                          balcony:10
+                        });
                       }
                     }}
                     className=" p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800 transition-all ease-out duration-75 hover:text-white"
                   />
                   <p className=" font-raleway capitalize font-semibold text-xl">
-                    {balcony}
+                    {editFormData.balcony}
                   </p>
                   <AiOutlineMinus
                     onClick={() => {
-                      if (balcony > 1) {
-                        setbalcony(balcony - 1);
+                      if (editFormData.balcony > 1) {
+                        setEditFormData({
+                          ...editFormData,
+                          balcony:editFormData.balcony-1
+                        });
                       } else {
-                        setbalcony(1);
+                        setEditFormData({
+                          ...editFormData,
+                          balcony:0
+                        });
                       }
                     }}
                     className=" hover:text-white p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800"
@@ -568,23 +604,35 @@ function RentEditComp({ editData }) {
                 <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
                   <AiOutlinePlus
                     onClick={() => {
-                      if (guest < 10) {
-                        setGuest(guest + 1);
+                      if (editFormData.guest < 10) {
+                        setEditFormData({
+                          ...editFormData,
+                          guest:editFormData.guest+1
+                        });
                       } else {
-                        setGuest(10);
+                        setEditFormData({
+                          ...editFormData,
+                          guest:10
+                        });
                       }
                     }}
                     className=" p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800 transition-all ease-out duration-75 hover:text-white"
                   />
                   <p className=" font-raleway capitalize font-semibold text-xl">
-                    {guest}
+                    {editFormData.guest}
                   </p>
                   <AiOutlineMinus
                     onClick={() => {
-                      if (guest > 1) {
-                        setGuest(guest - 1);
+                      if (editFormData.guest > 1) {
+                        setEditFormData({
+                          ...editFormData,
+                          guest:editFormData.guest-1
+                        });
                       } else {
-                        setGuest(1);
+                        setEditFormData({
+                          ...editFormData,
+                          guest:0
+                        });
                       }
                     }}
                     className=" hover:text-white p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800"
@@ -599,9 +647,9 @@ function RentEditComp({ editData }) {
                 name={"water-supply"}
                 optionName={"water supply"}
                 optionValues={waterSupply}
-                formData={additionalDetails}
-                setFormData={setAdditionalDetails}
-                defaultValue={editData?.waterSupply}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.waterSupply}
               ></EditSelectComp>
 
               <EditSelectComp
@@ -609,9 +657,9 @@ function RentEditComp({ editData }) {
                 name={"electricity"}
                 optionName={"electricity"}
                 optionValues={electricity}
-                formData={additionalDetails}
-                setFormData={setAdditionalDetails}
-                defaultValue={editData?.electricity}
+                formData={editFormData}
+                setFormData={setEditFormData}
+                defaultValue={editFormData?.electricity}
               ></EditSelectComp>
             </div>
 
@@ -631,7 +679,7 @@ function RentEditComp({ editData }) {
                       name={tenetOption.label}
                       id={tenetOption.label}
                       onChange={handleAmenitiesCheckBox}
-                      checked={selectedAmenities?.includes(tenetOption.label)}
+                      checked={editFormData.availableAmenities?.includes(tenetOption.label)}
                     />
                     <label
                       htmlFor={tenetOption.label}
