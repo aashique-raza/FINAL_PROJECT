@@ -3,6 +3,8 @@ import "../styles/Listing.css";
 import { AllStates, cities } from "../utils";
 import SelectTag from "./SelectTag";
 import Input from "../components/Input";
+import EditSelectComp from "./EditComp/EditSelectComp/EditSelectComp";
+import EditInputComp from "./EditComp/EditInputComp";
 
 function LocalityDetails({ formData, setFormData}) {
   // const [state, setState] = useState("");
@@ -26,8 +28,8 @@ function LocalityDetails({ formData, setFormData}) {
       <div className="pg-section-heading">
         <h1> Locality: </h1>
       </div>
-      <div className="local-add">
-        <SelectTag
+      <div className=" flex items-center gap-5 xl:gap-16 flex-wrap bg-white py-8 px-2 md:px-4 lg:px-6 rounded-md">
+        <EditSelectComp
           optionValues={AllStates}
           optionName="select state"
           id='state'
@@ -36,14 +38,14 @@ function LocalityDetails({ formData, setFormData}) {
           
           
         />
-        <SelectTag
+        <EditSelectComp
           optionName="select cities"
           optionValues={filteredCities}
           setFormData={setFormData}
           formData={formData}
           id='city'
         />
-        <Input
+        <EditInputComp
           label="street/local area"
           type="text"
           placeholder="ex. hauz rani gao..."
