@@ -97,7 +97,9 @@ function PgEditComp({ editData }) {
               "deosit amount can not be less than rent amount"}
           </p>
           <div className="room-details-3 bg-white py-3 px-2 md:px-4 lg:px-6">
-            <h3 className="text-xl md:text-2xl  font-bold text-red-500 font-roboto tracking-tighter capitalize">room facillities:</h3>
+            <h3 className="text-xl md:text-2xl  font-bold text-red-500 font-roboto tracking-tighter capitalize">
+              room facillities:
+            </h3>
             <div className="amenities-wrapper">
               {roomAmenities.map((ament, index) => (
                 <CheckBoxInput
@@ -118,9 +120,9 @@ function PgEditComp({ editData }) {
             <h1> Showcase Your PG Details!: </h1>
             <p>Seamless Listing Experience</p>
           </div>
-          <div className="pg-select-category">
+          <div className="pg-select-category  bg-white py-5 px-2 md:px-4 lg:px-6 rounded-md">
             {pgSelectOptions.slice(0, 4).map((data, index) => (
-              <SelectTag
+              <EditSelectComp
                 key={index}
                 id={data.id}
                 name={data.id}
@@ -128,14 +130,14 @@ function PgEditComp({ editData }) {
                 optionValues={data.optionValues}
                 formData={formData}
                 setFormData={setFormData}
-              ></SelectTag>
+              ></EditSelectComp>
             ))}
 
             {formData.foodAvaibility === "true" &&
               pgSelectOptions
                 .slice(4)
                 .map((data, index) => (
-                  <SelectTag
+                  <EditSelectComp
                     key={index}
                     id={data.id}
                     name={data.id}
@@ -143,11 +145,10 @@ function PgEditComp({ editData }) {
                     optionValues={data.optionValues}
                     formData={formData}
                     setFormData={setFormData}
-                  ></SelectTag>
+                  ></EditSelectComp>
                 ))}
-          </div>
-          <div className="other-pg-details">
-            <Input
+
+            <EditInputComp
               id="pgOrHostelName"
               label="pg/hostel name"
               type="text"
@@ -158,9 +159,9 @@ function PgEditComp({ editData }) {
               value={formData.pgOrHostelName}
             />
 
-            <div className="pg-rules">
+            <div className="pg-rules ">
               <h3>pg/hostel rules:</h3>
-              <div className="rules-wrapper">
+              <div className="rules-wrapper ">
                 {pgRules.map((data, index) => (
                   <CheckBoxInput
                     key={index}
