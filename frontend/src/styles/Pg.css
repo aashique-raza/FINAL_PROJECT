@@ -4,7 +4,7 @@
    /* margin-top: 60px; */
    margin: 60px auto;
    width: 100%;
-   padding: 20px 14px;
+   padding: 20px 70px;
 }
 
 
@@ -24,8 +24,12 @@
    font-size: 22px;
    text-transform: capitalize;
    font-weight: 600;
-   color: rgb(253, 70, 70);
+   color: rgb(243, 11, 11);
+   font-weight: bold;
+   font-family: sans-serif;
+   letter-spacing: 1px;
 }
+
 
 .pg-section-heading p {
    font-size: 15px;
@@ -39,32 +43,18 @@
 .room-basic-details {
    width: 100;
    display: flex;
-   flex-direction: column;
+   align-items: center;
+   flex-wrap: wrap;
    gap: 60px;
    /* flex: 1; */
 
 
 }
 
-.room-details-1 {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   margin-top: 30px;
-   flex-wrap: wrap;
-   /* border: 2px solid red; */
 
-}
 
 /* room facilities css start here************************** */
-.room-details-3 h3 {
-   font-size: 18px;
-   letter-spacing: 1px;
-   font-family: 700;
-   font-weight: 800;
-   text-transform: capitalize;
-   color: red;
-}
+
 
 .amenities-wrapper {
    display: flex;
@@ -291,10 +281,11 @@
 .pg-rules {
    /* border: 2px solid red; */
    margin-left: 40px;
-   
+
    width: 45%;
 }
-.pg-rules h3{
+
+.pg-rules h3 {
    font-size: 14px;
    text-transform: capitalize;
    position: relative;
@@ -307,7 +298,7 @@
 
 }
 
-.rules-wrapper{
+.rules-wrapper {
    /* border: 2px solid yellow; */
    display: flex;
    gap: 10px;
@@ -317,21 +308,21 @@
 }
 
 /* pg-section4))))))) */
-.pg-section-4{
+.pg-section-4 {
    /* border: 2px solid yellow; */
    padding: 15px 0px;
    margin-top: 13px;
 }
 
 /* section-5 */
-.pg-section-5{
+.pg-section-5 {
    /* border: 2px solid green; */
    padding: 13px 0px;
    margin-top: 13px;
 }
 
 /* submit button */
-.submit_button{
+.submit_button {
    display: flex;
    justify-content: center;
    align-items: center;
@@ -339,7 +330,8 @@
    width: 100%;
    margin-top: 18px;
 }
-.submit_button button{
+
+.submit_button button {
    border: none;
    color: white;
    background-color: red;
@@ -355,108 +347,97 @@
    transition: all 0.3s ease-in;
 }
 
-.submit_button button:hover{
+.submit_button button:hover {
    background-color: rgb(187, 5, 5);
 }
 
-.error_border{
+.error_border {
    border: 2px solid red;
 }
 
 
 
-/* responsive 550px ----------------------------------------------------- */
-@media only screen and (max-width:549px) {
+/* responsive screen max width 467px */
 
-   .submit_button button{
-    width: 80%;
-   }
-   .select_container {
+@media only screen and (max-width:467px) {
+   .pg-container {
+
+      margin: 60px auto;
       width: 100%;
-      margin: 7px 0px;
-
+      padding: 0px 0px;
    }
 
    .pg-section-heading {
-      display: flex;
-      gap: 2px;
+
+      gap: 0px;
 
    }
 
    .pg-section-heading h1 {
-      font-size: 14px;
+      font-size: 16px;
 
    }
 
    .pg-section-heading p {
       font-size: 12px;
-
-
       letter-spacing: 0px;
+   }
+
+   .room-basic-details {
+      gap: 20px;
    }
 
    .amenities-wrapper {
-      gap: 12px;
-      border: 2px solid gray;
+
+      gap: 16px;
+
       width: 100%;
+
    }
 
    .room-amenities label {
-      font-size: 12px;
-
-   }
-
-   .room-amenities input {
-      /* padding: 2px; */
-      margin-left: 4px;
-      cursor: pointer;
-   }
-
-   .room-details-2 {
-
-      gap: 10px;
-
-
-   }
-
-   .input-container {
-
-      width: 100%;
-
-
-   }
-
-   .input-container label {
-      font-size: 12px;
-      font-weight: 800;
-   }
-
-   .room-details-3 h3 {
       font-size: 14px;
-      letter-spacing: 0px;
-      font-family: 500;
-      font-weight: 600;
 
    }
-   .pg-rules{
-      width: 100%;
-      margin-left: 0;
+  
+
+
+}
+
+@media only screen and (min-width:468px)and (max-width:1230px){
+   .pg-container {
+
+      padding: 0px 0px;
    }
-   .textArea {
-
-    
-   min-width: 100%;
-   
-
-
-    
-   }
-   .rules-wrapper{
+   .room-basic-details {
       gap: 20px;
+   }
+   .amenities-wrapper {
 
+      gap: 16px;
+
+      width: 100%;
+
+   }
+
+   .room-amenities label {
+      font-size: 14px;
+
+   }
+   .pg-section-heading h1 {
+      font-size:18px;
+      
+   }
+   
+   
+   .pg-section-heading p {
+      font-size: 13px;
+     
    }
 
 }
+
+
 
 
 
@@ -472,7 +453,8 @@
       width: 45%;
       margin: 7px 6px;
    }
-   .input-container{
+
+   .input-container {
       /* border: 2px solid green; */
       width: 45%;
    }

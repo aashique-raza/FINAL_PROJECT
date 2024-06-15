@@ -1,16 +1,5 @@
-import {
-  FaCouch,
-  FaTv,
-  FaBed,
-  FaFire,
-  FaSnowflake,
-  FaBath,
-  FaFan,
-  FaRegLightbulb,
-  FaLock,
-  FaDeskpro,
-  FaWifi,
-} from "react-icons/fa";
+
+
 
 export const sharingOptions = [
   { label: "select", value: "" },
