@@ -4,11 +4,13 @@
    /* margin-top: 60px; */
    margin: 60px auto;
    width: 100%;
-   padding: 20kpx 14px;
+   padding: 20px 14px;
 }
 
 
 /* all section heading style  */
+
+/* pg section 1--------- */
 
 .pg-section-heading {
    display: flex;

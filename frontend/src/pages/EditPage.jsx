@@ -81,7 +81,7 @@ function EditPage({showSuccessMessage}) {
         </div>
       )}
       {category === "pg"
-        ? editProperty && <PgEditComp editData={editProperty} />
+        ? editProperty && <PgEditComp editData={editProperty}  showSuccessMessage={showSuccessMessage}/>
         : editProperty && <RentEditComp editData={editProperty} showSuccessMessage={showSuccessMessage} />}
     </div>
   );
