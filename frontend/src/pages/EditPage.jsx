@@ -5,19 +5,18 @@ import PgEditComp from "../components/EditComp/PgEditComp";
 import { API_URL } from "../configue";
 import { ThreeDots } from "react-loader-spinner";
 
-function EditPage({showSuccessMessage}) {
+function EditPage({ showSuccessMessage }) {
   const { category, id } = useParams();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [editProperty, setEditProperty] = useState([]);
-
-  // console.log(category);
+  const [editProperty, setEditProperty] = useState();
 
   useEffect(() => {
-    if (id) {
-      fetchDataFromDB();
-    }
-  }, []);
+    fetchDataFromDB();
+  }, [category, id]);
+
+  // console.log("fecthed property", editProperty);
 
   //   get data from data base for edit property------------------------
 
@@ -26,9 +25,12 @@ function EditPage({showSuccessMessage}) {
 
     if (category === "rental") {
       url = `${API_URL}/rent/getSingleProperty/${id}`;
-    } else {
+    }
+    if (category === "pg") {
       url = `${API_URL}/pg/getSingleProperty/${id}`;
     }
+
+    // console.log("url", url);
 
     try {
       setError(null);
@@ -81,8 +83,18 @@ function EditPage({showSuccessMessage}) {
         </div>
       )}
       {category === "pg"
-        ? editProperty && <PgEditComp editData={editProperty}  showSuccessMessage={showSuccessMessage}/>
-        : editProperty && <RentEditComp editData={editProperty} showSuccessMessage={showSuccessMessage} />}
+        ? editProperty && (
+            <PgEditComp
+              editData={editProperty}
+              showSuccessMessage={showSuccessMessage}
+            />
+          )
+        : editProperty && (
+            <RentEditComp
+              editData={editProperty}
+              showSuccessMessage={showSuccessMessage}
+            />
+          )}
     </div>
   );
 }

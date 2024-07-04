@@ -13,7 +13,7 @@ function LocalityDetails({ formData, setFormData}) {
   function filterCitiesByCurrentCity(currentCity) {
     // Find the city object corresponding to the current city
     const cityObject = cities.find(
-      (city) => Object.keys(city.cityName)[0] === currentCity.toLowerCase()
+      (city) => Object.keys(city.cityName)[0] === currentCity?.toLowerCase()
     );
 
     // If city object is found, return its cities array, otherwise return an empty array
@@ -21,7 +21,7 @@ function LocalityDetails({ formData, setFormData}) {
   }
   // console.log(formData.state)
 
-  const filteredCities = filterCitiesByCurrentCity(formData.state);
+  const filteredCities = filterCitiesByCurrentCity(formData?.location?.state);
 
   return (
     <div className="locality-details">
@@ -35,15 +35,22 @@ function LocalityDetails({ formData, setFormData}) {
           id='state'
           formData={formData}
           setFormData={setFormData}
+          name={'state'}
           
+                defaultValue={formData?.location?.state}
+                locationField={true}
           
         />
+        
         <EditSelectComp
           optionName="select cities"
           optionValues={filteredCities}
           setFormData={setFormData}
           formData={formData}
           id='city'
+          name={'city'}
+          defaultValue={formData?.location?.city}
+                locationField={true}
         />
         <EditInputComp
           label="street/local area"
@@ -52,8 +59,12 @@ function LocalityDetails({ formData, setFormData}) {
           id="localAddress"
           formData={formData}
           setFormData={setFormData}
+       
+          defaultValue={formData?.location?.localAddress}
+                locationField={true}
           
         />
+         
       </div>
     </div>
   );

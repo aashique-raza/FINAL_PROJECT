@@ -18,7 +18,7 @@ function EditRadioInput({
   const handleChange = (e) => {
     // alert('hii')
     const { value,id } = e.target;
-    console.log(value)
+    // console.log(value)
     setFormData({
       ...formData,
       [id==='propertyAvailableForRent' || id==='propertyAvailableForLease'?'propertyAvailableFor':id]:value
