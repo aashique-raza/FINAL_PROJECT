@@ -9,35 +9,34 @@ import {
 } from "@mui/icons-material";
 import TvIcon from "@mui/icons-material/Tv";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
+import EditRadioInput from "./EditComp/EditRadioInput";
 
 function PgAmenities({ formData, setFormData }) {
   const pgAvailableAmenities = [
     { label: "commonTv", value: "tv", icon: <TvIcon /> },
     { label: "mess", value: "mess", icon: <FastfoodIcon /> },
-    // { label: "commonfridge", value: "regrigatoor", icon: <Refrigerator /> },
+    
     { label: "power backup", value: "power", icon: <PowerSettingsNew /> },
     { label: "lift", value: "lift", icon: <ArrowUpward /> },
   ];
 
-
-  const handleChange=(e)=>{
- 
-    const {checked,id,value}=e.target;
-    if(checked){
-      setFormData((prevData)=>({
+  const handleChange = (e) => {
+    const { checked, id, value } = e.target;
+    if (checked) {
+      setFormData((prevData) => ({
         ...formData,
-        ameinites:[...prevData.ameinites,id]
-      }))
-    }else{
-      setFormData((prevdata)=>({
+        ameinites: [...prevData.ameinites, id],
+      }));
+    } else {
+      setFormData((prevdata) => ({
         ...formData,
-        ameinites:formData.ameinites.filter((amenityId)=>amenityId!==id)
-      }))
+        ameinites: formData.ameinites.filter((amenityId) => amenityId !== id),
+      }));
     }
-  }
+  };
 
   return (
-    <div className="pg-amenities_container">
+    <div className="pg-amenities_container bg-white py-3 px-2 md:px-4 lg:px-6 rounded-md">
       <section className="pg-amenities-first">
         <h3>availabel service</h3>
         <div className="service-itms">
@@ -82,12 +81,14 @@ function PgAmenities({ formData, setFormData }) {
                 setFormData={setFormData}
                 formData={formData}
               />
+             
             </div>
           </div>
 
           <div className="service-name">
             <p className="required">warden facility</p>
             <div className="service-option">
+              
               <RadioInput
                 name="warden"
                 id="warden"
@@ -114,7 +115,12 @@ function PgAmenities({ formData, setFormData }) {
         <div className="available-amenities">
           {pgAvailableAmenities.map((ameniti, index) => (
             <div key={index} className="available-amenities-item">
-              <input type="checkbox" name={ameniti.value} id={ameniti.value} onChange={handleChange} />
+              <input
+                type="checkbox"
+                name={ameniti.value}
+                id={ameniti.value}
+                onChange={handleChange}
+              />
               <label htmlFor={ameniti.value}>
                 {" "}
                 <span>{ameniti.icon}</span> {ameniti.label}
@@ -123,9 +129,21 @@ function PgAmenities({ formData, setFormData }) {
           ))}
         </div>
       </section>
-      <section className="section-3"></section>
+      
     </div>
   );
 }
 
 export default PgAmenities;
+
+{
+  /* <EditRadioInput
+name="propertyAvailableFor"
+id="propertyAvailableForRent"
+label="Rent"
+value="rent"
+isChecked={editFormData.propertyAvailableFor === "rent"}
+formData={editFormData}
+setFormData={setEditFormData}
+/> */
+}

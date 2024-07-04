@@ -26,6 +26,17 @@ import { useNavigate } from "react-router-dom";
 // component import for edit purpose-------
 import EditSelectComp from "./EditSelectComp/EditSelectComp";
 import EditInputComp from "./EditInputComp";
+import EditRadioInput from "./EditRadioInput";
+
+// pg available amenities----
+import {
+  Tv,
+  Fastfood,
+  PowerSettingsNew,
+  ArrowUpward,
+} from "@mui/icons-material";
+import TvIcon from "@mui/icons-material/Tv";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
 
 function PgEditComp({ editData }) {
   const [formData, setFormData] = useState({
@@ -158,31 +169,46 @@ function PgEditComp({ editData }) {
               formData={formData}
               value={formData.pgOrHostelName}
             />
-
-            <div className="pg-rules ">
-              <h3>pg/hostel rules:</h3>
-              <div className="rules-wrapper ">
-                {pgRules.map((data, index) => (
-                  <CheckBoxInput
+            <div className="py-4  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10 bg-white ">
+              <p className=" py-8 border-t-2 font-roboto font-bold capitalize text-xl md:text-2xl  ">
+                seletct pg rules
+              </p>
+              <div className=" flex items-center justify-start gap-7 md:gap-7 xl:gap-12  flex-wrap text-xl ">
+                {pgRules?.map((item, index) => (
+                  <div
                     key={index}
-                    label={data}
-                    htmlFor={data}
-                    type="checkbox"
-                    id={data}
-                    setFormData={setFormData}
-                    pgRuleSet={true}
-                  />
+                    className=" flex items-center justify-start gap-2 "
+                  >
+                    <input
+                      className=" focus:border-none w-5 h-5   focus:outline-none focus:ring-0 checked:text-green-500 "
+                      type="checkbox"
+                      name={item}
+                      id={item}
+                      // onChange={handleAmenitiesCheckBox}
+                      // checked={editFormData.availableAmenities?.includes(tenetOption.label)}
+                    />
+                    <label
+                      htmlFor={item}
+                      className=" flex items-center gap-1 capitalize  text-xl md:text-2xl  font-bold text-gray-500"
+                    >
+                      {" "}
+                      {item}
+                    </label>
+                  </div>
                 ))}
               </div>
             </div>
-            <TextArea
-              value={formData.description}
-              label="pg/hostel description"
-              name="description"
-              placeholder="describe your pg..."
-              formData={formData}
-              setFormData={setFormData}
-            />
+
+            <div className="textArea ">
+              <label htmlFor="" className="">
+                pg description
+              </label>
+              <textarea
+                name={"description"}
+                id={"description"}
+                placeholder={"describe your pg..."}
+              ></textarea>
+            </div>
           </div>
         </section>
         <section className="pg-section-3">
