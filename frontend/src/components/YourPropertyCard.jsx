@@ -9,15 +9,18 @@ import { NavLink } from "react-router-dom";
 import { Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Button } from "flowbite-react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { getTokenFromLocalStorage } from "../token";
+import { propertyActivated } from "../features/showActive.slice";
 
 function YourPropertyCard({ showSuccessMessage, property }) {
   const [modal, setModal] = useState(false);
   const { user } = useSelector((state) => state.user);
+  const{activeProperty}=useSelector((state)=>state.activeProperty)
   const token = getTokenFromLocalStorage();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const dispatch=useDispatch()
 
   const [propertyActivate, setPropertyActivate] = useState(false);
   const [activateCompleted, setActivateCompleted] = useState(false);
@@ -95,13 +98,14 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       if (!resp.ok) {
         setError(result.message);
         setLoading(false);
-        setPropertyActivate(false);
+        
         return;
       }
 
       setPropertyActivate(false);
-      setActivateCompleted(!activateCompleted)
-      activateCompleted?showSuccessMessage("Deactivated successfully!"):showSuccessMessage("activated successfully!")
+      dispatch(propertyActivated())
+      
+      activeProperty?.activeCompleted?showSuccessMessage("Deactivated successfully!"):showSuccessMessage("activated successfully!")
       
 
     } catch (error) {
@@ -117,12 +121,12 @@ function YourPropertyCard({ showSuccessMessage, property }) {
         <button
           onClick={() => setPropertyActivate(true)}
           className={`py-3 px-6 sm:py-4 lg:px-13 capitalize text-sm sm:text-xl lg:text-2xl tracking-wider ${
-            activateCompleted
+            property.isPropertyActive
               ? "bg-green-500 text-white"
               : "text-slate-700 bg-gray-100"
           }`}
         >
-         {activateCompleted?'active':'inactive'} 
+         {activeProperty?.activeCompleted?'active':'inactive'} 
         </button>
       </div>
       <div className=" mt-4">
@@ -239,7 +243,7 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       <div className="text-center">
         <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-          Are you sure you want to {activateCompleted ? 'deactivate' : 'activate'} this property?
+          Are you sure you want to {activeProperty?.activeCompleted ? 'deactivate' : 'activate'} this property?
         </h3>
         <div className="flex justify-center gap-4">
           <Button
@@ -251,7 +255,7 @@ function YourPropertyCard({ showSuccessMessage, property }) {
               handlePropertyActivation(category, property._id);
             }}
           >
-            Yes, {activateCompleted ? 'deactivate' : 'activate'}
+            Yes, {activeProperty?.activeCompleted ? 'deactivate' : 'activate'}
           </Button>
           <Button
           size="lg"
