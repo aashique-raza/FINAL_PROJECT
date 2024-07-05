@@ -196,10 +196,116 @@ function PgEditComp({ editData, showSuccessMessage }) {
   };
 
 
+  // submit details after edited
+  const handleSubmit=async(e)=>{
+    e.preventDefault()
+
+    const formData = new FormData();
+
+    if(editFormData.rentAmount>editFormData.depositAmount){
+      return setError('deposit amount can not be less than rent amount')
+    }
+  
+
+const formDataEntries = {
+  availableFor: editFormData.availableFor,
+  balcony: editFormData.balcony,
+  depositAmount: editFormData.depositAmount,
+  description: editFormData.description,
+  doorClosingTime: editFormData.doorClosingTime,
+  foodAvaibility: editFormData.foodAvaibility,
+  foodType: editFormData.foodType,
+  kitchen: editFormData.kitchen,
+  laundary: editFormData.laundary,
+  city: editFormData.location.city,
+  localAddress: editFormData.location.localAddress,
+  state: editFormData.location.state,
+  pgOrHostelName: editFormData.pgOrHostelName,
+  placeAvaibility: editFormData.placeAvaibility,
+  rentAmount: editFormData.rentAmount,
+  roomCleaning: editFormData.roomCleaning,
+  roomSharing: editFormData.roomSharing,
+  warden: editFormData.warden,
+  
+};
+
+
+// Append simple key-value pairs
+Object.entries(formDataEntries).forEach(([key, value]) => {
+  formData.append(key, value);
+});
+
+// Append arrays
+(editFormData.ameinites
+  || []).forEach(amenity => {
+  formData.append("pgAmenities", amenity);
+});
+
+(editFormData.pgRules || []).forEach(rule => {
+  formData.append("rulesForPg", rule);
+});
+
+(editFormData.roomFacilities|| []).forEach(facility=>{
+  formData.append('facility',facility)
+})
+
+// Append photos
+newImages.forEach(photo => {
+  formData.append("editPhotos", photo);
+});
+
+// apend images
+editFormData.images.forEach(img=>{
+  formData.append('images',img)
+})
+
+
+    try {
+      setError(null)
+      setLoading(true)
+
+      const resp=await fetch(`${API_URL}/pg/propertyUpdate/${id}/${user._id}`,{
+        method:'PUT',
+        headers: {
+          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+          "Authorization": `Bearer ${token}`
+        },
+        credentials:'include',
+        body:formData
+      })
+
+      // console.log(resp)
+
+      const data=await resp.json()
+      
+      // console.log('data',data)
+
+      if(!resp.ok){
+        setError(data.message)
+        setLoading(false)
+        return
+      }
+      
+      setError(null)
+      setLoading(false)
+      showSuccessMessage('changes saved')
+      
+      navigate(`/property/${category}/${data.property._id}`)
+      
+      
+      
+    } catch (error) {
+      console.log('updating failed',error)
+      setError(error.message)
+      setLoading(false)
+    }
+  }
+
+
 
   return (
     <main className="pg-container">
-      <form action="">
+      <form action="" onSubmit={handleSubmit}>
         <section className="pg-section-1">
           <div className="pg-section-heading mb-5">
             <h1>Living Space Details: </h1>
@@ -560,7 +666,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
             <Alert
               className=" w-full sm:w-1/2 md:w-1/3 text-xl"
               color="failure"
-              onDismiss={() => dispatch(pgListingClearError())}
+              onDismiss={() => setError(null)}
             >
               {error}
             </Alert>
