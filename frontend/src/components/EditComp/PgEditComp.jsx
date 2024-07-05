@@ -224,7 +224,9 @@ function PgEditComp({ editData, showSuccessMessage }) {
                     type="checkbox"
                     id={amenity.name}
                     className="focus:ring-0"
-                    checked={editFormData?.roomFacilities?.includes(amenity.name)}
+                    checked={editFormData?.roomFacilities?.includes(
+                      amenity.name
+                    )}
                     onChange={handleRoomAmenity}
                   />
                 </div>
@@ -318,10 +320,12 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 placeholder={"describe your pg..."}
                 defaultValue={editFormData.description}
                 value={editFormData.description}
-                onChange={(e)=>setEditFormData({
-                  ...editFormData,
-                  description:e.target.value
-                })}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    description: e.target.value,
+                  })
+                }
               ></textarea>
             </div>
           </div>
@@ -348,16 +352,24 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 </p>
                 <div className="flex gap-4 items-center mt-3">
                   <EditRadioInput
-                    name="laundaryFacility"
-                    id="laundary"
+                    name="laundary"
+                    id="laundary-yes"
                     label="yes"
                     value="yes"
+                    isChecked={editFormData.laundary === true}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                    pgedit={true}
                   />
                   <EditRadioInput
-                    name="laundaryFacility"
-                    id="laundary"
+                    name="laundary"
+                    id="laundary-no"
                     label="no"
                     value="no"
+                    isChecked={editFormData.laundary === false}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                    pgedit={true}
                   />
                 </div>
               </div>
@@ -369,15 +381,23 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 <div className="flex gap-4 items-center mt-3">
                   <EditRadioInput
                     name="roomCleaning"
-                    id="cleaning"
+                    id="roomCleaning-yes"
                     label="yes"
                     value="yes"
+                    isChecked={editFormData.roomCleaning === true}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                    pgedit={true}
                   />
                   <EditRadioInput
                     name="roomCleaning"
-                    id="cleaning"
+                    id="roomCleaning-no"
                     label="no"
                     value="no"
+                    isChecked={editFormData.roomCleaning === false}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                    pgedit={true}
                   />
                 </div>
               </div>
@@ -388,16 +408,24 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 </p>
                 <div className="flex gap-4 items-center mt-3">
                   <EditRadioInput
-                    name="wardenFacility"
-                    id="warden"
+                    name="warden"
+                    id="warden-yes"
                     label="yes"
                     value="yes"
+                    isChecked={editFormData.warden === true}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                    pgedit={true}
                   />
                   <EditRadioInput
-                    name="wardenFacility"
-                    id="warden"
+                    name="warden"
+                    id="warden-no"
                     label="no"
                     value="no"
+                    isChecked={editFormData.warden === false}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                    pgedit={true}
                   />
                 </div>
               </div>
@@ -543,4 +571,16 @@ export default PgEditComp;
                   id={ament.name}
                 />
               ))} */
+}
+
+{
+  /* <EditRadioInput
+                    name="propertyAvailableForrr"
+                    id="propertyAvailableForLease"
+                    label="Lease"
+                    value="lease"
+                    isChecked={editFormData.propertyAvailableFor === "lease"}
+                    formData={editFormData}
+                    setFormData={setEditFormData}
+                  /> */
 }

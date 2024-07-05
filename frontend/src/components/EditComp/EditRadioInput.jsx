@@ -11,18 +11,33 @@ function EditRadioInput({
   setFormData,
   formData,
   isChecked,
-  setAvailablePropertyData
+  setAvailablePropertyData,
+  pgedit=false
 }) {
 
 
   const handleChange = (e) => {
     // alert('hii')
-    const { value,id } = e.target;
+    const { value,id,name } = e.target;
     // console.log(value)
-    setFormData({
+    // console.log(id)
+    if(pgedit){
+      setFormData({
+        ...formData,
+        // [id==='propertyAvailableForRent' || id==='propertyAvailableForLease'?'propertyAvailableFor':id]:value
+        [name]: value==='yes'
+         
+      })
+    }else{
+      setFormData({
       ...formData,
       [id==='propertyAvailableForRent' || id==='propertyAvailableForLease'?'propertyAvailableFor':id]:value
+      // [name]: value === 'yes'
+       
     })
+
+    }
+    
   };
 
   return (
