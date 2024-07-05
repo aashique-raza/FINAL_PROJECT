@@ -59,14 +59,14 @@ const roomUpdated = (options, formData) => {
 const pgUpdated = (options, formData) => {
   return options.map((option) => {
     let defaultValue = formData[option.id];
-    // if (defaultValue === true) {
-    //   defaultValue = "yes";
-    // } else if (defaultValue === false) {
-    //   defaultValue = "no";
-    // }
+    if (defaultValue === 'true') {
+      defaultValue = true;
+    } else if (defaultValue === 'false') {
+      defaultValue = false;
+    }
     return {
       ...option,
-      defaultValue: defaultValue !== undefined ? defaultValue : "",
+      defaultValue: defaultValue ,
     };
   });
 };
@@ -88,6 +88,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
   const [updatedPgOPtions, setUpdatedPgOPtions] = useState([]);
   const [updatedRentOptions, setUpdatedRentOptions] = useState([]);
   console.log(editFormData);
+  console.log(updatedPgOPtions)
   useEffect(() => {
     setEditFormData(editData);
   }, [editData]);
@@ -100,7 +101,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
     setUpdatedRentOptions(updatedRentOptions);
   }, [editFormData]);
 
-  console.log(updatedRentOptions);
+  // console.log(updatedRentOptions);
 
   const { category, id } = useParams();
   // const navigate=useNavigate()
@@ -108,11 +109,15 @@ function PgEditComp({ editData, showSuccessMessage }) {
   const [state, setState] = useState("");
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
 
   // images set--------------------
   const formRef = useRef(null);
   const [newPhotos, setNewPhotos] = useState([]);
   const [newImages, setNewImages] = useState([]);
+  // console.log(newPhotos)
   const inputRef = useRef(null);
   const handleButtonClick = () => {
     inputRef.current.click();
@@ -125,20 +130,19 @@ function PgEditComp({ editData, showSuccessMessage }) {
     setNewPhotos(newPhotos);
   };
 
-  // const handleDeletePhoto = (index) => {
-  //   setEditFormData(
-  //     {
-  //       ...editFormData,
-  //       images : editFormData.images?.filter((_, i) => i !== index)
-  //     }
-  //     );
-  // };
+  const handleDeletePhoto = (index) => {
+    setEditFormData(
+      {
+        ...editFormData,
+        images : editFormData.images?.filter((_, i) => i !== index)
+      }
+      );
+  };
   const handleDeleteNewPhotos = (index) => {
+    console.log('index ',index)
     setNewPhotos((prevPhotos) => prevPhotos.filter((_, i) => index !== i));
   };
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   // room amenity handle changes
   const handleRoomAmenity = (event) => {
@@ -174,6 +178,25 @@ function PgEditComp({ editData, showSuccessMessage }) {
     }));
   };
 
+  const handlePgAvaibaleAmenities=(event)=>{
+    const { id, checked } = event.target;
+    let updatedPgAvailableAmenities;
+    if (checked) {
+      updatedPgAvailableAmenities = [...editFormData.ameinites
+        , id];
+    } else {
+      updatedPgAvailableAmenities = editFormData.ameinites
+      .filter((amenity) => amenity !== id);
+    }
+
+    setEditFormData((prevState) => ({
+      ...prevState,
+      ameinites: updatedPgAvailableAmenities,
+    }));
+  };
+
+
+
   return (
     <main className="pg-container">
       <form action="">
@@ -205,6 +228,8 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 placeholder={amountOpt.placeholder}
                 id={amountOpt.id}
                 defaultValue={amountOpt.defaultValue}
+                formData={editFormData}
+                setFormData={setEditFormData}
               />
             ))}
           </div>
@@ -254,7 +279,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
               ></EditSelectComp>
             ))}
 
-            {editFormData.foodAvaibility === true &&
+            {editFormData.foodAvaibility === true || editFormData.foodAvaibility==='true'&&
               updatedPgOPtions
                 .slice(4)
                 .map((data, index) => (
@@ -267,6 +292,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
                     defaultValue={data.defaultValue}
                     formData={editFormData}
                     setFormData={setEditFormData}
+                    food={true}
                   ></EditSelectComp>
                 ))}
 
@@ -444,9 +470,10 @@ function PgEditComp({ editData, showSuccessMessage }) {
                       className=" focus:border-none w-5 h-5   focus:outline-none focus:ring-0 checked:text-green-500 "
                       type="checkbox"
                       name={ameniti.label}
-                      id={ameniti.label}
-                      // onChange={handleAmenitiesCheckBox}
-                      // checked={editFormData.availableAmenities?.includes(tenetOption.label)}
+                      id={ameniti.value}
+                      onChange={handlePgAvaibaleAmenities}
+                      checked={editFormData.ameinites
+                        ?.includes(ameniti.value)}
                     />
                     <label
                       htmlFor={ameniti.label}
@@ -468,7 +495,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
             </h2>
           </div>
           <div className=" bg-white py-7 rounded-md">
-            {/* {editFormData.images?.length > 0 && (
+            {editFormData.images?.length > 0 && (
                   <div className="existing-photos-wrapper mt-4 md:mt-8 lg:mt-14">
                     {editFormData.images.map((url, index) => (
                       <div
@@ -487,7 +514,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
                       </div>
                     ))}
                   </div>
-                )} */}
+                )}
             {newPhotos?.length > 0 && (
               <div className="existing-photos-wrapper mt-4 md:mt-8 lg:mt-14">
                 {newPhotos.map((url, index) => (
@@ -557,7 +584,11 @@ function PgEditComp({ editData, showSuccessMessage }) {
       </form>
     </main>
   );
-}
+
+  }
+
+  
+
 
 export default PgEditComp;
 

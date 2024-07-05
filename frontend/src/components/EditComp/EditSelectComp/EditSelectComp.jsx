@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../styles/EditPage.css";
-import { toCamelCase,toPascalCase } from "../../../rentUtils";
+import { toCamelCase, toPascalCase } from "../../../rentUtils";
 
 function EditSelectComp({
   id,
@@ -12,7 +12,8 @@ function EditSelectComp({
   defaultValue,
   editFormData,
   setEditFormData,
-  locationField=false
+  locationField = false,
+  food=false
 }) {
   const [selectedValue, setSelectedValue] = useState(
     defaultValue || formData[id] || ""
@@ -28,21 +29,32 @@ function EditSelectComp({
   const handleChange = (e) => {
     const { value, id } = e.target;
     setSelectedValue(value);
-    
 
-    locationField ? setFormData({
-      ...formData,
-      location:{
-        ...formData.location,
-        [id]:value
-      }
-    })  :
-    setFormData({
-      ...formData,
-      [id==='bhkType'?'BHKType':id ] : id === "floor" || id === "totalFloor" ? parseInt(value) : value,
-    });
+    locationField
+      ? setFormData({
+          ...formData,
+          location: {
+            ...formData.location,
+            [id]: value,
+          },
+        })
+      : setFormData({
+          ...formData,
+         
+           [id==='bhkType'?'BHKType':id ] : id === "floor" || id === "totalFloor" ? parseInt(value) : value,
+          [id === "bhkType" ? "BHKType" : id]:
+            id === "floor" || id === "totalFloor"
+              ? parseInt(value)
+              : id === "foodAvailability"
+              ? value === "true"
+                ? true
+                : value === "false"
+                ? false
+                : value
+              : value,
+          // }));
+        });
 
-    
     // console.log(value);
   };
 
