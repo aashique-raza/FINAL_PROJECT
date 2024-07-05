@@ -6,7 +6,7 @@ import { API_URL } from "../configue";
 import { ThreeDots } from "react-loader-spinner";
 import { getTokenFromLocalStorage } from "../token";
 
-function YourPropertyPage() {
+function YourPropertyPage({showSuccessMessage}) {
   const [filterQuery, setFilterQuery] = useState("all");
   const { user } = useSelector((state) => state.user);
   const [error, setError] = useState(null);
@@ -161,7 +161,7 @@ function YourPropertyPage() {
 
         {
           !loading && !error && userProperty && userProperty.map((property,index)=>(
-            <YourPropertyCard key={index} property={property} />
+            <YourPropertyCard showSuccessMessage={showSuccessMessage} key={index} property={property} />
           ))
         }
         

@@ -1,12 +1,77 @@
-import React from "react";
+import React,{useState} from "react";
 import "../styles/YourProperty.css";
+import { API_URL } from "../configue";
 import { LuArrowUpRightSquare } from "react-icons/lu";
 import { LuIndianRupee } from "react-icons/lu";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { Modal } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Button } from "flowbite-react";
+import { useSelector } from "react-redux";
+import { getTokenFromLocalStorage } from "../token";
 
-function YourPropertyCard({ property }) {
+
+function YourPropertyCard({showSuccessMessage, property }) {
+
+  const[modal,setModal]=useState(false)
+  const { user } = useSelector((state) => state.user);
+  const token = getTokenFromLocalStorage();
+  const[error,setError]=useState(null)
+  const[loading,setLoading]=useState(false)
+
+
+  const handleDeleteProperty=async(cat,id)=>{
+    // console.log(cat,id)
+    // alert('working...',)
+    let url
+    if(cat==='pg'){
+        url=`${API_URL}/pg/propertyDelete/${id}/${user._id}`
+    }else{
+        url=`${API_URL}/rent/propertyDelete/${id}/${user._id}`
+    }
+
+    // console.log('url',url)
+
+    try {
+      setError(null)
+      setLoading(true)
+
+      
+    const resp=await fetch(url,{
+      method:'DELETE',
+      headers: {
+        // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+        "Authorization": `Bearer ${token}`
+      },
+      credentials:'include',
+      
+    })
+
+    const result=await resp.json()
+    // console.log(result)
+
+    if(!resp.ok){
+      setError(result.message)
+      setLoading(false)
+      return
+    }
+
+    setModal(false)
+    showSuccessMessage('deleted successfully!')
+
+
+      
+    } catch (error) {
+      console.log('delete property failed',error)
+      setError(error.message)
+      setModal(false)
+    }
+
+
+  }
+
   return (
     <div className="your-property-card shadow-xl hover:shadow-2xl transition-all duration-100 ease-in">
       <div className="flex justify-end items-center">
@@ -71,9 +136,9 @@ function YourPropertyCard({ property }) {
           {" "}
           edit <MdEdit className=" inline-block text-green-700   mt-1" />{" "}
         </NavLink>
-        <button className=" tracking-wider flex justify-center items-start gap-1 lowercase  font-raleway text-xl sm:text-2xl px-5 py-3 bg-gray-200 text-teal-800 ">
+        <button onClick={(()=>setModal(true))} className=" tracking-wider flex justify-center items-start gap-1 lowercase  font-raleway text-xl sm:text-2xl px-5 py-3 bg-gray-200 text-teal-800 ">
           {" "}
-          delete <MdDelete className=" inline-block  text-red-500   mt-1" />{" "}
+          delete <MdDelete  className=" inline-block  text-red-500   mt-1" />{" "}
         </button>
       </div>
       <div className=" flex justify-start items-start px-3 w-full">
@@ -81,6 +146,34 @@ function YourPropertyCard({ property }) {
           0 contated
         </h3>
       </div>
+      {
+        modal && (
+          <Modal show={modal} size="md" onClose={() => setModal(false)} popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this property?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={() => 
+                {
+                  let category=property.roomSharing?'pg':'rental'
+                  handleDeleteProperty(category,property._id)
+                }
+              }>
+                {"Yes, I'm sure"}
+              </Button>
+              <Button color="gray" onClick={() => setModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+        )
+      }
     </div>
   );
 }
