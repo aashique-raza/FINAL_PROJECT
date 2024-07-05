@@ -71,22 +71,22 @@ const pgUpdated = (options, formData) => {
   });
 };
 
-const rentOptionFunc=(options,formData)=>{
-  return options.map((option)=>{
-    let defaultValue=formData[option.id]
-    return{
+const rentOptionFunc = (options, formData) => {
+  return options.map((option) => {
+    let defaultValue = formData[option.id];
+    return {
       ...option,
-      defaultValue:defaultValue !== undefined ? defaultValue : "",
-    }
-  })
-}
+      defaultValue: defaultValue !== undefined ? defaultValue : "",
+    };
+  });
+};
 
 function PgEditComp({ editData, showSuccessMessage }) {
   // set initial state for edit form data-------------------------
   const [editFormData, setEditFormData] = useState({});
   const [updatedRoomOptions, setUpdatedRoomOptions] = useState([]);
   const [updatedPgOPtions, setUpdatedPgOPtions] = useState([]);
-  const [updatedRentOptions,setUpdatedRentOptions]=useState()
+  const [updatedRentOptions, setUpdatedRentOptions] = useState([]);
   console.log(editFormData);
   useEffect(() => {
     setEditFormData(editData);
@@ -96,11 +96,11 @@ function PgEditComp({ editData, showSuccessMessage }) {
     setUpdatedRoomOptions(newOptions);
     const updatedOptions = pgUpdated(pgSelectOptions, editFormData);
     setUpdatedPgOPtions(updatedOptions);
-    const updatedRentOptions=rentOptionFunc(rentAmountOptions,editFormData)
-    setUpdatedRentOptions(updatedRentOptions)
+    const updatedRentOptions = rentOptionFunc(rentAmountOptions, editFormData);
+    setUpdatedRentOptions(updatedRentOptions);
   }, [editFormData]);
 
-  // console.log(updatedOptions);
+  console.log(updatedRentOptions);
 
   const { category, id } = useParams();
   // const navigate=useNavigate()
@@ -140,6 +140,25 @@ function PgEditComp({ editData, showSuccessMessage }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // room amenity handle changes
+  const handleRoomAmenity = (event) => {
+    const { id, checked } = event.target;
+    let updatedAmenities;
+
+    if (checked) {
+      updatedAmenities = [...editFormData.roomFacilities, id];
+    } else {
+      updatedAmenities = editFormData.roomFacilities.filter(
+        (amenity) => amenity !== id
+      );
+    }
+
+    setEditFormData((prevState) => ({
+      ...prevState,
+      roomFacilities: updatedAmenities,
+    }));
+  };
+
   return (
     <main className="pg-container">
       <form action="">
@@ -162,13 +181,6 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 setFormData={setEditFormData}
               />
             ))}
-            label={"built_up_area"}
-                type="number"
-                placeholder={" In sqr feet."}
-                id={"builtUpArea"}
-                formData={editFormData}
-                setFormData={setEditFormData}
-                defaultValue={editData?.builtUpArea}
 
             {updatedRentOptions?.map((amountOpt, index) => (
               <EditInputComp
@@ -177,26 +189,30 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 type="number"
                 placeholder={amountOpt.placeholder}
                 id={amountOpt.id}
+                defaultValue={amountOpt.defaultValue}
               />
             ))}
           </div>
-          {/* <p className="  font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
-              {formData?.depositAmount < formData?.rentAmount &&
-                "deosit amount can not be less than rent amount"}
-            </p> */}
+          <p className="  font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
+            {editFormData?.depositAmount < editFormData?.rentAmount &&
+              "deosit amount can not be less than rent amount"}
+          </p>
           <div className="room-details-3 bg-white py-3 px-2 md:px-4 lg:px-6">
             <h3 className="text-xl md:text-2xl  font-bold text-red-500 font-roboto tracking-tighter capitalize">
               room facillities:
             </h3>
             <div className="amenities-wrapper">
-              {roomAmenities.map((ament, index) => (
-                <CheckBoxInput
-                  key={index}
-                  label={ament.name}
-                  htmlFor={ament.name}
-                  type="checkbox"
-                  id={ament.name}
-                />
+              {roomAmenities.map((amenity, index) => (
+                <div className="room-amenities" key={index}>
+                  <label htmlFor={amenity.name}>{amenity.name}: </label>
+                  <input
+                    type="checkbox"
+                    id={amenity.name}
+                    className="focus:ring-0"
+                    checked={editFormData.roomFacilities.includes(amenity.name)}
+                    onChange={handleRoomAmenity}
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -287,8 +303,10 @@ function PgEditComp({ editData, showSuccessMessage }) {
           </div>
         </section>
         <section className="pg-section-3">
-          <LocalityDetails formData={editFormData}
-                setFormData={setEditFormData} />
+          <LocalityDetails
+            formData={editFormData}
+            setFormData={setEditFormData}
+          />
         </section>
         <section className="pg-section-4">
           <div className="pg-section-heading">
@@ -490,3 +508,15 @@ function PgEditComp({ editData, showSuccessMessage }) {
 }
 
 export default PgEditComp;
+
+{
+  /* {roomAmenities.map((ament, index) => (
+                <CheckBoxInput
+                  key={index}
+                  label={ament.name}
+                  htmlFor={ament.name}
+                  type="checkbox"
+                  id={ament.name}
+                />
+              ))} */
+}
