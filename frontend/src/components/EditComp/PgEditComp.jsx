@@ -159,6 +159,21 @@ function PgEditComp({ editData, showSuccessMessage }) {
     }));
   };
 
+  const handlePgRulesChange = (event) => {
+    const { id, checked } = event.target;
+    let updatedPgRules;
+    if (checked) {
+      updatedPgRules = [...editFormData.pgRules, id];
+    } else {
+      updatedPgRules = editFormData.pgRules.filter((amenity) => amenity !== id);
+    }
+
+    setEditFormData((prevState) => ({
+      ...prevState,
+      pgRules: updatedPgRules,
+    }));
+  };
+
   return (
     <main className="pg-container">
       <form action="">
@@ -209,7 +224,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
                     type="checkbox"
                     id={amenity.name}
                     className="focus:ring-0"
-                    checked={editFormData.roomFacilities.includes(amenity.name)}
+                    checked={editFormData?.roomFacilities?.includes(amenity.name)}
                     onChange={handleRoomAmenity}
                   />
                 </div>
@@ -259,6 +274,9 @@ function PgEditComp({ editData, showSuccessMessage }) {
               type="text"
               name="pg-name"
               placeholder="ex-royal pg..."
+              defaultValue={editFormData.pgOrHostelName}
+              formData={editFormData}
+              setFormData={setEditFormData}
             />
             <div className="py-4  lg:py-5 xl:py-7 px-3  lg:px-7 xl:px-10 bg-white ">
               <p className=" py-8 border-t-2 font-roboto font-bold capitalize text-xl md:text-2xl  ">
@@ -275,8 +293,8 @@ function PgEditComp({ editData, showSuccessMessage }) {
                       type="checkbox"
                       name={item}
                       id={item}
-                      // onChange={handleAmenitiesCheckBox}
-                      // checked={editFormData.availableAmenities?.includes(tenetOption.label)}
+                      onChange={handlePgRulesChange}
+                      checked={editFormData.pgRules?.includes(item)}
                     />
                     <label
                       htmlFor={item}
@@ -298,6 +316,12 @@ function PgEditComp({ editData, showSuccessMessage }) {
                 name={"description"}
                 id={"description"}
                 placeholder={"describe your pg..."}
+                defaultValue={editFormData.description}
+                value={editFormData.description}
+                onChange={(e)=>setEditFormData({
+                  ...editFormData,
+                  description:e.target.value
+                })}
               ></textarea>
             </div>
           </div>
