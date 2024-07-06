@@ -113,7 +113,7 @@ function YourPropertyPage({showSuccessMessage}) {
     <main className=" your-property-container">
       <div className=" justify-start items-center flex  border-b-2  ">
         <h1 className=" px-4 py-6 md:px-10  md:py-12 capitalize font-roboto tracking-wider font-semibold text-teal-950 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-          You have already posted 3 properties on rental wave
+          You have already posted {allProperty.length} properties on rental wave
         </h1>
       </div>
       <div className=" lg:px-16 md:px-8 sm:px-5 px-3 mt-20 flex items-center justify-start  gap-4 sm:gap-5 md:gap-7 lg:gap-10 flex-wrap ">

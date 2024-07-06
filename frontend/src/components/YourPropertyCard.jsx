@@ -12,6 +12,7 @@ import { Button } from "flowbite-react";
 import { useSelector,useDispatch } from "react-redux";
 import { getTokenFromLocalStorage } from "../token";
 // import { propertyActivated } from "../features/userProperty.slice";
+import { deleteUserProperty,changeStatusOfProperty } from "../features/userProperty.slice";
 
 function YourPropertyCard({ showSuccessMessage, property }) {
   const [modal, setModal] = useState(false);
@@ -59,6 +60,7 @@ function YourPropertyCard({ showSuccessMessage, property }) {
         return;
       }
 
+      dispatch(deleteUserProperty(id))
       setModal(false);
       showSuccessMessage("deleted successfully!");
     } catch (error) {
@@ -69,6 +71,7 @@ function YourPropertyCard({ showSuccessMessage, property }) {
   };
 
   const handlePropertyActivation = async (cat, id) => {
+    // console.log(cat,id)
     let url;
     if (cat === "pg") {
       url = `${API_URL}/pg/activateProperty/${id}/${user._id}`;
@@ -82,6 +85,7 @@ function YourPropertyCard({ showSuccessMessage, property }) {
     try {
       setError(null);
       setLoading(true);
+      // setActivateCompleted(false)
 
       const resp = await fetch(url, {
         method: "PATCH",
@@ -103,9 +107,10 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       }
 
       setPropertyActivate(false);
-      dispatch(propertyActivated())
+      dispatch(changeStatusOfProperty(id))
+      setActivateCompleted(true)
       
-      activeProperty?.activeCompleted?showSuccessMessage("Deactivated successfully!"):showSuccessMessage("activated successfully!")
+      activateCompleted?showSuccessMessage(result.msg):showSuccessMessage(result.msg)
       
 
     } catch (error) {
@@ -121,12 +126,12 @@ function YourPropertyCard({ showSuccessMessage, property }) {
         <button
           onClick={() => setPropertyActivate(true)}
           className={`py-3 px-6 sm:py-4 lg:px-13 capitalize text-sm sm:text-xl lg:text-2xl tracking-wider ${
-            activateCompleted
+            property.isPropertyActive
               ? "bg-green-500 text-white"
               : "text-slate-700 bg-gray-100"
           }`}
         >
-         {activateCompleted?'active':'inactive'} 
+         {property.isPropertyActive?'active':'inactive'} 
         </button>
       </div>
       <div className=" mt-4">
@@ -243,7 +248,7 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       <div className="text-center">
         <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-          Are you sure you want to {activateCompleted ? 'deactivate' : 'activate'} this property?
+          Are you sure you want to {property.isPropertyActive ? 'deactivate' : 'activate'} this property?
         </h3>
         <div className="flex justify-center gap-4">
           <Button
@@ -255,7 +260,8 @@ function YourPropertyCard({ showSuccessMessage, property }) {
               handlePropertyActivation(category, property._id);
             }}
           >
-            Yes, {activateCompleted ? 'deactivate' : 'activate'}
+            Yes, {property
+            .isPropertyActive ? 'deactivate' : 'activate'}
           </Button>
           <Button
           size="lg"

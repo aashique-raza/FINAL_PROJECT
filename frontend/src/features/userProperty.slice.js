@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 
 const initialState = {
   allProperty: [],
@@ -31,14 +32,29 @@ export const userProperty = createSlice({
         state.allProperty = state.allRentProperty;
       }
        
-      }
+      },
+
+    changeStatusOfProperty:(state,action)=>{
+      const id=action.payload
+
+      state.allProperty.forEach((property)=>{
+        if(property._id===id){
+          property.isPropertyActive=!property.isPropertyActive
+        }
+      })
+    },
+
+    deleteUserProperty:(state,action)=>{
+      const id=action.payload;
+     state.allProperty= state.allProperty.filter((property)=>property._id!==id)
+    }
      
     
   },
 });
 
 // Export the actions
-export const { setAllUserPgProperty, setAllUserRentProperty, filterPropertyByQuery } = userProperty.actions;
+export const { setAllUserPgProperty, setAllUserRentProperty, filterPropertyByQuery,changeStatusOfProperty,deleteUserProperty } = userProperty.actions;
 
 // Export the reducer
 export default userProperty.reducer;
