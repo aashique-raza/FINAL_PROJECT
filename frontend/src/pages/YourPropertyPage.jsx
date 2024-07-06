@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../configue";
 import { ThreeDots } from "react-loader-spinner";
 import { getTokenFromLocalStorage } from "../token";
+import {setAllUserPgProperty,setAllUserProperty,setAllUserRentProperty,filterPropertyByQuery } from "../features/userProperty.slice";
+
+// import { useSelector,useDispatch } from "react-redux";
 
 function YourPropertyPage({showSuccessMessage}) {
   const [filterQuery, setFilterQuery] = useState("all");
@@ -13,16 +16,22 @@ function YourPropertyPage({showSuccessMessage}) {
   const [loading, setLoading] = useState(false);
   const [userProperty, setUserProperty] = useState([]);
   const token = getTokenFromLocalStorage();
+  const{allProperty}=useSelector((state)=>state.userProperties)
+  const dispatch=useDispatch()
+
+  // console.log('all property of user',allProperty)
 
   const handleFilterChange = (e) => {
     const { id, value } = e.target;
 
+    // console.log('first time id',id)
     setFilterQuery(id);
+    dispatch(filterPropertyByQuery(id))
   };
 
   useEffect(() => {
     fetchUserProperty();
-  },[filterQuery]);
+  },[]);
 
   const fetchUserProperty = async () => {
     try {
@@ -32,8 +41,8 @@ function YourPropertyPage({showSuccessMessage}) {
       let pgProperty;
       let rentProperty;
 
-      if (filterQuery === "all" || filterQuery === "pg") {
-        const resp = await fetch(`${API_URL}/pg/getUserProperty/${user._id}`, {
+      
+        const resp1 = await fetch(`${API_URL}/pg/getUserProperty/${user._id}`, {
           headers: {
             "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
             Authorization: `Bearer ${token}`,
@@ -41,17 +50,18 @@ function YourPropertyPage({showSuccessMessage}) {
           credentials: "include",
         });
 
-        if (!resp.ok) {
+        if (!resp1.ok) {
           setError(resp.message);
           setLoading(false);
           return;
         }
 
-        pgProperty = await resp.json();
+        pgProperty = await resp1.json();
         // console.log("pg prperty", pgProperty);
-      }
+        dispatch(setAllUserPgProperty(pgProperty?.property))
+      
 
-      if (filterQuery === "all" || filterQuery === "rental") {
+      
         const resp = await fetch(
           `${API_URL}/rent/getUserProperty/${user._id}`,
           {
@@ -71,7 +81,8 @@ function YourPropertyPage({showSuccessMessage}) {
 
         rentProperty = await resp.json();
         // console.log("rent property", rentProperty);
-      }
+        dispatch(setAllUserRentProperty(rentProperty?.property))
+      
 
       const combineData=[
        
@@ -79,6 +90,9 @@ function YourPropertyPage({showSuccessMessage}) {
         ...(rentProperty?.property || [])
       ]
 
+      // console.log('combine property of user',combineData)
+
+      // dispatch(setAllUserProperty(combineData))
       setUserProperty(combineData)
 
       setLoading(false);
@@ -160,9 +174,12 @@ function YourPropertyPage({showSuccessMessage}) {
         )}
 
         {
-          !loading && !error && userProperty && userProperty.map((property,index)=>(
+           allProperty?.length>0 ? allProperty.map((property,index)=>(
             <YourPropertyCard showSuccessMessage={showSuccessMessage} key={index} property={property} />
-          ))
+          )) : (
+            <>
+            <h1 className=" w-full text-red-600 capitalize text-xl md:text-2xl font-bold tracking-wider font-sans">you have not listed any property yet!</h1></>
+          )
         }
         
        
@@ -172,3 +189,46 @@ function YourPropertyPage({showSuccessMessage}) {
 }
 
 export default YourPropertyPage;
+
+
+
+// if (filterQuery === "all" || filterQuery === "pg") {
+//   const resp = await fetch(`${API_URL}/pg/getUserProperty/${user._id}`, {
+//     headers: {
+//       "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+//       Authorization: `Bearer ${token}`,
+//     },
+//     credentials: "include",
+//   });
+
+//   if (!resp.ok) {
+//     setError(resp.message);
+//     setLoading(false);
+//     return;
+//   }
+
+//   pgProperty = await resp.json();
+//   // console.log("pg prperty", pgProperty);
+// }
+
+// if (filterQuery === "all" || filterQuery === "rental") {
+//   const resp = await fetch(
+//     `${API_URL}/rent/getUserProperty/${user._id}`,
+//     {
+//       headers: {
+//         "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+//         Authorization: `Bearer ${token}`,
+//       },
+//       credentials: "include",
+//     }
+//   );
+
+//   if (!resp.ok) {
+//     setError(error.message);
+//     setLoading(false);
+//     return;
+//   }
+
+//   rentProperty = await resp.json();
+//   // console.log("rent property", rentProperty);
+// }

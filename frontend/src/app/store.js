@@ -4,7 +4,7 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "../features/user.slice";
 import pgReducer from "../features/pg.slice";
 // import { activeSlice } from "../features/showActive.slice";
-import activeReducer from '../features/showActive.slice'
+import userPropertyReducer from '../features/userProperty.slice'
 
 const userPersistConfig = {
   key: "user",
@@ -14,21 +14,21 @@ const pgLIstingPersistConfig = {
   key: "pgListing",
   storage,
 };
-const activePropertyPersistConfig = {
-  key: "activeProperty",
+const userPropertyPersistConfig = {
+  key: "userProperty",
   storage,
 };
 
 
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
-const persistedActivePropertyReducer = persistReducer(activePropertyPersistConfig, activeReducer);
+const persistedUserPropertyReducer = persistReducer(userPropertyPersistConfig, userPropertyReducer);
 // const persistedPgListingReducer = persistReducer(pgLIstingPersistConfig, pgReducer);
 
 const store = configureStore({
   reducer: {
     user: persistedUserReducer,
     pgLIsting:pgReducer,
-    activeProperty:persistedActivePropertyReducer
+    userProperties:persistedUserPropertyReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
