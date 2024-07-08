@@ -49,6 +49,7 @@ function CheckBoxInput({
     <div className="room-amenities">
       <label htmlFor={htmlFor}>{label}: </label>
       <input
+      className=" focus:ring-0"
         type={type}
         id={id}
         onChange={(e) => handleCheckboxChange(e, id)}

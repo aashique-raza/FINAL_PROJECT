@@ -38,7 +38,7 @@ function PgAmenities({ formData, setFormData }) {
   return (
     <div className="pg-amenities_container bg-white py-3 px-2 md:px-4 lg:px-6 rounded-md">
       <section className="pg-amenities-first">
-        <h3>availabel service</h3>
+        <h3 className=" capitalize font-extrabold font-roboto tracking-wider text-xl md:text-2xl text-black" >availabel service</h3>
         <div className="service-itms">
           <div className="service-name">
             <p className="required">laundary</p>
@@ -110,8 +110,8 @@ function PgAmenities({ formData, setFormData }) {
         </div>
       </section>
 
-      <section className="pg-amenities-second">
-        <h3>available amenities</h3>
+      <section className="pg-amenities-second  flex  flex-col gap-3">
+        <h3 className=" capitalize font-extrabold font-roboto tracking-wider text-xl md:text-2xl text-black" >available amenities</h3>
         <div className="available-amenities">
           {pgAvailableAmenities.map((ameniti, index) => (
             <div key={index} className="available-amenities-item">
@@ -120,6 +120,7 @@ function PgAmenities({ formData, setFormData }) {
                 name={ameniti.value}
                 id={ameniti.value}
                 onChange={handleChange}
+                className="  w-6 h-6 lg:h-8 lg:w-8 focus:ring-0"
               />
               <label htmlFor={ameniti.value}>
                 {" "}

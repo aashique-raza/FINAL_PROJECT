@@ -45,15 +45,29 @@
    display: flex;
    align-items: center;
    flex-wrap: wrap;
-   gap: 60px;
+   gap: 30px;
    /* flex: 1; */
-
-
+   padding: 20px 30px;
+/* border: 2px solid red; */
+background-color: white;
+}
+.room-details-1{
+   /* border: 2px solid green; */
+   width: 100%;
+   display: flex ;
+   gap: 30px;
+   flex-wrap: wrap;
+   
 }
 
 
 
 /* room facilities css start here************************** */
+.room-details-3{
+   /* border: 2px solid green; */
+   width: 100%;
+   margin-top: -50px;
+}
 
 
 .amenities-wrapper {
@@ -61,17 +75,14 @@
    gap: 20px;
    align-items: center;
    /* border: 2px solid gray; */
-   width: 70%;
+   /* width: 70%; */
    margin: 12px auto;
    flex-wrap: wrap;
 }
 
 .room-amenities {
-   display: inline-block;
-   /* border: 2px solid red; */
-
-
-
+   display: flex;
+   align-items: center;
 }
 
 .room-amenities label {
@@ -87,7 +98,10 @@
    /* padding: 2px; */
    margin-left: 4px;
    cursor: pointer;
+   width: 20px;
+   height: 20px;
 }
+
 
 
 
@@ -100,9 +114,8 @@
    width: 100%;
    display: flex;
    align-items: center;
-
    flex-wrap: wrap;
-   gap: 45px;
+   gap: 25px;
 
 
 }
@@ -115,24 +128,13 @@
    flex-direction: column;
    align-items: flex-start;
    gap: 7px;
-   width: 35%;
-   /* flex: 1; */
+   width: 20%;
+   min-width: 230px;
+   flex: 1;
+   
 
 }
 
-.input-container label {
-
-   font-size: 14px;
-   text-transform: capitalize;
-   position: relative;
-   font-family: 700;
-   font-weight: 600;
-   border: 2px solid;
-   /* border: 2px solid red; */
-   border: none;
-
-
-}
 
 
 .input-container input {
@@ -143,12 +145,9 @@
    font-weight: 600;
    color: gray;
    appearance: none;
+   background-color: rgb(242, 242, 242);
+   border: none;
 }
-
-
-
-
-
 
 /* pg-section-2 pg details styles   start here++++++++++++++++++++++ */
 .pg-section-2 {
@@ -164,63 +163,92 @@
    align-items: center;
    gap: 60px;
    /* border: 2px solid red; */
-
+   background-color: #fff;
+   padding: 10px 20px;
 
 }
+/* other pg-details */
+.other-pg-details {
+   /* border: 2px solid green; */
+   margin-top: 0px;
+   display: flex;
+   flex-wrap: wrap;
+background-color: white;
+   gap: 10px;
+   padding: 10px 20px;
+
+}
+
+
+
+
+
 
 /* select tag and option tag style *************************** */
-.select_container {
-   width: 31%;
-   margin: 0 10px;
-   /* Yeh margin ko adjust karega */
-   /* border: 2px solid red; */
-   display: flex;
-   flex-direction: column;
-   gap: 6px;
-   align-items: flex-start;
+/* Select container styling */
 
+ 
+
+ .select_container {
+   width: 20%;
+   /* max-width: 270px; */
 }
 
-.select_container p {
-   font-size: 14px;
-   font-weight: 600;
-   color: gray;
-   text-transform: capitalize;
-
-
-}
-
-.select_container select {
-   width: 100%;
-   webkit-appearance: none;
+.listing_select_tag {
+   -webkit-appearance: none;
    -moz-appearance: none;
    -ms-appearance: none;
    appearance: none;
    outline: 0;
    box-shadow: none;
-   /* border:0!important; */
-
+   border: 0 !important;
+   background: #ededed;
    background-image: none;
-   /* flex: 1; */
-   padding: 8px 20px;
-   /* color:#fff; */
+   flex: 1;
+   padding: 4px 12px;
+   color: #0c0c0c;
    cursor: pointer;
-   font-size: 1em;
+   font-size: 1.2em;
    font-family: 'Open Sans', sans-serif;
-   /* width: 30%; */
    text-transform: capitalize;
-   border-radius: 3px;
 }
 
-.select_container option {
-   font-size: 15px;
-   text-transform: capitalize;
-   font-weight: 400;
-   letter-spacing: 2px;
-   font-family: serif;
-   width: 20%;
-   /* padding: 50px 12px ; */
+.listing_select_tag::-ms-expand {
+   display: none;
 }
+
+.listing_select {
+   position: relative;
+   display: flex;
+   width: 100%;
+   height: 37px;
+   line-height: 3;
+   background: #5c6664;
+   overflow: hidden;
+   border-radius: .25em;
+}
+
+.listing_select::after {
+   content: '\25BC';
+   position: absolute;
+   top: 0;
+   right: 0;
+   padding: 0 1em;
+   background: #b0b0b0;
+   cursor: pointer;
+   pointer-events: none;
+   transition: .25s all ease;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.listing_select:hover::after {
+   color: #23b499;
+}
+ 
+ 
 
 /* required class************************************* */
 
@@ -241,16 +269,7 @@
    font-size: 25px;
 }
 
-/* other pg-details */
-.other-pg-details {
-   /* border: 2px solid green; */
-   margin-top: 35px;
-   display: flex;
-   flex-wrap: wrap;
 
-   gap: 10px;
-
-}
 
 .textArea {
    max-width: 350px;
@@ -361,9 +380,12 @@
 
 /* responsive screen max width 467px */
 
+
+
+
 @media only screen and (max-width:467px) {
    .pg-container {
-
+      width: 100%;
       margin: 60px auto;
       width: 100%;
       padding: 0px 0px;
@@ -387,6 +409,9 @@
 
    .room-basic-details {
       gap: 20px;
+      width: 100%;
+      padding: 10px 5px;
+      /* border: 2px solid green; */
    }
 
    .amenities-wrapper {
@@ -434,6 +459,56 @@
    gap: 20px;
    
 }
+
+/* sectioon  1*/
+.room-details-1{
+   gap: 17px;
+   /* padding: 20px 0px; */
+}
+ /* select tag */
+ .select_container {
+   width: 100%;
+
+}
+
+.input-container {
+ 
+  
+   width: 100%;
+ 
+   
+
+}
+.room-amenities input {
+   
+   width: 15px;
+   height: 15px;
+}
+
+.room-details-2{
+   gap: 0;
+}
+
+.pg-select-category {
+   
+   gap: 15px;
+   
+   padding: 10px 5px;
+
+}
+/* other pg-details */
+.other-pg-details {
+  
+
+   gap: 10px;
+   padding: 10px 5px;
+
+}
+
+
+
+
+
   
 
 
@@ -446,6 +521,22 @@
    }
    .room-basic-details {
       gap: 20px;
+      padding: 10px 5px;
+   }
+   .pg-select-category {
+   
+      gap: 15px;
+      
+      padding: 10px 5px;
+   
+   }
+   /* other pg-details */
+   .other-pg-details {
+     
+   
+      gap: 10px;
+      padding: 10px 5px;
+   
    }
    .amenities-wrapper {
 
@@ -501,6 +592,14 @@
    gap: 20px;
    
 }
+.room-amenities input {
+   
+   width: 15px;
+   height: 15px;
+}
+
+
+
 
 }
 
@@ -516,17 +615,41 @@
       padding: 0px 10px;
    }
 
+}
+
+
+
+/* select tag  responsive  design*/
+@media only screen and (min-width:468px) {
    .select_container {
-      width: 45%;
-      margin: 7px 6px;
+       width: 25%;
+       min-width: 230px;
    }
 
-   .input-container {
-      /* border: 2px solid green; */
-      width: 45%;
+   .room-details-1{
+      /* padding: 10px 2px; */
+      gap: 17px;
    }
 
+   .input-container{
+      width: 40%;
+      max-width: 25%;
+   }
 
+  
+}
 
+@media only screen and (min-width:769px){
+   
+}
+
+@media only screen and (min-width:1440px) {
+   .select_container {
+       width: 23%;
+   }
+   .room-details-1{
+      /* padding: 10px 10px; */
+      gap: 25px;
+   }
 
 }

@@ -15,7 +15,7 @@ const handleChange=(e)=>{
   return (
     <div className='textArea '>
         <label htmlFor="" className='required'>{label}</label>
-        <textarea value={value} name={name} id={name} placeholder={placeholder} onChange={handleChange}></textarea>
+        <textarea className='text-sm capitalize text-gray-600 md:text-xl font-bold tracking-wider font-roboto' value={value} name={name} id={name} placeholder={placeholder} onChange={handleChange}></textarea>
     </div>
   )
 }

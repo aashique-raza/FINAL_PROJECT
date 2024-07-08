@@ -23,6 +23,12 @@ import { Alert,Spinner } from "flowbite-react";
 import { formErrorHandler } from "../formError";
 import { getTokenFromLocalStorage } from "../token";
 import { useNavigate } from "react-router-dom";
+import { AllStates,cities } from "../utils";
+
+
+
+
+
 
 function PgPage({showSuccessMessage}) {
 
@@ -53,13 +59,14 @@ function PgPage({showSuccessMessage}) {
     ameinites: [],
    
   });
+  console.log(formData)
   const token=getTokenFromLocalStorage()
 
   const {loading,error}=useSelector((state)=>state.pgLIsting)
   const dispatch=useDispatch()
 
   const[photos,setPhotos]=useState([])
-  // console.log(photos)
+  console.log(photos)
 
   useEffect(()=>{
     dispatch(pgListingClearError())
@@ -91,6 +98,25 @@ function PgPage({showSuccessMessage}) {
   };
   // console.log(formData);
   // console.log(amenities)
+
+  function getCitiesByState(state) {
+    for (const cityGroup of cities) {
+      if (cityGroup.cityName[state]) {
+        return cityGroup.cityName[state];
+      }
+    }
+    return []; // Return an empty array if the state is not found
+  }
+  
+  // Example usage:
+  // const state = "delhi";
+  const citiesInState = getCitiesByState(formData.state);
+
+
+  
+
+
+
   
 
   const handleSubmit = async (e) => {
@@ -217,7 +243,7 @@ function PgPage({showSuccessMessage}) {
                 "deosit amount can not be less than rent amount" }
             </p>
             <div className="room-details-3">
-              <h3>room facillities:</h3>
+              <h3 className="pl-2 mb-2 text-xl lg:text-2xl capitalize tracking-wider font-sans font-bold">room facillities:</h3>
               <div className="amenities-wrapper">
                 {roomAmenities.map((ament, index) => (
                   <CheckBoxInput
@@ -239,7 +265,7 @@ function PgPage({showSuccessMessage}) {
             <h1> Showcase Your PG Details!: </h1>
             <p>Seamless Listing Experience</p>
           </div>
-          <div className="pg-select-category">
+          <div className="pg-select-category  ">
             {pgSelectOptions.slice(0, 4).map((data, index) => (
               <SelectTag
                 key={index}
@@ -252,7 +278,7 @@ function PgPage({showSuccessMessage}) {
               ></SelectTag>
             ))}
 
-            {formData.foodAvaibility === "true" &&
+            {formData.foodAvaibility === 'true' &&
               pgSelectOptions
                 .slice(4)
                 .map((data, index) => (
@@ -306,7 +332,48 @@ function PgPage({showSuccessMessage}) {
           </div>
         </section>
         <section className="pg-section-3">
-          <LocalityDetails formData={formData} setFormData={setFormData} />
+        <div className="locality-details">
+      <div className="pg-section-heading">
+        <h1> Locality: </h1>
+      </div>
+      <div className=" flex items-center gap-5 xl:gap-16 flex-wrap bg-white py-8 px-2 md:px-4 lg:px-6 rounded-md">
+        <SelectTag
+          optionValues={AllStates}
+          optionName="select state"
+          id='state'
+          formData={formData}
+          setFormData={setFormData}
+          name={'state'}
+          
+                locationField={true}
+          
+        />
+        
+        <SelectTag
+          optionName="select cities"
+          optionValues={citiesInState}
+          setFormData={setFormData}
+          formData={formData}
+          id='city'
+          name={'city'}
+         
+                locationField={true}
+        />
+        <Input
+          label="street/local area"
+          type="text"
+          placeholder="ex. hauz rani gao..."
+          id="localAddress"
+          formData={formData}
+          setFormData={setFormData}
+       
+         
+                locationField={true}
+          
+        />
+         
+      </div>
+    </div>
         </section>
         <section className="pg-section-4">
           <div className="pg-section-heading">
