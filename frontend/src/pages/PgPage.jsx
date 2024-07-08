@@ -1,7 +1,6 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Pg.css";
 import {
- 
   rentAmountOptions,
   roomAmenities,
   pgSelectOptions,
@@ -16,24 +15,23 @@ import TextArea from "../components/TextArea";
 import LocalityDetails from "../components/LocalityDetails";
 import PgAmenities from "../components/PgAmenities";
 import UploadPhotos from "../components/UploadPhotos";
-import { pgListingClearError,pgListingFailed,pgListingStart,pgListingSuccess } from "../features/pg.slice";
-import { useDispatch,useSelector } from "react-redux";
+import {
+  pgListingClearError,
+  pgListingFailed,
+  pgListingStart,
+  pgListingSuccess,
+} from "../features/pg.slice";
+import { useDispatch, useSelector } from "react-redux";
 
-import { Alert,Spinner } from "flowbite-react";
+import { Alert, Spinner } from "flowbite-react";
 import { formErrorHandler } from "../formError";
 import { getTokenFromLocalStorage } from "../token";
 import { useNavigate } from "react-router-dom";
-import { AllStates,cities } from "../utils";
+import { AllStates, cities } from "../utils";
 
-
-
-
-
-
-function PgPage({showSuccessMessage}) {
-
-  const navigate=useNavigate()
-  const [isPgCreated,setIsPgCreated]=useState(false)
+function PgPage({ showSuccessMessage }) {
+  const navigate = useNavigate();
+  const [isPgCreated, setIsPgCreated] = useState(false);
   const [formData, setFormData] = useState({
     roomFacilities: [],
     rentAmount: 0,
@@ -57,25 +55,19 @@ function PgPage({showSuccessMessage}) {
     roomCleaning: "",
     warden: "",
     ameinites: [],
-   
   });
-  console.log(formData)
-  const token=getTokenFromLocalStorage()
+  console.log(formData);
+  const token = getTokenFromLocalStorage();
 
-  const {loading,error}=useSelector((state)=>state.pgLIsting)
-  const dispatch=useDispatch()
+  const { loading, error } = useSelector((state) => state.pgLIsting);
+  const dispatch = useDispatch();
 
-  const[photos,setPhotos]=useState([])
-  console.log(photos)
+  const [photos, setPhotos] = useState([]);
+  console.log(photos);
 
-  useEffect(()=>{
-    dispatch(pgListingClearError())
-    
-  },[])
-
- 
-
-
+  useEffect(() => {
+    dispatch(pgListingClearError());
+  }, []);
 
   const handleCheckboxChange = (event, id) => {
     const { checked } = event.target;
@@ -107,28 +99,24 @@ function PgPage({showSuccessMessage}) {
     }
     return []; // Return an empty array if the state is not found
   }
-  
+
   // Example usage:
   // const state = "delhi";
   const citiesInState = getCitiesByState(formData.state);
 
-
-  
-
-
-
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(pgListingClearError())
-    if(formData.foodAvaibility?.trim().toLocaleLowerCase()==='veg-food'.trim().toLocaleLowerCase() && !formData.foodType){
-      return dispatch(pgListingFailed('food type is required field'))
+    dispatch(pgListingClearError());
+    if (
+      formData.foodAvaibility?.trim().toLocaleLowerCase() ===
+        "veg-food".trim().toLocaleLowerCase() &&
+      !formData.foodType
+    ) {
+      return dispatch(pgListingFailed("food type is required field"));
     }
-    
-    
-    const pgFormData= new FormData();
-   
+
+    const pgFormData = new FormData();
+
     pgFormData.append("availableFor", formData.availableFor);
     pgFormData.append("balcony", formData.balcony);
     pgFormData.append("city", formData.city);
@@ -141,66 +129,60 @@ function PgPage({showSuccessMessage}) {
     pgFormData.append("laundary", formData.laundary);
     pgFormData.append("localAddress", formData.localAddress);
     pgFormData.append("pgOrHostelName", formData.pgOrHostelName);
- 
+
     pgFormData.append("placeAvaibility", formData.placeAvaibility);
     pgFormData.append("rentAmount", formData.rentAmount);
     pgFormData.append("roomCleaning", formData.roomCleaning);
-   
+
     pgFormData.append("roomSharing", formData.roomSharing);
     pgFormData.append("state", formData.state);
     pgFormData.append("warden", formData.warden);
-   
+
     formData.ameinites?.forEach((amenity) => {
       pgFormData.append("ameinites", amenity);
     });
-    formData.roomFacilities?.forEach((facility)=>{
-      pgFormData.append('roomFacilities',facility)
-    })
-    formData.pgRules?.forEach((rule)=>{
-      pgFormData.append('pgRules',rule)
-    })
+    formData.roomFacilities?.forEach((facility) => {
+      pgFormData.append("roomFacilities", facility);
+    });
+    formData.pgRules?.forEach((rule) => {
+      pgFormData.append("pgRules", rule);
+    });
 
-      /* Append each selected photos to the FormData object */
-      photos.forEach((photo) => {
-        pgFormData.append("listingPhotos", photo);
-      });
-
+    /* Append each selected photos to the FormData object */
+    photos.forEach((photo) => {
+      pgFormData.append("listingPhotos", photo);
+    });
 
     try {
-      dispatch(pgListingStart())
+      dispatch(pgListingStart());
 
       const resp = await fetch(`${API_URL}/pg/create-listing`, {
         method: "POST",
         headers: {
           // "Content-Type": "multipart/form-data"
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         credentials: "include",
-        body: pgFormData
+        body: pgFormData,
       });
       const data = await resp.json();
       // console.log(data)
-      
-      
 
-      if(!resp.ok){
-        dispatch(pgListingFailed(data.message))
-        
-        return
+      if (!resp.ok) {
+        dispatch(pgListingFailed(data.message));
 
+        return;
       }
-      showSuccessMessage('listing successfull')
-      
-      dispatch(pgListingClearError())
-      dispatch(pgListingSuccess(data.lsiting))  
-      navigate(`/property/pg/${data.lsiting._id}`)    
+      showSuccessMessage("listing successfull");
+
+      dispatch(pgListingClearError());
+      dispatch(pgListingSuccess(data.lsiting));
+      navigate(`/property/pg/${data.lsiting._id}`);
     } catch (error) {
       console.log(error.message);
-      dispatch(pgListingFailed(error.message))
+      dispatch(pgListingFailed(error.message));
     }
   };
-
-
 
   return (
     <main className="pg-container">
@@ -240,10 +222,12 @@ function PgPage({showSuccessMessage}) {
             </div>
             <p className=" -mt-20 font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
               {formData?.depositAmount < formData?.rentAmount &&
-                "deosit amount can not be less than rent amount" }
+                "deosit amount can not be less than rent amount"}
             </p>
             <div className="room-details-3">
-              <h3 className="pl-2 mb-2 text-xl lg:text-2xl capitalize tracking-wider font-sans font-bold">room facillities:</h3>
+              <h3 className="pl-2 mb-2 text-xl lg:text-2xl capitalize tracking-wider font-sans font-bold">
+                room facillities:
+              </h3>
               <div className="amenities-wrapper">
                 {roomAmenities.map((ament, index) => (
                   <CheckBoxInput
@@ -259,7 +243,7 @@ function PgPage({showSuccessMessage}) {
             </div>
           </div>
         </section>
-        
+
         <section className="pg-section-2">
           <div className="pg-section-heading">
             <h1> Showcase Your PG Details!: </h1>
@@ -278,7 +262,7 @@ function PgPage({showSuccessMessage}) {
               ></SelectTag>
             ))}
 
-            {formData.foodAvaibility === 'true' &&
+            {formData.foodAvaibility === "true" &&
               pgSelectOptions
                 .slice(4)
                 .map((data, index) => (
@@ -332,48 +316,41 @@ function PgPage({showSuccessMessage}) {
           </div>
         </section>
         <section className="pg-section-3">
-        <div className="locality-details">
-      <div className="pg-section-heading">
-        <h1> Locality: </h1>
-      </div>
-      <div className=" flex items-center gap-5 xl:gap-16 flex-wrap bg-white py-8 px-2 md:px-4 lg:px-6 rounded-md">
-        <SelectTag
-          optionValues={AllStates}
-          optionName="select state"
-          id='state'
-          formData={formData}
-          setFormData={setFormData}
-          name={'state'}
-          
+          <div className="locality-details">
+            <div className="pg-section-heading">
+              <h1> Locality: </h1>
+            </div>
+            <div className=" flex items-center gap-5 xl:gap-16 flex-wrap bg-white py-8 px-2 md:px-4 lg:px-6 rounded-md">
+              <SelectTag
+                optionValues={AllStates}
+                optionName="select state"
+                id="state"
+                formData={formData}
+                setFormData={setFormData}
+                name={"state"}
                 locationField={true}
-          
-        />
-        
-        <SelectTag
-          optionName="select cities"
-          optionValues={citiesInState}
-          setFormData={setFormData}
-          formData={formData}
-          id='city'
-          name={'city'}
-         
+              />
+
+              <SelectTag
+                optionName="select cities"
+                optionValues={citiesInState}
+                setFormData={setFormData}
+                formData={formData}
+                id="city"
+                name={"city"}
                 locationField={true}
-        />
-        <Input
-          label="street/local area"
-          type="text"
-          placeholder="ex. hauz rani gao..."
-          id="localAddress"
-          formData={formData}
-          setFormData={setFormData}
-       
-         
+              />
+              <Input
+                label="street/local area"
+                type="text"
+                placeholder="ex. hauz rani gao..."
+                id="localAddress"
+                formData={formData}
+                setFormData={setFormData}
                 locationField={true}
-          
-        />
-         
-      </div>
-    </div>
+              />
+            </div>
+          </div>
         </section>
         <section className="pg-section-4">
           <div className="pg-section-heading">
@@ -385,32 +362,35 @@ function PgPage({showSuccessMessage}) {
         <section className="pg-section-5">
           <div className="pg-section-heading">
             <h1>upload your pg pictures: </h1>
-            <UploadPhotos setPhotos={setPhotos} photos={photos} propertyCreated={isPgCreated} />
+            <UploadPhotos
+              setPhotos={setPhotos}
+              photos={photos}
+              propertyCreated={isPgCreated}
+            />
           </div>
         </section>
         {error && (
           <div className=" w-full flex justify-center items-center">
-          <Alert
-            className=" w-full sm:w-1/2 md:w-1/3 text-xl"
-            color="failure"
-            onDismiss={() => dispatch(pgListingClearError())}
-          >
-            {error}
-          </Alert>
-        </div>
+            <Alert
+              className=" w-full sm:w-1/2 md:w-1/3 text-xl"
+              color="failure"
+              onDismiss={() => dispatch(pgListingClearError())}
+            >
+              {error}
+            </Alert>
+          </div>
         )}
         <div className="submit_button">
           <button type="submit">
-          {
-            loading ? (<>
-              <Spinner
-                color="failure"
-                aria-label="Failure spinner example"
-              />{" "}
-              listing...
-            </>) : 'create listing'
-          }
-            </button>
+            {loading ? (
+              <>
+                <Spinner color="failure" aria-label="Failure spinner example" />{" "}
+                listing...
+              </>
+            ) : (
+              "create listing"
+            )}
+          </button>
         </div>
       </form>
     </main>

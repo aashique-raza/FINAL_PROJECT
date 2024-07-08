@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/Rent.css";
 import LocalityDetails from "../components/LocalityDetails";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
@@ -10,7 +10,6 @@ import { roomAmenitiesList } from "../rentUtils";
 import { getTokenFromLocalStorage } from "../token";
 import { API_URL } from "../configue";
 import {
- 
   preferedTenats,
   monthlyMaintenance,
   furnishing,
@@ -21,26 +20,25 @@ import {
 } from "../rentUtils";
 import RadioInput from "../components/RadioInput";
 
-
 import CalenderInput from "../components/CalenderInput";
-import { Alert,Spinner } from "flowbite-react";
+import { Alert, Spinner } from "flowbite-react";
 // import { IndianRupeeIcon } from "@mui/icons-material";
 import DescriptionInput from "../components/DescriptionInput";
 import { AllStates, cities } from "../utils";
 import { useNavigate } from "react-router-dom";
 
-function RentPage({showSuccessMessage}) {
-  const token=getTokenFromLocalStorage()
+function RentPage({ showSuccessMessage }) {
+  const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
   const [photos, setPhotos] = useState([]);
-  const [isPropertyCreated,setIspropertyCreated]=useState(false)
+  const [isPropertyCreated, setIspropertyCreated] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const navigate=useNavigate()
- 
+  const navigate = useNavigate();
+
   const formRef = useRef(null);
 
-// console.log(photos)
+  // console.log(photos)
 
   // Function to filter cities based on the current city
   function filterCitiesByCurrentCity(currentCity) {
@@ -71,7 +69,7 @@ function RentPage({showSuccessMessage}) {
   let [bedroom, setBedroom] = useState(0);
   let [balcony, setbalcony] = useState(0);
   let [guest, setGuest] = useState(0);
-  let[bathroom,setBathroom]=useState(0)
+  let [bathroom, setBathroom] = useState(0);
 
   const handleTenetCHeckBox = (e) => {
     const { checked, id, value } = e.target;
@@ -161,7 +159,7 @@ function RentPage({showSuccessMessage}) {
     rentFormData.append("bedroom", bedroom);
     rentFormData.append("balcony", balcony);
     rentFormData.append("guest", guest);
-    rentFormData.append('bathroom',bathroom)
+    rentFormData.append("bathroom", bathroom);
 
     additionalDetails.availableAmenities?.forEach((amenity) => {
       rentFormData.append("availableAmenities", amenity);
@@ -176,16 +174,16 @@ function RentPage({showSuccessMessage}) {
 
     try {
       setError(null);
-      
+
       setLoading(true);
 
       const resp = await fetch(`${API_URL}/rent/create`, {
         method: "POST",
         headers: {
           // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        credentials:'include',
+        credentials: "include",
         body: rentFormData,
       });
       // console.log(resp);
@@ -193,7 +191,6 @@ function RentPage({showSuccessMessage}) {
       console.log(data);
 
       if (!resp.ok) {
-        
         setLoading(false);
         setError(data.message);
         return;
@@ -201,28 +198,26 @@ function RentPage({showSuccessMessage}) {
 
       setLoading(false);
       setError(null);
-      showSuccessMessage('rent property created')
-      navigate(`/property/rental/${data.saveProperty._id}`)    
-    
-     
+      showSuccessMessage("rent property created");
+      navigate(`/property/rental/${data.saveProperty._id}`);
     } catch (error) {
-    setError(error.message)
-    setLoading(false)
+      setError(error.message);
+      setLoading(false);
       console.log(error.message);
     }
   };
 
   return (
-    <div className=" rent_container lg:px-28  border-none">
+    <div className=" rent_container ">
       <form ref={formRef} onSubmit={handleSubmitForm} className=" w-full">
-        <section className="rent_section_1">
+        <section className="rent_section_1 ">
           <div className="mb-5">
-            <h2 className="text-xs md:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway  font-extrabold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-600">
               Property Details
             </h2>
           </div>
-          <div className=" ">
-            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center  ">
+          <div className=" px-2 md:px-4 lg:px-8 py-6 md:py-5 lg:py-7 bg-white  ">
+            <div className=" flex  flex-wrap justify-start items-center gap-4 md:gap-3 lg:gap-5  ">
               {roomDetailsOptions?.map((data, index) => (
                 <SelectTag
                   key={index}
@@ -236,7 +231,7 @@ function RentPage({showSuccessMessage}) {
               ))}
             </div>
           </div>
-          <div className=" flex sm:flex-row flex-col sm:gap-4 gap-1 flex-wrap  mt-4">
+          <div className=" bg-white px-1 sm:px-2 lg:px-3 xl:px-4  py-2 xl:py-4flex sm:flex-row flex-col sm:gap-4 gap-1 flex-wrap  ">
             <Input
               label={"built_up_area"}
               type="number"
@@ -259,14 +254,13 @@ function RentPage({showSuccessMessage}) {
         </section>
         <section className="rent_section_2 mt-5 ">
           <div className="mb-5">
-            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway  font-extrabold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-600">
               Provide rental details about your property
             </h2>
           </div>
-
-          <div className=" flex  flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
+          <div className=" bg-white px-2 md:px-4 lg:px-8 py-3 md:py-5 lg:py-7 flex   flex-wrap lg:flex-row flex-col lg:items-start lg:justify-start lg:gap-16 gap-4 items-start">
             <div className=" flex  flex-col gap-1  items-   lg:w-1/4">
-              <p className=" font-roboto sm:text-xl text-sm font-semibold capitalize text-gray-950">
+              <p className=" font-roboto md:text-xl text-xl  font-extrabold capitalize text-gray-950">
                 property available for
               </p>
               <div className=" flex gap-3">
@@ -288,7 +282,7 @@ function RentPage({showSuccessMessage}) {
                 />
               </div>
             </div>
-            <div className=" flex  flex-col gap-1    prefered_tenats">
+            <div className=" bg-white flex  flex-col gap-1    prefered_tenats">
               <p className=" font-raleway font-bold text-sm sm:my-0 mt-2 sm:text-xl capitalize text-gray-950">
                 prefered tenats
               </p>
@@ -299,7 +293,7 @@ function RentPage({showSuccessMessage}) {
                     className=" flex items-center justify-start gap-2 "
                   >
                     <input
-                      className=" focus:border-none focus:outline-none focus:ring-0 checked:text-green-500 "
+                      className=" w-5 h-5 md:h-7 md:w-7 xl:h-8 xl:w-8 focus:border-none focus:outline-none focus:ring-0 checked:text-green-500 "
                       type="checkbox"
                       name={tenetOption.value}
                       id={tenetOption.value}
@@ -307,10 +301,10 @@ function RentPage({showSuccessMessage}) {
                     />
                     <label
                       htmlFor={tenetOption.value}
-                      className=" flex items-center gap-1  text-sm sm:text-xl font-raleway font-bold text-gray-500"
+                      className=" flex items-center gap-1  text-xl md:text-2xl font-raleway font-bold text-gray-500"
                     >
                       {" "}
-                      <span >{tenetOption.icon}</span> {tenetOption.label}
+                      <span>{tenetOption.icon}</span> {tenetOption.label}
                     </label>
                   </div>
                 ))}
@@ -319,61 +313,60 @@ function RentPage({showSuccessMessage}) {
               {/* <CustomCheckbox options={preferedTenats} formData={renatlDetails} setFormData={setRentalsDetails} /> */}
             </div>
           </div>
-          <div>
-            <div className="  mt-3 flex flex-col gap-2 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
+          <div className="retn_section_2_selct_container flex items-center gap-5 xl:gap-16 flex-wrap bg-white py-8 px-2 md:px-4 lg:px-6 ">
+            <SelectTag
+              id={"monthlyMaintenance"}
+              name={"monthlyMaintenance"}
+              optionName={"monthly maintenance"}
+              optionValues={monthlyMaintenance}
+              formData={renatlDetails}
+              setFormData={setRentalsDetails}
+            ></SelectTag>
+            <SelectTag
+              id={"furnishing"}
+              name={"furnished"}
+              optionName={"furnishing"}
+              optionValues={furnishing}
+              formData={renatlDetails}
+              setFormData={setRentalsDetails}
+            ></SelectTag>
+            <SelectTag
+              id={"parking"}
+              name={"parking"}
+              optionName={"furnishing"}
+              optionValues={parking}
+              formData={renatlDetails}
+              setFormData={setRentalsDetails}
+            ></SelectTag>
+            <Input
+              label={"expected rent"}
+              type="number"
+              placeholder={"enter amount"}
+              id={"rentAmount"}
+              formData={renatlDetails}
+              setFormData={setRentalsDetails}
+            />
+            <Input
+              label={"expected deposit"}
+              type="number"
+              placeholder={"enter amount"}
+              id={"depositAmount"}
+              formData={renatlDetails}
+              setFormData={setRentalsDetails}
+            />
+            {renatlDetails.monthlyMaintenance?.trim().toLocaleLowerCase() ===
+              "extraMaintenance".trim().toLocaleLowerCase() && (
               <Input
-                label={"expected rent"}
+                label={"maintenance amount"}
                 type="number"
                 placeholder={"enter amount"}
-                id={"rentAmount"}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
-              />{" "}
-              <Input
-                label={"expected deposit"}
-                type="number"
-                placeholder={"enter amount"}
-                id={"depositAmount"}
+                id={"maintenanceAmount"}
                 formData={renatlDetails}
                 setFormData={setRentalsDetails}
               />
-            </div>
-            <p className=" font-raleway text-xs text-red-500   capitalize font-bold">
-              {renatlDetails.depositAmount < renatlDetails.rentAmount &&
-                "deosit amount can not be less than rent amount"}
-            </p>
-            <div className=" flex sm:flex-row flex-col justify-start  sm:items-center flex-wrap sm:justify-start sm:gap-3 md:gap-5 lg:gap-10   my-4 py-2">
-              <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
-                <SelectTag
-                  id={"monthlyMaintenance"}
-                  name={"monthlyMaintenance"}
-                  optionName={"monthly maintenance"}
-                  optionValues={monthlyMaintenance}
-                  formData={renatlDetails}
-                  setFormData={setRentalsDetails}
-                  width={true}
-                ></SelectTag>
-              </div>
-
-              {/* <SelectINput optionItems={monthlyMaintenance} /> */}
-
-              {renatlDetails.monthlyMaintenance?.trim().toLocaleLowerCase() ===
-                "extraMaintenance".trim().toLocaleLowerCase() && (
-                <Input
-                  label={"maintenance amount"}
-                  type="number"
-                  placeholder={"enter amount"}
-                  id={"maintenanceAmount"}
-                  formData={renatlDetails}
-                  setFormData={setRentalsDetails}
-                />
-              )}
-            </div>
-          </div>
-
-          <div className=" flex flex-wrap calender_div lg:gap-5 sm:gap-3 md:gap-4 sm:items-center  ">
+            )}
             <div className="flex w-full flex-col gap-2 md:w-80  md:min-w-72">
-              <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
+              <p className=" text-xl xl:text-2xl  font-raleway font-bold capitalize  inline-block">
                 available from
               </p>
               <CalenderInput
@@ -382,37 +375,15 @@ function RentPage({showSuccessMessage}) {
                 date="available_from"
               />
             </div>
-
-            {/* <p className=" text-xs  font-raleway font-bold capitalize  inline-block">
-              furnishing
-            </p>
-            <SelectINput optionItems={furnishing} /> */}
-            <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
-              <SelectTag
-                id={"furnishing"}
-                name={"furnished"}
-                optionName={"furnishing"}
-                optionValues={furnishing}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
-                width={true}
-              ></SelectTag>
-            </div>
-
-            <div className=" w-full sm:w-1/2 md:w-1/3 pl-0  ">
-              <SelectTag
-                id={"parking"}
-                name={"parking"}
-                optionName={"furnishing"}
-                optionValues={parking}
-                formData={renatlDetails}
-                setFormData={setRentalsDetails}
-                width={true}
-              ></SelectTag>
-            </div>
           </div>
-
-          <div>
+          <p className=" font-raleway text-xl py-3 text-red-500   capitalize font-bold">
+            {renatlDetails.depositAmount < renatlDetails.rentAmount &&
+              "deosit amount can not be less than rent amount"}
+          </p>
+         
+          <div className=" bg-white px-1 md:px-2 lg:px-4 py-1 md:py-2 xl:py-3">
+            
+            
             <DescriptionInput
               label={"description"}
               id="description"
@@ -421,16 +392,18 @@ function RentPage({showSuccessMessage}) {
               setFormData={setRentalsDetails}
             />
           </div>
+
+          
         </section>
-        <section className="rent_section_3 my-5">
+        <section className=" my-5">
           <div className="mb-5">
-            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway  font-extrabold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-600">
               locality Details
             </h2>
           </div>
 
-          <div className=" flex justify-start gap-7 items-center flex-wrap">
-            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-full sm:w-1/3 ">
+          <div className="flex items-center gap-5 xl:gap-16 flex-wrap bg-white py-8 px-2 md:px-4 lg:px-6">
+            
               <SelectTag
                 id={"state"}
                 name={"state"}
@@ -438,12 +411,11 @@ function RentPage({showSuccessMessage}) {
                 optionValues={AllStates}
                 formData={localDetails}
                 setFormData={setLocalDetails}
-                width={true}
+               
                 setState={setState}
                 state={true}
               ></SelectTag>
-            </div>
-            <div className=" flex flex-col md:flex-wrap md:gap-6 gap-2 md:flex-row  items-center w-full sm:w-1/3 ">
+           
               <SelectTag
                 id={"city"}
                 name={"city"}
@@ -451,12 +423,9 @@ function RentPage({showSuccessMessage}) {
                 optionValues={filteredCities}
                 formData={localDetails}
                 setFormData={setLocalDetails}
-                width={true}
+               
               ></SelectTag>
-            </div>
-          </div>
-          <div className=" flex sm:flex-row flex-col sm:gap-4 gap-1 flex-wrap  mt-4">
-            <Input
+               <Input
               label={"local/street address"}
               type="text"
               placeholder={"ex- hauz rani gao..."}
@@ -464,19 +433,21 @@ function RentPage({showSuccessMessage}) {
               formData={localDetails}
               setFormData={setLocalDetails}
             />
+           
           </div>
+         
         </section>
         <section className="rent_section_4">
           <div className="mb-5">
-            <h2 className="text-sm sm:text-xl font-raleway font-bold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-500">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-raleway  font-extrabold capitalize px-4 py-6 border-b-2 border-gray-200 text-red-600">
               provide additional details about your property to get maximum
               visibility
             </h2>
           </div>
 
-          <div className=" flex sm:flex-row gap-3 sm:gap-10 flex-wrap items-center">
+          <div className=" flex sm:flex-row gap-3 sm:gap-10 flex-wrap items-center bg-white px-2 md:px-4 lg:px-8 py-3 md:py-5 lg:py-7">
             <div className=" w-2/5 min-w-36 sm:w-56">
-              <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+              <p className=" text-sm md:text-xl   font-raleway font-bold capitalize  inline-block mb-1">
                 bedroom
               </p>
               <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
@@ -506,14 +477,14 @@ function RentPage({showSuccessMessage}) {
               </div>
             </div>
             <div className="  w-2/5 min-w-36 sm:w-56">
-            <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+              <p className=" text-sm md:text-xl font-raleway font-bold capitalize  inline-block mb-1">
                 bathroom
               </p>
               <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
                 <AiOutlinePlus
                   onClick={() => {
                     if (bathroom < 10) {
-                      setBathroom(bathroom+ 1);
+                      setBathroom(bathroom + 1);
                     } else {
                       setBathroom(10);
                     }
@@ -534,10 +505,9 @@ function RentPage({showSuccessMessage}) {
                   className=" hover:text-white p-2 bg-slate-300 font-raleway text-3xl text-black font-bold rounded-sm cursor-pointer hover:bg-gray-800"
                 />
               </div>
-
             </div>
             <div className="w-2/5 min-w-36   sm:w-56">
-              <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+              <p className=" text-sm md:text-xl  font-raleway font-bold capitalize  inline-block mb-1">
                 balcony
               </p>
               <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
@@ -567,7 +537,7 @@ function RentPage({showSuccessMessage}) {
               </div>
             </div>
             <div className="w-2/5  min-w-36 sm:w-56">
-              <p className=" text-xs  font-raleway font-bold capitalize  inline-block mb-1">
+              <p className=" text-sm md:text-xl  font-raleway font-bold capitalize  inline-block mb-1">
                 guest
               </p>
               <div className=" flex border-2 border-gray-400 justify-between py-2 px-3 sm:w-56 rounded-sm items-center ">
@@ -598,7 +568,7 @@ function RentPage({showSuccessMessage}) {
             </div>
           </div>
 
-          <div className=" flex sm:flex-row flex-col items-start sm:justify-start sm:items-center gap-4 sm:gap-4 md:gap-7 lg:gap-10 mt-7">
+          <div className=" flex sm:flex-row flex-col items-start sm:justify-start sm:items-center gap-4 sm:gap-4 md:gap-7 lg:gap-10  bg-white px-2 md:px-4 lg:px-8 py-3 md:py-5 lg:py-7">
             <div className=" sm:w-1/3 w-3/4  ">
               <SelectTag
                 id={"waterSupply"}
@@ -623,8 +593,8 @@ function RentPage({showSuccessMessage}) {
             </div>
           </div>
 
-          <div className=" mt-4 py-3">
-            <p className=" py-4 border-t-2 font-roboto capitalize text-xs font-bold space-x-0 text-gray-700">
+          <div className=" py-3 bg-white px-2 md:px-4 lg:px-8 py-3 md:py-5 lg:py-7">
+            <p className=" py-4 border-t-2 font-roboto capitalize text-xl xl:text-2xl font-bold space-x-0 text-black">
               select the available amenities
             </p>
             <div className=" flex items-center justify-start gap-5  flex-wrap">
@@ -634,7 +604,7 @@ function RentPage({showSuccessMessage}) {
                   className=" flex items-center justify-start gap-2 "
                 >
                   <input
-                    className=" focus:border-none focus:outline-none focus:ring-0 checked:text-green-500 "
+                    className=" w-5 h-5 md:h-7 md:w-7 xl:h-9 xl:w-9  focus:border-none focus:outline-none focus:ring-0 checked:text-blue-600 "
                     type="checkbox"
                     name={tenetOption.label}
                     id={tenetOption.label}
@@ -642,7 +612,7 @@ function RentPage({showSuccessMessage}) {
                   />
                   <label
                     htmlFor={tenetOption.label}
-                    className=" flex items-center gap-1  text-sm sm:text-xl font-raleway font-bold text-gray-500"
+                    className=" flex items-center gap-1  text-xl lg:text-2xl font-raleway font-bold text-gray-700"
                   >
                     {" "}
                     <span>{tenetOption.icon}</span> {tenetOption.label}
@@ -659,33 +629,36 @@ function RentPage({showSuccessMessage}) {
             </h2>
           </div>
           <div>
-            <UploadPhotos photos={photos} setPhotos={setPhotos} propertyCreated={isPropertyCreated} />
+            <UploadPhotos
+              photos={photos}
+              setPhotos={setPhotos}
+              propertyCreated={isPropertyCreated}
+            />
           </div>
         </section>
         {error && (
           <div className=" w-full flex justify-center items-center">
-          <Alert
-            className=" w-full sm:w-1/2 md:w-1/3 text-xl"
-            color="failure"
-            onDismiss={() => setError(null)}
-          >
-            {error}
-          </Alert>
-        </div>
+            <Alert
+              className=" w-full sm:w-1/2 md:w-1/3 text-xl"
+              color="failure"
+              onDismiss={() => setError(null)}
+            >
+              {error}
+            </Alert>
+          </div>
         )}
-        
+
         <div className=" flex justify-end items-center my-10 ">
           <button
             type="submit"
             className=" capitalize  px-10 py-3  font-roboto font-semibold sm:text-xl text-sm border-none outline-none focus:border-none focus:outline-none focus:ring-0 rounded-md bg-red-500 text-white hover:bg-red-600 transition-all duration-1000 ease-in-out"
           >
-            {loading ?  (<>
-              <Spinner
-                color="failure"
-                aria-label="Failure spinner example"
-              />{" "}
-              creating property..
-            </>) : (
+            {loading ? (
+              <>
+                <Spinner color="failure" aria-label="Failure spinner example" />{" "}
+                creating property..
+              </>
+            ) : (
               "create property"
             )}
           </button>
@@ -696,3 +669,11 @@ function RentPage({showSuccessMessage}) {
 }
 
 export default RentPage;
+{
+  /* <div className="  ">
+                
+              </div> */
+}
+// <div className="  mt-3 flex flex-col gap-2 items-start sm:flex-row sm:gap-4 md:gap-7 sm:items-center sm:my-4 ">
+
+// </div>
