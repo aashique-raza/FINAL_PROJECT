@@ -13,7 +13,9 @@ function OwnerDetailsModal({ isOpen, onClose }) {
   const{user}=useSelector(state=>state.user)
 
   const handleNext = () => {
-    
+    console.log(email)
+    console.log(mobile)
+    if(!email || !mobile) return setError('fill required fileds.')
     // setStep(2);
   };
 
