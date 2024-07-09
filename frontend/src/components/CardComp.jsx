@@ -18,6 +18,9 @@ import FemaleIcon from "@mui/icons-material/Female";
 import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
 import WeekendIcon from "@mui/icons-material/Weekend";
+import OwnerDetailsModal from "./OwnerDetailsModal";
+
+import {useDispatch,useSelector} from 'react-redux'
 
 // MonetizationOnOutlined
 
@@ -25,6 +28,10 @@ function CardComp({ data }) {
   const [isAddFavroute, setAddFavroute] = useState(false);
   const location = useLocation();
   const [category, setCategory] = useState(null);
+  const[isModelOpen,setModalOPen]=useState(false)
+
+
+  const {user}=useSelector(state=>state.user)
 
   const handleFavroute = () => {
     setAddFavroute(!isAddFavroute);
@@ -49,6 +56,15 @@ function CardComp({ data }) {
     // Format the date as MM/DD/YYYY
     return `${month}/${day}/${year}`;
   }
+
+
+
+  const openOwnerDetailsModal=(id)=>{
+    // alert(id)
+    // console.log(user)
+    setModalOPen(!isModelOpen)
+  }
+
 
   return (
     <div className="card_container">
@@ -175,7 +191,7 @@ function CardComp({ data }) {
             )}
 
             <div className="get_owner_wrapper w-full flex gap-2 items-center">
-              <button className=" focus:ring-0 border-none outline-none  w-3/4 px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto ">
+              <button onClick={()=>openOwnerDetailsModal(data._id)} className=" focus:ring-0 border-none outline-none  w-3/4 px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto ">
                 get owner details
               </button>
               <div
@@ -189,6 +205,9 @@ function CardComp({ data }) {
                 />
               </div>
             </div>
+            {
+              isModelOpen && <OwnerDetailsModal isOpen={isModelOpen} onClose={()=>setModalOPen(false)}/>
+            }
           </div>
         </div>
       </section>
