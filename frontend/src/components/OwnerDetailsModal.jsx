@@ -68,7 +68,7 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
       setLoading(true)
 
 
-      const resp=await fetch(`${API_URL}/rent/getOwnerDetails${propertyId}`,{
+      const resp=await fetch(`${API_URL}/guest/getOwnerDetails/${propertyId}/${category}`,{
         method: "POST",
         headers: {
             "Content-Type": "application/json", // Set the correct content type
@@ -104,7 +104,7 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
       setLoading(true)
 
 
-      const resp=await fetch(`${API_URL}/pg/getOwnerDetails${propertyId}`,{
+      const resp=await fetch(`${API_URL}/guest/getOwnerDetails/${propertyId}/${category}`,{
         method: "POST",
         headers: {
             "Content-Type": "application/json", // Set the correct content type
