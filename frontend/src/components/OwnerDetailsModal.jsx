@@ -1,9 +1,10 @@
 // import React from 'react'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button,Spinner } from "flowbite-react";
 import { useSelector,useDispatch } from "react-redux";
+import { API_URL } from "../configue";
 
-function OwnerDetailsModal({ isOpen, onClose }) {
+function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState("");
@@ -11,18 +12,142 @@ function OwnerDetailsModal({ isOpen, onClose }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const{user}=useSelector(state=>state.user)
+  const[propertyId,setPropertyId]=useState(id)
+  const[category,setCategory]=useState(dataCategory)
+  const [matchOTP,setMatchOTP]=useState(null)
+  const[successMsg,setSuccessMsg]=useState('')
+  
+  useEffect(()=>{
+    setPropertyId(id)
+    setCategory(dataCategory)
+  })
 
-  const handleNext = () => {
-    console.log(email)
-    console.log(mobile)
+  const handleNext = async() => {
+    // console.log(email)
+    // console.log(mobile)
     if(!email || !mobile) return setError('fill required fileds.')
-    // setStep(2);
+        // console.log(propertyId,category)
+    try {
+        setError(null)
+        setLoading(true)
+        const resp = await fetch(`${API_URL}/guest/sendMailVerificationOtp`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", // Set the correct content type
+                // Authorization: `Bearer ${token}`, // Uncomment if you need to send a token
+              },
+              // credentials: "include",
+              body: JSON.stringify({ email }), // Convert email to JSON string
+          });
+
+          const result=await resp.json()
+
+          console.log(result)
+
+          if(!resp.ok){
+            setError(result.message)
+            setLoading(false)
+            return
+          }
+
+          setMatchOTP(result.otp)
+           setStep(2);
+           
+
+        
+    } catch (error) {
+        console.log('email verification failed',error)
+        setError(error.message)
+    }
+   
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle submit logic here
-    console.log({ email, mobile, otp });
+ async function getRentalPropertyOwnerDetails(){
+    try {
+      setError(null)
+      setLoading(true)
+
+
+      const resp=await fetch(`${API_URL}/rent/getOwnerDetails${propertyId}`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json", // Set the correct content type
+            // Authorization: `Bearer ${token}`, // Uncomment if you need to send a token
+          },
+          // credentials: "include",
+          body: JSON.stringify({ email }), 
+      })
+
+      const result=await resp.json()
+
+      if(!resp.ok){
+        setError(result.message)
+        setLoading(false)
+        return
+      }
+
+      setError(null)
+      setLoading(false)
+      console.log(result)
+
+      
+    } catch (error) {
+      console.log('get rental property owner details failed',error.message)
+      setError(error.message)
+      setLoading(false)
+    }
+  }
+
+  async function getPgPropertyOwnerDetails(){
+    try {
+      setError(null)
+      setLoading(true)
+
+
+      const resp=await fetch(`${API_URL}/pg/getOwnerDetails${propertyId}`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json", // Set the correct content type
+            // Authorization: `Bearer ${token}`, // Uncomment if you need to send a token
+          },
+          // credentials: "include",
+          body: JSON.stringify({ email }), 
+      })
+
+      const result=await resp.json()
+
+      if(!resp.ok){
+        setError(result.message)
+        setLoading(false)
+        return
+      }
+
+      setError(null)
+      setLoading(false)
+      console.log(result)
+
+      
+    } catch (error) {
+      console.log('get pg property owner details failed',error.message)
+      setError(error.message)
+      setLoading(false)
+    }
+  }
+
+  const handleOTPSubmit = () => {
+    console.log('ye chal rha yaha')
+    // e.preventDefault();
+    setError(null)
+  console.log(otp)
+  console.log(matchOTP)
+  
+  if(category==='rental'){
+    getRentalPropertyOwnerDetails()
+  }else{
+    getPgPropertyOwnerDetails()
+  }
+
+
   };
 
   return (
@@ -31,7 +156,7 @@ function OwnerDetailsModal({ isOpen, onClose }) {
         Please fill your details for getting owner details
       </Modal.Header>
       <Modal.Body>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form  className="space-y-4">
           {step === 1 && (
             <>
               <div>
@@ -101,11 +226,12 @@ function OwnerDetailsModal({ isOpen, onClose }) {
             )}
           </Button>
         ) : (
-          <Button color="blue" onClick={handleSubmit}>
+          <Button color="blue" onClick={handleOTPSubmit}>
             Submit
           </Button>
         )}
         {error && <p className="text-red-600 mt-2">{error}</p>}
+        {successMsg && <p className="text-green-600 mt-2">{error}</p>}
       </Modal.Footer>
     </Modal>
   );

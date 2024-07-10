@@ -191,7 +191,7 @@ function CardComp({ data }) {
             )}
 
             <div className="get_owner_wrapper w-full flex gap-2 items-center">
-              <button onClick={()=>openOwnerDetailsModal(data._id)} className=" focus:ring-0 border-none outline-none  w-3/4 px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto ">
+              <button onClick={()=>openOwnerDetailsModal()} className=" focus:ring-0 border-none outline-none  w-3/4 px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto ">
                 get owner details
               </button>
               <div
@@ -206,7 +206,7 @@ function CardComp({ data }) {
               </div>
             </div>
             {
-              isModelOpen && <OwnerDetailsModal isOpen={isModelOpen} onClose={()=>setModalOPen(false)}/>
+              isModelOpen && <OwnerDetailsModal isOpen={isModelOpen} onClose={()=>setModalOPen(false)} id={data._id} dataCategory={category}/>
             }
           </div>
         </div>
