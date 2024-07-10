@@ -9,7 +9,7 @@ import { avaibility } from "../utils";
 import { ThreeDots } from "react-loader-spinner";
 import { API_URL } from "../configue";
 
-function SearchPage() {
+function SearchPage({showSuccessMessage}) {
   const location = useLocation();
   const [category, setCategory] = useState(null);
   const [filterComVisible, setFilterCompVisible] = useState(false);
@@ -167,7 +167,7 @@ function SearchPage() {
           </div>
         ) : filteredProperty && filteredProperty.length > 0 ? (
           filteredProperty.map((data, index) => (
-            <CardComp key={index} data={data} />
+            <CardComp key={index} data={data}  />
           ))
         ) : (
           <div className="w-full py-10 bg-slate-100 rounded-md flex justify-center items-center shadow-md">

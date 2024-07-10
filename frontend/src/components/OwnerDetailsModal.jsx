@@ -4,7 +4,7 @@ import { Modal, Button,Spinner } from "flowbite-react";
 import { useSelector,useDispatch } from "react-redux";
 import { API_URL } from "../configue";
 
-function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
+function OwnerDetailsModal({ isOpen, onClose,id, dataCategory,setModalOPen }) {
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [otp, setOtp] = useState("");
@@ -49,7 +49,8 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
             setLoading(false)
             return
           }
-
+          setError(null)
+          setLoading(false)
           setMatchOTP(result.otp)
            setStep(2);
            
@@ -58,6 +59,7 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
     } catch (error) {
         console.log('email verification failed',error)
         setError(error.message)
+        setLoading(false)
     }
    
   };
@@ -68,18 +70,16 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
       setLoading(true)
 
 
-      const resp=await fetch(`${API_URL}/guest/getOwnerDetails/${propertyId}/${category}`,{
+      const resp = await fetch(`${API_URL}/guest/getOwnerDetails/${propertyId}/${category}`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json", // Set the correct content type
-            // Authorization: `Bearer ${token}`, // Uncomment if you need to send a token
-          },
-          // credentials: "include",
-          body: JSON.stringify({ email }), 
-      })
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email,mobile }),
+    });
 
       const result=await resp.json()
-
+      console.log(result)
       if(!resp.ok){
         setError(result.message)
         setLoading(false)
@@ -89,6 +89,8 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
       setError(null)
       setLoading(false)
       console.log(result)
+      // setModalOPen(!isOpen)
+      setSuccessMsg(result.msg)
 
       
     } catch (error) {
@@ -111,7 +113,7 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
             // Authorization: `Bearer ${token}`, // Uncomment if you need to send a token
           },
           // credentials: "include",
-          body: JSON.stringify({ email }), 
+          body: JSON.stringify({ email ,mobile}), 
       })
 
       const result=await resp.json()
@@ -125,6 +127,8 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
       setError(null)
       setLoading(false)
       console.log(result)
+      setSuccessMsg(result.msg)
+      // setModalOPen(!isOpen)
 
       
     } catch (error) {
@@ -140,11 +144,17 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
     setError(null)
   console.log(otp)
   console.log(matchOTP)
+
+  if(otp!==matchOTP) return setError('OTP Missmatched!')
   
   if(category==='rental'){
+    console.log('rental function call hua')
     getRentalPropertyOwnerDetails()
+    setMatchOTP('')
   }else{
+    console.log('pg function call hua')
     getPgPropertyOwnerDetails()
+    setMatchOTP('')
   }
 
 
@@ -227,11 +237,21 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory }) {
           </Button>
         ) : (
           <Button color="blue" onClick={handleOTPSubmit}>
-            Submit
+            {
+              loading ?  (
+                <div className="flex items-center">
+                  <Spinner className="mr-3" size="sm" />
+                  Loading...
+                </div>
+              ) :(
+                "Submit"
+              )
+            }
+            
           </Button>
         )}
         {error && <p className="text-red-600 mt-2">{error}</p>}
-        {successMsg && <p className="text-green-600 mt-2">{error}</p>}
+        {successMsg && <p className="text-green-600 mt-2">{successMsg}</p>}
       </Modal.Footer>
     </Modal>
   );

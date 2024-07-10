@@ -70,7 +70,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/search/:category?" element={<SearchPage />} />
+        <Route path="/search/:category?" element={<SearchPage  showSuccessMessage={showSuccessMessage}/>} />
         <Route path="/property/:category/:id?" element={<PropertyPage />} />
        
 

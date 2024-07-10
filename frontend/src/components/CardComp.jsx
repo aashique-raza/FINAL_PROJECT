@@ -206,7 +206,7 @@ function CardComp({ data }) {
               </div>
             </div>
             {
-              isModelOpen && <OwnerDetailsModal isOpen={isModelOpen} onClose={()=>setModalOPen(false)} id={data._id} dataCategory={category}/>
+              isModelOpen && <OwnerDetailsModal isOpen={isModelOpen} setModalOPen={setModalOPen} onClose={()=>setModalOPen(false)} id={data._id} dataCategory={category}/>
             }
           </div>
         </div>
