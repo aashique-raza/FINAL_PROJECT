@@ -68,6 +68,10 @@ import { TvRounded } from "@mui/icons-material";
 import RestaurantIcon from "@mui/icons-material/Restaurant"; // For non-veg
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu"; // For veg
 import { FaShower } from "react-icons/fa";
+import OwnerDetailsModal from "../components/OwnerDetailsModal";
+import { useSelector } from "react-redux";
+import getOwnerDetailsForLoggedInUser from '../utility.js'
+
 
 // Final PG amenities list with icons
 const pgAvailableAmenities = [
@@ -88,6 +92,8 @@ function PropertyPage() {
   const [pgFacilityItems, setPgFacilityItems] = useState([]);
   const [propertyOverviews, setPropertyOverviewItems] = useState([]);
   const [matchedAmenity, setMatchedAmenity] = useState([]);
+  const[isModelOpen,setModalOPen]=useState(false)
+  const{user}=useSelector(state=>state.user)
 
   useEffect(() => {
     // You can perform any action with category and id here
@@ -104,7 +110,7 @@ function PropertyPage() {
       case "family":
         return <FaUsers />;
       case "anyone":
-        return <FaUser  />;
+        return <FaUser />;
       case "bachelor male":
         return <FaMale />;
       case "bachelor female":
@@ -258,7 +264,11 @@ function PropertyPage() {
     // console.log("property overview", data);
     return [
       { icon: <FaBed />, name: "bedroom", status: data.bedroom },
-      {icon:<FaShower/>, name:'bathroom',status:data.bathroom?data.bathroom : 'NA'},
+      {
+        icon: <FaShower />,
+        name: "bathroom",
+        status: data.bathroom ? data.bathroom : "NA",
+      },
       {
         icon: <IoMdWater />,
         name: "water supply",
@@ -401,6 +411,18 @@ function PropertyPage() {
 
   // console.log("property data", propertyData);
 
+// modal open function-----
+const openOwnerDetailsModal=()=>{
+  if(!user){
+    setModalOPen(!isModelOpen)
+  }  else{
+    getOwnerDetailsForLoggedInUser(propertyData._id,category,user.email)
+  }
+
+    
+ 
+}
+
   return (
     <main className="property-main-container">
       {propertyData && (
@@ -453,7 +475,7 @@ function PropertyPage() {
                     ))}
               </div>
               <div className="flex items-center gap-3 justify-start w-full px-6 mt-10 border-2 border-gray-200 py-6">
-                <button className="w-auto focus:ring-0 border-none outline-none px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto">
+                <button onClick={openOwnerDetailsModal} className="w-auto focus:ring-0 border-none outline-none px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto">
                   get owner details
                 </button>
                 <button className="bg-green-600 px-12 py-6 text-3xl sm:text-4xl text-white">
@@ -516,7 +538,9 @@ function PropertyPage() {
                       />
                     ))
                   ) : (
-                    <div className="text-red-500 capitalize font-medium font-roboto tracking-wider">No available amenities</div>
+                    <div className="text-red-500 capitalize font-medium font-roboto tracking-wider">
+                      No available amenities
+                    </div>
                   )}
                   {matchedAmenity.length > 5 && !showAllAmenities && (
                     <div
@@ -551,6 +575,15 @@ function PropertyPage() {
               </div>
             </aside>
           </div>
+          {isModelOpen && (
+            <OwnerDetailsModal
+              isOpen={isModelOpen}
+              setModalOPen={setModalOPen}
+              onClose={() => setModalOPen(false)}
+              id={propertyData._id}
+              dataCategory={category}
+            />
+          )}
         </>
       )}
     </main>
