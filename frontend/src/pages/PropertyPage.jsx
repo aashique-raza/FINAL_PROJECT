@@ -94,6 +94,7 @@ function PropertyPage() {
   const [matchedAmenity, setMatchedAmenity] = useState([]);
   const[isModelOpen,setModalOPen]=useState(false)
   const{user}=useSelector(state=>state.user)
+  const[responseStatus,setResponseStatus]=useState('')
 
   useEffect(() => {
     // You can perform any action with category and id here
@@ -412,11 +413,14 @@ function PropertyPage() {
   // console.log("property data", propertyData);
 
 // modal open function-----
-const openOwnerDetailsModal=()=>{
+
+console.log('response',responseStatus)
+const openOwnerDetailsModal=async()=>{
   if(!user){
     setModalOPen(!isModelOpen)
   }  else{
-    getOwnerDetailsForLoggedInUser(propertyData._id,category,user.email)
+   const response=await getOwnerDetailsForLoggedInUser(propertyData._id,category,user._id)
+   setResponseStatus(response)
   }
 
     
@@ -482,7 +486,13 @@ const openOwnerDetailsModal=()=>{
                   <AiFillMessage />
                 </button>
               </div>
+              {
+              responseStatus && (
+                <p className=" capitalize text-xl font-bold font-roboto">{responseStatus}</p>
+              )
+            }
             </aside>
+           
           </div>
 
           <div className="property-section3 propertysection">

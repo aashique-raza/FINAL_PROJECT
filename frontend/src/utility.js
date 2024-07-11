@@ -1,37 +1,38 @@
 
 import { API_URL } from "./configue"
+import {getTokenFromLocalStorage} from './token'
 
-const getOwnerDetailsForLoggedInUser=async(propertyId,categoryData,userEmail)=>{
+const getOwnerDetailsForLoggedInUser=async(propertyId,categoryData,userId)=>{
+
+    const token=getTokenFromLocalStorage()
 
     console.log('logged in user hai')
-    console.log(propertyId,categoryData,userEmail)
-    return
+    console.log(propertyId,categoryData,userId)
+ 
 
 
     try {
-        const resp = await fetch(`${API_URL}/guest/getOwnerDetails/${propertyId}/${categoryData}`, {
-            method: "POST",
+        const resp = await fetch(`${API_URL}/user/getOwnerDetails/${userId}/${propertyId}/${categoryData}`, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({ email,mobile }),
+             credentials:'include'
+           
         });
-      
+       
           const result=await resp.json()
           console.log(result)
           if(!resp.ok){
-            setError(result.message)
-            setLoading(false)
-            return
+           
+            return result.message
           }
+          return result.msg
       
-          setError(null)
-          setLoading(false)
-          console.log(result)
-          // setModalOPen(!isOpen)
-          setSuccessMsg(result.msg)
-
     } catch (error) {
+        console.log('get owner details failed',error)
+        return error.message
         
     }
 }

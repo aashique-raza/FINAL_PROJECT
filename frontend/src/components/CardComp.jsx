@@ -21,6 +21,7 @@ import WeekendIcon from "@mui/icons-material/Weekend";
 import OwnerDetailsModal from "./OwnerDetailsModal";
 
 import {useDispatch,useSelector} from 'react-redux'
+import getOwnerDetailsForLoggedInUser from "../utility";
 
 // MonetizationOnOutlined
 
@@ -29,6 +30,7 @@ function CardComp({ data }) {
   const location = useLocation();
   const [category, setCategory] = useState(null);
   const[isModelOpen,setModalOPen]=useState(false)
+  const[responseStatus,setResponseStatus]=useState('')
 
 
   const {user}=useSelector(state=>state.user)
@@ -59,10 +61,17 @@ function CardComp({ data }) {
 
 
 
-  const openOwnerDetailsModal=(id)=>{
+  const openOwnerDetailsModal=async(id)=>{
     // alert(id)
     // console.log(user)
-    setModalOPen(!isModelOpen)
+    setResponseStatus('')
+    if(!user){
+      setModalOPen(!isModelOpen)
+    }else{
+      const response=await getOwnerDetailsForLoggedInUser(data._id,category,user._id)
+      setResponseStatus(response)
+     }
+   
   }
 
 
@@ -204,7 +213,13 @@ function CardComp({ data }) {
                   }`}
                 />
               </div>
+              
             </div>
+            {
+              responseStatus && (
+                <p className=" capitalize text-xl font-bold font-roboto">{responseStatus}</p>
+              )
+            }
             {
               isModelOpen && <OwnerDetailsModal isOpen={isModelOpen} setModalOPen={setModalOPen} onClose={()=>setModalOPen(false)} id={data._id} dataCategory={category}/>
             }
