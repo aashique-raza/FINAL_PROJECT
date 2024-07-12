@@ -159,6 +159,7 @@ const[loadmoreLoading,setLOadMoreLoading]=useState(false)
           }
         );
   
+        console.log(pgResponse)
         if (!pgResponse.ok) {
           setLoadMoreError(pgResponse.message);
           setLOadMoreLoading(false);
@@ -166,6 +167,7 @@ const[loadmoreLoading,setLOadMoreLoading]=useState(false)
         }
   
         pgData = await pgResponse.json();
+        console.log(pgData)
       }
   
       if (
@@ -183,6 +185,7 @@ const[loadmoreLoading,setLOadMoreLoading]=useState(false)
           }
         );
   
+        console.log(rentResponse)
         if (!rentResponse.ok) {
           setLoadMoreError(rentResponse.message);
           setLOadMoreLoading(false);
@@ -190,8 +193,10 @@ const[loadmoreLoading,setLOadMoreLoading]=useState(false)
         }
   
         rentalData = await rentResponse.json();
+        console.log(rentalData)
       }
   
+      return
       // Combine new data with existing data
       const updatedListings = [
         ...listings,  // Existing data
