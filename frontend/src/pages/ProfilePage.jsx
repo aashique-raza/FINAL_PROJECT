@@ -18,6 +18,7 @@ function ProfilePage() {
             <div className='profileSideBarLInks'>
                <Link to={'myProfile'} className={`${lastPath==='myProfile' ? 'active' :''}`} >basic profile</Link>
                <Link to={'yourPropertyList'} className={`${lastPath==='yourPropertyList' ? 'active' :''}`}>your Property</Link>
+               <Link to={'favourite'} className={`${lastPath==='favourite' ? 'active' :''}`}>favourite property</Link>
             </div>
         </section>
         <Outlet/>

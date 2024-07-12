@@ -17,7 +17,8 @@ function Profile({ toggle = false,showSuccessMessage }) {
 
   const links = [
     { url: "profile/myProfile", urlName: "profile" },
-    {url:'profile/yourPropertyList',urlName:'your listing'}
+    {url:'profile/yourPropertyList',urlName:'your listing'},
+    {url:'profile/favourite',urlName:'favourite property'}
 
   ];
 

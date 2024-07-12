@@ -25,6 +25,7 @@ import MailVerificationPage from "./pages/MailVerificationPage";
 import SearchPage from "./pages/SearchPage";
 import PropertyPage from "./pages/PropertyPage";
 import EditPage from './pages/EditPage'
+import FavouritePropperty from "./components/FavouritePropperty";
 // Importing toastify module
 import { toast,ToastContainer } from "react-toastify";
  
@@ -89,6 +90,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage showSuccessMessage={showSuccessMessage} />}>
             <Route path="myProfile" element={<BasicProfilePage showSuccessMessage={showSuccessMessage} />} />
             <Route path="yourPropertyList" element={<YourPropertyPage showSuccessMessage={showSuccessMessage} />} />
+            <Route path="favourite" element={<FavouritePropperty showSuccessMessage={showSuccessMessage} />} />
           </Route>
           {/* <Route path="/mail-verification" element={MailVerification} /> */}
         </Route>
