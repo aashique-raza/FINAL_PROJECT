@@ -22,6 +22,8 @@ import OwnerDetailsModal from "./OwnerDetailsModal";
 
 import {useDispatch,useSelector} from 'react-redux'
 import getOwnerDetailsForLoggedInUser from "../utility";
+import { addPropertyToFavourite,removePropertyFromFavourite } from "../features/favourite.slice";
+import { API_URL } from "../configue";
 
 // MonetizationOnOutlined
 
@@ -31,13 +33,14 @@ function CardComp({ data,typeOfProperty=false }) {
   const [category, setCategory] = useState(null);
   const[isModelOpen,setModalOPen]=useState(false)
   const[responseStatus,setResponseStatus]=useState('')
+  const {favouriteProperty}=useSelector((state)=>state.favouriteProperty)
+  const dispatch=useDispatch()
+
 
 
   const {user}=useSelector(state=>state.user)
 
-  const handleFavroute = () => {
-    setAddFavroute(!isAddFavroute);
-  };
+
 
   useEffect(() => {
     const path = location.pathname; // Yaha se pura path mil jayega, jaise "/search/:category"
@@ -77,6 +80,19 @@ function CardComp({ data,typeOfProperty=false }) {
       setResponseStatus(response)
      }
    
+  }
+
+  const removeToFavourite=async()=>{
+    // const { userId } = req.params;
+    // const { propertyId, propertyType } = req.body; /
+    // router.delete('/removeFromeFavrouiteList/:userId
+
+  }
+  const addToFavourite=async()=>{
+    // const { userId } = req.params;
+    // const { propertyId, propertyType } =
+    // router.post("/addFavorite/:userId"
+
   }
 
 
@@ -211,7 +227,7 @@ function CardComp({ data,typeOfProperty=false }) {
                 get owner details
               </button>
               <div
-                onClick={handleFavroute}
+               onClick={() => data.isPropertyFavorite ? removeToFavourite() : addToFavourite()}
                 className={` py-5 px-6 flex justify-center items-start  font-slab text-4xl border-2 cursor-pointer`}
               >
                 <FaHeart

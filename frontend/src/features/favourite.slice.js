@@ -28,6 +28,19 @@ export const favouriteSlice = createSlice({
     fetchingFailedFavouriteProperty:(state,action)=>{
         state.loading=false,
         state.error=action.payload
+    },
+    addPropertyToFavourite: (state, action) => {
+      const id = action.payload;
+      state.favouriteProperty = state.favouriteProperty.map((fav) =>
+        fav._id === id ? { ...fav, isPropertyFavorite: true } : fav
+      );
+    },
+    
+    removePropertyFromFavourite: (state, action) => {
+      const id = action.payload;
+      state.favouriteProperty = state.favouriteProperty.map((fav) =>
+        fav._id === id ? { ...fav, isPropertyFavorite: false } : fav
+      );
     }
     
   },
@@ -37,7 +50,9 @@ export const {
   getFavouriteProperties,
   clearState,
   startGettingFavourite,
-  fetchingFailedFavouriteProperty
+  fetchingFailedFavouriteProperty,
+  addPropertyToFavourite,
+  removePropertyFromFavourite
  
 } = favouriteSlice.actions;
 
