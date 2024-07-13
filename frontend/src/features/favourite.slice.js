@@ -4,24 +4,24 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   error: null,
   loading: false,
-  favouriteProperty:[]
+  favouriteProperty:null
 };
 
 export const favouriteSlice = createSlice({
   name: "favourite",
   initialState,
   reducers: {
-    getFavouriteProperty:(state,action)=>{
+    getFavouriteProperties:(state,action)=>{
         state.favouriteProperty=action.payload
         state.loading=false
         state.error=null
     },
     clearState:(state)=>{
-        state.favouriteProperty=[]
+        state.favouriteProperty=null
         state.error=null,
         state.loading=false
     },
-    startGettingFavourite:(action)=>{
+    startGettingFavourite:(state,action)=>{
         state.loading=true;
         state.error=null
     },
@@ -34,7 +34,7 @@ export const favouriteSlice = createSlice({
 });
 
 export const {
-  getFavouriteProperty,
+  getFavouriteProperties,
   clearState,
   startGettingFavourite,
   fetchingFailedFavouriteProperty

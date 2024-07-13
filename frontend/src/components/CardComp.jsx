@@ -25,7 +25,7 @@ import getOwnerDetailsForLoggedInUser from "../utility";
 
 // MonetizationOnOutlined
 
-function CardComp({ data }) {
+function CardComp({ data,typeOfProperty=false }) {
   const [isAddFavroute, setAddFavroute] = useState(false);
   const location = useLocation();
   const [category, setCategory] = useState(null);
@@ -43,7 +43,12 @@ function CardComp({ data }) {
     const path = location.pathname; // Yaha se pura path mil jayega, jaise "/search/:category"
     const category = path.split("/")[2]; // Yaha se category ke value ko extract kiya jata hai
     // console.log(category)
-    setCategory(category);
+    if(typeOfProperty){
+      setCategory(data.propertyType==="PG"?'pg':'rental')
+    }else{
+      setCategory(category);
+    }
+    
   }, [location.pathname]);
 
   function extractDate(isoString) {
@@ -75,10 +80,12 @@ function CardComp({ data }) {
   }
 
 
+  
+
   return (
     <div className="card_container">
       <section className="card_heading_text py-6 px-5 ">
-        <Link to={`/property/${category}/${data._id}`} >
+        <Link to={`/property/${category }/${data._id}`} >
           <h2 className=" flex gap-2 items-center font-roboto  capitalize text-2xl text-gray-500  hover:underline hover:text-red-600">
             {category?.trim().toLowerCase() === "pg".trim()
               ? `PG for ${data.availableFor} in ${data.location.city},${data.location.state} `
@@ -87,7 +94,7 @@ function CardComp({ data }) {
           </h2>
         </Link>
         <p className=" capitalize text-gray-400 font-slab font-normal mt-3 text-xl">
-          {category?.trim().toLowerCase() === "pg".trim()
+          {category?.trim().toLowerCase()  === "pg".trim()
             ? `${data.location.localAddress},${data.location.city}`
             : `${data.location.localAddress},${data.location.city}`}
         </p>
@@ -97,7 +104,7 @@ function CardComp({ data }) {
           <div className="amount_wrapper_items w-1/4 flex-grow border-r-2 ">
             <h3 className=" justify-center flex items-center gap-2 font-mono font-normal  capitalize text-2xl ">
               <FaIndianRupeeSign />{" "}
-              {category?.trim().toLowerCase() === "pg".trim()
+              {category?.trim().toLowerCase()  === "pg".trim()
                 ? `${data.rentAmount}`
                 : `${data.rentAmount}`}
             </h3>
@@ -117,7 +124,7 @@ function CardComp({ data }) {
               depost amount
             </p>
           </div>
-          {category?.trim().toLowerCase() === "rental".trim() && (
+          {category?.trim().toLowerCase()  === "rental".trim() && (
             <div className="amount_wrapper_items w-1/4 flex-grow border-r-2">
               <h3 className=" justify-center flex items-center gap-2  font-slab font-normal  capitalize text-2xl ">
                 {data.builtUpArea}
@@ -129,7 +136,7 @@ function CardComp({ data }) {
             </div>
           )}
 
-          {category?.trim().toLowerCase() === "pg".trim() && (
+          {category?.trim().toLowerCase()  === "pg".trim() && (
             <div className="amount_wrapper_items w-1/4 flex-grow ">
               <h3 className=" justify-center flex items-center gap-2  font-slab font-normal  capitalize text-2xl ">
                 {data.roomSharing}
@@ -147,7 +154,7 @@ function CardComp({ data }) {
            
           </div>
           <div className="facilities_box flex-1   flex flex-col gap-16 justify-start items-start">
-            {category?.trim().toLowerCase() === "rental".trim() && (
+            {category?.trim().toLowerCase()  === "rental".trim() && (
               <div className="facilities_items px-1 flex flex-wrap  gap-1 py-1 border-2">
                 <FacilityItem
                   icon={<FaKey />}
@@ -209,7 +216,7 @@ function CardComp({ data }) {
               >
                 <FaHeart
                   className={`${
-                    isAddFavroute ? "text-red-600" : "text-slate-300"
+                    data.isPropertyFavorite ? "text-red-600" : "text-slate-300"
                   }`}
                 />
               </div>

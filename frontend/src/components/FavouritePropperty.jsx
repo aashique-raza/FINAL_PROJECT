@@ -1,17 +1,21 @@
 import React,{useEffect,useState} from 'react'
 import CardComp from './CardComp'
-import { useSelector,useDispatch } from 'react-redux'
+
 import { getTokenFromLocalStorage } from '../token'
 import { API_URL } from '../configue'
+import { useSelector,useDispatch } from 'react-redux'
+import { ThreeDots } from "react-loader-spinner";
+import {getFavouriteProperties,clearState,fetchingFailedFavouriteProperty,startGettingFavourite} from '../features/favourite.slice'
 
+// favouriteProperty
 function FavouritePropperty() {
 
-    const[error,setError]=useState(null)
-    const[loading,setLoading]=useState(false)
 
     const token=getTokenFromLocalStorage()
     const{user}=useSelector((state)=>state.user)
+  const {favouriteProperty,loading,error}=useSelector((state)=>state.favouriteProperty)
 
+  const dispatch=useDispatch()
     // /addFavorite/:userId"
     // const { userId } = req.params;
     // const { propertyId, propertyType } = req.body;
@@ -20,8 +24,8 @@ function FavouritePropperty() {
     const getFavouriteProperty=async()=>{
 
         try {
-            setError(null)
-            setLoading(true)
+            dispatch(startGettingFavourite())
+           
             const resp = await fetch(`${API_URL}/user/getFavorites/${user._id}`, {
                 method: "GET",
                 headers: {
@@ -34,16 +38,16 @@ function FavouritePropperty() {
 
              
               if(!resp.ok){
-                setError(result.message)
-                setLoading(false)
+                dispatch(fetchingFailedFavouriteProperty(result.message))
+                return
+                
               }
             
-              setError(null)
-              setLoading(false)
+              dispatch(getFavouriteProperties(result.favorites))
               console.log(result)
+              // console.log(result.propertyType)
         } catch (error) {
-            setError(error.message)
-            setLoading(false)
+           dispatch(fetchingFailedFavouriteProperty(error.message))
             console.log('fetching favourite property failed',error)
         }
 
@@ -53,9 +57,40 @@ function FavouritePropperty() {
             getFavouriteProperty()
     },[])
 
+    if(loading){
+      <div className="flex justify-center items-center bg-white py-4">
+            <ThreeDots
+              visible={true}
+              height="80"
+              width="80"
+              color="red"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          </div>
+
+      return
+    }
+    console.log(loading)
+    if(error){
+     
+        <div className="flex justify-center items-center bg-white py-4">
+          <h1 className="capitalize font-bold font-roboto text-sm sm:text-xl md:text-2xl tracking-wider text-red-400">
+            {error}
+          </h1>
+        </div>
+    return
+    }
+
   return (
     <div className=' bg-white flex flex-wrap justify-start items-center gap-3 w-full'>
-
+{
+  favouriteProperty!==null && favouriteProperty.map((fav)=>(
+    <CardComp key={fav._id} data={fav} typeOfProperty={true}/>
+  ))
+}
     </div>
   )
 }
