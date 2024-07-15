@@ -84,7 +84,7 @@ function FavouritePropperty() {
 
   return (
     <div className=" bg-white flex flex-wrap justify-start  items-start  py-3 xl:px-2 gap-3 w-full">
-      {favouriteProperty.length === 0 ? (
+      {favouriteProperty?.length === 0 ? (
         <h1 className=" px-3 capitalize text-red-500 text-xl md:text-2xl lg:text-3xl font-bold font-roboto tracking-wider">
           you don't have favourite property !
         </h1>
