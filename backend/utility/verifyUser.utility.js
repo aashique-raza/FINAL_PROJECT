@@ -4,21 +4,29 @@ import jwt from "jsonwebtoken";
 const verifyUser = async (req, res, next) => {
   try {
     // Check token in cookies or headers
-    
+    console.log(req.headers)
+    console.log('in cookie',req.cookies.access_token)
+    console.log('in headers',req.headers.authorization)
+    console.log('token in head',req.headers.authorization.split(" "[1]))
     const token =
       req.cookies.access_token ||
       (req.headers.authorization
         ? req.headers.authorization.split(" ")[1]
         : null);
 
+        console.log(token)
     if (!token) {
-      return res
+     
+      res
         .status(401)
         .json({ success: false, msg: "unauthorized request" });
+        return 
     }
 
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    console.log('jwt secret key',process.env.JWT_SECRET_KEY)
+    const decoded =await jwt.verify(token, process.env.JWT_SECRET_KEY);
+    console.log('decoded token',decoded)
 
     if (!decoded) {
       return res
@@ -34,8 +42,8 @@ const verifyUser = async (req, res, next) => {
     // Call next middleware or route handler
     next();
   } catch (error) {
-    console.log(`failed to verify user`);
-    console.log(error.message);
+    console.log(`failed to verify user`,error);
+    // console.log(error.message);
     return res
       .status(401)
       .json({ success: false, msg: "Unauthorized. Please log in again." });
