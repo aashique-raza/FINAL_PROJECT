@@ -1,32 +1,32 @@
+import React, { Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Outlet,
 } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
 import Header from "./components/Header";
-import SignupPage from "./pages/SignupPage";
-import LoginPage from "./pages/LoginPage";
-import Protected from "./components/Protected";
-import ProtectedCreateListing from "./components/ProtectedCreateListing";
-import CreateListingPage from "./pages/CreateListingPage";
-import RentPage from "./pages/RentPage";
-import PgPage from "./pages/PgPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import ProfilePage from "./pages/ProfilePage";
-import BasicProfilePage from "./pages/BasicProfilePage";
-import YourPropertyPage from "./pages/YourPropertyPage";
-import CookieProtected from "./components/CookieProtected";
-import MailVerification from "./components/MailVerification";
-import MailVerificationPage from "./pages/MailVerificationPage";
-import SearchPage from "./pages/SearchPage";
-import PropertyPage from "./pages/PropertyPage";
-import EditPage from "./pages/EditPage";
-import FavouritePropperty from "./components/FavouritePropperty";
-import NotFound from "./pages/NotFound";
+
+// Example components for lazy loading
+const HomePage = React.lazy(() => import("./pages/HomePage"));
+const AboutPage = React.lazy(() => import("./pages/AboutPage"));
+const SignupPage = React.lazy(() => import("./pages/SignupPage"));
+const LoginPage = React.lazy(() => import("./pages/LoginPage"));
+const Protected = React.lazy(() => import("./components/Protected"));
+const CreateListingPage = React.lazy(() => import("./pages/CreateListingPage"));
+const RentPage = React.lazy(() => import("./pages/RentPage"));
+const PgPage = React.lazy(() => import("./pages/PgPage"));
+const ForgotPassword = React.lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = React.lazy(() => import("./pages/ResetPassword"));
+const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
+const BasicProfilePage = React.lazy(() => import("./pages/BasicProfilePage"));
+const YourPropertyPage = React.lazy(() => import("./pages/YourPropertyPage"));
+const FavouritePropperty = React.lazy(() => import("./components/FavouritePropperty"));
+const MailVerificationPage = React.lazy(() => import("./pages/MailVerificationPage"));
+const SearchPage = React.lazy(() => import("./pages/SearchPage"));
+const PropertyPage = React.lazy(() => import("./pages/PropertyPage"));
+const EditPage = React.lazy(() => import("./pages/EditPage"));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
 // Importing toastify module
 import { toast, ToastContainer } from "react-toastify";
 
@@ -64,83 +64,32 @@ function App() {
 
   return (
     <Router>
-      <Header showSuccessMessage={showSuccessMessage} />
-      <ToastContainer />
+    <Header showSuccessMessage={showSuccessMessage} />
+    <ToastContainer />
+    <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route
-          path="/search/:category?"
-          element={<SearchPage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route path="/property/:category/:id?" element={<PropertyPage />} />
-
-        <Route
-          path="/forgot-password"
-          element={<ForgotPassword showSuccessMessage={showSuccessMessage} />}
-        ></Route>
-        <Route
-          path="/reset-password"
-          element={<ResetPassword showSuccessMessage={showSuccessMessage} />}
-        ></Route>
-        <Route
-          path="/signup"
-          element={<SignupPage showSuccessMessage={showSuccessMessage} />}
-        ></Route>
-        <Route
-          path="/login"
-          element={<LoginPage showSuccessMessage={showSuccessMessage} />}
-        ></Route>
-        <Route
-          path="/mail-verification"
-          element={
-            <MailVerificationPage showSuccessMessage={showSuccessMessage} />
-          }
-        ></Route>
-        {/* <Route element={<CookieProtected />}></Route> */}
-        <Route element={<Protected />}>
-          <Route path="/create-listing" element={<CreateListingPage />}></Route>
-          <Route
-            path="/create-listing/pg"
-            element={<PgPage showSuccessMessage={showSuccessMessage} />}
-          ></Route>
-          <Route
-            path="/create-listing/rent"
-            element={<RentPage showSuccessMessage={showSuccessMessage} />}
-          ></Route>
-          <Route
-            path="/edit-property/:category/:id?"
-            element={<EditPage showSuccessMessage={showSuccessMessage} />}
-          />
-          {/* Nested routes for profile */}
-          <Route
-            path="/profile"
-            element={<ProfilePage showSuccessMessage={showSuccessMessage} />}
-          >
-            <Route
-              path="myProfile"
-              element={
-                <BasicProfilePage showSuccessMessage={showSuccessMessage} />
-              }
-            />
-            <Route
-              path="yourPropertyList"
-              element={
-                <YourPropertyPage showSuccessMessage={showSuccessMessage} />
-              }
-            />
-            <Route
-              path="favourite"
-              element={
-                <FavouritePropperty showSuccessMessage={showSuccessMessage} />
-              }
-            />
-          </Route>
-          {/* <Route path="/mail-verification" element={MailVerification} /> */}
+        <Route path="/" element={<HomePage showSuccessMessage={showSuccessMessage} />} />
+        <Route path="/about" element={<AboutPage showSuccessMessage={showSuccessMessage} />} />
+        <Route path="/signup" element={<SignupPage showSuccessMessage={showSuccessMessage} />} />
+        <Route path="/login" element={<LoginPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/create-listing" element={<CreateListingPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/create-listing/pg" element={<PgPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/create-listing/rent" element={<RentPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/forgot-password" element={<ForgotPassword showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/reset-password" element={<ResetPassword showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/profile" element={<ProfilePage showSuccessMessage={showSuccessMessage}/>}>
+          <Route path="myProfile" element={<BasicProfilePage showSuccessMessage={showSuccessMessage}/>} />
+          <Route path="yourPropertyList" element={<YourPropertyPage showSuccessMessage={showSuccessMessage} />} />
+          <Route path="favourite" element={<FavouritePropperty showSuccessMessage={showSuccessMessage}/>} />
         </Route>
-        <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
+        <Route path="/mail-verification" element={<MailVerificationPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/search/:category?" element={<SearchPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/property/:category/:id?" element={<PropertyPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/edit-property/:category/:id?" element={<EditPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    </Router>
+    </Suspense>
+  </Router>
   );
 }
 
