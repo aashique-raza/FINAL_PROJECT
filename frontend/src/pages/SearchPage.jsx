@@ -172,7 +172,7 @@ function SearchPage({showSuccessMessage}) {
           </div>
         ) : filteredProperty && filteredProperty.length > 0 ? (
           filteredProperty.map((data, index) => (
-            <CardComp key={index} data={data}  />
+            <CardComp key={index} data={data} showSuccessMessage={showSuccessMessage}  />
           ))
         ) : (
           <div className="w-full py-10 bg-slate-100 rounded-md flex justify-center items-center shadow-md">

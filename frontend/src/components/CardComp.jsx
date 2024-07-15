@@ -27,7 +27,7 @@ import { getTokenFromLocalStorage } from "../token";
 
 // MonetizationOnOutlined
 
-function CardComp({ data,typeOfProperty=false }) {
+function CardComp({ data,typeOfProperty=false,showSuccessMessage }) {
   const [isAddFavroute, setAddFavroute] = useState(false);
   const location = useLocation();
   const [category, setCategory] = useState(null);
@@ -87,12 +87,7 @@ function CardComp({ data,typeOfProperty=false }) {
   }
 
   const removeToFavourite=async(propertyId)=>{
-    // const { userId } = req.params;
-    // const { propertyId, propertyType } = req.body; /
-    // router.delete('/removeFromeFavrouiteList/:userId
-    console.log(propertyId)
-    // console.log(propertyId)
-    console.log('remove favourite')
+    
 
     try {
       setError(null)
@@ -111,7 +106,7 @@ function CardComp({ data,typeOfProperty=false }) {
         return
       }
       dispatch(removePropertyFromFavourite(propertyId))
-      console.log(result)
+      showSuccessMessage('remove from favourite')
       
     } catch (error) {
       console.log('adding favourite failed',error)
@@ -120,12 +115,7 @@ function CardComp({ data,typeOfProperty=false }) {
 
   }
   const addToFavourite=async(propertyId)=>{
-    // const { userId } = req.params;
-    // const { propertyId, propertyType } =
-    // router.post("/addFavorite/:userId"
-    console.log(propertyId)
-
-    console.log('add favoruite')
+    
     try {
       setError(null)
       const resp = await fetch(`${API_URL}/user/addFavorite/${user._id}`, {
@@ -143,7 +133,7 @@ function CardComp({ data,typeOfProperty=false }) {
         return
       }
       dispatch(addPropertyToFavourite(propertyId))
-      console.log(result)
+      showSuccessMessage('addedd to favourite')
       
     } catch (error) {
       console.log('adding favourite failed',error)
