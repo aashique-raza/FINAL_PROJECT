@@ -24,19 +24,19 @@ import MailVerification from "./components/MailVerification";
 import MailVerificationPage from "./pages/MailVerificationPage";
 import SearchPage from "./pages/SearchPage";
 import PropertyPage from "./pages/PropertyPage";
-import EditPage from './pages/EditPage'
+import EditPage from "./pages/EditPage";
 import FavouritePropperty from "./components/FavouritePropperty";
+import NotFound from "./pages/NotFound";
 // Importing toastify module
-import { toast,ToastContainer } from "react-toastify";
- 
+import { toast, ToastContainer } from "react-toastify";
+
 // Import toastify css file
 import "react-toastify/dist/ReactToastify.css";
- 
+
 // toast-configuration method,
 
-
 // import utility csss-----
-import './styles/Utility.css'
+import "./styles/Utility.css";
 
 // toastify
 const showSuccessMessage = (msg) => {
@@ -51,18 +51,16 @@ const showSuccessMessage = (msg) => {
     progress: undefined,
     style: {
       width: "200px", // Toast ki width 200px set ki gayi hai
-      marginTop: '10px', // Margin top 10px set kiya gaya hai
-      textTransform:"capitalize",
-      fontFamily:'sans-serif',
-      fontSize:"13px"
-    }
+      marginTop: "10px", // Margin top 10px set kiya gaya hai
+      textTransform: "capitalize",
+      fontFamily: "sans-serif",
+      fontSize: "13px",
+    },
   });
 };
 
 function App() {
   // toast.success("Action completed!")
-
-
 
   return (
     <Router>
@@ -71,30 +69,76 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/search/:category?" element={<SearchPage  showSuccessMessage={showSuccessMessage}/>} />
+        <Route
+          path="/search/:category?"
+          element={<SearchPage showSuccessMessage={showSuccessMessage} />}
+        />
         <Route path="/property/:category/:id?" element={<PropertyPage />} />
-       
 
-        <Route path="/forgot-password" element={<ForgotPassword showSuccessMessage={showSuccessMessage}  />}></Route>
-        <Route path="/reset-password" element={<ResetPassword showSuccessMessage={showSuccessMessage} />}></Route>
-        <Route path="/signup" element={<SignupPage showSuccessMessage={showSuccessMessage} />}></Route>
-        <Route path="/login" element={<LoginPage showSuccessMessage={showSuccessMessage} />}></Route>
-        <Route path="/mail-verification" element={<MailVerificationPage showSuccessMessage={showSuccessMessage}  />}></Route>
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword showSuccessMessage={showSuccessMessage} />}
+        ></Route>
+        <Route
+          path="/reset-password"
+          element={<ResetPassword showSuccessMessage={showSuccessMessage} />}
+        ></Route>
+        <Route
+          path="/signup"
+          element={<SignupPage showSuccessMessage={showSuccessMessage} />}
+        ></Route>
+        <Route
+          path="/login"
+          element={<LoginPage showSuccessMessage={showSuccessMessage} />}
+        ></Route>
+        <Route
+          path="/mail-verification"
+          element={
+            <MailVerificationPage showSuccessMessage={showSuccessMessage} />
+          }
+        ></Route>
         {/* <Route element={<CookieProtected />}></Route> */}
         <Route element={<Protected />}>
           <Route path="/create-listing" element={<CreateListingPage />}></Route>
-          <Route path="/create-listing/pg" element={<PgPage showSuccessMessage={showSuccessMessage} />}></Route>
-          <Route path="/create-listing/rent" element={<RentPage showSuccessMessage={showSuccessMessage} />}></Route>
-          <Route path="/edit-property/:category/:id?" element={<EditPage showSuccessMessage={showSuccessMessage} />} />
+          <Route
+            path="/create-listing/pg"
+            element={<PgPage showSuccessMessage={showSuccessMessage} />}
+          ></Route>
+          <Route
+            path="/create-listing/rent"
+            element={<RentPage showSuccessMessage={showSuccessMessage} />}
+          ></Route>
+          <Route
+            path="/edit-property/:category/:id?"
+            element={<EditPage showSuccessMessage={showSuccessMessage} />}
+          />
           {/* Nested routes for profile */}
-          <Route path="/profile" element={<ProfilePage showSuccessMessage={showSuccessMessage} />}>
-            <Route path="myProfile" element={<BasicProfilePage showSuccessMessage={showSuccessMessage} />} />
-            <Route path="yourPropertyList" element={<YourPropertyPage showSuccessMessage={showSuccessMessage} />} />
-            <Route path="favourite" element={<FavouritePropperty showSuccessMessage={showSuccessMessage} />} />
+          <Route
+            path="/profile"
+            element={<ProfilePage showSuccessMessage={showSuccessMessage} />}
+          >
+            <Route
+              path="myProfile"
+              element={
+                <BasicProfilePage showSuccessMessage={showSuccessMessage} />
+              }
+            />
+            <Route
+              path="yourPropertyList"
+              element={
+                <YourPropertyPage showSuccessMessage={showSuccessMessage} />
+              }
+            />
+            <Route
+              path="favourite"
+              element={
+                <FavouritePropperty showSuccessMessage={showSuccessMessage} />
+              }
+            />
           </Route>
           {/* <Route path="/mail-verification" element={MailVerification} /> */}
         </Route>
-        {/* <Route path="/create-listing/"/> */}
+        <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
       </Routes>
     </Router>
   );
