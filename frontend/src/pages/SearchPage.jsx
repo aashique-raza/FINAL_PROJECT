@@ -8,6 +8,8 @@ import CardComp from "../components/CardComp";
 import { avaibility } from "../utils";
 import { ThreeDots } from "react-loader-spinner";
 import { API_URL } from "../configue";
+import { useSelector,useDispatch } from "react-redux";
+import { setFilteredProperties } from "../features/favourite.slice";
 
 function SearchPage({showSuccessMessage}) {
   const location = useLocation();
@@ -16,7 +18,9 @@ function SearchPage({showSuccessMessage}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [filteredProperty, setFilteredProperty] = useState(null);
+  // const [filteredProperty, setFilteredProperty] = useState(null);
+  const dispatch=useDispatch()
+  const{filteredProperty}=useSelector((state)=>state.favouriteProperty)
 
   const handleFilterChange = (values) => {
     // console.log(values)
@@ -99,7 +103,8 @@ function SearchPage({showSuccessMessage}) {
       }
       setError(null);
       setLoading(false);
-      setFilteredProperty(result.properties);
+      // setFilteredProperty(result.properties);
+      dispatch(setFilteredProperties(result.properties))
     } catch (error) {
       console.log("filter request failed", error.message);
       setError(error.message);

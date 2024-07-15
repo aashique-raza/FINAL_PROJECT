@@ -5,17 +5,14 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import ImageSLiderComp from "./ImageSLiderComp";
 import FacilityItem from "./FacilityItem";
-import { FaHeart } from "react-icons/fa";
-import { FaUserFriends, FaFemale, FaKey } from "react-icons/fa";
-import { MdFastfood } from "react-icons/md";
+import { FaHeart,FaKey,FaFemale  } from "react-icons/fa";
+
 // clock
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 // food
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import { useLocation } from "react-router-dom";
-import MaleIcon from "@mui/icons-material/Male";
-import FemaleIcon from "@mui/icons-material/Female";
-import GroupIcon from "@mui/icons-material/Group";
+
 import HomeIcon from "@mui/icons-material/Home";
 import WeekendIcon from "@mui/icons-material/Weekend";
 import OwnerDetailsModal from "./OwnerDetailsModal";
@@ -24,6 +21,9 @@ import {useDispatch,useSelector} from 'react-redux'
 import getOwnerDetailsForLoggedInUser from "../utility";
 import { addPropertyToFavourite,removePropertyFromFavourite } from "../features/favourite.slice";
 import { API_URL } from "../configue";
+import { Modal, Button } from 'flowbite-react';
+import { useNavigate } from "react-router-dom";
+import { getTokenFromLocalStorage } from "../token";
 
 // MonetizationOnOutlined
 
@@ -34,7 +34,11 @@ function CardComp({ data,typeOfProperty=false }) {
   const[isModelOpen,setModalOPen]=useState(false)
   const[responseStatus,setResponseStatus]=useState('')
   const {favouriteProperty}=useSelector((state)=>state.favouriteProperty)
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch=useDispatch()
+  const navigate=useNavigate()
+  const [error,setError]=useState(false)
+  const token=getTokenFromLocalStorage()
 
 
 
@@ -82,17 +86,82 @@ function CardComp({ data,typeOfProperty=false }) {
    
   }
 
-  const removeToFavourite=async()=>{
+  const removeToFavourite=async(propertyId)=>{
     // const { userId } = req.params;
     // const { propertyId, propertyType } = req.body; /
     // router.delete('/removeFromeFavrouiteList/:userId
+    console.log(propertyId)
+    // console.log(propertyId)
+    console.log('remove favourite')
+
+    try {
+      setError(null)
+      const resp = await fetch(`${API_URL}/user/removeFromeFavrouiteList/${user._id}`, {
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${token}`,
+        },
+        body:JSON.stringify({propertyId,category})
+       
+      });
+      const result=await resp.json()
+      if(!resp.ok){
+        setError(result.message)
+        return
+      }
+      dispatch(removePropertyFromFavourite(propertyId))
+      console.log(result)
+      
+    } catch (error) {
+      console.log('adding favourite failed',error)
+      setError(error.message)
+    }
 
   }
-  const addToFavourite=async()=>{
+  const addToFavourite=async(propertyId)=>{
     // const { userId } = req.params;
     // const { propertyId, propertyType } =
     // router.post("/addFavorite/:userId"
+    console.log(propertyId)
 
+    console.log('add favoruite')
+    try {
+      setError(null)
+      const resp = await fetch(`${API_URL}/user/addFavorite/${user._id}`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${token}`,
+        },
+        body:JSON.stringify({propertyId,category})
+       
+      });
+      const result=await resp.json()
+      if(!resp.ok){
+        setError(result.message)
+        return
+      }
+      dispatch(addPropertyToFavourite(propertyId))
+      console.log(result)
+      
+    } catch (error) {
+      console.log('adding favourite failed',error)
+      setError(error.message)
+    }
+  }
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleFavourite=(id)=>{
+    if(!user) return setIsOpen(true)
+   data.isPropertyFavorite ? removeToFavourite(id) : addToFavourite(id)
   }
 
 
@@ -227,7 +296,7 @@ function CardComp({ data,typeOfProperty=false }) {
                 get owner details
               </button>
               <div
-               onClick={() => data.isPropertyFavorite ? removeToFavourite() : addToFavourite()}
+               onClick={()=>handleFavourite(data._id)}
                 className={` py-5 px-6 flex justify-center items-start  font-slab text-4xl border-2 cursor-pointer`}
               >
                 <FaHeart
@@ -248,6 +317,30 @@ function CardComp({ data,typeOfProperty=false }) {
             }
           </div>
         </div>
+        {
+          isOpen && (
+            <Modal show={isOpen} onClose={handleClose}>
+            <Modal.Header>
+              Login Required
+            </Modal.Header>
+            <Modal.Body>
+              <div className="space-y-6">
+                <p className="text-base leading-relaxed text-gray-500">
+                  You need to log in to access this feature. Please log in or continue without logging in.
+                </p>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={handleLogin}>
+                Login
+              </Button>
+              <Button color="gray" onClick={handleClose}>
+                Not Now
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          )
+        }
       </section>
     </div>
   );
