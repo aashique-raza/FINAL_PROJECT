@@ -6,6 +6,7 @@ import {
   Outlet,
 } from "react-router-dom";
 import Header from "./components/Header";
+import ContactPage from './pages/ContactPage'
 
 // Example components for lazy loading
 const HomePage = React.lazy(() => import("./pages/HomePage"));
@@ -69,6 +70,7 @@ function App() {
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<HomePage showSuccessMessage={showSuccessMessage} />} />
+        <Route path="/contact" element={<ContactPage showSuccessMessage={showSuccessMessage} />} />
         <Route path="/about" element={<AboutPage showSuccessMessage={showSuccessMessage} />} />
         <Route path="/signup" element={<SignupPage showSuccessMessage={showSuccessMessage} />} />
         <Route path="/login" element={<LoginPage showSuccessMessage={showSuccessMessage}/>} />
