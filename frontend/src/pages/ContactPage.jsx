@@ -3,8 +3,12 @@ import "../styles/ContactPage.css";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'; // Importing icons
+import {API_URL} from '../configue'
+import {Spinner,Alert} from 'flowbite-react'
 
-function ContactPage() {
+function ContactPage({showSuccessMessage}) {
+    const[loading,setLoading]=useState(false)
+    const[error,setError]=useState('')
 
     const [formData, setFormData] = useState({
         name: '',
@@ -30,12 +34,45 @@ function ContactPage() {
 
     //   console.log('formdata',formData)
     
-      const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        // You can now submit the form data to your backend or API here
+        // console.log(formData);
+      
+        try {
+          setError(null);
+          setLoading(true);
+      
+          const resp = await fetch(`${API_URL}/contactus/sendmessage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData) // Make sure formData is JSON-stringified
+          });
+      
+          const result = await resp.json();
+          if (!resp.ok) {
+            setError(result.message);
+            setLoading(false);
+            return;
+          }
+      
+          setError('');
+          setLoading(false);
+          showSuccessMessage(result.msg);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            message: ''
+          })
+        } catch (error) {
+          setError('Something went wrong. Please try again later!');
+          setLoading(false);
+          console.log('Message send failed', error);
+        }
       };
-   
+      
 
   return (
     <main className=" contact-container">
@@ -99,7 +136,19 @@ function ContactPage() {
           />
           <span className="char-count"> {formData.message==''?'Max chars:':'Remaining Chars:'} <b>{1000- formData.message.length} </b></span>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">
+            {
+                loading ? (
+                    <>  <Spinner color="failure"/> 'sending' </>
+                ) : 'send message'
+            }
+
+        </button>
+        {
+            error && <Alert color="success" onDismiss={() =>setError('')}>
+            <span className="font-medium">{error}</span> 
+          </Alert>
+        }
       </form>
       </aside>
       <address className="address">
