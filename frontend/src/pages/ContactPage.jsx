@@ -106,7 +106,7 @@ function ContactPage() {
             <h2> <b><FaEnvelope className="icon inline-block"/> </b> farhanraza2239@gmail.com </h2>
             <h2> <b> <FaPhone className="icon inline-block"/> +91 7389571975 </b> </h2>
         </div>
-        <div>
+        <div className="map-image">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14020.648141307964!2d77.19942994791408!3d28.534848962753305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce21e7d306d03%3A0x94b8ccb323d7648!2sMalviya%20Nagar%2C%20New%20Delhi%2C%20Delhi%20110017!5e0!3m2!1sen!2sin!4v1721132568328!5m2!1sen!2sin"
           width="600"
