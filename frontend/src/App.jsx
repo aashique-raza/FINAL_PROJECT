@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Header from "./components/Header";
 import ContactPage from './pages/ContactPage'
+import Footer from "./components/Footer";
 
 // Example components for lazy loading
 const HomePage = React.lazy(() => import("./pages/HomePage"));
@@ -91,6 +92,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
+    <Footer/>
   </Router>
   );
 }
