@@ -1,10 +1,10 @@
 .footer-container{
     background-color: black;
     padding: 50px 30px;
-    border: 2px solid white;
+    /* border: 2px solid white; */
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: start;
     justify-content: space-evenly;
     
 }
@@ -19,9 +19,10 @@
 }
 
 .footer-logo-section{
-    border: 2px solid red;
+    /* border: 2px solid red; */
     flex-direction: column;
     display: flex;
+    flex-grow: 1;
 }
 
 .footer-logo-section .footer-logo-div{
@@ -78,4 +79,118 @@
   }
   
 
+  /* section 2-------------- */
+  .footer-pg-section {
+    flex-grow: 1;
+    padding:0px 20px;
+    /* border: 2px solid red; Background color for the section */
+     /* Default text color */
+    font-family: 'Arial', sans-serif; /* Font family for the entire section */
+  }
+  
+  .footer-pg-section h1 {
+    font-size: 20px; /* Larger font size for the heading */
+    color: white; /* Heading color */
+    margin-bottom: 20px; /* Space below the heading */
+    font-family: 'Arial', sans-serif; /* Font family for the heading */
+    /* text-align: center; */
+    font-weight: bold;
+  }
+  
+  .footer-pg-section div {
+    display: flex;
+    flex-direction: column; /* Arrange links in a column */
+    gap: 12px; /* Space between the links */
+  }
+  
+  .footer-pg-section a {
+    color: rgb(132, 130, 130); /* Link color */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 14px ; /* Font size for links */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+    /* font-family: cursive; */
+    letter-spacing: 2px;
+    font-family: monospace;
+    font-weight: bolder;
+    
+  }
+  
+  .footer-pg-section a:hover {
+    color: #535151; /* Color on hover */
+    text-decoration: underline;
+  }
+
+  /* section 4 */
+
+  .footer-links-section {
+    flex-grow: 1;
+    padding: 0px 20px;
+    color: white; /* Default text color */
+    font-family: 'Arial', sans-serif; /* Font family for the entire section */
+  }
+  
+  .footer-links-section h1 {
+    font-size: 20px; /* Larger font size for the heading */
+    color: white; /* Heading color */
+    margin-bottom: 20px; /* Space below the heading */
+    font-family: 'Arial', sans-serif; /* Font family for the heading */
+    font-weight: bold;
+  }
+  
+  .footer-links-section .text-white {
+    display: flex;
+    flex-direction: column; /* Arrange links in a column */
+    gap: 20px; /* Space between the links */
+    justify-content: start;
+    align-items: start;
+  }
+  
+  .footer-links-section .text-white a {
+    color: rgb(132, 130, 130); /* Link color */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 14px ; /* Font size for links */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+    /* font-family: cursive; */
+    letter-spacing: 2px;
+    font-family: monospace;
+    font-weight: bolder;
+  }
+  
+  .footer-links-section .text-white a:hover {
+    color: #535151; /* Color on hover */
+    text-decoration: underline; 
+  }
+  
+  
+
 /* footer-sections footer-logo-section */
+
+@media only screen and (max-width:467px){
+    .footer-container{
+        
+        padding: 20px 10px;
+        
+    }
+    
+
+
+.footer-logo-section .footer-logo-div{
+    width: 150px;
+    height: 130px;
+}
+
+.footer-social-icons {
+    
+    gap: 10px;
+   
+  }
+  
+  .footer-social-icons a {
+   
+    width: 30px;
+    height: 30px;
+   
+  }
+  
+    
+}
