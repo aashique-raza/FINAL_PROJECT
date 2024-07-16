@@ -27,6 +27,8 @@ function ContactPage() {
           phone: value
         });
       };
+
+    //   console.log('formdata',formData)
     
       const handleSubmit = (e) => {
         e.preventDefault();
