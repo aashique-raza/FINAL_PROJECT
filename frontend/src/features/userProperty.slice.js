@@ -47,6 +47,13 @@ export const userProperty = createSlice({
     deleteUserProperty:(state,action)=>{
       const id=action.payload;
      state.allProperty= state.allProperty.filter((property)=>property._id!==id)
+    },
+
+    clearStateOfUser:(state)=>{
+      
+        state.allPgProperty=[]
+        state.allRentProperty=[]
+        state.allProperty=[]
     }
      
     
@@ -54,14 +61,14 @@ export const userProperty = createSlice({
 });
 
 // Export the actions
-export const { setAllUserPgProperty, setAllUserRentProperty, filterPropertyByQuery,changeStatusOfProperty,deleteUserProperty } = userProperty.actions;
+export const {clearStateOfUser, setAllUserProperty,setAllUserPgProperty, setAllUserRentProperty, filterPropertyByQuery,changeStatusOfProperty,deleteUserProperty } = userProperty.actions;
 
 // Export the reducer
 export default userProperty.reducer;
 
 
 // Export the actions
-export const { setAllUserProperty } = userProperty.actions;
+// export const { setAllUserProperty } = userProperty.actions;
 
 
 

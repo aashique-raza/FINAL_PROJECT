@@ -51,7 +51,7 @@ function YourPropertyPage({showSuccessMessage}) {
         });
 
         if (!resp1.ok) {
-          setError(resp.message);
+          setError(resp1.message);
           setLoading(false);
           return;
         }

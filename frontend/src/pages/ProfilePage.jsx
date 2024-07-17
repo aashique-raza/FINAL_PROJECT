@@ -2,9 +2,10 @@ import React,{useState} from 'react'
 import { Outlet,Link ,useLocation} from 'react-router-dom'
 import ProfileLink from '../components/ProfileLink'
 
+
+
 function ProfilePage() {
     const [path,setPath]=('myProfile')
-
 
 
     const location = useLocation();

@@ -7,6 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { Alert, Spinner } from "flowbite-react";
 import { removeTokenFromLocalStorage,getTokenFromLocalStorage } from "../token";
 import { API_URL } from "../configue";
+// import { useSelector,useDispatch } from 'react-redux'
+import {clearStatePgLIsting} from '../features/pg.slice'
+import {clearStateOfUser} from '../features/userProperty.slice'
+import {clearState} from '../features/favourite.slice'
 
 function Profile({ toggle = false,showSuccessMessage }) {
   const [error, setError] = useState(null);
@@ -49,7 +53,11 @@ function Profile({ toggle = false,showSuccessMessage }) {
       setLoading(false);
       removeTokenFromLocalStorage()
       dispatch(logOutSuccess());
+      dispatch(clearState())
+      dispatch(clearStateOfUser())
+      dispatch(clearStatePgLIsting())
       showSuccessMessage('logged out successfull!')
+
       navigate('/login')
     } catch (error) {
       console.log("logout failed", error);

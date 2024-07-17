@@ -28,6 +28,11 @@ export const pgSlice = createSlice({
       state.error = null;
       state.loading = false;
     },
+    clearStatePgLIsting:(state)=>{
+      state.error=null
+      state.loading-false
+      state.pgListing=null
+    }
     
   },
 });
@@ -37,6 +42,7 @@ export const {
   pgListingFailed,
   pgListingStart,
   pgListingSuccess,
+  clearStatePgLIsting
  
 } = pgSlice.actions;
 

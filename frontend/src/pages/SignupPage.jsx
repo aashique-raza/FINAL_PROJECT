@@ -132,7 +132,7 @@ function SignupPage({showSuccessMessage}) {
             <h2 className=" ">Your Dream Space Awaits</h2>
             <p className="">getting started is easy</p>
             <div className="social-icons  flex justify-center gap-2 my-5 mb-10 ">
-              <GoogleOAuthButton className='google icon'/>
+              <GoogleOAuthButton showSuccessMessage={showSuccessMessage} className='google icon'/>
 
             </div>
           </div>
