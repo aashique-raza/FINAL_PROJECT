@@ -6,6 +6,7 @@ import { FaUser, FaBars, FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button } from "flowbite-react";
 import Profile from "./Profile";
+import { FaWindowClose } from "react-icons/fa";
 
 import { isLoggedIn } from "../token";
 
@@ -55,7 +56,11 @@ function Header({showSuccessMessage}) {
           <li>
             <Link to="/contact">Contact</Link>
           </li>
+          <li className=" capitalize post-property">
+            <Link to={'/create-listing'}>post property free</Link>
+          </li>
         </ul>
+        <FaWindowClose onClick={()=>setShowMenu(false)} className=" absolute top-2 left-2 text-4xl text-white font-bold"></FaWindowClose>
       </nav>
 
       <div className="menubar">
@@ -76,7 +81,7 @@ function Header({showSuccessMessage}) {
         )}
 
         <NavLink to={"/create-listing"} className={"create-listing"}>
-          <FaPlus></FaPlus> create listing
+          <FaPlus></FaPlus> post property free
         </NavLink>
         <button className={`bar `} onClick={handleMenubar}>
           <FaBars></FaBars>

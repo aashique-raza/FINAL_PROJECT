@@ -1,6 +1,3 @@
-
-
-
 header {
     width: 100%;
     display: flex;
@@ -8,7 +5,8 @@ header {
     padding: 0px 100px;
     background-color: white;
     height: 60px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    /* Box shadow */
 }
 
 
@@ -90,7 +88,7 @@ header {
 }
 
 /* profile button design--------- */
-.profile-button{
+.profile-button {
     display: flex;
     padding: 6px 6px;
     border: 1px solid rgb(253, 143, 143);
@@ -99,110 +97,150 @@ header {
     align-items: center;
     border-radius: 4px;
 }
-.profile-button img{
+
+.profile-button img {
     width: 18px;
     height: 18px;
     border-radius: 50%;
     object-fit: fill;
 }
-.profile-button span{
+
+.profile-button span {
     font-size: 14px;
     font-weight: 400;
     text-transform: capitalize;
     color: (253, 143, 143);
 }
 
+.post-property {
+    display: none;
+}
 
 
 
 
-@media only screen and (max-width:467px){
-    header{
+@media only screen and (max-width:467px) {
+    header {
         padding: 0px !important;
     }
-    .itemlist li{
+
+    .itemlist li {
         font-size: 14px !important;
-       
+
     }
-    .header-logo{
+
+    .header-logo {
         width: 60px;
     }
 
-.menubar .create-listing{
-   display: none;
-}
-.menubar{
-    /* border: 2px solid green; */
-    gap: 5px !important;
-}
-
-.profile-button span{
-    font-size: 12px
-};
-
-}
-
-
- @media only screen and (max-width:767px){
-    header{
-        position: relative;
-        
-       
+    .menubar .create-listing {
+        display: none;
     }
-    .menubar{
+
+    .menubar {
+        /* border: 2px solid green; */
+        gap: 5px !important;
+    }
+
+    .profile-button span {
+        font-size: 12px
+    }
+
+    ;
+
+
+
+
+
+
+}
+
+
+@media only screen and (max-width:767px) {
+    header {
+        position: relative;
+
+
+    }
+
+    .menubar {
         /* border: 2px solid green; */
         gap: 3px;
     }
- 
-    .menubar .bar{
+
+    .menubar .bar {
         display: block;
 
     }
-   
+
     .navbar {
+        color: white;
+
+        cursor: pointer;
+        display: none;
         position: absolute;
         right: 0%;
-        top: -102%;
-        width: 100%;
-        min-height: 0;
-        background-color:white;
-        visibility: hidden;
-        padding: 30px 0px;
+        top: 50%;
+        width: 80%;
+
+        min-height: 100vh;
+        height: 100vh;
+
+
+        background-color: rgb(56, 42, 42);
+        padding: 10px 5px;
         z-index: 999;
-        border-radius: 10px;
-        transition: all 0.4s ease-in;
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1), /* Box shadow at bottom */
-                0px -5px 10px rgba(0, 0, 0, 0.1); /* Box shadow at top */
-    }
-    
-    .navbar .itemlist{
-        flex-direction: column;
-    }
-    .itemlist li{
-        font-size: 18px;
-        transition: all 0.3s ease-in-out;
-    }
-    .itemlist li:hover{
-        color: rgb(225, 96, 96);
-    }
-    .navbartoggle{
-        
-        top: 102%;
-        visibility: visible;
-        min-height: 100%;
+        border-radius: 0px;
+
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1),
+            /* Box shadow at bottom */
+            0px -5px 10px rgba(0, 0, 0, 0.1);
+        /* Box shadow at top */
     }
 
-    
-  } 
+    .navbar .itemlist {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+        gap: 0;
+    }
+
+    .itemlist li {
+        padding: 10px 15px;
+        text-align: right;
+
+        width: 80%;
+        font-family:  'Times New Roman', Times, serif;
+        font-size: 14px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .itemlist li:hover {
+        color: rgb(225, 96, 96);
+    }
+
+    .navbartoggle {
+        top: 0%;
+        display: block;
+        min-height: 100vh;
+    }
+
+    .post-property {
+        display: block;
+    }
+
+
+}
 
 
 
 
 
 @media only screen and (max-width:925px) {
-    header{
+    header {
         padding: 0px 17px;
     }
+
     .itemlist {
         gap: 22px;
     }
