@@ -27,12 +27,18 @@ function HomePage() {
   const [searchLocation, setSearchLocation] = useState("");
   const [searchSharing, setSearchSharing] = useState("");
   const [selectFilter, setSelectFilter] = useState("allItem");
-  const [listings, setListings] = useState([]);
-  const [page, setPage] = useState(1); // for pagination
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [totalLength, setTotalLength] = useState(0);
-  const [lengthError, setLengthError] = useState(null);
+
+  const [pgProperties, setPgProperties] = useState([]);
+  const [rentProperties, setRentProperties] = useState([]);
+  const [pgPage, setPgPage] = useState(1);
+  const [rentPage, setRentPage] = useState(1);
+  const [pgTotalPages, setPgTotalPages] = useState(0);
+  const [rentTotalPages, setRentTotalPages] = useState(0);
+
+  console.log("select filetr", selectFilter);
 
   // Function to handle change in radio input selection
   const handleRadioChange = (value) => {
@@ -43,22 +49,20 @@ function HomePage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(selectedOption==='rental'){
-      if(!searchBHK || !searchLocation){
-        alert('please select filter option')
-        return
-      }
-    }
-    if(selectedOption==='pg'){
-      if(!searchSharing || !searchLocation){
-        alert('please select filter option')
-        return
-      }
-    }
-
-   
     if (selectedOption === "rental") {
+      if (!searchBHK || !searchLocation) {
+        alert("please select filter option");
+        return;
+      }
+    }
+    if (selectedOption === "pg") {
+      if (!searchSharing || !searchLocation) {
+        alert("please select filter option");
+        return;
+      }
+    }
 
+    if (selectedOption === "rental") {
       navigate(`/search/${selectedOption}?q=${searchBHK}&&l=${searchLocation}`);
     } else {
       navigate(
@@ -70,169 +74,164 @@ function HomePage() {
   const handleFilterChange = (value) => {
     setSelectFilter(value);
   };
-  // console.log(selectFilter)
+
+  const [loadmoreError, setLoadMoreError] = useState(null);
+  const [loadmoreLoading, setLOadMoreLoading] = useState(false);
+
+  const fetchPgProperties = async (page) => {
+    setError(null);
+    setLoading(false);
+    try {
+      console.log("ye chal rha hai");
+      setLoading(true);
+      const response = await fetch(`${API_URL}/pg/allProperty?page=${page}`);
+      const data = await response.json();
+      console.log("data", data);
+      if (!response.ok) {
+        setError(data.message);
+        setLoading(false);
+      }
+
+      if (page === 1) {
+        setPgProperties(data.property);
+      } else {
+        setPgProperties((prevProperties) => [
+          ...prevProperties,
+          ...data.property,
+        ]);
+      }
+      setPgTotalPages(data.totalPages);
+      setError(null);
+      setLoading(false);
+    } catch (error) {
+      setError("something went wrong");
+      setLoading(false);
+      console.error("Error fetching PG properties:", error);
+    }
+  };
+
+  const fetchRentProperties = async (page) => {
+    setError(null);
+    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_URL}/rent/property?page=${page}`);
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.message);
+        setLoading(false);
+        return;
+      }
+
+      if (page === 1) {
+        setRentProperties(data.rentListings);
+      } else {
+        setRentProperties((prevProperties) => [
+          ...prevProperties,
+          ...data.rentListings,
+        ]);
+      }
+      setRentTotalPages(data.totalPages);
+      setError(null);
+      setLoading(false);
+    } catch (error) {
+      setError("something went worng!");
+      setLoading(false);
+      console.error("Error fetching Rent properties:", error);
+    }
+  };
+
+  const fetchAllProperties = async (page) => {
+    setError(null);
+    setLoading(false);
+    try {
+      setLoading(true);
+      const pgResponse = await fetch(`${API_URL}/pg/allProperty?page=${page}`);
+
+      const pgData = await pgResponse.json();
+      console.log("pgData", pgData);
+      if (!pgResponse.ok) {
+        setError(pgData.message);
+        setLoading(false);
+        return;
+      }
+      const rentResponse = await fetch(`${API_URL}/rent/property?page=${page}`);
+      const rentData = await rentResponse.json();
+      console.log("rentData", rentData);
+      if (!rentResponse.ok) {
+        setError(rentData.message);
+        setLoading(false);
+      }
+
+      if (page === 1) {
+        setPgProperties(pgData.property);
+        setRentProperties(rentData.rentListings);
+      } else {
+        setPgProperties((prevProperties) => [
+          ...prevProperties,
+          ...pgData.property,
+        ]);
+        setRentProperties((prevProperties) => [
+          ...prevProperties,
+          ...rentData.rentListings,
+        ]);
+      }
+      setPgTotalPages(pgData.totalPages);
+      setRentTotalPages(rentData.totalPages);
+      setError(null);
+      setLoading(false);
+    } catch (error) {
+      setError("something went wrong");
+      setLoading(false);
+      console.error("Error fetching All properties:", error);
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (selectFilter === "allItem") {
+      const nextPgPage = pgPage + 1;
+      const nextRentPage = rentPage + 1;
+      if (nextPgPage <= pgTotalPages || nextRentPage <= rentTotalPages) {
+        setPgPage(nextPgPage);
+        setRentPage(nextRentPage);
+        fetchAllProperties(Math.max(nextPgPage, nextRentPage));
+      }
+    } else if (selectFilter === "pgItem") {
+      const nextPage = pgPage + 1;
+      if (nextPage <= pgTotalPages) {
+        setPgPage(nextPage);
+        fetchPgProperties(nextPage);
+      }
+    } else if (selectFilter === "rentalItem") {
+      const nextPage = rentPage + 1;
+      if (nextPage <= rentTotalPages) {
+        setRentPage(nextPage);
+        fetchRentProperties(nextPage);
+      }
+    }
+  };
+
+  const showLoadMoreButton = () => {
+    if (loading) return false;
+    if (selectFilter === "allItem") {
+      return pgPage < pgTotalPages || rentPage < rentTotalPages;
+    } else if (selectFilter === "pgItem") {
+      return pgPage < pgTotalPages;
+    } else if (selectFilter === "rentalItem") {
+      return rentPage < rentTotalPages;
+    }
+    return false;
+  };
 
   useEffect(() => {
-    fetchListings(1);
+    if (selectFilter === "allItem") {
+      fetchAllProperties(1);
+    } else if (selectFilter === "pgItem") {
+      fetchPgProperties(1);
+    } else if (selectFilter === "rentalItem") {
+      fetchRentProperties(1);
+    }
   }, [selectFilter]);
-
-  const fetchListings = async (pageNumber) => {
-    try {
-      setError(null);
-      setLoading(true);
-      let pgData = [];
-      let rentalData = [];
-      let rentResponse;
-      let pgResponse;
-
-      if (selectFilter === "allItem" || selectFilter === "pgItem") {
-        pgResponse = await fetch(
-          `${API_URL}/pg/allProperty?page=${pageNumber}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!pgResponse.ok) {
-          setError(pgResponse.message);
-          setLoading(false);
-          return;
-        }
-
-        pgData = await pgResponse.json();
-
-        // console.log("pg data", pgData);
-      }
-
-      if (
-        selectFilter === "allItem" ||
-        selectFilter === "rentalItem" ||
-        selectFilter === "leaseItem"
-      ) {
-        const type = selectFilter === "leaseItem" ? "lease" : "";
-        rentResponse = await fetch(
-          `${API_URL}/rent/property?page=${pageNumber}&type=${type}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!rentResponse.ok) {
-          setError(rentResponse.message);
-          setLoading(false);
-          return;
-        }
-
-        rentalData = await rentResponse.json();
-        // console.log("rental data", rentalData);
-      }
-
-      const combinedListings = [
-        ...(pgData.property || []),
-        ...(rentalData.rentListings || []),
-      ];
-
-      if (pageNumber === 1) {
-        setListings(combinedListings); // Reset the listings on new filter
-      } else {
-        setListings((prevListings) => [...prevListings, ...combinedListings]);
-      }
-
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-      console.log(err);
-    }
-  };
-
-const[loadmoreError,setLoadMoreError]=useState(null)
-const[loadmoreLoading,setLOadMoreLoading]=useState(false)
-
-  const fetchMoreListings = async () => {
-    // alert('hello')
-    try {
-      setLoadMoreError(null);
-      setLOadMoreLoading(true);
-      const nextPage = page + 1; // Calculate next page number
-      let pgData = [];
-      let rentalData = [];
-      let rentResponse;
-      let pgResponse;
-  
-      if (selectFilter === "allItem" || selectFilter === "pgItem") {
-        pgResponse = await fetch(
-          `${API_URL}/pg/allProperty?page=${nextPage}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-  
-        console.log(pgResponse)
-        if (!pgResponse.ok) {
-          setLoadMoreError(pgResponse.message);
-          setLOadMoreLoading(false);
-          return;
-        }
-  
-        pgData = await pgResponse.json();
-        console.log(pgData)
-      }
-  
-      if (
-        selectFilter === "allItem" ||
-        selectFilter === "rentalItem" ||
-        selectFilter === "leaseItem"
-      ) {
-        const type = selectFilter === "leaseItem" ? "lease" : "";
-        rentResponse = await fetch(
-          `${API_URL}/rent/property?page=${nextPage}&type=${type}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-  
-        console.log(rentResponse)
-        if (!rentResponse.ok) {
-          setLoadMoreError(rentResponse.message);
-          setLOadMoreLoading(false);
-          return;
-        }
-  
-        rentalData = await rentResponse.json();
-        console.log(rentalData)
-      }
-  
-      return
-      // Combine new data with existing data
-      const updatedListings = [
-        ...listings,  // Existing data
-        ...(pgData.property || []),
-        ...(rentalData.rentListings || []),
-      ];
-  
-      // Set the updated listings
-      setListings(updatedListings);
-      setPage(nextPage); // Update page number
-  
-      setLOadMoreLoading(false);
-    } catch (err) {
-      setLoadMoreError(err.message);
-      setLOadMoreLoading(false);
-      console.error(err);
-    }
-  };
-  
-
-
   return (
     <main className="home_container ">
       <section className="search_section flex  justify-center items-start pt-12">
@@ -374,24 +373,39 @@ const[loadmoreLoading,setLOadMoreLoading]=useState(false)
               </h1>
             </div>
           )}
-
-          {!loading &&
-            !error &&
-            listings &&
-            listings.map((listing, index) => (
-              <CardBox key={index} data={listing} />
+          {selectFilter === "allItem" && (
+            <>
+              {pgProperties &&
+                pgProperties.map((property, index) => (
+                  <CardBox key={index} data={property} />
+                ))}
+              {rentProperties &&
+                rentProperties?.map((property, index) => (
+                  <CardBox key={index} data={property} />
+                ))}
+            </>
+          )}
+          {selectFilter === "pgItem" &&
+            pgProperties &&
+            pgProperties?.map((property, index) => (
+              <CardBox key={index} data={property} />
+            ))}
+          {selectFilter === "rentalItem" &&
+            rentProperties &&
+            rentProperties?.map((property, index) => (
+              <CardBox key={index} data={property} />
             ))}
         </div>
         <div className=" w-full flex justify-center items-center  mt-10 ">
-          {
-            loadmoreError && (<p> {loadmoreError} </p> )
-          }
-          <button
-            onClick={fetchMoreListings}
-            className=" inline-block px-5 py-3 capitalize text-sm sm:text-xl md:text-2xl tracking-wider font-roboto font-medium text-white bg-red-600"
-          >
-           {loadmoreLoading ? "loading" : 'load more'} 
-          </button>
+          {showLoadMoreButton() && (
+            <button
+              onClick={handleLoadMore}
+              className=" inline-block px-5 py-3 capitalize text-sm sm:text-xl md:text-2xl tracking-wider font-roboto font-medium text-white bg-red-600"
+            >
+              {loading ? "Loading..." : "Load More"}
+            </button>
+          )}
+          
         </div>
       </section>
     </main>
