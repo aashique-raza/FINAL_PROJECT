@@ -10,7 +10,7 @@ import { Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Button } from "flowbite-react";
 import { useSelector,useDispatch } from "react-redux";
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,refreshAccessToken } from "../token";
 // import { propertyActivated } from "../features/userProperty.slice";
 import { deleteUserProperty,changeStatusOfProperty } from "../features/userProperty.slice";
 
@@ -55,6 +55,17 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       // console.log(result)
 
       if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleDeleteWithToken(newToken,url);
+          } else {
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
         setError(result.message);
         setLoading(false);
         return;
@@ -69,6 +80,41 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       setModal(false);
     }
   };
+
+  const handleDeleteWithToken=async(newToken,url)=>{
+    try {
+      setError(null);
+      setLoading(true);
+
+      const resp = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${newToken}`,
+        },
+        credentials: "include",
+      });
+
+      const result = await resp.json();
+      // console.log(result)
+
+      if (!resp.ok) {
+        
+        setError(result.message);
+        setLoading(false);
+        return;
+      }
+
+      dispatch(deleteUserProperty(id))
+      setModal(false);
+      showSuccessMessage("deleted successfully!");
+    } catch (error) {
+      console.log("delete property failed", error);
+      setError(error.message);
+      setModal(false);
+    }
+
+  }
 
   const handlePropertyActivation = async (cat, id) => {
     // console.log(cat,id)
@@ -100,6 +146,17 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       // console.log(result)
 
       if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handlePropertyActivationWithToken(newToken,url);
+          } else {
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
         setError(result.message);
         setLoading(false);
         
@@ -119,6 +176,47 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       setPropertyActivate(false);
     }
   };
+
+  const handlePropertyActivationWithToken=async(newToken,url)=>{
+    try {
+      setError(null);
+      setLoading(true);
+      // setActivateCompleted(false)
+
+      const resp = await fetch(url, {
+        method: "PATCH",
+        headers: {
+          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${newToken}`,
+        },
+        credentials: "include",
+      });
+
+      const result = await resp.json();
+      // console.log(result)
+
+      if (!resp.ok) {
+        
+        setError(result.message);
+        setLoading(false);
+        
+        return;
+      }
+
+      setPropertyActivate(false);
+      dispatch(changeStatusOfProperty(id))
+      setActivateCompleted(true)
+      
+      activateCompleted?showSuccessMessage(result.msg):showSuccessMessage(result.msg)
+      
+
+    } catch (error) {
+      console.log("activate property failed", error);
+      setError(error.message);
+      setPropertyActivate(false);
+    }
+
+  }
 
   return (
     <div className="your-property-card shadow-xl hover:shadow-2xl transition-all duration-100 ease-in">
