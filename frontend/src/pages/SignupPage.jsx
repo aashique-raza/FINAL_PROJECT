@@ -28,6 +28,23 @@ function SignupPage({showSuccessMessage}) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const handleMobileChange = (e) => {
+    let input = e.target.value;
+
+    // Remove non-numeric characters
+    input = input.replace(/\D/g, '');
+
+    // Limit to 10 digits
+    if (input.length > 10) {
+      input = input.slice(0, 10);
+    }
+
+    // Update state
+    setFormData({
+      ...formData,
+      phoneNumber:input
+    });
+  };
 
 // password vivibility function-------
   const toggleConfirmPasswordVisibility = () => {
@@ -170,11 +187,11 @@ function SignupPage({showSuccessMessage}) {
                 className=" focus:ring-0 focus:border-none focus:outline-none"
               />
               <input
-                type="number"
+                type="tel"
                 name="phoneNumber"
                 placeholder="mobile"
                 required
-                onChange={handleChange}
+                onChange={handleMobileChange}
                 value={formData.phoneNumber}
                 min={0}
                 className=" focus:ring-0 focus:border-none focus:outline-none"

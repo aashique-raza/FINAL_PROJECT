@@ -36,7 +36,7 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory,setModalOPen }) {
     // Update state
     setMobile(input);
   };
-  console.log( mobile)
+  // console.log( mobile)
   const handleNext = async() => {
    
 
