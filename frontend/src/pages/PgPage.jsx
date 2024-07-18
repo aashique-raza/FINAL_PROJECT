@@ -171,6 +171,17 @@ function PgPage({ showSuccessMessage }) {
       // console.log(data)
 
       if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleSubmitWithToken(newToken,pgFormData);
+          } else {
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
         setError(data.message)
         setLoading(false)
         return;
@@ -187,6 +198,43 @@ function PgPage({ showSuccessMessage }) {
       
     }
   };
+
+  const handleSubmitWithToken=async(newToken,pgFormData)=>{
+    try {
+      setError(null)
+      setLoading(true)
+        const resp = await fetch(`${API_URL}/pg/create-listing`, {
+          method: "POST",
+          headers: {
+            // "Content-Type": "multipart/form-data"
+            Authorization: `Bearer ${newToken}`,
+          },
+          credentials: "include",
+          body: pgFormData,
+        });
+        const data = await resp.json();
+        // console.log(data)
+  
+        if (!resp.ok) {
+          
+        
+          setError(data.message)
+          setLoading(false)
+          return;
+        }
+        showSuccessMessage("listing successfull");
+  
+        setError(null)
+        setLoading(false)
+        navigate(`/property/pg/${data.lsiting._id}`);
+      } catch (error) {
+        setError('something went wrong,please try gain later')
+        setLoading(true)
+        console.log(error.message);
+        
+      }
+
+  }
 
   return (
     <main className="pg-container">

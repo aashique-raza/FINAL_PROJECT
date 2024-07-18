@@ -7,7 +7,7 @@ import UploadPhotos from "../components/UploadPhotos";
 import SelectTag from "../components/SelectTag";
 import Input from "../components/Input";
 import { roomAmenitiesList } from "../rentUtils";
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,refreshAccessToken } from "../token";
 import { API_URL } from "../configue";
 import {
   preferedTenats,
@@ -195,6 +195,17 @@ function RentPage({ showSuccessMessage }) {
       // console.log(data);
 
       if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleSubmitWithToken(newToken,rentFormData);
+          } else {
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
         setLoading(false);
         setError(data.message);
         return;
@@ -210,6 +221,44 @@ function RentPage({ showSuccessMessage }) {
       console.log(error.message);
     }
   };
+
+  const handleSubmitWithToken=async(newToken,rentFormData)=>{
+    try {
+      setError(null);
+
+      setLoading(true);
+
+      const resp = await fetch(`${API_URL}/rent/create`, {
+        method: "POST",
+        headers: {
+          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${newToken}`,
+        },
+        credentials: "include",
+        body: rentFormData,
+      });
+      // console.log(resp);
+      const data = await resp.json();
+      // console.log(data);
+
+      if (!resp.ok) {
+        
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
+
+      setLoading(false);
+      setError(null);
+      showSuccessMessage("rent property created");
+      navigate(`/property/rental/${data.saveProperty._id}`);
+    } catch (error) {
+      setError('something went wrong,please try agaun later');
+      setLoading(false);
+      console.log(error.message);
+    }
+
+  }
 
   return (
     <div className=" rent_container ">
