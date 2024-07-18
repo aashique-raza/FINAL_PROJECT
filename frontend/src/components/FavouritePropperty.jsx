@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardComp from "./CardComp";
 
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,refreshAccessToken } from "../token";
 import { API_URL } from "../configue";
 import { useSelector, useDispatch } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
@@ -38,6 +38,18 @@ function FavouritePropperty() {
       const result = await resp.json();
 
       if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await getFavouriteWithToken(newToken);
+          } else {
+            dispatch(fetchingFailedUserProperties('Failed to refresh access token'))
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
        dispatch(fetchingFailedUserProperties(result.message))
         return;
       }
@@ -52,6 +64,34 @@ function FavouritePropperty() {
   useEffect(() => {
     getFavouriteProperty();
   }, []);
+
+
+  const getFavouriteWithToken=async(newToken)=>{
+    try {
+      dispatch(startfetchingUserFavouriteProperties())
+      
+      const resp = await fetch(`${API_URL}/user/getFavorites/${user._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${newToken}`,
+        },
+      });
+      const result = await resp.json();
+
+      if (!resp.ok) {
+        
+       dispatch(fetchingFailedUserProperties(result.message))
+        return;
+      }
+
+      dispatch(fetchedSuccessfullyUserProperties(result.favorites))
+    } catch (error) {
+      dispatch(fetchingFailedUserProperties('please try again later!'))
+      console.log("fetching favourite property failed", error);
+    }
+
+  }
 
   // console.log(loading);
   if (loading) {
