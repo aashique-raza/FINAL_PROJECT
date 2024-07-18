@@ -9,6 +9,7 @@ import { removeTokenFromLocalStorage,getTokenFromLocalStorage } from "../token";
 import { API_URL } from "../configue";
 // import { useSelector,useDispatch } from 'react-redux'
 import {clearStatePgLIsting} from '../features/pg.slice'
+import { IoIosClose } from "react-icons/io";
 import {clearStateOfUser} from '../features/userProperty.slice'
 
 
@@ -88,6 +89,10 @@ function Profile({ toggle = false,showSuccessMessage }) {
           {error}
         </Alert>
       )}
+
+      <div className=" w- flex justify-end py-1 absolute   top-0   right-1  text-5xl font-extrabold font-serif ">
+<IoIosClose/>
+      </div>
     </div>
   );
 }

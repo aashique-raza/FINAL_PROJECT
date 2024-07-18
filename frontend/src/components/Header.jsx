@@ -16,6 +16,8 @@ function Header({showSuccessMessage}) {
  
   const [showMenu, setShowMenu] = useState(false);
   const [profile, SetShowProfile] = useState(false);
+  const profileButtonRef = useRef(null);
+  const profileRef = useRef();
   const { user } = useSelector((state) => state.user);
   // console.log(user);
 
@@ -26,6 +28,25 @@ function Header({showSuccessMessage}) {
   const handleToggleProfile = () => {
     SetShowProfile(!profile);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileButtonRef.current &&
+        !profileButtonRef.current.contains(event.target) &&
+        profileRef.current &&
+        !profileRef.current.contains(event.target)
+      ) {
+        SetShowProfile(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className=" fixed top-0 z-20">
@@ -65,15 +86,19 @@ function Header({showSuccessMessage}) {
 
       <div className="menubar">
         {loggedInStatus ? (
-          <button
-            color="gray"
-            className="profile-button  relative"
-            onClick={ handleToggleProfile }
-          >
-            <img src={user?.profileImage} alt="profileImage" />
-            <span className=" font-raleway "> hi,{user?.firstName}</span>
-            {SetShowProfile && <Profile toggle={profile} showSuccessMessage={showSuccessMessage} />}
-          </button>
+         <div>
+         <button
+           color="gray"
+           className="profile-button  relative"
+           onClick={handleToggleProfile}
+           ref={profileButtonRef}
+         >
+           <img src={user?.profileImage} alt="profileImage" />
+           <span className=" font-raleway "> hi,{user?.firstName}</span>
+           {profile && <Profile ref={profileRef} toggle={profile} showSuccessMessage={showSuccessMessage} />}
+         </button>
+         
+       </div>
         ) : (
           <NavLink className={"loginlink"} to={"/login"}>
             <FaUser /> log in
