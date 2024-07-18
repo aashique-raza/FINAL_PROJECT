@@ -4,7 +4,7 @@ import YourPropertyCard from "../components/YourPropertyCard";
 import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../configue";
 import { ThreeDots } from "react-loader-spinner";
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage ,refreshAccessToken} from "../token";
 import {setAllUserPgProperty,setAllUserProperty,setAllUserRentProperty,filterPropertyByQuery } from "../features/userProperty.slice";
 
 // import { useSelector,useDispatch } from "react-redux";
@@ -51,6 +51,17 @@ function YourPropertyPage({showSuccessMessage}) {
         });
 
         if (!resp1.ok) {
+          if (resp1.status === 401) {
+            const newToken = await refreshAccessToken();
+            if (newToken) {
+              // Retry original request with new token
+              await handleLfetchWithToekn(newToken);
+            } else {
+              setError("Failed to refresh access token");
+            }
+  
+            return;
+          }
           setError(resp1.message);
           setLoading(false);
           return;
@@ -104,6 +115,80 @@ function YourPropertyPage({showSuccessMessage}) {
       setError(error.message);
     }
   };
+
+  const handleLfetchWithToekn=async(newToken)=>{
+    try {
+      setError(null);
+      setLoading(true);
+
+      let pgProperty;
+      let rentProperty;
+
+      
+        const resp1 = await fetch(`${API_URL}/pg/getUserProperty/${user._id}`, {
+          headers: {
+            "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+            Authorization: `Bearer ${newToken}`,
+          },
+          credentials: "include",
+        });
+
+        if (!resp1.ok) {
+          
+          setError(resp1.message);
+          setLoading(false);
+          return;
+        }
+
+        pgProperty = await resp1.json();
+        // console.log("pg prperty", pgProperty);
+        dispatch(setAllUserPgProperty(pgProperty?.property))
+      
+
+      
+        const resp = await fetch(
+          `${API_URL}/rent/getUserProperty/${user._id}`,
+          {
+            headers: {
+              "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+              Authorization: `Bearer ${token}`,
+            },
+            credentials: "include",
+          }
+        );
+
+        if (!resp.ok) {
+          setError(error.message);
+          setLoading(false);
+          return;
+        }
+
+        rentProperty = await resp.json();
+        // console.log("rent property", rentProperty);
+        dispatch(setAllUserRentProperty(rentProperty?.property))
+      
+
+      const combineData=[
+       
+        ...(pgProperty?.property || []),
+        ...(rentProperty?.property || [])
+      ]
+
+      // console.log('combine property of user',combineData)
+
+      // dispatch(setAllUserProperty(combineData))
+      setUserProperty(combineData)
+
+      setLoading(false);
+      setError(null);
+      return;
+    } catch (error) {
+      console.log("fetching user property failed", error);
+      setLoading(false);
+      setError('please try again later');
+    }
+
+  }
 
   
     // console.log(userProperty)
