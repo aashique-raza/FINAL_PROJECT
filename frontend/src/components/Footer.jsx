@@ -72,8 +72,8 @@ function Footer() {
         <h1>links</h1>
         <div className=" text-white">
         {
-            links?.map((url)=>(
-                <NavLink to={url.url}>
+            links?.map((url,idx)=>(
+                <NavLink key={idx} to={url.url}>
                 {url.urlName}
                 </NavLink>
             ))
@@ -84,16 +84,16 @@ function Footer() {
       <section className="footer-sections footer-pg-section">
         <h1>PG</h1>
         <div>
-          {allCities?.map((city) => (
-            <NavLink>pg for rent in {city.label}</NavLink>
+          {allCities?.map((city,idx) => (
+            <NavLink key={idx}>pg for rent in {city.label}</NavLink>
           ))}
         </div>
       </section>
       <section className="footer-sections footer-pg-section">
       <h1>Flat/Apartment</h1>
         <div>
-          {allCities?.map((city) => (
-            <NavLink>Flat for rent in {city.label}</NavLink>
+          {allCities?.map((city,idx) => (
+            <NavLink key={idx}>Flat for rent in {city.label}</NavLink>
           ))}
         </div>
       </section>

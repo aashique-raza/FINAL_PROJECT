@@ -119,6 +119,10 @@ function RentPage({ showSuccessMessage }) {
     ) {
       renatlDetails.maintenanceAmount = 0;
     }
+
+    if(renatlDetails.rentAmount>renatlDetails.depositAmount){
+      setError('deosit amount can not be less than rent amount')
+    }
     const rentFormData = new FormData();
 
     // property details data---------
@@ -188,7 +192,7 @@ function RentPage({ showSuccessMessage }) {
       });
       // console.log(resp);
       const data = await resp.json();
-      console.log(data);
+      // console.log(data);
 
       if (!resp.ok) {
         setLoading(false);
@@ -201,7 +205,7 @@ function RentPage({ showSuccessMessage }) {
       showSuccessMessage("rent property created");
       navigate(`/property/rental/${data.saveProperty._id}`);
     } catch (error) {
-      setError(error.message);
+      setError('something went wrong,please try agaun later');
       setLoading(false);
       console.log(error.message);
     }

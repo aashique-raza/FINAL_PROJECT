@@ -31,6 +31,8 @@ import { AllStates, cities } from "../utils";
 
 function PgPage({ showSuccessMessage }) {
   const navigate = useNavigate();
+  const[loading,setLoading]=useState(false)
+  const[error,setError]=useState(null)
   const [isPgCreated, setIsPgCreated] = useState(false);
   const [formData, setFormData] = useState({
     roomFacilities: [],
@@ -56,14 +58,14 @@ function PgPage({ showSuccessMessage }) {
     warden: "",
     ameinites: [],
   });
-  console.log(formData);
+  // console.log(formData);
   const token = getTokenFromLocalStorage();
 
-  const { loading, error } = useSelector((state) => state.pgLIsting);
+
   const dispatch = useDispatch();
 
   const [photos, setPhotos] = useState([]);
-  console.log(photos);
+  // console.log(photos);
 
   useEffect(() => {
     dispatch(pgListingClearError());
@@ -106,13 +108,13 @@ function PgPage({ showSuccessMessage }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(pgListingClearError());
+   setError(null)
     if (
       formData.foodAvaibility?.trim().toLocaleLowerCase() ===
         "veg-food".trim().toLocaleLowerCase() &&
       !formData.foodType
     ) {
-      return dispatch(pgListingFailed("food type is required field"));
+      return setError("food type is required field");
     }
 
     const pgFormData = new FormData();
@@ -154,8 +156,8 @@ function PgPage({ showSuccessMessage }) {
     });
 
     try {
-      dispatch(pgListingStart());
-
+    setError(null)
+    setLoading(true)
       const resp = await fetch(`${API_URL}/pg/create-listing`, {
         method: "POST",
         headers: {
@@ -169,18 +171,20 @@ function PgPage({ showSuccessMessage }) {
       // console.log(data)
 
       if (!resp.ok) {
-        dispatch(pgListingFailed(data.message));
-
+        setError(data.message)
+        setLoading(false)
         return;
       }
       showSuccessMessage("listing successfull");
 
-      dispatch(pgListingClearError());
-      dispatch(pgListingSuccess(data.lsiting));
+      setError(null)
+      setLoading(false)
       navigate(`/property/pg/${data.lsiting._id}`);
     } catch (error) {
+      setError('something went wrong,please try gain later')
+      setLoading(true)
       console.log(error.message);
-      dispatch(pgListingFailed(error.message));
+      
     }
   };
 
@@ -220,11 +224,11 @@ function PgPage({ showSuccessMessage }) {
                 />
               ))}
             </div>
-            <p className=" -mt-20 font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
+            <p className="  lg:-mt-3 font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
               {formData?.depositAmount < formData?.rentAmount &&
                 "deosit amount can not be less than rent amount"}
             </p>
-            <div className="room-details-3">
+            <div className="room-details-3  lg:py-14">
               <h3 className="pl-2 mb-2 text-xl lg:text-2xl capitalize tracking-wider font-sans font-bold">
                 room facillities:
               </h3>

@@ -87,8 +87,8 @@ function PgEditComp({ editData, showSuccessMessage }) {
   const [updatedRoomOptions, setUpdatedRoomOptions] = useState([]);
   const [updatedPgOPtions, setUpdatedPgOPtions] = useState([]);
   const [updatedRentOptions, setUpdatedRentOptions] = useState([]);
-  console.log(editFormData);
-  console.log(updatedPgOPtions)
+  // console.log(editFormData);
+  // console.log(updatedPgOPtions)
   useEffect(() => {
     setEditFormData(editData);
   }, [editData]);
@@ -326,6 +326,10 @@ editFormData.images.forEach(img=>{
               />
             ))}
 
+<p className=" py-3  font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
+            {editFormData?.rentAmount > editFormData?.depositAmount &&
+              "deosit amount can not be less than rent amount"}
+          </p>
             {updatedRentOptions?.map((amountOpt, index) => (
               <EditInputComp
                 key={index}
@@ -339,12 +343,9 @@ editFormData.images.forEach(img=>{
               />
             ))}
           </div>
-          <p className="  font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
-            {editFormData?.depositAmount < editFormData?.rentAmount &&
-              "deosit amount can not be less than rent amount"}
-          </p>
-          <div className="room-details-3 bg-white py-3 px-2 md:px-4 lg:px-6">
-            <h3 className="text-xl md:text-2xl  font-bold text-red-500 font-roboto tracking-tighter capitalize">
+         
+          <div className="room-details-3 bg-white py-3 px-2 md:px-4 md:py-4 lg:px-6 lg:py-6 ">
+            <h3 className="text-xl md:text-2xl  pt-10 font-bold text-red-500 font-roboto tracking-tighter capitalize">
               room facillities:
             </h3>
             <div className="amenities-wrapper">
