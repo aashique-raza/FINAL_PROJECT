@@ -6,19 +6,18 @@ import { API_URL } from "../configue";
 import { useSelector, useDispatch } from "react-redux";
 import { ThreeDots } from "react-loader-spinner";
 import {
-  getFavouriteProperties,
-  clearState,
-  fetchingFailedFavouriteProperty,
-  startGettingFavourite,
+  startfetchingUserFavouriteProperties,
+  fetchedSuccessfullyUserProperties,
+  fetchingFailedUserProperties,
+  clearStateUserFavouriteProperty
 } from "../features/favourite.slice";
 
 // favouriteProperty
 function FavouritePropperty() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+ 
   const token = getTokenFromLocalStorage();
   const { user } = useSelector((state) => state.user);
-  const { favouriteProperty } = useSelector((state) => state.favouriteProperty);
+  const { favouriteProperty,loading,error } = useSelector((state) => state.favouriteProperty);
 
   const dispatch = useDispatch();
   // /addFavorite/:userId"
@@ -27,8 +26,8 @@ function FavouritePropperty() {
 
   const getFavouriteProperty = async () => {
     try {
-      setError(null);
-      setLoading(true);
+      dispatch(startfetchingUserFavouriteProperties())
+      
       const resp = await fetch(`${API_URL}/user/getFavorites/${user._id}`, {
         method: "GET",
         headers: {
@@ -39,17 +38,13 @@ function FavouritePropperty() {
       const result = await resp.json();
 
       if (!resp.ok) {
-        setError(result.message);
-        setLoading(false);
+       dispatch(fetchingFailedUserProperties(result.message))
         return;
       }
 
-      dispatch(getFavouriteProperties(result.favorites));
-      setError(null);
-      setLoading(false);
+      dispatch(fetchedSuccessfullyUserProperties(result.favorites))
     } catch (error) {
-      setError(error.message);
-      setLoading(false);
+      dispatch(fetchingFailedUserProperties('please try again later!'))
       console.log("fetching favourite property failed", error);
     }
   };

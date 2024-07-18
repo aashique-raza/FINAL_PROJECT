@@ -4,8 +4,8 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "../features/user.slice";
 import pgReducer from "../features/pg.slice";
 // import { activeSlice } from "../features/showActive.slice";
-import userPropertyReducer from '../features/userProperty.slice'
-import favouriteReducer from '../features/favourite.slice'
+import userPropertyReducer from "../features/userProperty.slice";
+import favouriteReducer from "../features/favourite.slice";
 
 const userPersistConfig = {
   key: "user",
@@ -24,18 +24,23 @@ const favouritePropertyPersistConfig = {
   storage,
 };
 
-
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
-const persistedUserPropertyReducer = persistReducer(userPropertyPersistConfig, userPropertyReducer);
-const persistedFavouritePropertyReducer = persistReducer(favouritePropertyPersistConfig, favouriteReducer);
+const persistedUserPropertyReducer = persistReducer(
+  userPropertyPersistConfig,
+  userPropertyReducer
+);
+const persistedFavouritePropertyReducer = persistReducer(
+  favouritePropertyPersistConfig,
+  favouriteReducer
+);
 // const persistedPgListingReducer = persistReducer(pgLIstingPersistConfig, pgReducer);
 
 const store = configureStore({
   reducer: {
     user: persistedUserReducer,
-    pgLIsting:pgReducer,
-    userProperties:persistedUserPropertyReducer,
-    favouriteProperty:persistedFavouritePropertyReducer
+
+    userProperties: persistedUserPropertyReducer,
+    favouriteProperty: persistedFavouritePropertyReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

@@ -326,7 +326,7 @@
 @media only screen and (min-width:1025px){
     .search_center_box{
         width: 50%;
-        border: 2px solid red;
+        /* border: 2px solid red; */
         
     }
     .search_input_container form{
@@ -336,7 +336,7 @@
         width: 100%;
         align-items: center;
         margin-top: 2rem;
-        border: 2px solid white;
+        /* border: 2px solid white; */
     }
     
     .search_input_container form div{
@@ -356,12 +356,14 @@
         height: 40px;
         border-radius: 50%;
         /* padding: 0; */
+        /* border: 2px solid green; */
     }
     .search_input_container form #searchButton button{
         display: flex;
         justify-content: center;
         align-content: center;
         font-size: 1.4rem;
+        background-color: transparent !important;
     }
     .search_input_container form #searchButton button span{
         display: none;

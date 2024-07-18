@@ -9,18 +9,20 @@ import { avaibility } from "../utils";
 import { ThreeDots } from "react-loader-spinner";
 import { API_URL } from "../configue";
 import { useSelector,useDispatch } from "react-redux";
-import { setFilteredProperties } from "../features/favourite.slice";
+
+
 
 function SearchPage({showSuccessMessage}) {
   const location = useLocation();
   const [category, setCategory] = useState(null);
+  const[filteredProperty,setFilteredProperties]=useState([])
   const [filterComVisible, setFilterCompVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   // const [filteredProperty, setFilteredProperty] = useState(null);
   const dispatch=useDispatch()
-  const{filteredProperty}=useSelector((state)=>state.favouriteProperty)
+
 
   const handleFilterChange = (values) => {
     // console.log(values)
@@ -94,7 +96,7 @@ function SearchPage({showSuccessMessage}) {
       });
 
       const result = await resp.json();
-      // console.log(result);
+      console.log(result);
 
       if (!resp.ok) {
         setError(result.message);
@@ -103,11 +105,14 @@ function SearchPage({showSuccessMessage}) {
       }
       setError(null);
       setLoading(false);
-      // setFilteredProperty(result.properties);
-      dispatch(setFilteredProperties(result.properties))
+      // console.log('ha yaha tak to chal rha hai')
+
+      setFilteredProperties(result.properties);
+      
+      setLoading(false)
     } catch (error) {
       console.log("filter request failed", error.message);
-      setError(error.message);
+      setError('something went wrong');
       setLoading(false);
     }
   };
@@ -119,6 +124,23 @@ function SearchPage({showSuccessMessage}) {
   }
   }, [category]); // Empty dependency array ensures this runs only once on mount
 
+  
+
+  const handleFavouriteProperty=(property)=>{
+console.log('property',property)
+// Update the filteredProperty state with the updated property
+ // Update the filteredProperty state with the updated property
+ setFilteredProperties((prevProperties) => {
+  // Create a new array with updated properties
+  const updatedProperties = prevProperties.map((item) =>
+    item.id === property.id ? property : item
+  );
+  return [...updatedProperties]; // Ensure a new array reference
+});
+  }
+
+
+  console.log(loading)
   return (
     <main className=" search_page_container ">
       <div className="  px-3 flex justify-end  w-full pg_filter_btn bg-white py-2   ">
@@ -172,7 +194,7 @@ function SearchPage({showSuccessMessage}) {
           </div>
         ) : filteredProperty && filteredProperty.length > 0 ? (
           filteredProperty.map((data, index) => (
-            <CardComp key={index} data={data} showSuccessMessage={showSuccessMessage}  />
+            <CardComp key={index} data={data} showSuccessMessage={showSuccessMessage} handleFavouriteProperty={handleFavouriteProperty}  />
           ))
         ) : (
           <div className="w-full py-10 bg-slate-100 rounded-md flex justify-center items-center shadow-md">

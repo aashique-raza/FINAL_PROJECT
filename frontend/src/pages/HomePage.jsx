@@ -43,7 +43,22 @@ function HomePage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if(selectedOption==='rental'){
+      if(!searchBHK || !searchLocation){
+        alert('please select filter option')
+        return
+      }
+    }
+    if(selectedOption==='pg'){
+      if(!searchSharing || !searchLocation){
+        alert('please select filter option')
+        return
+      }
+    }
+
+   
     if (selectedOption === "rental") {
+
       navigate(`/search/${selectedOption}?q=${searchBHK}&&l=${searchLocation}`);
     } else {
       navigate(
@@ -131,7 +146,7 @@ function HomePage() {
     } catch (err) {
       setError(err.message);
       setLoading(false);
-      console.error(err);
+      console.log(err);
     }
   };
 
@@ -309,7 +324,7 @@ const[loadmoreLoading,setLOadMoreLoading]=useState(false)
                 </select>
               </div>
               <div id="searchButton">
-                <button type="submit" className=" focus:ring-0">
+                <button type="submit" className="   focus:ring-0">
                   <FaSearch /> <span>search</span>
                 </button>
               </div>

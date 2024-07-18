@@ -5,42 +5,44 @@ const initialState = {
   error: null,
   loading: false,
   favouriteProperty: null,
-  filteredProperty: null,
+  
 };
 
 export const favouriteSlice = createSlice({
   name: "favourite",
   initialState,
   reducers: {
-    setFilteredProperties: (state, action) => {
-      console.log("set filter", action);
-      state.filteredProperty = action.payload;
+
+    startfetchingUserFavouriteProperties:(state)=>{
+      state.error=null;
+      state.loading=true
+
     },
-    getFavouriteProperties: (state, action) => {
-      state.favouriteProperty = action.payload;
-      state.loading = false;
-      state.error = null;
+
+    fetchingFailedUserProperties:(state,action)=>{
+      state.loading=false;
+      state.error=action.payload
     },
-    clearState: (state) => {
-      state.favouriteProperty = null;
-      (state.error = null), (state.loading = false);
+
+    fetchedSuccessfullyUserProperties:(state,action)=>{
+      state.loading=false;
+      state.error=null;
+      state.favouriteProperty=action.payload
+
     },
-    startGettingFavourite: (state, action) => {
-      state.loading = true;
-      state.error = null;
+    clearStateUserFavouriteProperty:(state)=>{
+      state.loading=false;
+      state.error=null;
+      state.favouriteProperty=null
     },
-    fetchingFailedFavouriteProperty: (state, action) => {
-      (state.loading = false), (state.error = action.payload);
-    },
+  
     addPropertyToFavourite: (state, action) => {
       const id = action.payload;
       console.log("in slice", id);
       state.favouriteProperty = state.favouriteProperty.map((fav) =>
         fav._id === id ? { ...fav, isPropertyFavorite: true } : fav
       );
-      state.filteredProperty = state.filteredProperty.map((fav) =>
-        fav._id === id ? { ...fav, isPropertyFavorite: true } : fav
-      );
+      
     },
 
     removePropertyFromFavourite: (state, action) => {
@@ -51,21 +53,20 @@ export const favouriteSlice = createSlice({
         )
         .filter((fav) => fav.isPropertyFavorite !== false);
 
-      state.filteredProperty = state.filteredProperty.map((fav) =>
-        fav._id === id ? { ...fav, isPropertyFavorite: false } : fav
-      );
+     
     },
   },
 });
 
 export const {
-  getFavouriteProperties,
-  clearState,
-  startGettingFavourite,
-  fetchingFailedFavouriteProperty,
+  startfetchingUserFavouriteProperties,
+  fetchedSuccessfullyUserProperties,
+  fetchingFailedUserProperties,
+  clearStateUserFavouriteProperty,
+  
   addPropertyToFavourite,
   removePropertyFromFavourite,
-  setFilteredProperties,
+  
 } = favouriteSlice.actions;
 
 export default favouriteSlice.reducer;

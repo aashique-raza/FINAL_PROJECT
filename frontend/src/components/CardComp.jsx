@@ -27,7 +27,7 @@ import { getTokenFromLocalStorage } from "../token";
 
 // MonetizationOnOutlined
 
-function CardComp({ data,typeOfProperty=false,showSuccessMessage }) {
+function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavouriteProperty }) {
   const [isAddFavroute, setAddFavroute] = useState(false);
   const location = useLocation();
   const [category, setCategory] = useState(null);
@@ -101,16 +101,17 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage }) {
        
       });
       const result=await resp.json()
+      // console.log(result)
       if(!resp.ok){
         setError(result.message)
         return
       }
-      dispatch(removePropertyFromFavourite(propertyId))
+      handleFavouriteProperty(result.newproperty)
       showSuccessMessage('remove from favourite')
       
     } catch (error) {
-      console.log('adding favourite failed',error)
-      setError(error.message)
+      console.log('removing favourite failed',error)
+      setError('please try again later')
     }
 
   }
@@ -128,11 +129,16 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage }) {
        
       });
       const result=await resp.json()
+      console.log(result)
       if(!resp.ok){
         setError(result.message)
         return
       }
-      dispatch(addPropertyToFavourite(propertyId))
+      // updatedProperty.
+      // isPropertyFavorite
+      
+      handleFavouriteProperty(result.updatedProperty)
+      // dispatch(addPropertyToFavourite(propertyId))
       showSuccessMessage('addedd to favourite')
       
     } catch (error) {
