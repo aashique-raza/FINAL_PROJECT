@@ -9,7 +9,7 @@ import { loginSuccess,loginFailed } from "../features/user.slice";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from '../configue';
 import { initializeApp } from "firebase/app";
-import { setTokenInLocalStorage } from '../token';
+import { setTokenInLocalStorage,setRefreshTokenInLocalStorage } from '../token';
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -54,7 +54,8 @@ function GoogleOAuthButton({className='',showSuccessMessage}) {
         return
       }
       dispatch(loginSuccess(data.user));
-      setTokenInLocalStorage(data.token);
+      setTokenInLocalStorage(data.tokens.accessToken);
+      setRefreshTokenInLocalStorage(data.tokens.refreshToken)
       // showSuccessMessage('logged in successfull!')
 
       // setTokenInLocalStorage(token, cookieExpiry);
