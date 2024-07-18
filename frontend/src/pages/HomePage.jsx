@@ -11,6 +11,7 @@ import { useSearchParams } from "react-router-dom";
 import SearchCategory from "../components/HomeComp/SearchCategory";
 import CardBox from "../components/HomeComp/CardBox";
 import { API_URL } from "../configue";
+import GetOwnerDetailsBUtton from "../components/GetOwnerDetailsBUtton";
 
 import { ThreeDots } from "react-loader-spinner";
 

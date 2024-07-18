@@ -4,6 +4,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import "../../styles/Home.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
+import GetOwnerDetailsBUtton from "../GetOwnerDetailsBUtton";
 
 const images = [
   "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -148,9 +149,7 @@ function CardBox({ data }) {
               </p>
             </div>
           </div>
-          <button  className=" capitalize tracking-wider text-sm sm:text-xl md:2xl cursor-pointer px-5 py-3 sm:px-6  sm:py-4 bg-red-600 hover:bg-red-800 text-white transition-all duration-75 ease-out">
-            get owner details
-          </button>
+          <GetOwnerDetailsBUtton data={data} category={data.roomSharing ? 'pg' :'rental'} width={'200px'} fontsize={'14px'}/>
         </div>
       </div>
     </div>

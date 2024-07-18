@@ -15,7 +15,7 @@ import { useLocation } from "react-router-dom";
 
 import HomeIcon from "@mui/icons-material/Home";
 import WeekendIcon from "@mui/icons-material/Weekend";
-import OwnerDetailsModal from "./OwnerDetailsModal";
+
 
 import {useDispatch,useSelector} from 'react-redux'
 import getOwnerDetailsForLoggedInUser from "../utility";
@@ -24,15 +24,17 @@ import { API_URL } from "../configue";
 import { Modal, Button } from 'flowbite-react';
 import { useNavigate } from "react-router-dom";
 import { getTokenFromLocalStorage } from "../token";
+import GetOwnerDetailsBUtton from "./GetOwnerDetailsBUtton";
 
 // MonetizationOnOutlined
 
 function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavouriteProperty,userFavouriteProperties=false }) {
-  const [isAddFavroute, setAddFavroute] = useState(false);
+ 
   const location = useLocation();
   const [category, setCategory] = useState(null);
-  const[isModelOpen,setModalOPen]=useState(false)
-  const[responseStatus,setResponseStatus]=useState('')
+  console.log(category)
+ 
+ 
   const {favouriteProperty}=useSelector((state)=>state.favouriteProperty)
   const [isOpen, setIsOpen] = useState(false);
   const dispatch=useDispatch()
@@ -73,19 +75,7 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
 
 
 
-  const openOwnerDetailsModal=async(id)=>{
-    // alert(id)
-    // console.log(user)
-    setResponseStatus('')
-    if(!user){
-      setModalOPen(!isModelOpen)
-    }else{
-      const response=await getOwnerDetailsForLoggedInUser(data._id,category,user._id)
-      setResponseStatus(response)
-     }
-   
-  }
-
+ 
   const removeToFavourite=async(propertyId)=>{
     
 
@@ -300,9 +290,8 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
             )}
 
             <div className="get_owner_wrapper w-full flex gap-2 items-center">
-              <button onClick={()=>openOwnerDetailsModal()} className=" focus:ring-0 border-none outline-none  w-3/4 px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto ">
-                get owner details
-              </button>
+              <GetOwnerDetailsBUtton width="200px" data={data}  category={category}/>
+             
               <div
                onClick={()=>handleFavourite(data._id)}
                 className={` py-5 px-6 flex justify-center items-start  font-slab text-4xl border-2 cursor-pointer`}
@@ -315,14 +304,8 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
               </div>
               
             </div>
-            {
-              responseStatus && (
-                <p className=" capitalize text-xl font-bold font-roboto">{responseStatus}</p>
-              )
-            }
-            {
-              isModelOpen && <OwnerDetailsModal isOpen={isModelOpen} setModalOPen={setModalOPen} onClose={()=>setModalOPen(false)} id={data._id} dataCategory={category}/>
-            }
+           
+           
           </div>
         </div>
         {
