@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { logOutSuccess } from "../features/user.slice";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Spinner } from "flowbite-react";
-import { removeTokenFromLocalStorage,getTokenFromLocalStorage } from "../token";
+import { removeTokenFromLocalStorage,getTokenFromLocalStorage,refreshAccessToken,removeRefreshTokenFromLocalStorage } from "../token";
 import { API_URL } from "../configue";
 // import { useSelector,useDispatch } from 'react-redux'
 import {clearStatePgLIsting} from '../features/pg.slice'
@@ -45,14 +45,33 @@ function Profile({ toggle = false,showSuccessMessage }) {
       // console.log(result)
 
       if (!response.ok) {
-        // console.log(result)
-        setError(result.message);
-        setLoading(false)
-        return;
+        if (response.status === 401) {
+          console.log('yaha chal rha hai...')
+          const newToken = await refreshAccessToken();
+          handleLogOut()
+          return
+        //   // Retry the original request with the new token
+        //   const refreshedResponse = await fetch(`${API_URL}/user/logout-account`, {
+        //     method: 'POST', // Example method (GET, POST, etc.)
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       Authorization: `Bearer ${newToken}`,
+        //     },
+        //     credentials: 'include',
+        //   });
+  
+        //   const refreshedData = await refreshedResponse.json();
+        //   return refreshedData;
+        // return;
       }
+      setError(result.message)
+      setLoading(false);
+      return
+    }
       setError(null)
       setLoading(false);
       removeTokenFromLocalStorage()
+      removeRefreshTokenFromLocalStorage()
       dispatch(logOutSuccess());
   
       dispatch(clearStateOfUser())
@@ -62,6 +81,7 @@ function Profile({ toggle = false,showSuccessMessage }) {
       navigate('/login')
     } catch (error) {
       console.log("logout failed", error);
+      setError('please try again later!')
     }
   };
 

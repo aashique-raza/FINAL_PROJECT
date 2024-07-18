@@ -16,7 +16,7 @@ import {
 import API_BASE_URL from "../configue";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../configue";
-import { setTokenInLocalStorage } from "../token";
+import { setTokenInLocalStorage,setRefreshTokenInLocalStorage } from "../token";
 import GoogleOAuthButton from "../components/GoogleOAuthButton";
 import { validateEmail,validateMobileNumber } from "../formError";
 
@@ -88,7 +88,8 @@ function LoginPage({showSuccessMessage}) {
       }
       dispatch(clearError());
       dispatch(loginSuccess(result.user));
-      setTokenInLocalStorage(result.token);
+      setTokenInLocalStorage(result.tokens.accessToken);
+      setRefreshTokenInLocalStorage(result.tokens.refreshToken)
       showSuccessMessage('logged in successfull!')
 
       // setTokenInLocalStorage(token, cookieExpiry);
