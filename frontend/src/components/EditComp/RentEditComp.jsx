@@ -19,7 +19,7 @@ import {
   extractDefaults,
   toCamelCase,
 } from "../../rentUtils";
-import { getTokenFromLocalStorage } from "../../token";
+import { getTokenFromLocalStorage,refreshAccessToken } from "../../token";
 import { API_URL } from "../../configue";
 
 import CalenderInput from "../CalenderInput";
@@ -256,6 +256,17 @@ editFormData.images.forEach(img=>{
       // console.log('data',data)
 
       if(!resp.ok){
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleSubmitWithToken(newToken,formData);
+          } else {
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
         setError(data.message)
         setLoading(false)
         return
@@ -275,6 +286,49 @@ editFormData.images.forEach(img=>{
     }
   }
 
+
+  const handleSubmitWithToken=async(newToken,formData)=>{
+    try {
+      setError(null)
+      setLoading(true)
+
+      const resp=await fetch(`${API_URL}/rent/propertyUpdate/${id}/${user._id}`,{
+        method:'PUT',
+        headers: {
+          // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
+          "Authorization": `Bearer ${newToken}`
+        },
+        credentials:'include',
+        body:formData
+      })
+
+      // console.log(resp)
+
+      const data=await resp.json()
+      
+      // console.log('data',data)
+
+      if(!resp.ok){
+       
+        setError(data.message)
+        setLoading(false)
+        return
+      }
+      
+      setError(null)
+      setLoading(false)
+      showSuccessMessage('changes saved')
+      navigate(`/property/${category}/${data.property._id}`)
+      
+      
+      
+    } catch (error) {
+      console.log('updating failed',error)
+      setError(error.message)
+      setLoading(false)
+    }
+
+  }
 
 
  
