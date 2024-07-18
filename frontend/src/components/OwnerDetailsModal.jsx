@@ -21,11 +21,30 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory,setModalOPen }) {
     setPropertyId(id)
     setCategory(dataCategory)
   })
+ 
+  const handleMobileChange = (e) => {
+    let input = e.target.value;
 
+    // Remove non-numeric characters
+    input = input.replace(/\D/g, '');
+
+    // Limit to 10 digits
+    if (input.length > 10) {
+      input = input.slice(0, 10);
+    }
+
+    // Update state
+    setMobile(input);
+  };
+  console.log( mobile)
   const handleNext = async() => {
-    // console.log(email)
-    // console.log(mobile)
+   
+
     if(!email || !mobile) return setError('fill required fileds.')
+
+      
+
+      
         // console.log(propertyId,category)
     try {
         setError(null)
@@ -162,97 +181,110 @@ function OwnerDetailsModal({ isOpen, onClose,id, dataCategory,setModalOPen }) {
 
   return (
     <Modal show={isOpen} onClose={onClose} size="lg">
-      <Modal.Header className="text-green-800">
-        Please fill your details for getting owner details
-      </Modal.Header>
-      <Modal.Body>
-        <form  className="space-y-4">
-          {step === 1 && (
-            <>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="mobile"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Mobile Number
-                </label>
-                <input
-                  type="tel"
-                  id="mobile"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  required
-                />
-              </div>
-            </>
-          )}
-          {step === 2 && (
-            <div>
-              <label
-                htmlFor="otp"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Enter OTP
-              </label>
-              <input
-                type="text"
-                id="otp"
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                required
-              />
-            </div>
-          )}
-        </form>
-      </Modal.Body>
+      <Modal.Header className="text-red-500 text-center text-4xl font-bold font-raleway pt-6 pb-4">
+  Please fill your details for getting owner details
+</Modal.Header>
+<Modal.Body>
+  <form className="space-y-4">
+    {step === 1 && (
+      <>
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-xl font-bold font-raleway text-gray-700"
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            className="mt-1 py-4 px-4 text-3xl font-bold font-raleway block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="mobile"
+            className="block text-xl font-bold font-raleway text-gray-700"
+          >
+            Mobile Number
+          </label>
+          <input
+            type="tel"
+            id="mobile"
+            className="mt-1 py-4 px-4 text-3xl font-bold font-raleway block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            value={mobile}
+            onChange={ handleMobileChange}
+            required
+          />
+        </div>
+      </>
+    )}
+    {step === 2 && (
+      <div>
+        <label
+          htmlFor="otp"
+          className="block text-xl font-bold font-raleway text-gray-700"
+        >
+          Enter OTP
+        </label>
+        <input
+          type="text"
+          id="otp"
+          className="mt-1 py-4 px-4  text-3xl font-bold font-raleway block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          required
+        />
+      </div>
+    )}
+  </form>
+  <button className=" p-1 bg-black rounded-full  absolute top-4 right-4 text-4xl text-white font-bold focus:outline-none" onClick={onClose}>
+    &times;
+  </button>
+</Modal.Body>
+
       <Modal.Footer className="flex flex-col items-center">
-        {step === 1 ? (
-          <Button color="blue" onClick={handleNext} disabled={loading}>
-            {loading ? (
-              <div className="flex items-center">
-                <Spinner className="mr-3" size="sm" />
-                Loading...
-              </div>
-            ) : (
-              "Next"
-            )}
-          </Button>
-        ) : (
-          <Button color="blue" onClick={handleOTPSubmit}>
-            {
-              loading ?  (
-                <div className="flex items-center">
-                  <Spinner className="mr-3" size="sm" />
-                  Loading...
-                </div>
-              ) :(
-                "Submit"
-              )
-            }
-            
-          </Button>
-        )}
-        {error && <p className="text-red-600 mt-2">{error}</p>}
-        {successMsg && <p className="text-green-600 mt-2">{successMsg}</p>}
-      </Modal.Footer>
+  {step === 1 ? (
+    <Button
+      color="red"
+      size="xl"
+      onClick={handleNext}
+      disabled={loading}
+      className="w-32 bg-red-500 text-white hover:bg-red-700"
+    >
+      {loading ? (
+        <div className="flex items-center">
+          <Spinner className="mr-3" size="xl" />
+          Loading...
+        </div>
+      ) : (
+        "Next"
+      )}
+    </Button>
+  ) : (
+    <Button
+      size="xl"
+      color="red"
+      onClick={handleOTPSubmit}
+      className="w-32 bg-red-500 text-white hover:bg-red-700"
+    >
+      {loading ? (
+        <div className="flex items-center">
+          <Spinner className="mr-3" size="xl" />
+          Loading...
+        </div>
+      ) : (
+        "Submit"
+      )}
+    </Button>
+  )}
+  {error && <p className="text-red-600 mt-2">{error}</p>}
+  {successMsg && <p className="text-green-600 mt-2">{successMsg}</p>}
+</Modal.Footer>
+
     </Modal>
   );
 }
