@@ -5,7 +5,7 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import ImageSLiderComp from "./ImageSLiderComp";
 import FacilityItem from "./FacilityItem";
-import { FaHeart,FaKey,FaFemale  } from "react-icons/fa";
+import { FaHeart, FaKey, FaFemale } from "react-icons/fa";
 
 // clock
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -16,159 +16,234 @@ import { useLocation } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import WeekendIcon from "@mui/icons-material/Weekend";
 
-
-import {useDispatch,useSelector} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import getOwnerDetailsForLoggedInUser from "../utility";
-import { addPropertyToFavourite,removePropertyFromFavourite } from "../features/favourite.slice";
+import {
+  addPropertyToFavourite,
+  removePropertyFromFavourite,
+} from "../features/favourite.slice";
 import { API_URL } from "../configue";
-import { Modal, Button } from 'flowbite-react';
+import { Modal, Button } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage, refreshAccessToken } from "../token";
 import GetOwnerDetailsBUtton from "./GetOwnerDetailsBUtton";
 
 // MonetizationOnOutlined
 
-function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavouriteProperty,userFavouriteProperties=false }) {
- 
+function CardComp({
+  data,
+  typeOfProperty = false,
+  showSuccessMessage,
+  handleFavouriteProperty,
+  userFavouriteProperties = false,
+}) {
   const location = useLocation();
   const [category, setCategory] = useState(null);
-  console.log(category)
- 
- 
-  const {favouriteProperty}=useSelector((state)=>state.favouriteProperty)
+  console.log(category);
+
+  const { favouriteProperty } = useSelector((state) => state.favouriteProperty);
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch=useDispatch()
-  const navigate=useNavigate()
-  const [error,setError]=useState(false)
-  const token=getTokenFromLocalStorage()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [error, setError] = useState(false);
+  const token = getTokenFromLocalStorage();
 
-
-
-  const {user}=useSelector(state=>state.user)
-
-
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     const path = location.pathname; // Yaha se pura path mil jayega, jaise "/search/:category"
     const category = path.split("/")[2]; // Yaha se category ke value ko extract kiya jata hai
     // console.log(category)
-    if(typeOfProperty){
-      setCategory(data.propertyType==="PG"?'pg':'rental')
-    }else{
+    if (typeOfProperty) {
+      setCategory(data.propertyType === "PG" ? "pg" : "rental");
+    } else {
       setCategory(category);
     }
-    
   }, [location.pathname]);
 
   function extractDate(isoString) {
     // Create a new Date object from the ISO string
     const date = new Date(isoString);
-  
+
     // Extract the month, date, and year from the Date object
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+    const day = date.getUTCDate().toString().padStart(2, "0");
     const year = date.getUTCFullYear();
-  
+
     // Format the date as MM/DD/YYYY
     return `${month}/${day}/${year}`;
   }
 
-
-
- 
-  const removeToFavourite=async(propertyId)=>{
-    
-
+  const removeToFavourite = async (propertyId) => {
     try {
-      setError(null)
-      const resp = await fetch(`${API_URL}/user/removeFromeFavrouiteList/${user._id}`, {
-        method: "delete",
-        headers: {
-          "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
-          Authorization: `Bearer ${token}`,
-        },
-        body:JSON.stringify({propertyId,category})
-       
-      });
-      const result=await resp.json()
+      setError(null);
+      const resp = await fetch(
+        `${API_URL}/user/removeFromeFavrouiteList/${user._id}`,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ propertyId, category }),
+        }
+      );
+      const result = await resp.json();
       // console.log(result)
-      if(!resp.ok){
-        setError(result.message)
-        return
-      }
-      if(!userFavouriteProperties){
-        handleFavouriteProperty(result.newproperty)
-        showSuccessMessage('remove from favourite')
-      }else{
-        dispatch(removePropertyFromFavourite(result.newproperty._id))
-      }
-     
-      
-      
-    } catch (error) {
-      console.log('removing favourite failed',error)
-      setError('please try again later')
-    }
+      if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleRemoveFavouriteWithToken(newToken);
+          } else {
+            setError("Failed to refresh access token");
+          }
 
-  }
-  const addToFavourite=async(propertyId)=>{
-    
+          return;
+        }
+        setError(result.message);
+        return;
+      }
+      if (!userFavouriteProperties) {
+        handleFavouriteProperty(result.newproperty);
+        showSuccessMessage("remove from favourite");
+      } else {
+        dispatch(removePropertyFromFavourite(result.newproperty._id));
+      }
+    } catch (error) {
+      console.log("removing favourite failed", error);
+      setError("please try again later");
+    }
+  };
+
+  const handleRemoveFavouriteWithToken = async (newToken) => {
     try {
-      setError(null)
+      setError(null);
+      const resp = await fetch(
+        `${API_URL}/user/removeFromeFavrouiteList/${user._id}`,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+            Authorization: `Bearer ${newToken}`,
+          },
+          body: JSON.stringify({ propertyId, category }),
+        }
+      );
+      const result = await resp.json();
+      // console.log(result)
+      if (!resp.ok) {
+        
+
+        setError(result.message);
+        return;
+      }
+      if (!userFavouriteProperties) {
+        handleFavouriteProperty(result.newproperty);
+        showSuccessMessage("remove from favourite");
+      } else {
+        dispatch(removePropertyFromFavourite(result.newproperty._id));
+      }
+    } catch (error) {
+      console.log("removing favourite failed", error);
+      setError("please try again later");
+    }
+  };
+
+  const addToFavourite = async (propertyId) => {
+    try {
+      setError(null);
       const resp = await fetch(`${API_URL}/user/addFavorite/${user._id}`, {
         method: "post",
         headers: {
           "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
           Authorization: `Bearer ${token}`,
         },
-        body:JSON.stringify({propertyId,category})
-       
+        body: JSON.stringify({ propertyId, category }),
       });
-      const result=await resp.json()
+      const result = await resp.json();
       // console.log(result)
-      if(!resp.ok){
-        setError(result.message)
-        return
+      if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleAddToFavouriteWithToken(newToken);
+          } else {
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
+        setError(result.message);
+        return;
       }
       // updatedProperty.
       // isPropertyFavorite
 
-      if(!userFavouriteProperties){
-        handleFavouriteProperty(result.updatedProperty)
-        showSuccessMessage('addedd to favourite')
-      }else{
-        dispatch(addPropertyToFavourite(result.updatedProperty))
+      if (!userFavouriteProperties) {
+        handleFavouriteProperty(result.updatedProperty);
+        showSuccessMessage("addedd to favourite");
+      } else {
+        dispatch(addPropertyToFavourite(result.updatedProperty));
       }
-      
-     
-      
-      
     } catch (error) {
-      console.log('adding favourite failed',error)
-      setError(error.message)
+      console.log("adding favourite failed", error);
+      setError(error.message);
     }
-  }
+  };
 
+  const handleAddToFavouriteWithToken=async(newToken)=>{
+    try {
+      setError(null);
+      const resp = await fetch(`${API_URL}/user/addFavorite/${user._id}`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${newToken}`,
+        },
+        body: JSON.stringify({ propertyId, category }),
+      });
+      const result = await resp.json();
+      // console.log(result)
+      if (!resp.ok) {
+        
+        setError(result.message);
+        return;
+      }
+      // updatedProperty.
+      // isPropertyFavorite
+
+      if (!userFavouriteProperties) {
+        handleFavouriteProperty(result.updatedProperty);
+        showSuccessMessage("addedd to favourite");
+      } else {
+        dispatch(addPropertyToFavourite(result.updatedProperty));
+      }
+    } catch (error) {
+      console.log("adding favourite failed", error);
+      setError(error.message);
+    }
+
+  }
   const handleLogin = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleClose = () => {
     setIsOpen(false);
   };
 
-  const handleFavourite=(id)=>{
-    if(!user) return setIsOpen(true)
-   data.isPropertyFavorite ? removeToFavourite(id) : addToFavourite(id)
-  }
-
-
-  
+  const handleFavourite = (id) => {
+    if (!user) return setIsOpen(true);
+    data.isPropertyFavorite ? removeToFavourite(id) : addToFavourite(id);
+  };
 
   return (
     <div className="card_container">
       <section className="card_heading_text py-6 px-5 ">
-        <Link to={`/property/${category }/${data._id}`} >
+        <Link to={`/property/${category}/${data._id}`}>
           <h2 className=" flex gap-2 items-center font-roboto  capitalize text-2xl text-gray-500  hover:underline hover:text-red-600">
             {category?.trim().toLowerCase() === "pg".trim()
               ? `PG for ${data.availableFor} in ${data.location.city},${data.location.state} `
@@ -177,7 +252,7 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
           </h2>
         </Link>
         <p className=" capitalize text-gray-400 font-slab font-normal mt-3 text-xl">
-          {category?.trim().toLowerCase()  === "pg".trim()
+          {category?.trim().toLowerCase() === "pg".trim()
             ? `${data.location.localAddress},${data.location.city}`
             : `${data.location.localAddress},${data.location.city}`}
         </p>
@@ -187,7 +262,7 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
           <div className="amount_wrapper_items w-1/4 flex-grow border-r-2 ">
             <h3 className=" justify-center flex items-center gap-2 font-mono font-normal  capitalize text-2xl ">
               <FaIndianRupeeSign />{" "}
-              {category?.trim().toLowerCase()  === "pg".trim()
+              {category?.trim().toLowerCase() === "pg".trim()
                 ? `${data.rentAmount}`
                 : `${data.rentAmount}`}
             </h3>
@@ -207,7 +282,7 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
               depost amount
             </p>
           </div>
-          {category?.trim().toLowerCase()  === "rental".trim() && (
+          {category?.trim().toLowerCase() === "rental".trim() && (
             <div className="amount_wrapper_items w-1/4 flex-grow border-r-2">
               <h3 className=" justify-center flex items-center gap-2  font-slab font-normal  capitalize text-2xl ">
                 {data.builtUpArea}
@@ -219,7 +294,7 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
             </div>
           )}
 
-          {category?.trim().toLowerCase()  === "pg".trim() && (
+          {category?.trim().toLowerCase() === "pg".trim() && (
             <div className="amount_wrapper_items w-1/4 flex-grow ">
               <h3 className=" justify-center flex items-center gap-2  font-slab font-normal  capitalize text-2xl ">
                 {data.roomSharing}
@@ -232,12 +307,10 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
         </div>
         <div className="card_image_wrapper py-3 px-5 flex gap-3 items-center justify-start">
           <div className="image_slider w-1/3">
-           
-              <ImageSLiderComp imagesUrl={data.images} />
-           
+            <ImageSLiderComp imagesUrl={data.images} />
           </div>
           <div className="facilities_box flex-1   flex flex-col gap-16 justify-start items-start">
-            {category?.trim().toLowerCase()  === "rental".trim() && (
+            {category?.trim().toLowerCase() === "rental".trim() && (
               <div className="facilities_items px-1 flex flex-wrap  gap-1 py-1 border-2">
                 <FacilityItem
                   icon={<FaKey />}
@@ -290,10 +363,14 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
             )}
 
             <div className="get_owner_wrapper w-full flex gap-2 items-center">
-              <GetOwnerDetailsBUtton width="200px" data={data}  category={category}/>
-             
+              <GetOwnerDetailsBUtton
+                width="200px"
+                data={data}
+                category={category}
+              />
+
               <div
-               onClick={()=>handleFavourite(data._id)}
+                onClick={() => handleFavourite(data._id)}
                 className={` py-5 px-6 flex justify-center items-start  font-slab text-4xl border-2 cursor-pointer`}
               >
                 <FaHeart
@@ -302,36 +379,28 @@ function CardComp({ data,typeOfProperty=false,showSuccessMessage,handleFavourite
                   }`}
                 />
               </div>
-              
             </div>
-           
-           
           </div>
         </div>
-        {
-          isOpen && (
-            <Modal show={isOpen} onClose={handleClose}>
-            <Modal.Header>
-              Login Required
-            </Modal.Header>
+        {isOpen && (
+          <Modal show={isOpen} onClose={handleClose}>
+            <Modal.Header>Login Required</Modal.Header>
             <Modal.Body>
               <div className="space-y-6">
                 <p className="text-base leading-relaxed text-gray-500">
-                  You need to log in to access this feature. Please log in or continue without logging in.
+                  You need to log in to access this feature. Please log in or
+                  continue without logging in.
                 </p>
               </div>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={handleLogin}>
-                Login
-              </Button>
+              <Button onClick={handleLogin}>Login</Button>
               <Button color="gray" onClick={handleClose}>
                 Not Now
               </Button>
             </Modal.Footer>
           </Modal>
-          )
-        }
+        )}
       </section>
     </div>
   );
