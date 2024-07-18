@@ -86,7 +86,7 @@ function FavouritePropperty() {
       ) : (
         favouriteProperty !== null &&
         favouriteProperty?.map((fav) => (
-          <CardComp key={fav._id} data={fav} typeOfProperty={true} />
+          <CardComp key={fav._id} data={fav} typeOfProperty={true} userFavouriteProperties={true} />
         ))
       )}
     </div>

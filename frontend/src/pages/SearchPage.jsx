@@ -40,7 +40,7 @@ function SearchPage({showSuccessMessage}) {
     setFilterCompVisible(!filterComVisible);
   };
 
-  // console.log('apply filter se bahr',category)
+
 
   const applyFilter = async () => {
     // Common parameters
@@ -127,9 +127,7 @@ function SearchPage({showSuccessMessage}) {
   
 
   const handleFavouriteProperty=(property)=>{
-console.log('property',property)
-// Update the filteredProperty state with the updated property
- // Update the filteredProperty state with the updated property
+
  setFilteredProperties((prevProperties) => {
   // Create a new array with updated properties
   const updatedProperties = prevProperties.map((item) =>
@@ -140,7 +138,6 @@ console.log('property',property)
   }
 
 
-  console.log(loading)
   return (
     <main className=" search_page_container ">
       <div className="  px-3 flex justify-end  w-full pg_filter_btn bg-white py-2   ">
