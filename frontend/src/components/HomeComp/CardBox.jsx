@@ -148,8 +148,8 @@ function CardBox({ data }) {
               </p>
             </div>
           </div>
-          <button className=" capitalize tracking-wider text-sm sm:text-xl md:2xl cursor-pointer px-5 py-3 sm:px-6  sm:py-4 bg-red-600 hover:bg-red-800 text-white transition-all duration-75 ease-out">
-            owner details
+          <button  className=" capitalize tracking-wider text-sm sm:text-xl md:2xl cursor-pointer px-5 py-3 sm:px-6  sm:py-4 bg-red-600 hover:bg-red-800 text-white transition-all duration-75 ease-out">
+            get owner details
           </button>
         </div>
       </div>
