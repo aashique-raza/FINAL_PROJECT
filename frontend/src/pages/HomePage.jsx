@@ -39,7 +39,7 @@ function HomePage() {
   const [pgTotalPages, setPgTotalPages] = useState(0);
   const [rentTotalPages, setRentTotalPages] = useState(0);
 
-  console.log("select filetr", selectFilter);
+  // console.log("select filetr", selectFilter);
 
   // Function to handle change in radio input selection
   const handleRadioChange = (value) => {
@@ -150,7 +150,7 @@ function HomePage() {
       const pgResponse = await fetch(`${API_URL}/pg/allProperty?page=${page}`);
 
       const pgData = await pgResponse.json();
-      console.log("pgData", pgData);
+      // console.log("pgData", pgData);
       if (!pgResponse.ok) {
         setError(pgData.message);
         setLoading(false);
@@ -158,7 +158,7 @@ function HomePage() {
       }
       const rentResponse = await fetch(`${API_URL}/rent/property?page=${page}`);
       const rentData = await rentResponse.json();
-      console.log("rentData", rentData);
+      // console.log("rentData", rentData);
       if (!rentResponse.ok) {
         setError(rentData.message);
         setLoading(false);

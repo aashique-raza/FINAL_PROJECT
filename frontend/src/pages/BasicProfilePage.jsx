@@ -13,7 +13,7 @@ import { validateEmail, validateMobileNumber } from "../formError";
 
 import { updateSucceFully } from "../features/user.slice";
 import { API_URL } from "../configue";
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,refreshAccessToken } from "../token";
 
 function BasicProfilePage({ showSuccessMessage }) {
   // token extarct--
@@ -61,7 +61,7 @@ function BasicProfilePage({ showSuccessMessage }) {
   const uploadImage = async () => {
     setImageFileUploading(true);
     setImageFileUploadError(null);
-  
+
     const storage = getStorage(app);
     const fileName = new Date().getTime() + imageFile.name;
     const storageRef = ref(storage, fileName);
@@ -86,7 +86,7 @@ function BasicProfilePage({ showSuccessMessage }) {
         setImageFile(null);
         setImageFileUrl(null);
         setImageFileUploading(false);
-       
+
         setImageFile(null);
       },
       () => {
@@ -99,7 +99,7 @@ function BasicProfilePage({ showSuccessMessage }) {
             profileImage: downloadURL,
           });
           setImageFileUploading(false);
-         
+
           setImageFile(null);
         });
       }
@@ -147,8 +147,50 @@ function BasicProfilePage({ showSuccessMessage }) {
       // console.log(data);
 
       if (!resp.ok) {
-        // console.log(result)
-        // console.log(data.message);
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleSubmitWithToken(newToken);
+          } else {
+            setError("Failed to refresh access token");
+          }
+
+          return;
+        }
+
+        setError(data.message);
+        setloading(false);
+        return;
+      }
+
+      setError(null);
+      setloading(false);
+      dispatch(updateSucceFully(data.updatedUser));
+      showSuccessMessage("updated successfully!");
+    } catch (error) {
+      console.log(error.message);
+      setError(error.message);
+    }
+  };
+
+  const handleSubmitWithToken = async (newtoken) => {
+    try {
+      setError(null);
+      setloading(true);
+
+      const resp = await fetch(`${API_URL}/user/update-account/${user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+          Authorization: `Bearer ${newtoken}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await resp.json();
+      // console.log(data);
+
+      if (!resp.ok) {
         setError(data.message);
         setloading(false);
         return;
@@ -183,11 +225,21 @@ function BasicProfilePage({ showSuccessMessage }) {
       );
 
       const data = await resp.json();
-      console.log(data);
+      // console.log(data);
 
       if (!resp.ok) {
-        // console.log(result)
-        // console.log(data.message);
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            await handleEmailVerificationWithToken(newToken);
+          } else {
+            setError("please login again");
+          }
+
+          return;
+        }
+
         setError(data.message);
         setVerificationLOading(false);
         return;
@@ -199,6 +251,44 @@ function BasicProfilePage({ showSuccessMessage }) {
     } catch (error) {
       setError(error.message);
       console.log(error.message);
+      setVerificationLOading(false)
+    }
+  };
+
+  const handleEmailVerificationWithToken = async (newtoken) => {
+    try {
+      setError(null);
+      setVerificationLOading(true);
+      showSuccessMessage(null);
+
+      const resp = await fetch(
+        `${API_URL}/user/send-verification-mail/${user._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // JSON format mein Content-Type header set kiya gaya hai
+            Authorization: `Bearer ${newtoken}`,
+          },
+          body: JSON.stringify({ email: user.email }),
+        }
+      );
+
+      const data = await resp.json();
+      // console.log(data);
+
+      if (!resp.ok) {
+        setError(data.message);
+        setVerificationLOading(false);
+        return;
+      }
+
+      setError(null);
+      setVerificationLOading(false);
+      showSuccessMessage("link sent successfully!");
+    } catch (error) {
+      setError(error.message);
+      console.log(error.message);
+      setVerificationLOading(false)
     }
   };
 
