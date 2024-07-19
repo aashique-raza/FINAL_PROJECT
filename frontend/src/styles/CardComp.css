@@ -89,6 +89,12 @@
 }
 
 @media only screen and (max-width:767px) {
+    .card_details_wrapper{
+        flex-direction: column;
+    }
+    .card_details_wrapper .card_image_wrapper .image_slider {
+        width: 100%;
+    }
     .card_container {
         width: 100%;
     }

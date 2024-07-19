@@ -35,6 +35,29 @@ body{
     color: white; /* Text color when checked */
   }
 
+  /* search main container--- */
+
+.search_page_container{
+ 
+  /* border: 2px solid red; */
+ display: flex;
+ width: 80%;
+ margin: 70px auto;
+ flex-wrap: wrap;
+}
+
+.search-page-leftsidebar{
+/* border: 2px solid red; */
+min-width: 300px;
+width: 25%;
+
+}
+.search-page-section2{
+/* border: 2px solid green; */
+}
+
+
+
   /* pg filter-sidebar--- */
   
   /* select city filter component--- */
@@ -43,6 +66,7 @@ body{
   }
   
   .pg_filter_sidebar{
+    width: 100%;
     /* border: 2px solid green; */
     display: flex;
     flex-direction: column;
@@ -75,89 +99,64 @@ body{
     padding: 1rem 0.5rem;
   }
 
-  /* search main container--- */
-
-.search_page_container{
-    margin-top: 7rem;
-    /* border: 2px solid red; */
-    display: flex;
-    justify-content: start;
-    width: 80%;
-    margin: 7rem auto;
-    gap: 2rem;
-    /* background-color: rgb(201, 200, 200); */
-}
-
-
-.search_page_container .filter_sidebar{
-  width: 30%;
-  background-color: white;
-  min-height:80vh ;
-  max-height: 80vh;
-  overflow: auto;
-  padding: 1.3rem 0.2rem;
   
-}
-.search_page_container .pg_filter_btn {
-  display: none;
-}
 
 
 /* responsive mobile screen */
 
-@media only screen and (max-width:467px){
- 
-  .search_page_container{
+
+
+/* responsive for tab */
+@media only screen and  (max-width:768px){
+   .search_page_container{
+   margin: 0px;
     flex-direction: column;
-   
+    gap: 20px;
+      }
+      
+      .search-page-leftsidebar{
+     display: block;
+      width: 100%;
+      }
+  
+}
+
+/* Add your custom CSS styles here */
+@media only screen and (max-width: 768px) {
+  .hideForMobile {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
   }
-  .search_page_container .filter_sidebar{
-   display: none;
-  }
-  .search_page_container .show_filter_comp{
-    display: block;
-    width: 100%;
-    height: 90vh;
-    min-height: 90vh;
-  }
-  .search_page_container .pg_filter_btn{
-    display: block;
-  }
-  .pg_filter_sidebar .pg_filter_croos_icon{
-    display: block;
+
+  .showForMobile {
+    height: auto;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
   }
 }
 
-/* responsive for tab */
-@media only screen and (min-width:468px) and (max-width:768px){
-  .search_page_container{
-    flex-direction: column;
-   
+@media only screen and (min-width:769px) and (max-width:1024px){
+ 
+  .search-page-leftsidebar{
+  /* border: 2px solid red; */
+  width: 40%;
   }
-  .search_page_container .filter_sidebar{
-   width: 100%;
+  .search-page-section2{
+  /* border: 2px solid green; */
   }
-  .search_page_container .filter_sidebar{
-    display: none;
-  }
-  .search_page_container .show_filter_comp{
-    display: block;
-    width: 100%;
-    height: 90vh;
-    min-height: 90vh;
-  }
-  .search_page_container .pg_filter_btn{
-    display: block;
-  }
-  .pg_filter_sidebar .pg_filter_croos_icon{
-    display: block;
-  }
-  
+
 }
 
 @media only screen and (max-width:1024px){
   .search_page_container{
     width: 100%;
-    
+    margin-top: 65px;
+  }
+}
+
+@media only screen and (min-width:1240px){
+  .search-page-leftsidebar{
+    max-width: 350px;
   }
 }

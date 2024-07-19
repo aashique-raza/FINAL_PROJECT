@@ -16,12 +16,22 @@ function SearchPage({showSuccessMessage}) {
   const location = useLocation();
   const [category, setCategory] = useState(null);
   const[filteredProperty,setFilteredProperties]=useState([])
-  const [filterComVisible, setFilterCompVisible] = useState(false);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
   // const [filteredProperty, setFilteredProperty] = useState(null);
   const dispatch=useDispatch()
+ 
+
+  const[filterCompShow,setFilterComShow]=useState(false)
+  
+  const handleFilterComponentShowAndHide=()=>{
+    console.log('hii')
+    setFilterComShow(!filterCompShow)
+    console.log(filterCompShow)
+  }
+
 
 
   const handleFilterChange = (values) => {
@@ -35,14 +45,13 @@ function SearchPage({showSuccessMessage}) {
     // console.log('Category:', category);
     setCategory(category);
   }, [location.pathname]);
-
-  const handleFilterComp = () => {
-    setFilterCompVisible(!filterComVisible);
-  };
+  
 
 
 
   const applyFilter = async () => {
+
+    setFilterComShow(false)
     // Common parameters
     const qParam = searchParams.get("q") || "";
     const lParam = searchParams.get("l") || "";
@@ -140,37 +149,28 @@ function SearchPage({showSuccessMessage}) {
 
   return (
     <main className=" search_page_container ">
-      <div className="  px-3 flex justify-end  w-full pg_filter_btn bg-white py-2   ">
-        <button
-          onClick={handleFilterComp}
-          className=" w-40 capitalize font-roboto text-xl px-5 py-2 focus:ring-0 border-none outline-none rounded-md bg-red-700 text-white "
-        >
-          {filterComVisible ? "close" : "filter"}
-        </button>
-      </div>
+     
 
       <aside
-        className={`${
-          filterComVisible ? "show_filter_comp" : ""
-        } filter_sidebar`}
+        className={` search-page-leftsidebar`}
       >
         {category?.trim().toLowerCase() === "rental".trim() && (
           <RentFilterComp
-            filterComVisible={filterComVisible}
-            setFilterCompVisible={setFilterCompVisible}
+            filterComVisible={filterCompShow}
+            setFilterCompVisible={handleFilterComponentShowAndHide}
             applyFilter={applyFilter}
           />
         )}
         {category?.trim().toLowerCase() === "pg".trim() && (
           <PgFilterComp
-            filterComVisible={filterComVisible}
-            setFilterCompVisible={setFilterCompVisible}
+            filterComVisible={filterCompShow}
+            setFilterCompVisible={handleFilterComponentShowAndHide}
             onFilterChange={handleFilterChange}
             applyFilter={applyFilter}
           />
         )}
       </aside>
-      <div className=" flex-1 flex flex-col gap-7 px-2 ">
+      <div className=" flex-1 flex flex-col gap-7 px-2   search-page-section2">
         {loading && (
           <ThreeDots
             visible={true}

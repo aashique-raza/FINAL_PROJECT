@@ -169,7 +169,7 @@ function CardComp({
           const newToken = await refreshAccessToken();
           if (newToken) {
             // Retry original request with new token
-            await handleAddToFavouriteWithToken(newToken);
+            await handleAddToFavouriteWithToken(newToken,propertyId);
           } else {
             setError("Failed to refresh access token");
           }
@@ -194,7 +194,7 @@ function CardComp({
     }
   };
 
-  const handleAddToFavouriteWithToken=async(newToken)=>{
+  const handleAddToFavouriteWithToken=async(newToken,propertyId)=>{
     try {
       setError(null);
       const resp = await fetch(`${API_URL}/user/addFavorite/${user._id}`, {
@@ -305,8 +305,8 @@ function CardComp({
             </div>
           )}
         </div>
-        <div className="card_image_wrapper py-3 px-5 flex gap-3 items-center justify-start">
-          <div className="image_slider w-1/3">
+        <div className="card_image_wrapper py-3 px-5 flex gap-3 items-center justify-start border-red-500">
+          <div className="image_slider w-full ">
             <ImageSLiderComp imagesUrl={data.images} />
           </div>
           <div className="facilities_box flex-1   flex flex-col gap-16 justify-start items-start">
