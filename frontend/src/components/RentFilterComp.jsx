@@ -174,9 +174,7 @@ function RentFilterComp({applyFilter, filterComVisible,
         ))}
       </div>
     </div>
-    <div className="w-full px-2 md:hidden  sm:flex sm:justify-center sm:items-center">
-      <button className=" font-roboto font-semibold  rounded-md w-full sm:w-1/2 px-4 py-3 focus:ring-0 border-none outline-none  bg-sky-800 text-white capitalize text-xl">apply filter</button>
-    </div>
+    
       </div>
   </div>
   )
