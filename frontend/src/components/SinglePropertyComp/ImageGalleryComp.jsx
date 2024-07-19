@@ -47,7 +47,7 @@ setNewPropertyData(propertyData)
     setModalIsOpen(true);
   };
 
-  console.log('isFavorite',isFavorite)
+  // console.log('isFavorite',isFavorite)
   const closeModal = () => {
     setModalIsOpen(false);
   };

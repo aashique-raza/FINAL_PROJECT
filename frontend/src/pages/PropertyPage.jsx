@@ -70,8 +70,8 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu"; // For veg
 import { FaShower } from "react-icons/fa";
 import OwnerDetailsModal from "../components/OwnerDetailsModal";
 import { useSelector } from "react-redux";
-import getOwnerDetailsForLoggedInUser from '../utility.js'
-
+import { getTokenFromLocalStorage } from "../token";
+// import getOwnerDetailsForLoggedInUser from '../utility.js'
 
 // Final PG amenities list with icons
 const pgAvailableAmenities = [
@@ -92,9 +92,14 @@ function PropertyPage() {
   const [pgFacilityItems, setPgFacilityItems] = useState([]);
   const [propertyOverviews, setPropertyOverviewItems] = useState([]);
   const [matchedAmenity, setMatchedAmenity] = useState([]);
-  const[isModelOpen,setModalOPen]=useState(false)
-  const{user}=useSelector(state=>state.user)
-  const[responseStatus,setResponseStatus]=useState('')
+  const [isModelOpen, setModalOPen] = useState(false);
+  const { user } = useSelector((state) => state.user);
+  const [responseStatus, setResponseStatus] = useState("");
+  const [successMsg, setSuccessMsg] = useState(null);
+  const [mailLoading, setMailLoading] = useState(false);
+  const [mailError, setMailError] = useState(null);
+
+  const token=getTokenFromLocalStorage()
 
   useEffect(() => {
     // You can perform any action with category and id here
@@ -412,20 +417,117 @@ function PropertyPage() {
 
   // console.log("property data", propertyData);
 
-// modal open function-----
+  // modal open function-----
 
-console.log('response',responseStatus)
-const openOwnerDetailsModal=async()=>{
-  if(!user){
-    setModalOPen(!isModelOpen)
-  }  else{
-   const response=await getOwnerDetailsForLoggedInUser(propertyData._id,category,user._id)
-   setResponseStatus(response)
-  }
+  const getOwnerDetailsForLoggedInUser = async (
+    propertyId,
+    categoryData,
+    userId
+  ) => {
+    setMailLoading(false);
+    const token = getTokenFromLocalStorage();
 
-    
- 
-}
+    // console.log("logged in user hai");
+    // console.log(propertyId, categoryData, userId);
+
+    try {
+      setMailLoading(true);
+      setMailError(null);
+      const resp = await fetch(
+        `${API_URL}/user/getOwnerDetails/${userId}/${propertyId}/${categoryData}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        }
+      );
+
+      const result = await resp.json();
+      //   console.log(result)
+      if (!resp.ok) {
+        if (resp.status === 401) {
+          const newToken = await refreshAccessToken();
+          if (newToken) {
+            // Retry original request with new token
+            const data = await getOwnerdetailsWithToken(
+              newToken,
+              propertyId,
+              categoryData,
+              userId
+            );
+            return data;
+          } else {
+            return "please login again!";
+          }
+        }
+        setMailError(result.message);
+        setMailLoading(false);
+        return;
+      }
+      setMailLoading(false);
+      setMailError(null);
+      setSuccessMsg(result.msg);
+    } catch (error) {
+      setMailLoading(false);
+      setMailError("please try again later");
+      console.log("get owner details failed", error);
+    }
+  };
+
+  const getOwnerdetailsWithToken = async (
+    newToken,
+    propertyId,
+    categoryData,
+    userId
+  ) => {
+    try {
+      setMailError(null);
+      setMailLoading(true);
+      const resp = await fetch(
+        `${API_URL}/user/getOwnerDetails/${userId}/${propertyId}/${categoryData}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${newToken}`,
+          },
+          credentials: "include",
+        }
+      );
+
+      const result = await resp.json();
+      //   console.log(result)
+      if (!resp.ok) {
+        setMailError(result.message);
+        setMailLoading(false);
+        return;
+      }
+      setMailError(null);
+      setMailLoading(false);
+      setSuccessMsg(result.msg);
+    } catch (error) {
+      setMailError("please try gain later");
+      setMailLoading(false);
+      console.log("get owner details failed", error);
+      return error.message;
+    }
+  };
+
+  // console.log('response',responseStatus)
+  const openOwnerDetailsModal = async () => {
+    if (!user) {
+      setModalOPen(!isModelOpen);
+    } else {
+      const response = await getOwnerDetailsForLoggedInUser(
+        propertyData._id,
+        category,
+        user._id
+      );
+    }
+  };
 
   return (
     <main className="property-main-container">
@@ -455,7 +557,10 @@ const openOwnerDetailsModal=async()=>{
 
           <div className="property-section property-section2">
             {propertyData?.images && (
-              <ImageGalleryComp propertyData={propertyData} category={category}  />
+              <ImageGalleryComp
+                propertyData={propertyData}
+                category={category}
+              />
             )}
 
             <aside className="property-left-side-box">
@@ -479,20 +584,28 @@ const openOwnerDetailsModal=async()=>{
                     ))}
               </div>
               <div className="flex items-center gap-3 justify-start w-full px-6 mt-10 border-2 border-gray-200 py-6">
-                <button onClick={openOwnerDetailsModal} className="w-auto focus:ring-0 border-none outline-none px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto">
-                  get owner details
+                <button
+                  onClick={openOwnerDetailsModal}
+                  className="w-auto focus:ring-0 border-none outline-none px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto"
+                >
+                  {mailLoading ? "getting details..." : " get owner details"}
                 </button>
                 <button className="bg-green-600 px-12 py-6 text-3xl sm:text-4xl text-white">
                   <AiFillMessage />
                 </button>
               </div>
-              {
-              responseStatus && (
-                <p className=" capitalize text-xl font-bold font-roboto">{responseStatus}</p>
-              )
-            }
+              {mailError && (
+                <p className=" capitalize text-xl font-bold font-roboto text-red-600">
+                  {error}
+                </p>
+              )}
+
+              {successMsg && (
+                <p className=" capitalize text-xl font-bold font-roboto text-green-600">
+                  {successMsg}
+                </p>
+              )}
             </aside>
-           
           </div>
 
           <div className="property-section3 propertysection">

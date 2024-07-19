@@ -17,7 +17,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import WeekendIcon from "@mui/icons-material/Weekend";
 
 import { useDispatch, useSelector } from "react-redux";
-import getOwnerDetailsForLoggedInUser from "../utility";
+// import getOwnerDetailsForLoggedInUser from "../utility";
 import {
   addPropertyToFavourite,
   removePropertyFromFavourite,
