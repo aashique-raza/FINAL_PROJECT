@@ -1,5 +1,5 @@
 .footer-container{
-    background-color: black;
+    background-color: rgb(185, 185, 185);
     padding: 50px 30px;
     /* border: 2px solid white; */
     display: flex;
@@ -90,7 +90,7 @@
   
   .footer-pg-section h1 {
     font-size: 20px; /* Larger font size for the heading */
-    color: white; /* Heading color */
+    color: rgb(3, 3, 3); /* Heading color */
     margin-bottom: 20px; /* Space below the heading */
     font-family: 'Arial', sans-serif; /* Font family for the heading */
     /* text-align: center; */
@@ -104,14 +104,15 @@
   }
   
   .footer-pg-section a {
-    color: rgb(132, 130, 130); /* Link color */
+    color: rgb(166, 115, 115); /* Link color */
     text-decoration: none; /* Remove underline from links */
-    font-size: 14px ; /* Font size for links */
+    font-size: 17px ; /* Font size for links */
     transition: color 0.3s ease; /* Smooth color transition on hover */
     /* font-family: cursive; */
-    letter-spacing: 2px;
-    font-family: monospace;
+    letter-spacing: 0px;
+    font-family: 'Times New Roman', Times, serif;
     font-weight: bolder;
+    background-color: transparent;
     
   }
   
@@ -123,6 +124,7 @@
   /* section 4 */
 
   .footer-links-section {
+    /* border: 2px solid red; */
     flex-grow: 1;
     padding: 0px 20px;
     color: white; /* Default text color */
@@ -131,7 +133,7 @@
   
   .footer-links-section h1 {
     font-size: 20px; /* Larger font size for the heading */
-    color: white; /* Heading color */
+    color: rgb(0, 0, 0); /* Heading color */
     margin-bottom: 20px; /* Space below the heading */
     font-family: 'Arial', sans-serif; /* Font family for the heading */
     font-weight: bold;
@@ -143,17 +145,19 @@
     gap: 20px; /* Space between the links */
     justify-content: start;
     align-items: start;
+    /* background-color: white; */
   }
   
   .footer-links-section .text-white a {
-    color: rgb(132, 130, 130); /* Link color */
+    color: rgb(179, 125, 125); 
     text-decoration: none; /* Remove underline from links */
-    font-size: 14px ; /* Font size for links */
+    font-size: 18px ; /* Font size for links */
     transition: color 0.3s ease; /* Smooth color transition on hover */
     /* font-family: cursive; */
-    letter-spacing: 2px;
-    font-family: monospace;
-    font-weight: bolder;
+    letter-spacing: 0px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 800;
+  
   }
   
   .footer-links-section .text-white a:hover {
@@ -162,35 +166,106 @@
   }
   
   
+  .active{
+    background-color: none;
+  }
 
 /* footer-sections footer-logo-section */
 
 @media only screen and (max-width:467px){
-    .footer-container{
-        
-        padding: 20px 10px;
-        
-    }
+  .footer-container{
     
+    padding: 10px 10px;
+    
+    justify-content:  flex-start;
+    
+}
+.footer-sections{
 
+  padding: 10px 5px;
 
-.footer-logo-section .footer-logo-div{
-    width: 150px;
-    height: 130px;
+  font-size: 13px;
+  
 }
 
+.footer-logo-section{
+  /* border: 2px solid red; */
+  flex-direction: column;
+  display: flex;
+  padding: 0;
+  flex-grow: 1;
+  gap: 0;
+}
+
+.footer-logo-section .footer-logo-div{
+  width: 150px;
+  height: 120px;
+}
 .footer-social-icons {
-    
-    gap: 10px;
-   
-  }
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.footer-social-icons a {
   
-  .footer-social-icons a {
-   
-    width: 30px;
-    height: 30px;
-   
-  }
+  justify-content: space-between;
   
-    
+  width: 30px;
+  height: 30px;
+ 
+ 
+  padding: 10px;
+ 
+}
+.footer-pg-section {
+ 
+  padding:10px 5px;
+ /* border: 2px solid yellow; */
+}
+
+.footer-pg-section h1 {
+  font-size: 13px; /* Larger font size for the heading */
+ 
+  margin-bottom: 10px; /* Space below the heading */
+  
+}
+
+.footer-pg-section div {
+    gap: 10px; /* Space between the links */
+}
+
+.footer-pg-section a {
+ background-color: transparent;
+  font-size: 11px ; /* Font size for links */
+ 
+  
+}
+
+.footer-links-section {
+  flex-grow: 1;
+  padding: 10px 5px;
+  
+}
+
+.footer-links-section h1 {
+  font-size: 14px; /* Larger font size for the heading */
+  
+  margin-bottom: 10px; /* Space below the heading */
+  
+}
+
+.footer-links-section .text-white {
+
+  gap: 10px; /* Space between the links */
+  
+}
+
+.footer-links-section .text-white a {
+ 
+  font-size: 12px ; /* Font size for links */
+ 
+}
+
+
 }

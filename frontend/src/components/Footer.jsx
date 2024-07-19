@@ -7,7 +7,7 @@ import {
   FaTwitter,
   FaLinkedin,
 } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink ,Link} from "react-router-dom";
 import "../styles/Footer.css";
 import { allCities } from "../utils";
 
@@ -73,9 +73,9 @@ function Footer() {
         <div className=" text-white">
         {
             links?.map((url,idx)=>(
-                <NavLink key={idx} to={url.url}>
+                <Link key={idx} to={url.url}>
                 {url.urlName}
-                </NavLink>
+                </Link>
             ))
             
         }
