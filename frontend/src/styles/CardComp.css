@@ -1,9 +1,17 @@
 /* card container------ */
+/* Add your custom CSS styles here */
+.carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
 .card_container {
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
     /* padding: 1rem 1.3rem; */
     width: 70%;
     border-radius: 10px;
+    border: 2px solid rgb(255, 7, 7);
 }
 
 .card_container .card_heading_text {
@@ -12,6 +20,7 @@
 }
 
 .card_container .card_details_wrapper {
+    /* width: 30%; */
     background-color: white;
 }
 
@@ -21,7 +30,6 @@
 
 @media only screen and (max-width:468px) {
     .card_container {
-
         width: 100%;
         border-radius: 20px;
     }
@@ -89,8 +97,13 @@
 }
 
 @media only screen and (max-width:767px) {
+   
     .card_details_wrapper{
         flex-direction: column;
+    }
+    .card_details_wrapper .card_image_wrapper {
+        flex-direction: column;
+        gap: 15px;
     }
     .card_details_wrapper .card_image_wrapper .image_slider {
         width: 100%;
@@ -131,7 +144,7 @@
     }
 }
 
-@media only screen and (min-width:769px) and (max-width:1024px) {
+@media only screen and (min-width:767px) and (max-width:1024px) {
     .card_container {
         width: 100%;
     }

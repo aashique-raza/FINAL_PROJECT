@@ -306,7 +306,7 @@ function CardComp({
           )}
         </div>
         <div className="card_image_wrapper py-3 px-5 flex gap-3 items-center justify-start border-red-500">
-          <div className="image_slider w-full ">
+          <div className="image_slider md:w-full lg:w-1/2 ">
             <ImageSLiderComp imagesUrl={data.images} />
           </div>
           <div className="facilities_box flex-1   flex flex-col gap-16 justify-start items-start">
@@ -362,7 +362,7 @@ function CardComp({
               </div>
             )}
 
-            <div className="get_owner_wrapper w-full flex gap-2 items-center">
+            <div className="get_owner_wrapper w-full flex  justify-between items-start ">
               <GetOwnerDetailsBUtton
                 width="200px"
                 data={data}
@@ -371,7 +371,7 @@ function CardComp({
 
               <div
                 onClick={() => handleFavourite(data._id)}
-                className={` py-5 px-6 flex justify-center items-start  font-slab text-4xl border-2 cursor-pointer`}
+                className={` py-3 px-6 flex justify-center items-start  font-slab text-4xl border-2 cursor-pointer`}
               >
                 <FaHeart
                   className={`${

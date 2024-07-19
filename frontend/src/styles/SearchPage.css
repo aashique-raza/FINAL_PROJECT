@@ -53,7 +53,8 @@ width: 25%;
 
 }
 .search-page-section2{
-/* border: 2px solid green; */
+  /* width: 100%; */
+border: 2px solid green;
 }
 
 
@@ -107,7 +108,7 @@ width: 25%;
 
 
 /* responsive for tab */
-@media only screen and  (max-width:768px){
+@media only screen and  (max-width:767px){
    .search_page_container{
    margin: 0px;
     flex-direction: column;
@@ -122,7 +123,7 @@ width: 25%;
 }
 
 /* Add your custom CSS styles here */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
   .hideForMobile {
     height: 0;
     overflow: hidden;
@@ -136,7 +137,7 @@ width: 25%;
   }
 }
 
-@media only screen and (min-width:769px) and (max-width:1024px){
+@media only screen and (min-width:767px) and (max-width:1024px){
  
   .search-page-leftsidebar{
   /* border: 2px solid red; */
