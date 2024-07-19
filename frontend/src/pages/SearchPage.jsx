@@ -27,9 +27,9 @@ function SearchPage({showSuccessMessage}) {
   const[filterCompShow,setFilterComShow]=useState(false)
   
   const handleFilterComponentShowAndHide=()=>{
-    console.log('hii')
+    // console.log('hii')
     setFilterComShow(!filterCompShow)
-    console.log(filterCompShow)
+    // console.log(filterCompShow)
   }
 
 
@@ -105,7 +105,7 @@ function SearchPage({showSuccessMessage}) {
       });
 
       const result = await resp.json();
-      console.log(result);
+      // console.log(result);
 
       if (!resp.ok) {
         setError(result.message);
