@@ -455,7 +455,7 @@ const openOwnerDetailsModal=async()=>{
 
           <div className="property-section property-section2">
             {propertyData?.images && (
-              <ImageGalleryComp images={propertyData.images} />
+              <ImageGalleryComp propertyData={propertyData} category={category}  />
             )}
 
             <aside className="property-left-side-box">

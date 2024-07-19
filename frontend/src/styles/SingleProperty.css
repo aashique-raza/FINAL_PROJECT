@@ -42,7 +42,7 @@
     font-size: 1.7rem;
     font-weight: 700;
     font-family: var(--heading-font);
-    color: rgb(158, 157, 157);
+    color: rgb(255, 254, 254);
     letter-spacing: 0.3px;
     text-transform: capitalize;
     text-overflow: clip;
@@ -52,7 +52,7 @@
     font-size: 1.2rem;
     font-weight: 400;
     font-family: var(--heading-font);
-    color: rgb(8, 23, 15);
+    color: white;
     letter-spacing: 0.3px;
     text-transform: capitalize;
     text-overflow: clip;

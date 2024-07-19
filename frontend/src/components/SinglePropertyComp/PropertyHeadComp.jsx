@@ -22,23 +22,23 @@ function PropertyHeadComp({
   // console.log("header-cmop", category);
   return (
     <div className="property-section proeprty-section1">
-      <div className=" border-2  border-gray-200">
-        <h2 className=" text-5xl text-gray-500 ">
+      <div className=" border-2 bg-gray-700  border-gray-700 text-white">
+        <h2 className=" text-5xl text-white ">
           <IoHomeOutline />
         </h2>
-        <p>{category}</p>
+        <p className="text-white ">{category}</p>
       </div>
-      <div className=" border-2  border-gray-200">
+      <div className="  bg-gray-700 text-white">
         {category.trim().toLocaleLowerCase() ===
         "rental".trim().toLocaleLowerCase() ? (
           <h3>{bhktype} BHK Flat In {apartment_name} For {propertyAvailableFor} In {location.localAddress}</h3>
         ) : (
-          <h3> pg for {tenet} in {location.name},in {location.localAddress}  </h3>
+          <h3 className=" text-white"> pg for {tenet} in {location.name},in {location.localAddress}  </h3>
         )}
 
         <p>{location.localAddress},{location.city}</p>
       </div>
-      <div className=" border-2  border-gray-200">
+      <div className=" b bg-gray-700">
         <h3 className=" flex items-center">
           <FaIndianRupeeSign /> <span>{rent}/m</span>
         </h3>
@@ -46,13 +46,13 @@ function PropertyHeadComp({
       </div>
       {category.trim().toLocaleLowerCase() ===
         "rental".trim().toLocaleLowerCase() && (
-        <div className=" border-2  border-gray-200">
+        <div className="  bg-gray-700">
           <h3>{sqrfit}</h3>
           <p>sqrft.</p>
         </div>
       )}
 
-      <div className=" border-2  border-gray-200">
+      <div className="  bg-gray-700">
         <h3 className=" flex items-center">
           {" "}
           <FaIndianRupeeSign /> <span> {deposit}</span>

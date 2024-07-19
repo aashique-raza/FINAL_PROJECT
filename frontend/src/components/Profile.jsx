@@ -70,7 +70,7 @@ function Profile({ toggle = false, showSuccessMessage }) {
       dispatch(logOutSuccess());
 
       dispatch(clearStateOfUser());
-      dispatch(clearStatePgLIsting());
+     
       showSuccessMessage("logged out successfull!");
 
       navigate("/login");
