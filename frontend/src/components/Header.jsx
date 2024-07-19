@@ -57,33 +57,31 @@ function Header({showSuccessMessage}) {
       </div>
 
       <nav className={`navbar ${showMenu ? "navbartoggle" : ""}`}>
-        <ul className="itemlist font-raleway">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            {" "}
-            <Link to={"/rentals"}>Rentals</Link>{" "}
-          </li>
-          <li>
-            <Link to={"/category"}>Categories</Link>{" "}
-          </li>
-          <li>
-            <Link to="/blog">Blog</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-          <li className=" capitalize post-property">
-            <Link to={'/create-listing'}>post property free</Link>
-          </li>
-        </ul>
-        <FaWindowClose onClick={()=>setShowMenu(false)} className=" absolute top-2 left-2 text-4xl text-white font-bold"></FaWindowClose>
-      </nav>
-
+      <ul className="itemlist font-raleway">
+        <li>
+          <NavLink exact to="/" activeClassName="active-link">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="/about" activeClassName="active-link">About</NavLink>
+        </li>
+        <li>
+          <NavLink to="/rentals" activeClassName="active-link">Rentals</NavLink>
+        </li>
+        <li>
+          <NavLink to="/category" activeClassName="active-link">Categories</NavLink>
+        </li>
+        <li>
+          <NavLink to="/blog" activeClassName="active-link">Blog</NavLink>
+        </li>
+        <li>
+          <NavLink to="/contact" activeClassName="active-link">Contact</NavLink>
+        </li>
+        <li className="capitalize post-property">
+          <NavLink to="/create-listing" activeClassName="active-link">Post Property Free</NavLink>
+        </li>
+      </ul>
+      <FaWindowClose onClick={() => setShowMenu(false)} className="absolute top-2 left-2 text-4xl text-white font-bold"></FaWindowClose>
+    </nav>
       <div className="menubar">
         {loggedInStatus ? (
          <div>

@@ -9,6 +9,11 @@ header {
     /* Box shadow */
 }
 
+.navbar .itemlist .active {
+    color: red !important;
+    text-decoration: underline !important;
+    background-color: transparent !important;
+  }
 
 .header-logo {
     width: 100px;
