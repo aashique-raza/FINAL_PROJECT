@@ -168,22 +168,12 @@
    .home-card-wrapper{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content:  start;
+    align-items: center;
     gap: 10px;
   }
 
   /* home card box css start here----- */
-  .home-cardbox {
-    flex: 1 1 calc(33.33% - 20px); /* Default width for larger screens */
-    min-width: 300px; /* Minimum width for the cards */
-    margin: 10px; /* Margin between cards */
-}
-  
-  .cardbox-image-gallery .image-gallery-slide img {
-    width: 100%;
-    height: 230px; /* Adjust height as needed */
-    object-fit: cover;
-  }
   
   .right-nav-wrapper,
   .left-nav-wrapper {
@@ -200,18 +190,46 @@
   .left-nav-wrapper {
     left: 10px; /* Adjust as needed */
   }
-  .cardbox-details {
-    border-width: 0px 1px 1px 1px;
-    border-style: solid;
-    border-color: gray;
-    padding: 10px 14px;
-    overflow: hidden;
-    /* border-radius: 10px; */
-    background-color: white;
-}
+  
 
+  /* card box css star here------------------------------------------------------------------- */
+  .home-cardbox{
+    /* border: 2px solid green; */
+    min-width: 300px;
+    width: 32%;
+    border: 2px solid gray;
+    padding-top: 0;
+  }
+
+  .cardbox-image-gallery{
+    object-fit: fill;
+  }
+  .image-gallery-slide img {
+    width: 100%; /* Ensure the image takes up the full width of the container */
+    height: 300px; /* Set a fixed height for the images */
+    object-fit: cover; /* Ensure the images cover the fixed dimensions without distortion */
+  }
+  
+  .image-gallery-content .image-gallery-slide-wrapper {
+    max-height: 300px; /* Set a maximum height for the gallery container */
+  }
+
+  .cardbox-details{
+    background-color: rgb(255, 255, 255);
+    padding-bottom: 12px;
+    
+  }
  
   
+
+  /* card box reposnsive code ------------------------------- */
+  @media only screen and (max-width:467px){
+    .home-cardbox{
+        min-width: 100%;
+        width: 100%;
+      }
+    
+  }
   
 
   
@@ -385,11 +403,6 @@
         
       }
      
-      .home-cardbox {
-        
-        width: 100%;
-        
-      }
 }
 
 @media only screen and (min-width:468px) and (max-width:768px){
@@ -401,11 +414,7 @@
         letter-spacing: 0px;
         
       }
-      .home-cardbox {
-      
-        width: 45%;
-       
-      }
+    
     
 }
 
@@ -418,29 +427,7 @@
 }
 
 /* Increase the number of cards per row for larger screens */
-@media only screen and (min-width: 1025px) {
-    .home-cardbox {
-        flex: 1 1 calc(25% - 20px); /* Four cards per row */
-    }
-}
 
-@media only screen and (min-width: 1440px) {
-    .home-cardbox {
-        flex: 1 1 calc(20% - 20px); /* Five cards per row */
-    }
-}
-
-@media only screen and (min-width: 1920px) {
-    .home-cardbox {
-        flex: 1 1 calc(16.66% - 20px); /* Six cards per row */
-    }
-}
-
-@media only screen and (min-width: 2560px) {
-    .home-cardbox {
-        flex: 1 1 calc(14.28% - 20px); /* Seven cards per row */
-    }
-}
 
 
 

@@ -61,9 +61,9 @@ function CardBox({ data }) {
         />
       </div>
       <div className="cardbox-details">
-        <NavLink className=" w-full block bg-transparent text-red-600 hover:underline ">
+        <NavLink to={`property/${data.BHKType ? 'rental' :'pg'}/${data._id}`} className=" w-full block bg-transparent text-red-600 hover:underline ">
           {data.BHKType && (
-            <h2 className="capitalize text-2xl sm:text-3xl font-roboto font-medium">
+            <h2 className="capitalize text-xl sm:text-3xl font-roboto font-medium">
               {data.BHKType === "1bhk" && "1 "}
               {data.BHKType === "2bhk" && "2 "}
               {data.BHKType === "3bhk" && "3 "}
@@ -80,7 +80,7 @@ function CardBox({ data }) {
           )}
 
           {data.roomSharing && (
-            <h2 className=" capitalize text-2xl sm:text-3xl font-roboto font-medium ">
+            <h2 className=" capitalize text-xl sm:text-3xl font-roboto font-medium ">
               {" "}
               {data.roomSharing} sharing room in {data.pgOrHostelName}
             </h2>
@@ -149,7 +149,7 @@ function CardBox({ data }) {
               </p>
             </div>
           </div>
-          <GetOwnerDetailsBUtton data={data} category={data.roomSharing ? 'pg' :'rental'} width={'200px'} fontsize={'14px'}/>
+          <GetOwnerDetailsBUtton data={data} category={data.roomSharing ? 'pg' :'rental'}  fontsize={'14px'}/>
         </div>
       </div>
     </div>

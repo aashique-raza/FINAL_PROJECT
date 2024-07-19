@@ -34,7 +34,7 @@ function GetOwnerDetailsBUtton({ width = "", padding = "", margin = "",data,cate
       <button
         style={(width = { width })}
         onClick={() => openOwnerDetailsModal()}
-        className=" focus:ring-0 border-none outline-none  w-3/4 px-12 py-4 bg-red-600 text-white capitalize text-2xl font-roboto "
+        className=" focus:ring-0 border-none outline-none  w-48 lg:w-56 px-3 py-2 lg:py-5 rounded-sm   bg-red-600 text-white capitalize text-xl font-bold xl:text-2xl font-roboto "
       >
         get owner details
       </button>
