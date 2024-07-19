@@ -36,6 +36,7 @@ function FavouritePropperty() {
         },
       });
       const result = await resp.json();
+      console.log('result',result)
 
       if (!resp.ok) {
         if (resp.status === 401) {

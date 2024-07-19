@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageGallery from "react-image-gallery";
 import ReactModal from 'react-modal';
 import { Modal as NewModal, Button } from 'flowbite-react';
@@ -31,6 +31,14 @@ function ImageGalleryComp({ propertyData, category }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.user);
+
+  // store props property data 
+  const[newPropertyData,setNewPropertyData]=useState(propertyData)
+
+  useEffect(()=>{
+setNewPropertyData(propertyData)
+  },[])
+
   const dispatch = useDispatch();
   const token = getTokenFromLocalStorage();
   const navigate = useNavigate();
@@ -39,6 +47,7 @@ function ImageGalleryComp({ propertyData, category }) {
     setModalIsOpen(true);
   };
 
+  console.log('isFavorite',isFavorite)
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -71,7 +80,7 @@ function ImageGalleryComp({ propertyData, category }) {
         }
       );
       const result = await resp.json();
-      // console.log(result)
+      console.log(result)
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -96,6 +105,7 @@ function ImageGalleryComp({ propertyData, category }) {
 
       setIsFavorite(false)
       dispatch(removePropertyFromFavourite(result.newproperty._id));
+      setNewPropertyData(result.newproperty)
     } catch (error) {
       console.log("removing favourite failed", error);
       setError("please try again later");
@@ -125,6 +135,7 @@ function ImageGalleryComp({ propertyData, category }) {
 
       setIsFavorite(false)
       dispatch(removePropertyFromFavourite(result.newproperty._id));
+      setNewPropertyData(result.newproperty)
     } catch (error) {
       console.log("removing favourite failed", error);
       setError("please try again later");
@@ -143,7 +154,7 @@ function ImageGalleryComp({ propertyData, category }) {
         body: JSON.stringify({ propertyId, category }),
       });
       const result = await resp.json();
-      // console.log(result)
+      console.log(result)
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -169,6 +180,7 @@ function ImageGalleryComp({ propertyData, category }) {
       setIsFavorite(true)
 
       dispatch(addPropertyToFavourite(result.updatedProperty));
+      setNewPropertyData(result.updatedProperty)
     } catch (error) {
       console.log("adding favourite failed", error);
       setError(error.message);
@@ -194,6 +206,7 @@ function ImageGalleryComp({ propertyData, category }) {
       }
       setIsFavorite(true)
       dispatch(addPropertyToFavourite(result.updatedProperty));
+      setNewPropertyData(result.updatedProperty)
     } catch (error) {
       console.log("adding favourite failed", error);
       setError(error.message);
@@ -208,83 +221,90 @@ function ImageGalleryComp({ propertyData, category }) {
   };
   const handleFavourite = (id) => {
     if (!user) return setIsOpen(true);
-    propertyData.isPropertyFavorite ? removeToFavourite(id) : addToFavourite(id);
+    newPropertyData.isPropertyFavorite ? removeToFavourite(id) : addToFavourite(id);
   };
 
-  const firstThree = propertyData?.images.slice(0, 3); // Get the first three objects
-  const remainingCount = propertyData?.images.length - firstThree.length; // Calculate the remaining count
+  const firstThree = newPropertyData?.images.slice(0, 3); // Get the first three objects
+  const remainingCount = newPropertyData?.images.length - firstThree.length; // Calculate the remaining count
   return (
-    <div className="image-gallery-wrapper">
-      <div className="image-preview image-preview-large">
-        <div className="image-preview-header">
-          <button className="photos-button" onClick={openModal}>
-            Photos
-          </button>
-          <button
-            className="favorite-button"
-            onClick={() => handleFavourite(propertyData._id)}
-          >
-            <span
-              className={`heart-icon ${
-                isFavorite || propertyData.isPropertyFavorite ? "favorite" : ""
-              }`}
-            >
-              &#x2764;
-            </span>
-            {isFavorite || propertyData.isPropertyFavorite
-              ? "remove from favourite"
-              : " Add to favorite"}
-          </button>
-        </div>
-        <img src={firstThree[0]} alt="" />
-      </div>
-      <div className="image-preview">
-        <img src={firstThree[1]} alt="" />
-      </div>
-      <div className="image-preview relative">
-        <img src={firstThree[2]} alt="" />
-        {remainingCount > 0 && (
-          <div className="overlay cursor-pointer" onClick={openModal}>
-            <span className="overlay-text sm:text-2xl text-xl">{`+${remainingCount} more`}</span>
-          </div>
-        )}
-      </div>
-      {isOpen && (
-        <NewModal show={isOpen} onClose={handleClose}>
-          <NewModal.Header>Login Required</NewModal.Header>
-          <NewModal.Body>
-            <div className="space-y-6">
-              <p className="text-base leading-relaxed text-gray-500">
-                You need to log in to access this feature. Please log in or
-                continue without logging in.
-              </p>
+
+    
+      newPropertyData && (
+        <div className="image-gallery-wrapper">
+          <div className="image-preview image-preview-large">
+            <div className="image-preview-header">
+              <button className="photos-button" onClick={openModal}>
+                Photos
+              </button>
+              <button
+                className="favorite-button"
+                onClick={() => handleFavourite(newPropertyData._id)}
+              >
+                <span
+                  className={`heart-icon ${
+                    isFavorite || newPropertyData.isPropertyFavorite ? "favorite" : ""
+                  }`}
+                >
+                  &#x2764;
+                </span>
+                {isFavorite || newPropertyData.isPropertyFavorite
+                  ? "remove from favourite"
+                  : " Add to favorite"}
+              </button>
             </div>
-          </NewModal.Body>
-          <NewModal.Footer>
-            <Button onClick={handleLogin}>Login</Button>
-            <Button color="gray" onClick={handleClose}>
-              Not Now
-            </Button>
-          </NewModal.Footer>
-        </NewModal>
-      )}
-      {/* React Modal for Image Gallery */}
-      <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal}>
-        <button onClick={closeModal}>Close</button>
-        <div
-          style={{ maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}
-        >
-          <ImageGallery
-            items={propertyData.images.map((image) => ({
-              original: image,
-              originalClass: 'modal-image',
-            }))}
-            showPlayButton={false} // Optional: Hide play button
-            showThumbnails={false} // Optional: Hide thumbnail navigation
-          />
+            <img src={firstThree[0]} alt="Property" />
+          </div>
+          <div className="image-preview">
+            <img src={firstThree[1]} alt="Property" />
+          </div>
+          <div className="image-preview relative">
+            <img src={firstThree[2]} alt="Property" />
+            {remainingCount > 0 && (
+              <div className="overlay cursor-pointer" onClick={openModal}>
+                <span className="overlay-text sm:text-2xl text-xl">{`+${remainingCount} more`}</span>
+              </div>
+            )}
+          </div>
+          {isOpen && (
+            <NewModal show={isOpen} onClose={handleClose}>
+              <NewModal.Header>Login Required</NewModal.Header>
+              <NewModal.Body>
+                <div className="space-y-6">
+                  <p className="text-base leading-relaxed text-gray-500">
+                    You need to log in to access this feature. Please log in or
+                    continue without logging in.
+                  </p>
+                </div>
+              </NewModal.Body>
+              <NewModal.Footer>
+                <Button onClick={handleLogin}>Login</Button>
+                <Button color="gray" onClick={handleClose}>
+                  Not Now
+                </Button>
+              </NewModal.Footer>
+            </NewModal>
+          )}
+          {/* React Modal for Image Gallery */}
+          <ReactModal isOpen={modalIsOpen} onRequestClose={closeModal}>
+            <button onClick={closeModal}>Close</button>
+            <div
+              style={{ maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}
+            >
+              <ImageGallery
+                items={newPropertyData.images.map((image) => ({
+                  original: image,
+                  originalClass: 'modal-image',
+                }))}
+                showPlayButton={false} // Optional: Hide play button
+                showThumbnails={false} // Optional: Hide thumbnail navigation
+              />
+            </div>
+          </ReactModal>
         </div>
-      </ReactModal>
-    </div>
+      )
+    
+    
+   
   );
 }
 

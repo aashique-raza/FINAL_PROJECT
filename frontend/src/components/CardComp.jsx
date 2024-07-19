@@ -39,7 +39,7 @@ function CardComp({
 }) {
   const location = useLocation();
   const [category, setCategory] = useState(null);
-  console.log(category);
+  // console.log(category);
 
   const { favouriteProperty } = useSelector((state) => state.favouriteProperty);
   const [isOpen, setIsOpen] = useState(false);
@@ -49,13 +49,14 @@ function CardComp({
   const token = getTokenFromLocalStorage();
 
   const { user } = useSelector((state) => state.user);
+  // console.log('property type',data.propertyType)
 
   useEffect(() => {
     const path = location.pathname; // Yaha se pura path mil jayega, jaise "/search/:category"
     const category = path.split("/")[2]; // Yaha se category ke value ko extract kiya jata hai
     // console.log(category)
     if (typeOfProperty) {
-      setCategory(data.propertyType === "PG" ? "pg" : "rental");
+      setCategory(data.roomSharing  ? "pg" : "rental");
     } else {
       setCategory(category);
     }
@@ -331,7 +332,7 @@ function CardComp({
                 <FacilityItem
                   icon={<FaFemale />}
                   type={"prefered tentas"}
-                  name={data.preferedTenats[0]}
+                  name={data?.preferedTenats[0]}
                 />
               </div>
             )}

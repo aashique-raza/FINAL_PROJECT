@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { act } from "react";
 
 const initialState = {
   error: null,
   loading: false,
-  favouriteProperty: null,
+  favouriteProperty: [],
 };
 
 export const favouriteSlice = createSlice({
@@ -26,16 +25,17 @@ export const favouriteSlice = createSlice({
       state.error = null;
       state.favouriteProperty = action.payload;
     },
+    
     clearStateUserFavouriteProperty: (state) => {
       state.loading = false;
       state.error = null;
-      state.favouriteProperty = null;
+      state.favouriteProperty = []; // Use empty array instead of null
     },
 
     addPropertyToFavourite: (state, action) => {
       const property = action.payload;
       console.log("in slice", property);
-      state.favouriteProperty = state.favouriteProperty.push(action.payload);
+      state.favouriteProperty = [...state.favouriteProperty, property]; // Use spread operator
     },
 
     removePropertyFromFavourite: (state, action) => {
@@ -52,7 +52,6 @@ export const {
   fetchedSuccessfullyUserProperties,
   fetchingFailedUserProperties,
   clearStateUserFavouriteProperty,
-
   addPropertyToFavourite,
   removePropertyFromFavourite,
 } = favouriteSlice.actions;
