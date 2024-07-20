@@ -19,6 +19,7 @@ import {
   roomDetailsOptions,
 } from "../rentUtils";
 import RadioInput from "../components/RadioInput";
+import { useDispatch,useSelector } from "react-redux";
 
 import CalenderInput from "../components/CalenderInput";
 import { Alert, Spinner } from "flowbite-react";
@@ -26,6 +27,7 @@ import { Alert, Spinner } from "flowbite-react";
 import DescriptionInput from "../components/DescriptionInput";
 import { AllStates, cities } from "../utils";
 import { useNavigate } from "react-router-dom";
+
 
 function RentPage({ showSuccessMessage }) {
   const token = getTokenFromLocalStorage();
@@ -35,6 +37,7 @@ function RentPage({ showSuccessMessage }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const{user}=useSelector((state)=>state.user)
 
   const formRef = useRef(null);
 
@@ -181,7 +184,7 @@ function RentPage({ showSuccessMessage }) {
 
       setLoading(true);
 
-      const resp = await fetch(`${API_URL}/rent/create`, {
+      const resp = await fetch(`${API_URL}/rent/create/${user._id}`, {
         method: "POST",
         headers: {
           // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai
@@ -228,7 +231,7 @@ function RentPage({ showSuccessMessage }) {
 
       setLoading(true);
 
-      const resp = await fetch(`${API_URL}/rent/create`, {
+      const resp = await fetch(`${API_URL}/rent/create/${user._id}`, {
         method: "POST",
         headers: {
           // "Content-Type": "multipart/form-data"// JSON format mein Content-Type header set kiya gaya hai

@@ -60,6 +60,7 @@ function PgPage({ showSuccessMessage }) {
   });
   // console.log(formData);
   const token = getTokenFromLocalStorage();
+  const{user}=useSelector((state)=>state.user)
 
 
   const dispatch = useDispatch();
@@ -158,7 +159,7 @@ function PgPage({ showSuccessMessage }) {
     try {
     setError(null)
     setLoading(true)
-      const resp = await fetch(`${API_URL}/pg/create-listing`, {
+      const resp = await fetch(`${API_URL}/pg/create-listing/${user._id}`, {
         method: "POST",
         headers: {
           // "Content-Type": "multipart/form-data"
