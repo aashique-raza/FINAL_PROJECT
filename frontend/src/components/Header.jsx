@@ -88,14 +88,17 @@ function Header({showSuccessMessage}) {
               Contact
             </NavLink>
           </li>
-          <li className="capitalize post-property">
-            <NavLink
-              to="/create-listing"
-              
-            >
-              Post Property Free
-            </NavLink>
-          </li>
+          {
+            user && (<li className="capitalize post-property">
+              <NavLink
+                to="/create-listing"
+                
+              >
+                Post Property Free
+              </NavLink>
+            </li>)
+          }
+          
         </ul>
         <FaWindowClose onClick={() => setShowMenu(false)} className="absolute top-2 left-2 text-4xl text-white font-bold" />
       </nav>

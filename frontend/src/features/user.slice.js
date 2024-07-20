@@ -4,6 +4,7 @@ const initialState = {
   errorr: null,
   loading: false,
   user: null,
+  isUserAuthenTicated:false
  
 };
 
@@ -19,6 +20,7 @@ export const userSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
       state.errorr = null;
+      state.isUserAuthenTicated=true
     },
     loginFailed: (state, action) => {
       state.errorr = action.payload;
@@ -35,6 +37,7 @@ export const userSlice = createSlice({
       state.user=null
       state.errorr=null
       state.loading=false
+      state.isUserAuthenTicated=false
 
     },
     updateSucceFully: (state, action) => {
