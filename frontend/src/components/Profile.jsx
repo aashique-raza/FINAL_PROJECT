@@ -28,6 +28,7 @@ function Profile({ toggle = false, showSuccessMessage }) {
     { url: "profile/myProfile", urlName: "profile" },
     { url: "profile/yourPropertyList", urlName: "your listing" },
     { url: "profile/favourite", urlName: "favourite property" },
+    { url: "profile/property-you-contacted", urlName: "property you contacted" },
   ];
 
   const handleLogOut = async () => {

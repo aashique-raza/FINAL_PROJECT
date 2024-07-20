@@ -20,6 +20,8 @@ function ProfilePage() {
                <Link to={'myProfile'} className={`${lastPath==='myProfile' ? 'active' :''}`} >basic profile</Link>
                <Link to={'yourPropertyList'} className={`${lastPath==='yourPropertyList' ? 'active' :''}`}>your Property</Link>
                <Link to={'favourite'} className={`${lastPath==='favourite' ? 'active' :''}`}>favourite property</Link>
+               <Link to={'property-you-contacted'} className={`${lastPath==='property-you-contacted' ? 'active' :''}`}>propertyyoucontacted</Link>
+
             </div>
         </section>
         <Outlet/>
