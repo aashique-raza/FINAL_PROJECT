@@ -24,18 +24,7 @@ function PropertyYouContacted() {
   const dispatch = useDispatch();
 
   // Example data, replace this with your actual data
-  const data = [
-    {
-      serialNo: 1,
-      propertyType: "Apartment",
-      propertyName: "Luxury Apt",
-      city: "New York",
-      address: "123 Main St",
-      contactDate: "2024-07-15",
-      postedDate: "2024-07-01",
-    },
-    // Add more data as needed
-  ];
+  
   //   contacted-property/:userId
 
   const fetchUserContactProperty = async () => {
@@ -57,7 +46,7 @@ function PropertyYouContacted() {
       );
 
       const data = await resp.json();
-      console.log(data);
+      // console.log(data);
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
