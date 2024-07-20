@@ -8,6 +8,7 @@ import {
 import Header from "./components/Header";
 import ContactPage from './pages/ContactPage'
 import Footer from "./components/Footer";
+import PropertyByCity from './pages/PropertyByCity'
 
 // Example components for lazy loading
 const HomePage = React.lazy(() => import("./pages/HomePage"));
@@ -75,6 +76,7 @@ function App() {
         <Route path="/about" element={<AboutPage showSuccessMessage={showSuccessMessage} />} />
         <Route path="/signup" element={<SignupPage showSuccessMessage={showSuccessMessage} />} />
         <Route path="/login" element={<LoginPage showSuccessMessage={showSuccessMessage}/>} />
+        <Route path="/property-by-city/:category" element={<PropertyByCity showSuccessMessage={showSuccessMessage}/>} />
         <Route path="/create-listing" element={<CreateListingPage showSuccessMessage={showSuccessMessage}/>} />
         <Route path="/create-listing/pg" element={<PgPage showSuccessMessage={showSuccessMessage}/>} />
         <Route path="/create-listing/rent" element={<RentPage showSuccessMessage={showSuccessMessage}/>} />

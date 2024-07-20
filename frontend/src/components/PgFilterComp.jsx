@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 import { debounce } from "lodash";
-import { IoIosArrowDown,IoIosArrowUp  } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import FilterCheckBoxItem from "./FilterCheckBoxItem";
 import {
   pgRoomSharing,
@@ -34,9 +34,8 @@ function PgFilterComp({
   const [isfood, setIsFoodAvailable] = useState("");
   const [foodType, setFoodType] = useState("");
   const [price, setPrice] = useState([100, 100000]);
-  
-  
 
+ 
   useEffect(() => {
     const q = searchParams.get("q");
     const l = searchParams.get("l");
@@ -44,6 +43,17 @@ function PgFilterComp({
     setQParam(q);
     setLParam(l);
   }, []);
+
+
+  const resetFilter=()=>{
+    console.log('chal rha hai')
+    const newParams = new URLSearchParams(location.search);
+    console.log(newParams)
+    newParams.delete('q');
+    console.log(newParams.delete('q'))
+    navigate({ search: newParams.toString() });
+  }
+
   useEffect(() => {
     // Update search params when state changes
     const params = {};
@@ -74,154 +84,165 @@ function PgFilterComp({
     price,
     setSearchParams,
     searchParams,
+    resetFilter
   ]);
 
-  // console.log("qparam", qParam, "lparam", lParam);
-
+  
+  
+  
 
   return (
     <div className="pg_filter_sidebar bg-white">
-    <div className="px-3 flex justify-end w-full pg_filter_btn py-2 md:hidden">
-      <button
-        onClick={()=>setFilterCompVisible(!filterComVisible)}
-        className=" flex  items-center gap-1  w-44 capitalize font-roboto text-xl px-5 py-2 focus:ring-0 border-none outline-none rounded-md bg-red-700 text-white"
-      >
-        {
-          filterComVisible ? ( <>
-            <IoIosArrowUp /> hide filter
-          </>) : ( <>
-         
-          <IoIosArrowDown/>show filter
-          </>)
-        }
-        
-      </button>
-    </div>
-    <div className={filterComVisible ? 'showForMobile' : 'hideForMobile'}>
-      <div className="w-full border-b-2 border-slate-800 py-3 px-2 flex items-center justify-between">
-        <p className="text-xl sm:text-3xl text-slate-800 capitalize font-roboto font-normal">
-          choose filter
-        </p>
+      <div className="px-3 flex justify-end w-full pg_filter_btn py-2 md:hidden">
         <button
-          onClick={applyFilter}
-          className="bg-slate-700 text-white px-6 rounded-md py-3 font-raleway text-xl sm:text-xl capitalize font-medium block"
+          onClick={() => setFilterCompVisible(!filterComVisible)}
+          className=" flex  items-center gap-1  w-44 capitalize font-roboto text-xl px-5 py-2 focus:ring-0 border-none outline-none rounded-md bg-red-700 text-white"
         >
-          apply filter
+          {filterComVisible ? (
+            <>
+              <IoIosArrowUp /> hide filter
+            </>
+          ) : (
+            <>
+              <IoIosArrowDown />
+              show filter
+            </>
+          )}
         </button>
       </div>
-      <div className="w-full custom_select_city_box">
-        <p>select city</p>
-        <select
-          onChange={(e) => setLParam(e.target.value)}
-          name=""
-          id=""
-          value={lParam}
-          className="focus:ring-0 px-4 py-3 rounded-sm font-roboto text-sm sm:text-xl md:text-2xl capitalize border-2 border-slate-800"
-        >
-          {allCities?.map((city, index) => (
-            <option value={city.value} id={city.label} key={index}>
-              {city.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <p>room sharing</p>
-        <div className="flex justify-start items-start gap-3 flex-wrap px-2">
-          {pgRoomSharing.slice(1)?.map((item, index) => (
-            <FilterCheckBoxItem
-              key={index}
-              option={item.label}
-              type={'radio'}
-              name="sharing_group"
-              value={item.value}
-              setValue={setQParam}
-              isChecked={
-                item.value.trim().toLocaleLowerCase() ===
-                qParam.trim().toLocaleLowerCase()
-              }
-            />
-          ))}
+      <div className={filterComVisible ? "showForMobile" : "hideForMobile"}>
+        <div className="w-full border-b-2 border-slate-800 py-3 px-2 flex items-center justify-between">
+          <p  className="text-white px-6 rounded-md py-3 font-raleway text-xl sm:text-xl capitalize font-medium block ">
+            choose filter
+          </p>
+          <button
+            onClick={applyFilter}
+            className="bg-slate-700 text-white px-6 rounded-md py-3 font-raleway text-xl sm:text-xl capitalize font-medium block"
+          >
+            apply filter
+          </button>
         </div>
-      </div>
-      <div>
-        <p>available for</p>
-        <div className="flex justify-start items-start gap-3 flex-wrap px-2">
-          {availableFor?.map((item, index) => (
-            <FilterCheckBoxItem
-              key={index}
-              option={item.label}
-              type={'radio'}
-              name="available_group"
-              value={item.value}
-              setValue={setAvailableFor}
-              isChecked={
-                item.value.trim().toLocaleLowerCase() ===
-                available_For.trim().toLocaleLowerCase()
-              }
-            />
-          ))}
+        <div className="w-full custom_select_city_box">
+          <p>select city</p>
+          <select
+            onChange={(e) => setLParam(e.target.value)}
+            name=""
+            id=""
+            value={lParam}
+            className="focus:ring-0 px-4 py-3 rounded-sm font-roboto text-sm sm:text-xl md:text-2xl capitalize border-2 border-slate-800"
+          >
+            {allCities?.map((city, index) => (
+              <option value={city.value} id={city.label} key={index}>
+                {city.label}
+              </option>
+            ))}
+          </select>
         </div>
-      </div>
-      <div>
-        <p>availability within</p>
-        <div className="flex justify-start items-start gap-3 flex-wrap px-2">
-          {avaibility?.map((item, index) => (
-            <FilterCheckBoxItem
-              key={index}
-              option={item.label}
-              type={'radio'}
-              name="availability_group"
-              value={item.value}
-              setValue={setavaibility}
-              isChecked={
-                item.value.trim().toLocaleLowerCase() ===
-                pgAvaibility.trim().toLocaleLowerCase()
-              }
-            />
-          ))}
+        <div>
+          <p>room sharing</p>
+          <div className="flex justify-start items-start gap-3 flex-wrap px-2">
+            {pgRoomSharing.slice(1)?.map((item, index) => (
+              <FilterCheckBoxItem
+                key={index}
+                option={item.label}
+                type={"radio"}
+                name="sharing_group"
+                value={item.value}
+                setValue={setQParam}
+                isChecked={
+                  item.value.trim().toLocaleLowerCase() ===
+                  qParam.trim().toLocaleLowerCase()
+                }
+              />
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="w-full sm:w-1/2">
-        <PriceSliderComp setPrice={setPrice} price={price} />
-      </div>
-      <div>
-        <p>food availability</p>
-        <div className="flex justify-start items-start gap-1 flex-wrap">
-          {isFoodAvailable?.map((item, index) => (
-            <FilterCheckBoxItem
-              key={index}
-              option={item.label}
-              type={'radio'}
-              name="foodAvailable_group"
-              value={item.value}
-              setValue={setIsFoodAvailable}
-              isChecked={item.value === (isfood === 'true' ? true : false)}
-            />
-          ))}
+         <div>
+          <p>available for</p>
+          <div className="flex justify-start items-start gap-3 flex-wrap px-2">
+            {availableFor?.map((item, index) => (
+              <FilterCheckBoxItem
+                key={index}
+                option={item.label}
+                type={"radio"}
+                name="available_group"
+                value={item.value}
+                setValue={setAvailableFor}
+                isChecked={
+                  item.value.trim().toLocaleLowerCase() ===
+                  available_For.trim().toLocaleLowerCase()
+                }
+              />
+            ))}
+          </div>
+         
         </div>
-      </div>
-      <div>
-        <p>food type</p>
-        <div className="flex justify-start items-start gap-1 flex-wrap">
-          {foodTypes?.map((item, index) => (
-            <FilterCheckBoxItem
-              key={index}
-              option={item.label}
-              type={'radio'}
-              name="food_group"
-              value={item.value}
-              setValue={setFoodType}
-              isChecked={
-                item.value.trim().toLocaleLowerCase() ===
-                foodType.trim().toLocaleLowerCase()
-              }
-            />
-          ))}
+       
+        <div>
+          <p>availability within</p>
+          <div className="flex justify-start items-start gap-3 flex-wrap px-2">
+            {avaibility?.map((item, index) => (
+              <FilterCheckBoxItem
+                key={index}
+                option={item.label}
+                type={"radio"}
+                name="availability_group"
+                value={item.value}
+                setValue={setavaibility}
+                isChecked={
+                  item.value.trim().toLocaleLowerCase() ===
+                  pgAvaibility.trim().toLocaleLowerCase()
+                }
+              />
+            ))}
+          </div>
+        </div>
+        
+        <div className="w-full sm:w-1/2">
+          <PriceSliderComp setPrice={setPrice} price={price} />
+        </div>
+          
+        <div>
+          <p>food availability</p>
+          <div className="flex justify-start items-start gap-1 flex-wrap">
+            {isFoodAvailable?.map((item, index) => (
+              <FilterCheckBoxItem
+                key={index}
+                option={item.label}
+                type={"radio"}
+                name="foodAvailable_group"
+                value={item.value}
+                setValue={setIsFoodAvailable}
+                isChecked={item.value === (isfood === "true" ? true : false)}
+              />
+            ))}
+          </div>
+        </div>
+        <div>
+          {isfood !== "false" && (
+            <>
+              <p>food type</p>
+              <div className="flex justify-start items-start gap-1 flex-wrap">
+                {foodTypes?.map((item, index) => (
+                  <FilterCheckBoxItem
+                    key={index}
+                    option={item.label}
+                    type={"radio"}
+                    name="food_group"
+                    value={item.value}
+                    setValue={setFoodType}
+                    isChecked={
+                      item.value.trim().toLocaleLowerCase() ===
+                      foodType.trim().toLocaleLowerCase()
+                    }
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
-  </div>
   );
 }
 

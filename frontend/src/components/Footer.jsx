@@ -13,6 +13,8 @@ import { allCities } from "../utils";
 
 function Footer() {
 
+  // navigate(`/search/${selectedOption}?q=${searchBHK}&&l=${searchLocation}`);
+
     const links=[
        {
         url:'/',
@@ -38,6 +40,40 @@ function Footer() {
       
     ]
 
+    const pgRoomSharing = [
+     
+      { label: "single", value: "single" },
+      { label: "double", value: "double" },
+      { label: "three", value: "three" },
+      { label: "four", value: "four" },
+    ];
+    const bhkTypes = [
+      // {label:'select BHK type',value:""},
+      { label: "1 RK", value: "1rk" },
+      { label: "1 BHK", value: "1bhk" },
+      { label: "2 BHK", value: "2bhk" },
+      { label: "3 BHK", value: "3bhkk" },
+      { label: "4 BHK", value: "4bhk" },
+      { label: "4+ BHK", value: "4bhk+" },
+    ];
+    const findSharing = (index) => {
+      // Ensure the index is within bounds
+      if (index >= 0 && index < pgRoomSharing.length) {
+        return pgRoomSharing[index].value;
+      }
+      // Return a default value or handle out-of-bounds index
+      return '';
+    };
+
+    const findBhk=(index)=>{
+      // Ensure the index is within bounds
+      if (index >= 0 && index < bhkTypes.length) {
+        return bhkTypes[index].value;
+      }
+      // Return a default value or handle out-of-bounds index
+      return '';
+
+    }
   return (
     <footer className=" footer-container">
       <section className="footer-sections footer-logo-section">
@@ -85,7 +121,9 @@ function Footer() {
         <h1>PG</h1>
         <div>
           {allCities?.map((city,idx) => (
-            <NavLink key={idx}>pg for rent in {city.label}</NavLink>
+            // /property-by-city/:city
+            
+            <NavLink to={`/search/pg/?q=single&&l=${city.value}`} key={idx}>pg for rent in {city.label}</NavLink>
           ))}
         </div>
       </section>
@@ -93,7 +131,7 @@ function Footer() {
       <h1>Flat/Apartment</h1>
         <div>
           {allCities?.map((city,idx) => (
-            <NavLink key={idx}>Flat for rent in {city.label}</NavLink>
+            <NavLink to={`/search/rental/?q=1bhk&&l=${city.value}`} key={idx}>Flat for rent in {city.label}</NavLink>
           ))}
         </div>
       </section>
