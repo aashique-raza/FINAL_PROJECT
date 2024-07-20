@@ -6,6 +6,7 @@
     background-color: white;
     max-height: 100vh;
     overflow: scroll;
+    
 }
 
 .radio-input-wrapper input[type="radio"] {
@@ -38,6 +39,7 @@
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
+    
   }
 
   .your-property-card{
@@ -45,6 +47,9 @@
     width: 30%;
     border: 1px solid gray;
     padding: 13px 16px;
+    border: 2px solid red;
+    height: 300px;
+    overflow-y: scroll;
   }
 
   @media only screen and (max-width:467px){

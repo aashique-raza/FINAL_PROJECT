@@ -10,6 +10,7 @@ import { Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Button } from "flowbite-react";
 import { useSelector,useDispatch } from "react-redux";
+import { IoMdArrowRoundForward } from "react-icons/io";
 import { getTokenFromLocalStorage,refreshAccessToken } from "../token";
 // import { propertyActivated } from "../features/userProperty.slice";
 import { deleteUserProperty,changeStatusOfProperty } from "../features/userProperty.slice";
@@ -218,6 +219,21 @@ function YourPropertyCard({ showSuccessMessage, property }) {
 
   }
 
+  function countUniqueUsers(array1, array2) {
+    // Combine both arrays
+    const combinedArray = [...array1, ...array2];
+    
+    // Remove duplicates using a Set
+    const uniqueUsers = [...new Set(combinedArray)];
+    
+    // Return the count of unique users
+    return uniqueUsers.length;
+}
+
+const propertyContacedCount=countUniqueUsers(property.contactByUser|| [],property.contactByGuestUser || [])
+
+
+  // console.log('property',property)
   return (
     <div className="your-property-card shadow-xl hover:shadow-2xl transition-all duration-100 ease-in">
       <div className="flex justify-end items-center">
@@ -303,9 +319,9 @@ function YourPropertyCard({ showSuccessMessage, property }) {
         </button>
       </div>
       <div className=" flex justify-start items-start px-3 w-full">
-        <h3 className=" font-bold w-full border-t-2 capitalize text-xl sm:text-xl lg:text-2xl  font-serif tracking-wider py-4 sm:py-6 md:py-9 lg:py-14  ">
-          0 contated
-        </h3>
+        <NavLink to={'#'} className=" text-xl md:text-2xl xl:text-3xl font-bold font-roboto capitalize bg-transparent  text-red-600   ">
+          {propertyContacedCount} tenet contated <IoMdArrowRoundForward className=" inline-block"/> 
+        </NavLink>
       </div>
       {modal && (
         <Modal show={modal} size="md" onClose={() => setModal(false)} popup>
@@ -336,7 +352,7 @@ function YourPropertyCard({ showSuccessMessage, property }) {
       )}
      {propertyActivate && (
   <Modal
-    show={propertyActivate}
+    show={propertyActivate} 
     size={window.innerWidth >= 768 ? 'lg' : 'md'}
     onClose={() => setPropertyActivate(false)}
     popup

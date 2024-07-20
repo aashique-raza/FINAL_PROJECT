@@ -91,7 +91,7 @@ function Header({showSuccessMessage}) {
           <li className="capitalize post-property">
             <NavLink
               to="/create-listing"
-              className={({ isActive }) => (isActive ? 'active-link' : '')}
+              
             >
               Post Property Free
             </NavLink>
