@@ -208,10 +208,13 @@ function YourPropertyPage({ showSuccessMessage }) {
 
   return (
     <main className=" your-property-container">
-      <div className=" justify-start items-center flex  border-b-2  ">
+      <div className=" flex-col justify-start items-center flex  border-b-2  ">
         <h1 className=" px-4 py-6 md:px-10  md:py-12 capitalize font-roboto tracking-wider font-semibold text-teal-950 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
           You have already posted {allProperty.length} properties on rental wave
         </h1>
+        <p className="  text-sm md:text-2xl capitalize  font-sans  ">
+              <b className=" text-red-700  font-extrabold  capitalize  font-raleway text-xl md:text-3xl ">note:</b>  If you do not activate your property, it will not be visible to tenants.
+            </p>
       </div>
       <div className=" lg:px-16 md:px-8 sm:px-5 px-3 mt-20 flex items-center justify-start  gap-4 sm:gap-5 md:gap-7 lg:gap-10 flex-wrap ">
         <div className="radio-input-wrapper">
@@ -283,6 +286,7 @@ function YourPropertyPage({ showSuccessMessage }) {
             <h1 className=" w-full text-red-600 capitalize text-xl md:text-2xl font-bold tracking-wider font-sans">
               you have not listed any property yet!
             </h1>
+            
           </>
         )}
       </div>
