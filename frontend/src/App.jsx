@@ -103,16 +103,16 @@ function App() {
         <Route
           path="/create-listing"
           element={
-            <Protected><CreateListingPage showSuccessMessage={showSuccessMessage} /></Protected>
+            <CreateListingPage showSuccessMessage={showSuccessMessage} />
           }
         />
         <Route
           path="/create-listing/pg"
-          element={<Protected><PgPage showSuccessMessage={showSuccessMessage} /></Protected>}
+          element={<PgPage showSuccessMessage={showSuccessMessage} />}
         />
         <Route
           path="/create-listing/rent"
-          element={<Protected><RentPage showSuccessMessage={showSuccessMessage} /></Protected>}
+          element={<RentPage showSuccessMessage={showSuccessMessage} />}
         />
         <Route
           path="/forgot-password"
