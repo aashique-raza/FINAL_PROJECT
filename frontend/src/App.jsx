@@ -12,6 +12,7 @@ import PropertyByCity from "./pages/PropertyByCity";
 import PropertyYouContacted from "./pages/PropertyYouContacted";
 import PublicRoute from "./components/PublicRoute";
 import Protected from "./components/Protected";
+import UnderConstruction from "./components/UnderConstruction";
 
 // Example components for lazy loading
 const HomePage = React.lazy(() => import("./pages/HomePage"));
@@ -88,8 +89,21 @@ function App() {
           />
           <Route
             path="/about"
-            element={<AboutPage showSuccessMessage={showSuccessMessage} />}
+            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
           />
+          <Route
+            path="/rentals"
+            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/category"
+            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/blog"
+            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
+          />
+          
           <Route
             path="/signup"
             element={
