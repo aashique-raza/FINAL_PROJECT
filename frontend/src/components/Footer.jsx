@@ -123,7 +123,7 @@ function Footer() {
           {allCities?.map((city,idx) => (
             // /property-by-city/:city
             
-            <NavLink to={`/search/pg/?q=single&&l=${city.value}`} key={idx}>pg for rent in {city.label}</NavLink>
+            <NavLink to={`#`} key={idx}>pg for rent in {city.label}</NavLink>
           ))}
         </div>
       </section>
@@ -131,7 +131,7 @@ function Footer() {
       <h1>Flat/Apartment</h1>
         <div>
           {allCities?.map((city,idx) => (
-            <NavLink to={`/search/rental/?q=1bhk&&l=${city.value}`} key={idx}>Flat for rent in {city.label}</NavLink>
+            <NavLink to={`#`} key={idx}>Flat for rent in {city.label}</NavLink>
           ))}
         </div>
       </section>

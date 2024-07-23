@@ -17,7 +17,7 @@ function Header({showSuccessMessage}) {
   const [showMenu, setShowMenu] = useState(false);
   const [profile, SetShowProfile] = useState(false);
  
-  const { user } = useSelector((state) => state.user);
+  const { user,isUserAuthenTicated } = useSelector((state) => state.user);
   // console.log(user);
 
   const handleMenubar = () => {
@@ -89,7 +89,7 @@ function Header({showSuccessMessage}) {
             </NavLink>
           </li>
           {
-            user && (<li className="capitalize post-property">
+            isUserAuthenTicated && (<li className="capitalize post-property">
               <NavLink
                 to="/create-listing"
                 
@@ -103,7 +103,7 @@ function Header({showSuccessMessage}) {
         <FaWindowClose onClick={() => setShowMenu(false)} className="absolute top-2 left-2 text-4xl text-white font-bold" />
       </nav>
       <div className="menubar">
-        {loggedInStatus ? (
+        {isUserAuthenTicated ? (
          <div>
          <button
            color="gray"
