@@ -74,108 +74,129 @@ function App() {
 
   return (
     <Router>
-    <Header showSuccessMessage={showSuccessMessage} />
-    <ToastContainer />
-    <Suspense fallback={<div>Loading...</div>}>
-      <Routes>
-        <Route
-          path="/"
-          element={<HomePage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route
-          path="/contact"
-          element={<ContactPage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route
-          path="/about"
-          element={<AboutPage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route
-          path="/signup"
-          element={<PublicRoute><SignupPage showSuccessMessage={showSuccessMessage} /></PublicRoute>}
-        />
-        <Route
-          path="/login"
-          element={<PublicRoute><LoginPage showSuccessMessage={showSuccessMessage} /></PublicRoute>}
-        />
-       
+      <Header showSuccessMessage={showSuccessMessage} />
+      <ToastContainer />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/contact"
+            element={<ContactPage showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/about"
+            element={<AboutPage showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignupPage showSuccessMessage={showSuccessMessage} />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage showSuccessMessage={showSuccessMessage} />
+              </PublicRoute>
+            }
+          />
 
-        <Route
-          path="/create-listing"
-          element={
-            <CreateListingPage showSuccessMessage={showSuccessMessage} />
-          }
-        />
-        <Route
-          path="/create-listing/pg"
-          element={<PgPage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route
-          path="/create-listing/rent"
-          element={<RentPage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route
-          path="/forgot-password"
-          element={<PublicRoute><ForgotPassword showSuccessMessage={showSuccessMessage} /></PublicRoute>}
-        />
-        <Route
-          path="/reset-password"
-          element={<PublicRoute><ResetPassword showSuccessMessage={showSuccessMessage} /></PublicRoute>}
-        />
-        <Route
-          path="/profile"
-          element={<ProfilePage showSuccessMessage={showSuccessMessage} />}
-        >
           <Route
-            path="myProfile"
+            path="/create-listing"
             element={
-              <BasicProfilePage showSuccessMessage={showSuccessMessage} />
+              <CreateListingPage showSuccessMessage={showSuccessMessage} />
+            }
+          />
+               <Route
+            path="/create-listing/pg"
+            element={<PgPage showSuccessMessage={showSuccessMessage} />}
+             />
+          <Route
+            path="/create-listing/rent"
+            element={<RentPage showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <PublicRoute>
+                <ForgotPassword showSuccessMessage={showSuccessMessage} />
+              </PublicRoute>
             }
           />
           <Route
-            path="yourPropertyList"
+            path="/reset-password"
             element={
-              <YourPropertyPage showSuccessMessage={showSuccessMessage} />
+              <PublicRoute>
+                <ResetPassword showSuccessMessage={showSuccessMessage} />
+              </PublicRoute>
             }
           />
           <Route
-            path="favourite"
+            path="/profile"
+            element={<ProfilePage showSuccessMessage={showSuccessMessage} />}
+          >
+            <Route
+              path="myProfile"
+              element={
+                <BasicProfilePage showSuccessMessage={showSuccessMessage} />
+              }
+            />
+            <Route
+              path="yourPropertyList"
+              element={
+                <YourPropertyPage showSuccessMessage={showSuccessMessage} />
+              }
+            />
+            <Route
+              path="favourite"
+              element={
+                <FavouritePropperty showSuccessMessage={showSuccessMessage} />
+              }
+            />
+            <Route
+              path="property-you-contacted"
+              element={
+                <PropertyYouContacted showSuccessMessage={showSuccessMessage} />
+              }
+            />
+          </Route>
+          <Route
+            path="/mail-verification"
             element={
-              <FavouritePropperty showSuccessMessage={showSuccessMessage} />
+              <Protected>
+                {" "}
+                <MailVerificationPage showSuccessMessage={showSuccessMessage} />
+              </Protected>
             }
           />
           <Route
-            path="property-you-contacted"
+            path="/search/:category?"
+            element={<SearchPage showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/property/:category/:id?"
+            element={<PropertyPage showSuccessMessage={showSuccessMessage} />}
+          />
+          <Route
+            path="/edit-property/:category/:id?"
             element={
-              <PropertyYouContacted showSuccessMessage={showSuccessMessage} />
+              <Protected>
+                <EditPage showSuccessMessage={showSuccessMessage} />
+              </Protected>
             }
           />
-        </Route>
-        <Route
-          path="/mail-verification"
-          element={
-           <Protected> <MailVerificationPage showSuccessMessage={showSuccessMessage} /></Protected>
-          }
-        />
-        <Route
-          path="/search/:category?"
-          element={<SearchPage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route
-          path="/property/:category/:id?"
-          element={<PropertyPage showSuccessMessage={showSuccessMessage} />}
-        />
-        <Route
-          path="/edit-property/:category/:id?"
-          element={<Protected><EditPage showSuccessMessage={showSuccessMessage} /></Protected>}
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
-    <Footer />
-  </Router>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+      <Footer />
+    </Router>
   );
 }
 
 export default App;
-
