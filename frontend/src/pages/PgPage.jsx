@@ -169,7 +169,7 @@ function PgPage({ showSuccessMessage }) {
         body: pgFormData,
       });
       const data = await resp.json();
-      // console.log(data)
+      console.log(data)
 
       if (!resp.ok) {
         if (resp.status === 401) {
