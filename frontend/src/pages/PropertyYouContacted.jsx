@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logOutSuccess } from "../features/user.slice";
 import { clearStateOfUser } from "../features/userProperty.slice";
+import moment from 'moment'
 
 function PropertyYouContacted() {
   const [contactProperty, setContactProperty] = useState([]);
@@ -159,8 +160,8 @@ function PropertyYouContacted() {
               </td>
               <td className="px-6 py-4 md:px-8 md:py-6">{item.propertyDetails.location.city}</td>
               <td className="px-6 py-4 md:px-8 md:py-6">{item.propertyDetails.location.localAddress}</td>
-              <td className="px-6 py-4 md:px-8 md:py-6">{new Date(item.contactDate).toLocaleDateString()}</td>
-              <td className="px-6 py-4 md:px-8 md:py-6">{new Date(item.postedDate).toLocaleDateString()}</td>
+              <td className="px-6 py-4 md:px-8 md:py-6"> {moment(item.date).fromNow()} </td>
+              <td className="px-6 py-4 md:px-8 md:py-6"> { moment(item.propertyDetails.createdAt).fromNow()} </td>
             </tr>
           ))
         )}
