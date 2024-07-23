@@ -113,10 +113,10 @@ function App() {
               <CreateListingPage showSuccessMessage={showSuccessMessage} />
             }
           />
-               <Route
+          <Route
             path="/create-listing/pg"
             element={<PgPage showSuccessMessage={showSuccessMessage} />}
-             />
+          />
           <Route
             path="/create-listing/rent"
             element={<RentPage showSuccessMessage={showSuccessMessage} />}
@@ -185,11 +185,7 @@ function App() {
           />
           <Route
             path="/edit-property/:category/:id?"
-            element={
-              <Protected>
-                <EditPage showSuccessMessage={showSuccessMessage} />
-              </Protected>
-            }
+            element={<EditPage showSuccessMessage={showSuccessMessage} />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
