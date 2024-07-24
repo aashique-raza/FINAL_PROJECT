@@ -427,7 +427,7 @@ function PgPage({ showSuccessMessage }) {
             <Alert
               className=" w-full sm:w-1/2 md:w-1/3 text-xl"
               color="failure"
-              onDismiss={() => dispatch(pgListingClearError())}
+              onDismiss={() =>setError(null)}
             >
               {error}
             </Alert>

@@ -205,6 +205,7 @@ function RentPage({ showSuccessMessage }) {
             await handleSubmitWithToken(newToken,rentFormData);
           } else {
             setError("Failed to refresh access token");
+            setLoading(false)
           }
 
           return;
