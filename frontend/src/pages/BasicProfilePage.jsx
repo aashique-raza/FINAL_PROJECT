@@ -426,7 +426,7 @@ function BasicProfilePage({ showSuccessMessage }) {
             <div className=" sm:px-20 mt-4">
               <div
                 onClick={handleEmailVerification}
-                className=" font-roboto underline text-sm sm:text-xl  capitalize text-gray-500 flex items-center gap-3 "
+                className=" cursor-pointer font-roboto underline text-sm sm:text-xl  capitalize text-gray-500 flex items-center gap-3 "
               >
                 {verificatioLoading ? (
                   <>
