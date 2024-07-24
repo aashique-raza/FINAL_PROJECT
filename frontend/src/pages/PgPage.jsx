@@ -204,7 +204,7 @@ function PgPage({ showSuccessMessage }) {
     try {
       setError(null)
       setLoading(true)
-        const resp = await fetch(`${API_URL}/pg/create-listing`, {
+        const resp = await fetch(`${API_URL}/pg/create-listing/${user._id}`, {
           method: "POST",
           headers: {
             // "Content-Type": "multipart/form-data"
@@ -230,7 +230,7 @@ function PgPage({ showSuccessMessage }) {
         navigate(`/property/pg/${data.lsiting._id}`);
       } catch (error) {
         setError('something went wrong,please try gain later')
-        setLoading(true)
+        setLoading(false)
         console.log(error.message);
         
       }
