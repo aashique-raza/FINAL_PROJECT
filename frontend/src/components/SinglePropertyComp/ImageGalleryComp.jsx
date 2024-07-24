@@ -104,8 +104,8 @@ setNewPropertyData(propertyData)
       }
 
       setIsFavorite(false)
-      dispatch(removePropertyFromFavourite(result.newproperty._id));
-      setNewPropertyData(result.newproperty)
+      // dispatch(removePropertyFromFavourite(result.newproperty._id));
+      // setNewPropertyData(result.newproperty)
     } catch (error) {
       console.log("removing favourite failed", error);
       setError("please try again later");
@@ -179,8 +179,8 @@ setNewPropertyData(propertyData)
 
       setIsFavorite(true)
 
-      dispatch(addPropertyToFavourite(result.updatedProperty));
-      setNewPropertyData(result.updatedProperty)
+      // dispatch(addPropertyToFavourite(result.updatedProperty));
+      // setNewPropertyData(result.updatedProperty)
     } catch (error) {
       console.log("adding favourite failed", error);
       setError(error.message);
@@ -221,11 +221,11 @@ setNewPropertyData(propertyData)
   };
   const handleFavourite = (id) => {
     if (!user) return setIsOpen(true);
-    newPropertyData.isPropertyFavorite ? removeToFavourite(id) : addToFavourite(id);
+   isFavorite ? removeToFavourite(id) : addToFavourite(id)
   };
 
-  const firstThree = newPropertyData?.images.slice(0, 3); // Get the first three objects
-  const remainingCount = newPropertyData?.images.length - firstThree.length; // Calculate the remaining count
+  const firstThree = newPropertyData?.images?.slice(0, 3); // Get the first three objects
+  const remainingCount = newPropertyData?.images?.length - firstThree?.length; // Calculate the remaining count
   return (
 
     
@@ -241,15 +241,14 @@ setNewPropertyData(propertyData)
                 onClick={() => handleFavourite(newPropertyData._id)}
               >
                 <span
-                  className={`heart-icon ${
-                    isFavorite || newPropertyData.isPropertyFavorite ? "favorite" : ""
-                  }`}
+                  className={`heart-icon ${isFavorite ?  'favorite':''} `}
                 >
+                  {/* class name favorite */}
                   &#x2764;
                 </span>
-                {isFavorite || newPropertyData.isPropertyFavorite
-                  ? "remove from favourite"
-                  : " Add to favorite"}
+                {
+                  
+                  " Add to favorite"}
               </button>
             </div>
             <img src={firstThree[0]} alt="Property" />
