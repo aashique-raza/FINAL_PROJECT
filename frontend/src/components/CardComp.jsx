@@ -48,6 +48,7 @@ function CardComp({
   const [error, setError] = useState(false);
   const token = getTokenFromLocalStorage();
   const [userFavouriteProperty, setUserFavouriteProperty] = useState(false);
+  const[tempIsFav,setTempIsFav]=useState(false)
 
   const [newPropertyData, setNewPropertyData] = useState(data);
   useEffect(() => {
@@ -96,7 +97,7 @@ function CardComp({
         }
       );
       const result = await resp.json();
-      console.log(result);
+      // console.log(result);
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -116,7 +117,10 @@ function CardComp({
       if (!userFavouriteProperties) {
         handleFavouriteProperty(result.updatedProperty);
         showSuccessMessage("remove from favourite");
+      }else{
+        dispatch(removePropertyFromFavourite(result.updatedProperty._id))
       }
+      setUserFavouriteProperty(false)
       
 
       setError(null);
@@ -150,7 +154,10 @@ function CardComp({
       if (!userFavouriteProperties) {
         handleFavouriteProperty(result.updatedProperty);
         showSuccessMessage("remove from favourite");
+      }else{
+        dispatch(removePropertyFromFavourite(result.updatedProperty._id))
       }
+      setUserFavouriteProperty(false)
 
      
 
@@ -196,6 +203,7 @@ function CardComp({
         showSuccessMessage("addedd to favourite");
       }
       setError(null);
+      setUserFavouriteProperty(true)
 
       
     } catch (error) {
@@ -230,6 +238,7 @@ function CardComp({
       }
      
       setError(null);
+      setUserFavouriteProperty(true)
     } catch (error) {
       console.log("adding favourite failed", error);
       setError(error.message);
@@ -249,7 +258,7 @@ function CardComp({
         const isFavorite = newPropertyData.addFavoritesByUser.some(
           (id) => id === user._id
         );
-        console.log('is favourite',isFavorite)
+        // console.log('is favourite',isFavorite)
         setUserFavouriteProperty(isFavorite);
       } else {
         setUserFavouriteProperty(false);
@@ -400,7 +409,7 @@ function CardComp({
                 >
                   <FaHeart
                     className={`${
-                      userFavouriteProperty ? "text-red-600" : "text-slate-300"
+                       userFavouriteProperty  ? "text-red-600" : "text-slate-300"
                     }`}
                   />
                 </div>
