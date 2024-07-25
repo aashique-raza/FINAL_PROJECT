@@ -560,6 +560,7 @@ function PropertyPage() {
               <ImageGalleryComp
                 propertyData={propertyData}
                 category={category}
+                setPropertyData={setPropertyData}
               />
             )}
 

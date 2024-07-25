@@ -244,7 +244,7 @@ function CardComp({
   return (
     <div className="card_container">
       <section className="card_heading_text py-6 px-5 ">
-        <Link to={`/property/${category}/${data._id}`}>
+        <Link to={`/property/${category}/${data?._id}`}>
           <h2 className=" flex gap-2 items-center font-roboto  capitalize text-2xl text-gray-500  hover:underline hover:text-red-600">
             {category?.trim().toLowerCase() === "pg".trim()
               ? `PG for ${data.availableFor} in ${data.location.city},${data.location.state} `

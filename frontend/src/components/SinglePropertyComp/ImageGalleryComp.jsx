@@ -23,7 +23,7 @@ ReactModal.setAppElement("#root");
 import "../../styles/SingleProperty.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 
-function ImageGalleryComp({ propertyData, category }) {
+function ImageGalleryComp({ propertyData, category,setPropertyData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -31,6 +31,8 @@ function ImageGalleryComp({ propertyData, category }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.user);
+
+  const [userFavouriteProperty, setUserFavouriteProperty] = useState(false);
 
   // store props property data 
   const[newPropertyData,setNewPropertyData]=useState(propertyData)
@@ -105,7 +107,7 @@ setNewPropertyData(propertyData)
 
       setIsFavorite(false)
       // dispatch(removePropertyFromFavourite(result.newproperty._id));
-      // setNewPropertyData(result.newproperty)
+      setNewPropertyData(result.updatedProperty)
     } catch (error) {
       console.log("removing favourite failed", error);
       setError("please try again later");
@@ -134,8 +136,11 @@ setNewPropertyData(propertyData)
       }
 
       setIsFavorite(false)
-      dispatch(removePropertyFromFavourite(result.newproperty._id));
-      setNewPropertyData(result.newproperty)
+      // updatedProperty
+      // addFavoritesByUser
+
+      // dispatch(removePropertyFromFavourite(result.newp));
+      setNewPropertyData(result.updatedProperty)
     } catch (error) {
       console.log("removing favourite failed", error);
       setError("please try again later");
@@ -180,7 +185,7 @@ setNewPropertyData(propertyData)
       setIsFavorite(true)
 
       // dispatch(addPropertyToFavourite(result.updatedProperty));
-      // setNewPropertyData(result.updatedProperty)
+      setNewPropertyData(result.updatedProperty)
     } catch (error) {
       console.log("adding favourite failed", error);
       setError(error.message);
@@ -221,11 +226,27 @@ setNewPropertyData(propertyData)
   };
   const handleFavourite = (id) => {
     if (!user) return setIsOpen(true);
-   isFavorite ? removeToFavourite(id) : addToFavourite(id)
+    userFavouriteProperty ? removeToFavourite(id) : addToFavourite(id)
   };
 
   const firstThree = newPropertyData?.images?.slice(0, 3); // Get the first three objects
   const remainingCount = newPropertyData?.images?.length - firstThree?.length; // Calculate the remaining count
+
+
+  useEffect(() => {
+    if (user) {
+      if (newPropertyData.addFavoritesByUser.length > 0) {
+        const isFavorite = newPropertyData.addFavoritesByUser.some(id => id === user._id);
+        setUserFavouriteProperty(isFavorite);
+      } else {
+        setUserFavouriteProperty(false);
+      }
+    }
+  }, [user, newPropertyData]);
+
+
+
+
   return (
 
     
@@ -241,7 +262,7 @@ setNewPropertyData(propertyData)
                 onClick={() => handleFavourite(newPropertyData._id)}
               >
                 <span
-                  className={`heart-icon ${isFavorite ?  'favorite':''} `}
+                  className={`heart-icon ${userFavouriteProperty ?  'favorite':''} `}
                 >
                   {/* class name favorite */}
                   &#x2764;
