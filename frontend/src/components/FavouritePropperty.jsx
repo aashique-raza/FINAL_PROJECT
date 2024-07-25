@@ -125,7 +125,11 @@ function FavouritePropperty() {
           you don't have favourite property !
         </h1>
       ) : (
-        'ha ye chal rha hai'
+        favouriteProperty !== null && 
+        favouriteProperty?.map((fav) => (
+          <CardComp key={fav?._id} data={fav} typeOfProperty={true} userFavouriteProperties={true} />
+        ))
+
       )}
     </div>
   );
@@ -133,7 +137,3 @@ function FavouritePropperty() {
 
 export default FavouritePropperty;
 
-// favouriteProperty !== null && 
-//         favouriteProperty?.map((fav) => (
-//           <CardComp key={fav?._id} data={fav} typeOfProperty={true} userFavouriteProperties={true} />
-//         ))
