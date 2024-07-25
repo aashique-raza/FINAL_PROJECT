@@ -125,6 +125,7 @@ function SearchPage({showSuccessMessage}) {
       setLoading(false);
     }
   };
+ 
 
   useEffect(() => {
    // Only apply the filter after the category has been set
@@ -135,16 +136,23 @@ function SearchPage({showSuccessMessage}) {
 
   
 
-  const handleFavouriteProperty=(property)=>{
 
- setFilteredProperties((prevProperties) => {
-  // Create a new array with updated properties
-  const updatedProperties = prevProperties.map((item) =>
-    item.id === property.id ? property : item
-  );
-  return [...updatedProperties]; // Ensure a new array reference
-});
-  }
+  const handleFavouriteProperty = (property) => {
+  console.log('Updated property:', property); // Debugging line
+
+  setFilteredProperties((prevProperties) => {
+    // Create a new array with updated properties
+    const updatedProperties = prevProperties.map((item) =>
+      item._id === property._id ? property : item
+    );
+
+    console.log('Previous Properties:', prevProperties); // Debugging line
+    console.log('Updated Properties:', updatedProperties); // Debugging line
+
+    return [...updatedProperties]; // Ensure a new array reference
+  });
+};
+
 
 
   return (
@@ -191,7 +199,7 @@ function SearchPage({showSuccessMessage}) {
           </div>
         ) : filteredProperty && filteredProperty.length > 0 ? (
           filteredProperty.map((data, index) => (
-            <CardComp key={index} data={data} showSuccessMessage={showSuccessMessage} handleFavouriteProperty={handleFavouriteProperty}  />
+            <CardComp key={index} data={data} showSuccessMessage={showSuccessMessage} handleFavouriteProperty={handleFavouriteProperty}   />
           ))
         ) : (
           <div className="w-full py-10 bg-slate-100 rounded-md flex justify-center items-center shadow-md">
