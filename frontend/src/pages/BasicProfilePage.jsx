@@ -10,10 +10,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { Warning, CheckCircle } from "@mui/icons-material";
 import { Alert, Spinner } from "flowbite-react";
 import { validateEmail, validateMobileNumber } from "../formError";
-
-import { updateSucceFully } from "../features/user.slice";
+import { clearStateOfUser } from "../features/userProperty.slice";
+import { updateSucceFully,logOutSuccess } from "../features/user.slice";
 import { API_URL } from "../configue";
-import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,refreshAccessToken } from "../token";
+import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,refreshAccessToken,removeTokenFromLocalStorage } from "../token";
 
 function BasicProfilePage({ showSuccessMessage }) {
   // token extarct--
@@ -123,11 +123,13 @@ function BasicProfilePage({ showSuccessMessage }) {
     e.preventDefault();
     setError(null);
 
+   
+
     if (formData?.email && !validateEmail(formData.email)) {
       return setError("Invalid email ");
     }
 
-    if (formData?.mobile && !validateMobileNumber(formData.mobile)) {
+    if (formData?.phoneNumber && !validateMobileNumber(formData.phoneNumber)) {
       return setError("Invalid mobile number ");
     }
 
@@ -153,7 +155,12 @@ function BasicProfilePage({ showSuccessMessage }) {
             // Retry original request with new token
             await handleSubmitWithToken(newToken);
           } else {
-            setError("Failed to refresh access token");
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
@@ -170,7 +177,7 @@ function BasicProfilePage({ showSuccessMessage }) {
       showSuccessMessage("updated successfully!");
     } catch (error) {
       console.log(error.message);
-      setError(error.message);
+      setError('updating failed please try later!');
     }
   };
 
@@ -202,7 +209,7 @@ function BasicProfilePage({ showSuccessMessage }) {
       showSuccessMessage("updated successfully!");
     } catch (error) {
       console.log(error.message);
-      setError(error.message);
+      setError('updating failed please try later!');
     }
   };
 
