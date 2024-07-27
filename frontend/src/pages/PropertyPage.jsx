@@ -70,7 +70,7 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu"; // For veg
 import { FaShower } from "react-icons/fa";
 import OwnerDetailsModal from "../components/OwnerDetailsModal";
 import { useSelector } from "react-redux";
-import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage,refreshAccessToken } from "../token";
 import { logOutSuccess } from "../features/user.slice";
 import { clearStateOfUser } from "../features/userProperty.slice";
 import GetOwnerDetailsBUtton from "../components/GetOwnerDetailsBUtton";

@@ -14,7 +14,9 @@ import { API_URL } from "../../configue";
 import CheckBoxInput from "../CheckBoxInput";
 import LocalityDetails from "../LocalityDetails";
 import { Alert, Spinner } from "flowbite-react";
-import { getTokenFromLocalStorage,refreshAccessToken } from "../../token";
+import { getTokenFromLocalStorage,refreshAccessToken ,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage} from "../../token";
+import { clearStateOfUser } from "../../features/userProperty.slice";
+import { logOutSuccess } from "../../features/user.slice";
 import { useNavigate } from "react-router-dom";
 
 // component import for edit purpose-------
@@ -287,7 +289,12 @@ editFormData.images.forEach(img=>{
             // Retry original request with new token
             await handleSubmitWithToken(newToken,formData);
           } else {
-            setError("Failed to refresh access token");
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
@@ -307,7 +314,7 @@ editFormData.images.forEach(img=>{
       
     } catch (error) {
       console.log('updating failed',error)
-      setError(error.message)
+      setError('updating failed please try again later')
       setLoading(false)
     }
   }
@@ -350,7 +357,7 @@ editFormData.images.forEach(img=>{
       
     } catch (error) {
       console.log('updating failed',error)
-      setError(error.message)
+      setError('updating failed please try again later')
       setLoading(false)
     }
 

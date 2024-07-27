@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button } from "flowbite-react";
 import { useSelector,useDispatch } from "react-redux";
-import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage,refreshAccessToken } from "../token";
 import { clearStateOfUser } from "../features/userProperty.slice";
 import { logOutSuccess } from "../features/user.slice";
 import OwnerDetailsModal from "./OwnerDetailsModal";
