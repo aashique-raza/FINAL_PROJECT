@@ -237,7 +237,7 @@ function PropertyPage() {
   };
 
   function rentFacilityItems(data) {
-    console.log("rent fcilitu", data);
+    // console.log("rent fcilitu", data);
     return [
       {
         type: "no of bedroom",

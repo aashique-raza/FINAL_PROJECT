@@ -19,7 +19,9 @@ import {
   extractDefaults,
   toCamelCase,
 } from "../../rentUtils";
-import { getTokenFromLocalStorage,refreshAccessToken } from "../../token";
+import { getTokenFromLocalStorage,refreshAccessToken ,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage} from "../../token";
+import { clearStateOfUser } from "../../features/userProperty.slice";
+import { logOutSuccess } from "../../features/user.slice";
 import { API_URL } from "../../configue";
 
 import CalenderInput from "../CalenderInput";
@@ -35,7 +37,7 @@ import EditSelectComp from "./EditSelectComp/EditSelectComp";
 import EditInputComp from "./EditInputComp";
 import EditRadioInput from "./EditRadioInput";
 
-import {useSelector,} from'react-redux'
+import {useSelector,useDispatch} from'react-redux'
 import { useParams } from "react-router-dom";
 
 function RentEditComp({ editData,showSuccessMessage }) {
@@ -44,6 +46,7 @@ function RentEditComp({ editData,showSuccessMessage }) {
   const token = getTokenFromLocalStorage();
   const [state, setState] = useState("");
   const { user } = useSelector((state) => state.user);
+  const dispatch=useDispatch()
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -262,7 +265,12 @@ editFormData.images.forEach(img=>{
             // Retry original request with new token
             await handleSubmitWithToken(newToken,formData);
           } else {
-            setError("Failed to refresh access token");
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
@@ -281,7 +289,7 @@ editFormData.images.forEach(img=>{
       
     } catch (error) {
       console.log('updating failed',error)
-      setError(error.message)
+      setError('updating failed,please try again later')
       setLoading(false)
     }
   }
@@ -324,7 +332,7 @@ editFormData.images.forEach(img=>{
       
     } catch (error) {
       console.log('updating failed',error)
-      setError(error.message)
+      setError('updating failed,please try again later')
       setLoading(false)
     }
 

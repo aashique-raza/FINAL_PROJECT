@@ -104,6 +104,7 @@ function PgEditComp({ editData, showSuccessMessage }) {
   }, [editFormData]);
 
   // console.log(updatedRentOptions);
+  const dispatch=useDispatch()
 
   const { category, id } = useParams();
   // const navigate=useNavigate()
