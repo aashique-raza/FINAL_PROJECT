@@ -10,35 +10,36 @@ import {
 import { NavLink ,Link} from "react-router-dom";
 import "../styles/Footer.css";
 import { allCities } from "../utils";
+import { useSelector } from "react-redux";
 
 function Footer() {
+  const{user}=useSelector((state)=>state.user)
 
   // navigate(`/search/${selectedOption}?q=${searchBHK}&&l=${searchLocation}`);
 
-    const links=[
-       {
-        url:'/',
-        urlName:'home'
-       },
-       {
-        url:'/about',
-        urlName:'about'
-       },
-       {
-        url:'/contact',
-        urlName:'contact'
-       },
-       {
-        url:'/create-listing',
-        urlName:'list your property'
-       },
-       {
-        url:'#',
-        urlName:'blog'
-       },
-       
-      
-    ]
+  const links = [
+    {
+      url: '/',
+      urlName: 'home'
+    },
+    {
+      url: '/about',
+      urlName: 'about'
+    },
+    {
+      url: '/contact',
+      urlName: 'contact'
+    },
+    user && {
+      url: '/create-listing',
+      urlName: 'list your property'
+    },
+    {
+      url: '#',
+      urlName: 'blog'
+    },
+  ].filter(Boolean); // This will filter out any falsey values (like `false` or `null`)
+  
 
     const pgRoomSharing = [
      

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
-import logo from "../assets/logo.png";
+import logo from "../assets/finalLogo.png";
 import { FaUser, FaBars, FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Button } from "flowbite-react";
