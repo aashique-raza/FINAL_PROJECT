@@ -55,7 +55,7 @@ function ForgotPassword({showSuccessMessage}) {
       showSuccessMessage('password resent link sent your mail.')
     } catch (error) {
       console.log("forgot password request failed", error.message);
-      setError(error.message)
+      setError('forgot password request failed')
     }
   };
 
