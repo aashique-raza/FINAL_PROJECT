@@ -70,7 +70,10 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu"; // For veg
 import { FaShower } from "react-icons/fa";
 import OwnerDetailsModal from "../components/OwnerDetailsModal";
 import { useSelector } from "react-redux";
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage } from "../token";
+import { logOutSuccess } from "../features/user.slice";
+import { clearStateOfUser } from "../features/userProperty.slice";
+import GetOwnerDetailsBUtton from "../components/GetOwnerDetailsBUtton";
 // import getOwnerDetailsForLoggedInUser from '../utility.js'
 
 // Final PG amenities list with icons
@@ -458,10 +461,17 @@ function PropertyPage() {
               categoryData,
               userId
             );
-            return data;
+            
           } else {
-            return "please login again!";
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
+           
           }
+          return
         }
         setMailError(result.message);
         setMailLoading(false);
@@ -589,7 +599,7 @@ function PropertyPage() {
                   onClick={openOwnerDetailsModal}
                   className="w-auto focus:ring-0 border-none outline-none px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto"
                 >
-                  {mailLoading ? "getting details..." : " get owner details"}
+                  {mailLoading ? "sending owner details..." : " get owner details"}
                 </button>
                 <button className="bg-green-600 px-12 py-6 text-3xl sm:text-4xl text-white">
                   <AiFillMessage />

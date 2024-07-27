@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Modal, Button } from "flowbite-react";
 import { useSelector,useDispatch } from "react-redux";
-import { getTokenFromLocalStorage } from "../token";
+import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage } from "../token";
+import { clearStateOfUser } from "../features/userProperty.slice";
+import { logOutSuccess } from "../features/user.slice";
 import OwnerDetailsModal from "./OwnerDetailsModal";
 
 import { API_URL } from "../configue";
@@ -57,8 +59,14 @@ function GetOwnerDetailsBUtton({ width = "", padding = "", margin = "",data,cate
             );
             return data;
           } else {
-            return "please login again!";
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
+          return
   
          
         }
@@ -142,7 +150,9 @@ function GetOwnerDetailsBUtton({ width = "", padding = "", margin = "",data,cate
         onClick={() => openOwnerDetailsModal()}
         className=" focus:ring-0 border-none outline-none  w-48 lg:w-56 px-3 py-2 lg:py-5 rounded-sm   bg-red-600 text-white capitalize text-xl font-bold xl:text-2xl font-roboto "
       >
-        get owner details
+        {
+          loading ? 'sending owner details...' :"get owner details"
+        }
       </button>
       {isModelOpen && (
         <OwnerDetailsModal
