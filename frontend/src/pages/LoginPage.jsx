@@ -122,12 +122,12 @@ function LoginPage({showSuccessMessage}) {
             <h2>welcome back</h2>
             <p>login into your account</p>
             <div className="social-button">
-              <GoogleOAuthButton className="google icon" />
+              <GoogleOAuthButton showSuccessMessage={showSuccessMessage} className="google icon" />
             </div>
           </div>
           <div className="link-container ">
             <hr className="line" />
-            <p className="continue-text">or Continue with</p>
+            <p className="continue-text text-center -mt-5">Continue with</p>
           </div>
           <form action="" className="loginform" onSubmit={handleSubmit}>
             <input

@@ -34,7 +34,7 @@ function GoogleOAuthButton({ classNameName = "", showSuccessMessage }) {
     provider.setCustomParameters({ prompt: "select_account" });
     try {
       const resultsFromGoogle = await signInWithPopup(auth, provider);
-      console.log("resultsFromGoogle", resultsFromGoogle);
+      // console.log("resultsFromGoogle", resultsFromGoogle);
       const displayName = resultsFromGoogle.user.displayName.split(" ");
       const firstName = displayName[0];
       const lastName = displayName[1] || ""; // Handle cases where there might be only one name
@@ -59,7 +59,7 @@ function GoogleOAuthButton({ classNameName = "", showSuccessMessage }) {
       dispatch(loginSuccess(data.user));
       setTokenInLocalStorage(data.tokens.accessToken);
       setRefreshTokenInLocalStorage(data.tokens.refreshToken);
-      // showSuccessMessage('logged in successfull!')
+      showSuccessMessage('logged in successfull!')
 
       // setTokenInLocalStorage(token, cookieExpiry);
 
@@ -75,10 +75,10 @@ function GoogleOAuthButton({ classNameName = "", showSuccessMessage }) {
     }
   };
   return (
-    <div className=" bg-white">
+    <div className=" bg-white" onClick={handleGoogleClick}>
       <button className="px-4 py-4 xl:py-4 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
         <img
-          className="w-8 h-8"
+          className=" w-6 h-6 xl:w-8 xl:h-8"
           src="https://www.svgrepo.com/show/475656/google-color.svg"
           loading="lazy"
           alt="google logo"
