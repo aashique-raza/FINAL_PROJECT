@@ -25,7 +25,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Alert, Spinner } from "flowbite-react";
 import { formErrorHandler } from "../formError";
-import { getTokenFromLocalStorage,refreshAccessToken } from "../token";
+import { getTokenFromLocalStorage,refreshAccessToken,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage } from "../token";
+import { clearStateOfUser } from "../features/userProperty.slice";
+import { logOutSuccess } from "../features/user.slice";
 import { useNavigate } from "react-router-dom";
 import { AllStates, cities } from "../utils";
 
@@ -169,7 +171,7 @@ function PgPage({ showSuccessMessage }) {
         body: pgFormData,
       });
       const data = await resp.json();
-      console.log(data)
+      // console.log(data)
 
       if (!resp.ok) {
         if (resp.status === 401) {
@@ -178,7 +180,12 @@ function PgPage({ showSuccessMessage }) {
             // Retry original request with new token
             await handleSubmitWithToken(newToken,pgFormData);
           } else {
-            setError("Failed to refresh access token");
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
@@ -193,8 +200,8 @@ function PgPage({ showSuccessMessage }) {
       setLoading(false)
       navigate(`/property/pg/${data.lsiting._id}`);
     } catch (error) {
-      setError('something went wrong,please try gain later')
-      setLoading(true)
+      setError('something went wrong,please try again later')
+      setLoading(false)
       console.log(error.message);
       
     }
@@ -229,7 +236,7 @@ function PgPage({ showSuccessMessage }) {
         setLoading(false)
         navigate(`/property/pg/${data.lsiting._id}`);
       } catch (error) {
-        setError('something went wrong,please try gain later')
+        setError('something went wrong,please try again later')
         setLoading(false)
         console.log(error.message);
         
@@ -246,7 +253,7 @@ function PgPage({ showSuccessMessage }) {
             <p>Delve into Comfort, Your Living Space Unraveled!</p>
           </div>
 
-          <div className="room-basic-details">
+          <div className="room-basic-details gap-3">
             <div className="room-details-1">
               {roomDetailsOptions?.map((data, index) => (
                 <SelectTag
@@ -260,6 +267,10 @@ function PgPage({ showSuccessMessage }) {
                 ></SelectTag>
               ))}
             </div>
+            <p className=" font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
+              {formData?.depositAmount < formData?.rentAmount &&
+                "deosit amount can not be less than rent amount"}
+            </p>
             <div className="room-details-2">
               {rentAmountOptions?.map((amountOpt, index) => (
                 <Input
@@ -273,11 +284,8 @@ function PgPage({ showSuccessMessage }) {
                 />
               ))}
             </div>
-            <p className="  lg:-mt-3 font-raleway sm:text-xl text-sm text-red-500   capitalize font-bold">
-              {formData?.depositAmount < formData?.rentAmount &&
-                "deosit amount can not be less than rent amount"}
-            </p>
-            <div className="room-details-3  lg:py-14">
+            
+            <div className="  room-details-3  lg:py-14">
               <h3 className="pl-2 mb-2 text-xl lg:text-2xl capitalize tracking-wider font-sans font-bold">
                 room facillities:
               </h3>
