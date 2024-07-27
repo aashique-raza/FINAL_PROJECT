@@ -82,7 +82,7 @@ function ImageGalleryComp({ propertyData, category, setPropertyData }) {
         }
       );
       const result = await resp.json();
-      console.log(result);
+      // console.log(result);
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -159,7 +159,7 @@ function ImageGalleryComp({ propertyData, category, setPropertyData }) {
         body: JSON.stringify({ propertyId, category }),
       });
       const result = await resp.json();
-      console.log(result);
+      // console.log(result);
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -234,7 +234,7 @@ function ImageGalleryComp({ propertyData, category, setPropertyData }) {
 
   useEffect(() => {
     if (user) {
-      if (newPropertyData.addFavoritesByUser.length > 0) {
+      if (newPropertyData.addFavoritesByUser?.length > 0) {
         const isFavorite = newPropertyData.addFavoritesByUser.some(
           (id) => id === user._id
         );

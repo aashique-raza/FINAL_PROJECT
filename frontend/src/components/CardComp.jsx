@@ -25,7 +25,7 @@ import {
 import { API_URL } from "../configue";
 import { Modal, Button } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { getTokenFromLocalStorage, refreshAccessToken } from "../token";
+import { getTokenFromLocalStorage, refreshAccessToken,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage } from "../token";
 import GetOwnerDetailsBUtton from "./GetOwnerDetailsBUtton";
 
 // MonetizationOnOutlined
@@ -97,7 +97,7 @@ function CardComp({
         }
       );
       const result = await resp.json();
-      // console.log(result);
+      console.log(result);
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -105,7 +105,12 @@ function CardComp({
             // Retry original request with new token
             await handleRemoveFavouriteWithToken(newToken, propertyId);
           } else {
-            setError("Failed to refresh access token");
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
@@ -118,6 +123,7 @@ function CardComp({
         handleFavouriteProperty(result.updatedProperty);
         showSuccessMessage("remove from favourite");
       }else{
+        console.log(result.updatedProperty._id)
         dispatch(removePropertyFromFavourite(result.updatedProperty._id))
       }
       setUserFavouriteProperty(false)
@@ -188,7 +194,12 @@ function CardComp({
             // Retry original request with new token
             await handleAddToFavouriteWithToken(newToken, propertyId);
           } else {
-            setError("Failed to refresh access token");
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
