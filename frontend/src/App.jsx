@@ -89,21 +89,29 @@ function App() {
           />
           <Route
             path="/about"
-            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
+            element={
+              <UnderConstruction showSuccessMessage={showSuccessMessage} />
+            }
           />
           <Route
             path="/rentals"
-            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
+            element={
+              <UnderConstruction showSuccessMessage={showSuccessMessage} />
+            }
           />
           <Route
             path="/category"
-            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
+            element={
+              <UnderConstruction showSuccessMessage={showSuccessMessage} />
+            }
           />
           <Route
             path="/blog"
-            element={<UnderConstruction showSuccessMessage={showSuccessMessage} />}
+            element={
+              <UnderConstruction showSuccessMessage={showSuccessMessage} />
+            }
           />
-          
+
           <Route
             path="/signup"
             element={
@@ -183,10 +191,7 @@ function App() {
           <Route
             path="/mail-verification"
             element={
-              <Protected>
-                {" "}
-                <MailVerificationPage showSuccessMessage={showSuccessMessage} />
-              </Protected>
+              <MailVerificationPage showSuccessMessage={showSuccessMessage} />
             }
           />
           <Route

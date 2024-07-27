@@ -241,7 +241,12 @@ function BasicProfilePage({ showSuccessMessage }) {
             // Retry original request with new token
             await handleEmailVerificationWithToken(newToken);
           } else {
-            setError("please login again");
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
@@ -256,7 +261,7 @@ function BasicProfilePage({ showSuccessMessage }) {
       setVerificationLOading(false);
       showSuccessMessage("link sent successfully!");
     } catch (error) {
-      setError(error.message);
+      setError('verification link sedning failed');
       console.log(error.message);
       setVerificationLOading(false)
     }
