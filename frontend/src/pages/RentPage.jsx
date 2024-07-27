@@ -7,8 +7,10 @@ import UploadPhotos from "../components/UploadPhotos";
 import SelectTag from "../components/SelectTag";
 import Input from "../components/Input";
 import { roomAmenitiesList } from "../rentUtils";
-import { getTokenFromLocalStorage,refreshAccessToken } from "../token";
+import { getTokenFromLocalStorage,refreshAccessToken,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage } from "../token";
 import { API_URL } from "../configue";
+import { clearStateOfUser } from "../features/userProperty.slice";
+import { logOutSuccess } from "../features/user.slice";
 import {
   preferedTenats,
   monthlyMaintenance,
@@ -204,8 +206,12 @@ function RentPage({ showSuccessMessage }) {
             // Retry original request with new token
             await handleSubmitWithToken(newToken,rentFormData);
           } else {
-            setError("Failed to refresh access token");
-            setLoading(false)
+            removeTokenFromLocalStorage();
+            removeRefreshTokenFromLocalStorage();
+            dispatch(logOutSuccess());
+      
+            dispatch(clearStateOfUser());
+            alert("session expired! please login");
           }
 
           return;
@@ -220,7 +226,7 @@ function RentPage({ showSuccessMessage }) {
       showSuccessMessage("rent property created");
       navigate(`/property/rental/${data.saveProperty._id}`);
     } catch (error) {
-      setError('something went wrong,please try agaun later');
+      setError('something went wrong,please try again later');
       setLoading(false);
       console.log(error.message);
     }
