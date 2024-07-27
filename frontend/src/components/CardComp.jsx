@@ -97,7 +97,7 @@ function CardComp({
         }
       );
       const result = await resp.json();
-      console.log(result);
+      // console.log(result);
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -123,7 +123,7 @@ function CardComp({
         handleFavouriteProperty(result.updatedProperty);
         showSuccessMessage("remove from favourite");
       }else{
-        console.log(result.updatedProperty._id)
+        // console.log(result.updatedProperty._id)
         dispatch(removePropertyFromFavourite(result.updatedProperty._id))
       }
       setUserFavouriteProperty(false)

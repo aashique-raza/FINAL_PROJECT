@@ -59,7 +59,7 @@ const setTokenInLocalStorage = (token) => {
   const refreshAccessToken = async () => {
     const refreshToken = JSON.parse(getRefreshTokenFromLocalStorage());
     
-    console.log('token from local storage',refreshToken)
+    // console.log('token from local storage',refreshToken)
     const response = await fetch(`${API_URL}/user/refresh-token`, {
       method: "POST",
       body: JSON.stringify({ refreshToken }),
@@ -70,14 +70,14 @@ const setTokenInLocalStorage = (token) => {
     });
   
     const result = await response.json();
-    console.log('result for refresh token',result)
+    // console.log('result for refresh token',result)
   
     if (response.ok) {
       setTokenInLocalStorage(result.accessToken);
       return result.accessToken;
     } else {
       // Handle refresh token error
-      console.log(result.message);
+      // console.log(result.message);
       return null;
     }
   };
