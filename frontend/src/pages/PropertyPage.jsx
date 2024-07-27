@@ -70,7 +70,12 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu"; // For veg
 import { FaShower } from "react-icons/fa";
 import OwnerDetailsModal from "../components/OwnerDetailsModal";
 import { useSelector } from "react-redux";
-import { getTokenFromLocalStorage,removeRefreshTokenFromLocalStorage,removeTokenFromLocalStorage,refreshAccessToken } from "../token";
+import {
+  getTokenFromLocalStorage,
+  removeRefreshTokenFromLocalStorage,
+  removeTokenFromLocalStorage,
+  refreshAccessToken,
+} from "../token";
 import { logOutSuccess } from "../features/user.slice";
 import { clearStateOfUser } from "../features/userProperty.slice";
 import GetOwnerDetailsBUtton from "../components/GetOwnerDetailsBUtton";
@@ -101,8 +106,9 @@ function PropertyPage() {
   const [successMsg, setSuccessMsg] = useState(null);
   const [mailLoading, setMailLoading] = useState(false);
   const [mailError, setMailError] = useState(null);
+  const [simillarProperties, setSimillarProperties] = useState([]);
 
-  const token=getTokenFromLocalStorage()
+  const token = getTokenFromLocalStorage();
 
   useEffect(() => {
     // You can perform any action with category and id here
@@ -185,7 +191,7 @@ function PropertyPage() {
         },
       });
       const data = await response.json();
-      // console.log(data);
+      console.log(data);
       if (!response.ok) {
         setError(data.message);
         setLoading(false);
@@ -194,7 +200,7 @@ function PropertyPage() {
       setError(null);
       setLoading(false);
       setPropertyData(data.findProperty);
-
+      setSimillarProperties(data.similarProperties);
       if (category.trim().toLocaleLowerCase() === "rental") {
         const result = rentFacilityItems(data.findProperty);
         setFacilityItems(result);
@@ -449,7 +455,7 @@ function PropertyPage() {
       );
 
       const result = await resp.json();
-      //   console.log(result)
+      // console.log(result)
       if (!resp.ok) {
         if (resp.status === 401) {
           const newToken = await refreshAccessToken();
@@ -461,17 +467,15 @@ function PropertyPage() {
               categoryData,
               userId
             );
-            
           } else {
             removeTokenFromLocalStorage();
             removeRefreshTokenFromLocalStorage();
             dispatch(logOutSuccess());
-      
+
             dispatch(clearStateOfUser());
             alert("session expired! please login");
-           
           }
-          return
+          return;
         }
         setMailError(result.message);
         setMailLoading(false);
@@ -599,7 +603,9 @@ function PropertyPage() {
                   onClick={openOwnerDetailsModal}
                   className="w-auto focus:ring-0 border-none outline-none px-12 py-6 bg-red-600 text-white capitalize text-2xl font-roboto"
                 >
-                  {mailLoading ? "sending owner details..." : " get owner details"}
+                  {mailLoading
+                    ? "sending owner details..."
+                    : " get owner details"}
                 </button>
                 <button className="bg-green-600 px-12 py-6 text-3xl sm:text-4xl text-white">
                   <AiFillMessage />
@@ -701,10 +707,16 @@ function PropertyPage() {
                 <h3 className="py-5 inline-block border-b-2 border-red-600 capitalize font-bold font-roboto tracking-wide text-xl sm:text-2xl md:text-4xl">
                   similar properties
                 </h3>
+
                 <div className="flex flex-col justify-center items-start gap-8 w-full mt-7">
-                  <PropertySimillarComp />
-                  <PropertySimillarComp />
-                  <PropertySimillarComp />
+                  {
+                    simillarProperties.length===0 ? ( <h4 className=" py-3 px-2 capitalize bg-gray-200 text-red-400 font-roboto text-xl"> no simillar properties found</h4> )
+                    : simillarProperties.map((property)=>(
+                      <PropertySimillarComp data={property} />
+                    ))
+                  }
+                  
+                  
                 </div>
               </div>
             </aside>
