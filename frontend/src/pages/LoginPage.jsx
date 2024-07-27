@@ -54,17 +54,18 @@ function LoginPage({showSuccessMessage}) {
     e.preventDefault();
     dispatch(clearError());
 
-    if(!formData.email?.includes('@')){
-   
-      if (!(formData.email?.length === 10)) {
-        
-        return dispatch(loginFailed('invalid mobile number'))
-      }else{
-        formData.email=parseInt(formData.email)
-      }
 
-      
+
+    if( typeof formData.email ==='number'){
+     
+      if(formData.email.toLocalString().length!==10){
+
+        return dispatch(loginFailed('invalid credentials'))
+      }
+        
+     
     }
+
     
     try {
       dispatch(clearError());

@@ -114,7 +114,7 @@ function SignupPage({showSuccessMessage}) {
       showSuccessMessage("signup successfully!");
       navigate("/login");
     } catch (error) {
-      setError(error.message);
+      setError('create account failed');
       setLoading(false);
       console.log(`signup failed ${error}`);
     }
@@ -146,8 +146,8 @@ function SignupPage({showSuccessMessage}) {
         </p>
         <div className="formBox">
           <div className="slogan">
-            <h2 className=" ">Your Dream Space Awaits</h2>
-            <p className="">getting started is easy</p>
+            <h2 className=" text-center ">Your Dream Space Awaits</h2>
+            <p className=" text-center">getting started is easy</p>
             <div className="social-icons  flex justify-center gap-2 my-5 mb-10 ">
               <GoogleOAuthButton showSuccessMessage={showSuccessMessage} className='google icon'/>
 
